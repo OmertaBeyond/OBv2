@@ -36,3 +36,5 @@
 
 console.log("Welcome to OBv2 xD");
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
+$('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
+console.log("Cya next time!");
