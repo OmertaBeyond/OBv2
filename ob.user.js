@@ -20,6 +20,7 @@
 // @contributionAmount  €3.00
 // @encoding            UTF-8
 // @priority            1
+// @require				https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js
 // @resource	favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource	comLogo	https://raw.github.com/OmertaBeyond/OmertaBeyond/master/images/logo-com.png
 // @resource	dmLogo	https://raw.github.com/OmertaBeyond/OmertaBeyond/master/images/logo-dm.png
@@ -34,4 +35,4 @@
 // ==/UserScript==
 
 console.log("Welcome to OBv2 xD");
-$("img[contains(@src, 'banner_left.png')]").replaceWith("<img src='https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.small.png' />");
+$('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
