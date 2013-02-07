@@ -5,7 +5,7 @@
 
 Omerta Beyond is, simply, an userscript for the MMORPG [Omerta](http://www.barafranca.com).
 
-This is complete rewrite of our old script OmertaBeyond/OmertaBeyond
+This is complete rewrite of our old script [OmertaBeyond v1](https://github.com/OmertaBeyond/OmertaBeyond)
 
 
 ## Compatibility
@@ -21,7 +21,7 @@ At the moment OB is fully compatible with:
 * Dopedog - dopedog@omertabeyond.com - Admin, Developer
 * [Rix](https://github.com/Gwildor) - Admin, Developer
 * [MrWhite](https://github.com/Ivdbroek85) - Admin, Developer
-* sbanks - sbanks@omertabeyond.com - Admin, Website
+* [sbanks](https://github.com/susanbanks) - Admin, Website
 
 Many thanks to everyone who supported development without having write access.
 
