@@ -34,5 +34,8 @@
 // @include             http://barafranca.us/*
 // ==/UserScript==
 
+// Prevent Omerta's jQuery to conflict with our
+this.$ = this.jQuery = jQuery.noConflict(true);
+
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
 $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
