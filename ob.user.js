@@ -37,5 +37,7 @@
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
 
-$('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
+// Replace Omerta's favicon
 $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
+
+$('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
