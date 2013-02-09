@@ -37,6 +37,8 @@
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
 
+$('input[name="email"]').focus();
+
 // Replace Omerta's favicon
 $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
 
