@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                08-02-2013
+// @date                12-02-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -36,6 +36,14 @@
 
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
+
+if (document.getElementById('game_container') !== null) {
+	document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
+		if (event.target.nodeType == 1) {
+			event.target.setAttribute('style', 'border: 1px solid red');
+		}
+	}, true);
+}
 
 $('input[name="email"]').focus();
 
