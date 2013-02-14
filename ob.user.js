@@ -37,6 +37,14 @@
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
 
+function on_page(str) {
+	if (window.location.hash.indexOf(str) != -1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 if (document.getElementById('game_container') !== null) {
 	document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
 		if (event.target.nodeType == 1) {
