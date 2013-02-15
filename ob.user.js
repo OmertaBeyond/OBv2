@@ -47,8 +47,50 @@ function on_page(str) {
 
 if (document.getElementById('game_container') !== null) {
 	document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
-		if (event.target.nodeType == 1) {
-			event.target.setAttribute('style', 'border: 1px solid red');
+		if (event.target.nodeType != 1) {
+			return false;
+		}
+		if ($(event.target).attr('data-beyond-fired') !== undefined) {
+			return false;
+		}
+
+		$(event.target).attr('data-beyond-fired', 'true');
+
+		var wlh = window.location.hash;
+		var nn  = event.target.tagName.toLowerCase();
+
+		if (on_page('/family.php') && nn == 'center') {
+
+			// add HR, Deaths and Worth
+			var famid = wlh.split('=')[1];
+			var famIdFromImg = $('img[src*="family_image.php"]').attr('src').match(/\d+/g)[0];
+			var famname = $('td[class="profilerow"]').text().split(' ')[0].trim().toLowerCase();
+			var url = (famid === famIdFromImg) ? 'id='+famid : 'ing='+famname;
+
+			$.getJSON('http://gm.omertabeyond.com?p=stats&w=fampage&v=com&' + url, function(data) {
+
+				// add HR
+				$('table[class="thinline"]').first().find('tbody').append(
+					$('<tr>').append(
+						$('<td>').addClass('subtableheader').css('padding-left', '4px').css('text-align', 'left').text('Ranks:'),
+						$('<td>').addClass('profilerow').append(
+							$('<table>').attr('width', '100%').append(
+								$('<tr>').append($('<td>').text('Godfather/First Lady:'), $('<td>').addClass('bold').text(data['hr']['gf'])),
+								$('<tr>').append($('<td>').text('Capodecina:'), $('<td>').addClass('bold').text(data['hr']['cd'])),
+								$('<tr>').append($('<td>').text('Bruglione:'), $('<td>').addClass('bold').text(data['hr']['brug'])),
+								$('<tr>').append($('<td>').text('Chief:'), $('<td>').addClass('bold').text(data['hr']['chief'])),
+								$('<tr>').append($('<td>').text('Local Chief:'), $('<td>').addClass('bold').text(data['hr']['lc'])),
+								$('<tr>').append($('<td>').text('Assassin:'), $('<td>').addClass('bold').text(data['hr']['assa'])),
+								$('<tr>').append($('<td>').text('Swindler:'), $('<td>').addClass('bold').text(data['hr']['swin'])),
+								$('<tr>').append($('<td>').attr('colspan', '2').append($('<hr />'))),
+								$('<tr>').append($('<td>').text('Total points:'), $('<td>').addClass('bold').text(data['hr']['pts']))
+							)
+						)
+					)
+				);
+
+			});
+
 		}
 	}, true);
 }
