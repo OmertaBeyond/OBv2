@@ -37,6 +37,12 @@
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
 
+// some global defines
+
+const OB_WEBSITE = "http://www.omertabeyond.com";
+const OB_API_WEBSITE = "http://gm.omertabeyond.com";
+const OB_NEWS_WEBSITE = "http://news.omertabeyond.com";
+
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
@@ -67,7 +73,7 @@ if (document.getElementById('game_container') !== null) {
 			var famname = $('td[class="profilerow"]').text().split(' ')[0].trim().toLowerCase();
 			var url = (famid === famIdFromImg) ? 'id='+famid : 'ing='+famname;
 
-			$.getJSON('http://gm.omertabeyond.com?p=stats&w=fampage&v=com&' + url, function(data) {
+			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=com&' + url, function(data) {
 
 				// add HR
 				$('table[class="thinline"]').first().find('tbody').append(
@@ -100,4 +106,5 @@ $('input[name="email"]').focus();
 // Replace Omerta's favicon
 $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
 
+// Replace Omerta's logo
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
