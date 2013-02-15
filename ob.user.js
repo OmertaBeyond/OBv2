@@ -73,7 +73,7 @@ if (document.getElementById('game_container') !== null) {
 			var famname = $('td[class="profilerow"]').text().split(' ')[0].trim().toLowerCase();
 			var url = (famid === famIdFromImg) ? 'id='+famid : 'ing='+famname;
 
-			$.getJSON('http://gm.omertabeyond.com?p=stats&w=fampage&v=com&' + url, function(data) {
+			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=com&' + url, function(data) {
 
 				// add HR
 				$('table[class="thinline"]').first().find('tbody').append(
