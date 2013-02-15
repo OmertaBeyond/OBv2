@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                12-02-2013
+// @date                15-02-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -20,7 +20,7 @@
 // @contributionAmount  €3.00
 // @encoding            UTF-8
 // @priority            1
-// @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js
+// @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    comLogo https://raw.github.com/OmertaBeyond/OBv2/master/images/logo-com.png
 // @resource    dmLogo  https://raw.github.com/OmertaBeyond/OBv2/master/images/logo-dm.png
