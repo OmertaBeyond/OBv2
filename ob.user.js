@@ -106,4 +106,5 @@ $('input[name="email"]').focus();
 // Replace Omerta's favicon
 $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
 
+// Replace Omerta's logo
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
