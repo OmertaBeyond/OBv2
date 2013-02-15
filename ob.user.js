@@ -37,6 +37,12 @@
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
 
+// some global defines
+
+const OB_WEBSITE = "http://www.omertabeyond.com";
+const OB_API_WEBSITE = "http://gm.omertabeyond.com";
+const OB_NEWS_WEBSITE = "http://news.omertabeyond.com";
+
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
