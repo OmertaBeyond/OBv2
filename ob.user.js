@@ -102,6 +102,60 @@ if (document.getElementById('game_container') !== null) {
 					)
 				);
 
+				/*
+				 * Family deaths
+				 */
+				$('table.thinline:eq(1)').closest('td').append(
+					$('<br />'),
+					$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
+						$('<tr>').append(
+							$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family deaths').append(
+								$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
+									$('<a>').attr('href', 'http://news.omertabeyond.com/deathslog/' + famid).attr('target', '_blank').append(
+										$('<img>').addClass('brcImg').attr('title', 'View full deathslog')
+									)
+								)
+							)
+						),
+						$('<tr>').append(
+							$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
+						),
+						$('<tr>').append(
+							$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Name'),
+							$('<td>').addClass('bold').attr('align', 'center').text('Rank'),
+							$('<td>').addClass('bold').attr('align', 'center').text('Date'),
+							$('<td>').addClass('bold').css('text-align', 'right').text('Ago')
+						)
+					)
+				);
+
+				var deaths_body = $('table.thinline:eq(2)').find('tbody');
+				if (data['deaths']) {
+					$.each(data['deaths'], function(k, v) {
+						var extra = (v['Akill'] == 1)?'(<b>A</b>) ':(v['BF'] == 1)?'(<b>BF</b>) ':'';
+
+						deaths_body.append(
+							$('<tr>').append(
+								$('<td>').text(extra).append(
+									$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
+								),
+								$('<td>').attr('align', 'center').append(
+									$('<a>').attr('href', 'http://stats.omertabeyond.com/history.php?v=com&name=' + v['Name']).text(v['Rank'])
+								),
+								$('<td>').attr('align', 'center').text(v['Date']),
+								$('<td>').css('text-align', 'right').text(v['Agod'] + 'd ' + v['Agoh'] + 'h ' + v['Agom'] + 'm')
+							)
+						);
+					});
+				} else {
+					deaths_body.append(
+						$('<tr>').append(
+							$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '4').text('There are no deaths yet!')
+						)
+					);
+				}
+
+
 				// add Famlog
 				$('table.thinline:eq(1)').closest('td').append(
 					$('<br />'),
@@ -125,7 +179,7 @@ if (document.getElementById('game_container') !== null) {
 					)
 				);
 
-				var changes_body = $('table.thinline:eq(2)').find('tbody');
+				var changes_body = $('table.thinline:eq(3)').find('tbody');
 				if (data['changes']) {
 					$.each(data['changes'], function(k, v) {
 						changes_body.append(
