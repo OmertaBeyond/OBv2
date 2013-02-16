@@ -23,11 +23,11 @@
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
-// @include             http://www.omerta3.com/*
+// @include             http://*.omerta3.com/*
 // @include             http://omerta3.com/*
-// @include             http://www.barafranca.com/*
+// @include             http://*.barafranca.com/*
 // @include             http://barafranca.com/*
-// @include             http://www.barafranca.us/*
+// @include             http://*.barafranca.us/*
 // @include             http://barafranca.us/*
 // ==/UserScript==
 
