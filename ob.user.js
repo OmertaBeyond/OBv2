@@ -75,7 +75,7 @@ if (document.getElementById('game_container') !== null) {
 				// add HR
 				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
-						$('<td>').addClass('subtableheader').css('padding-left', '4px').css('text-align', 'left').text('Ranks:'),
+						$('<td>').addClass('subtableheader').css({'padding-left': '4px', 'text-align': 'left'}).text('Ranks:'),
 						$('<td>').addClass('profilerow').append(
 							$('<table>').attr('width', '100%').append(
 								$('<tr>').append($('<td>').text('Godfather/First Lady:'), $('<td>').addClass('bold').text(data['hr']['gf'])),
@@ -92,9 +92,51 @@ if (document.getElementById('game_container') !== null) {
 					)
 				);
 
+				// add Famlog
+				$('table.thinline:eq(1)').closest('td').append(
+					$('<br />'),
+					$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
+						$('<tr>').append(
+							$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family changes').append(
+								$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
+									$('<a>').attr('href', 'http://news.omertabeyond.com/famlog/' + famid).attr('target', '_blank').append(
+										$('<img>').addClass('brcImg').attr('title', 'View full changelog')
+									)
+								)
+							)
+						),
+						$('<tr>').append(
+							$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
+						),
+						$('<tr>').append(
+							$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Date'),
+							$('<td>').addClass('bold').attr('align', 'left').text('Change')
+						)
+					)
+				);
+
+				var changes_body = $('table.thinline:eq(2)').find('tbody');
+				if (data['changes']) {
+					$.each(data['changes'], function(k, v) {
+						changes_body.append(
+							$('<tr>').append(
+								$('<td>').css('width', '28%').attr('align', 'left').attr('valign', 'top').text(v['date']),
+								$('<td>').attr('align', 'left').text(v['text'])
+							)
+						);
+					});
+				} else {
+					changes_body.append(
+						$('<tr>').append(
+							$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '2').text('There are no changes yet!')
+						)
+					);
+				}
+
 			});
 
 		}
+
 	}, true);
 }
 
