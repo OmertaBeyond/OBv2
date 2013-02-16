@@ -39,6 +39,7 @@ this.$ = this.jQuery = jQuery.noConflict(true);
 const OB_WEBSITE = "http://www.omertabeyond.com";
 const OB_API_WEBSITE = "http://gm.omertabeyond.com";
 const OB_NEWS_WEBSITE = "http://news.omertabeyond.com";
+const v = 'com';
 
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
@@ -47,6 +48,16 @@ function on_page(str) {
 		return false;
 	}
 }
+function getV(name, standard) {
+    return localStorage[name+'_'+v] || standard;
+}
+function setV(name, value) {
+    return localStorage[name+'_'+v] = value;
+}
+function time() {
+	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
+}
+
 
 if (document.getElementById('game_container') !== null) {
 	document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
@@ -196,11 +207,50 @@ if (document.getElementById('game_container') !== null) {
 						)
 					);
 				}
-
 			});
-
 		}
-
+		if (on_page('/vfo.php') && nn == 'center') {
+			$('a[href*="votelot.php"]').attr('name', 'forticket');
+			function voteNow(save) {
+				$('a[name="forticket"]').each(function() {
+					window.open(this);
+				});
+				if (save) {//store last voting time
+					setV('lastvote', time());
+				}
+			}
+			$('td[class="tableheader"]:first').html('<span id="votelink" class="orange" style="cursor:pointer;" title="">' + $('td[class="tableheader"]:first').text() + '</span>').click(function() {
+				voteNow(false);
+			});
+			var lastVote = getV('lastvote', 0); //get last voting time
+			if (lastVote == 0) {
+				if (confirm('You haven\'t used the 1-click voter yet!\nDo you want to use it now?')) {
+					voteNow(true);
+				}
+			} else { //not first run
+				var till = (parseInt(lastVote, 10) + 86400) - time(); // time till next vote
+				alert(till);
+				var msg = '';
+				if (till <= 0) { // user can vote again so ask
+					var ago = time() - lastVote; // time since last vote
+					msg += 'You haven\'t used the 1-click voter today!' + '\n' + 'Since you last used the 1-click voter, it\'s been:';
+					msg += Math.floor(ago / 86400) + ' days, '; // days
+					msg += Math.floor((ago % 86400) / 3600) + ' hours, '; // hours
+					msg += Math.floor((ago % 3600) / 60) + ' minutes and '; // minutes
+					msg += Math.floor(ago % 60) + ' seconds.'; // seconds
+					msg += '\n' + 'Do you want to use the 1-click voter now?';
+				} else { // can't vote yet
+					msg += 'You can\'t vote again yet!\nPlease wait another:\n';
+					msg += Math.floor(till / 3600) + ' hours, '; // hours
+					msg += Math.floor((till % 3600) / 60) + ' minutes and '; // minutes
+					msg += Math.floor(till % 60) + ' seconds.'; // seconds
+					msg += '\n' + 'Do you still want to vote?';
+				}
+				if (confirm(msg)) {
+					voteNow(true);
+				}
+			}
+		}
 	}, true);
 }
 
