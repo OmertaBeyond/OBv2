@@ -72,6 +72,16 @@ if (document.getElementById('game_container') !== null) {
 
 			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=com&' + url, function(data) {
 
+				/*
+				 * Family positin and worth
+				 */
+				$('td.subtableheader').first().closest('tr').after(
+					$('<tr>').append(
+						$('<td>').addClass('subtableheader').css({'padding-left': '4px', 'text-align': 'left'}).text('Position:'),
+						$('<td>').addClass('profilerow').text('#'+data['pos']+' - Worth: '+data['worth']+'')
+					)
+				);
+
 				// add HR
 				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
