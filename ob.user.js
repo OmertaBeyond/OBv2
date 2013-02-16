@@ -67,13 +67,13 @@ if (document.getElementById('game_container') !== null) {
 			// add HR, Deaths and Worth
 			var famid = wlh.split('=')[1];
 			var famIdFromImg = $('img[src*="family_image.php"]').attr('src').match(/\d+/g)[0];
-			var famname = $('td[class="profilerow"]').text().split(' ')[0].trim().toLowerCase();
+			var famname = $('td.profilerow').text().split(' ')[0].trim().toLowerCase();
 			var url = (famid === famIdFromImg) ? 'id='+famid : 'ing='+famname;
 
 			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=com&' + url, function(data) {
 
 				// add HR
-				$('table[class="thinline"]').first().find('tbody').append(
+				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
 						$('<td>').addClass('subtableheader').css('padding-left', '4px').css('text-align', 'left').text('Ranks:'),
 						$('<td>').addClass('profilerow').append(
