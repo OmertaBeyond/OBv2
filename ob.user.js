@@ -77,7 +77,7 @@ if (document.getElementById('game_container') !== null) {
 				 */
 				$('td.subtableheader').first().closest('tr').after(
 					$('<tr>').append(
-						$('<td>').addClass('subtableheader').css({'padding-left': '4px', 'text-align': 'left'}).text('Position:'),
+						$('<td>').addClass('subtableheader').text('Position:'),
 						$('<td>').addClass('profilerow').text('#'+data['pos']+' - Worth: '+data['worth']+'')
 					)
 				);
@@ -85,7 +85,7 @@ if (document.getElementById('game_container') !== null) {
 				// add HR
 				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
-						$('<td>').addClass('subtableheader').css({'padding-left': '4px', 'text-align': 'left'}).text('Ranks:'),
+						$('<td>').addClass('subtableheader').text('Ranks:'),
 						$('<td>').addClass('profilerow').append(
 							$('<table>').attr('width', '100%').append(
 								$('<tr>').append($('<td>').text('Godfather/First Lady:'), $('<td>').addClass('bold').text(data['hr']['gf'])),
