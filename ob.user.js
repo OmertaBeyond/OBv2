@@ -22,9 +22,6 @@
 // @priority            1
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
-// @resource    comLogo https://raw.github.com/OmertaBeyond/OBv2/master/images/logo-com.png
-// @resource    dmLogo  https://raw.github.com/OmertaBeyond/OBv2/master/images/logo-dm.png
-// @resource    nlLogo  https://raw.github.com/OmertaBeyond/OBv2/master/images/logo-nl.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
 // @include             http://www.omerta3.com/*
 // @include             http://omerta3.com/*
@@ -107,4 +104,4 @@ $('input[name="email"]').focus();
 $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
 
 // Replace Omerta's logo
-$('#game_header_left').children('img').attr('src', GM_getResourceURL('comLogo'));
+$('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
