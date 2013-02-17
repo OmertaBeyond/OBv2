@@ -123,7 +123,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<tr>').append(
 							$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family deaths').append(
 								$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
-									$('<a>').attr('href', 'http://news.omertabeyond.com/deathslog/' + famid).attr('target', '_blank').append(
+									$('<a>').attr('href', OB_NEWS_WEBSITE + '/deathslog/' + famid).attr('target', '_blank').append(
 										$('<img>').addClass('brcImg').attr('title', 'View full deathslog')
 									)
 								)
@@ -175,7 +175,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<tr>').append(
 							$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family changes').append(
 								$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
-									$('<a>').attr('href', 'http://news.omertabeyond.com/famlog/' + famid).attr('target', '_blank').append(
+									$('<a>').attr('href', OB_NEWS_WEBSITE + '/famlog/' + famid).attr('target', '_blank').append(
 										$('<img>').addClass('brcImg').attr('title', 'View full changelog')
 									)
 								)
