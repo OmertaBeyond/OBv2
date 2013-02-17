@@ -36,9 +36,9 @@ this.$ = this.jQuery = jQuery.noConflict(true);
 
 // some global defines
 
-const OB_WEBSITE = "http://www.omertabeyond.com";
-const OB_API_WEBSITE = "http://gm.omertabeyond.com";
-const OB_NEWS_WEBSITE = "http://news.omertabeyond.com";
+const OB_WEBSITE = 'http://www.omertabeyond.com';
+const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
+const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const v = 'com';
 
 function on_page(str) {
