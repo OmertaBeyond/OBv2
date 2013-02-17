@@ -84,7 +84,7 @@ if (document.getElementById('game_container') !== null) {
 			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=com&' + url, function(data) {
 
 				/*
-				 * Family positin and worth
+				 * Family position and worth
 				 */
 				$('td.subtableheader').first().closest('tr').after(
 					$('<tr>').append(
