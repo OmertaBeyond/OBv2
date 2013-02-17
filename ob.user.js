@@ -220,8 +220,10 @@ if (document.getElementById('game_container') !== null) {
 					setV('lastvote', time());
 				}
 			}
-			$('td[class="tableheader"]:first').html('<span id="votelink" class="orange" style="cursor:pointer;" title="">' + $('td[class="tableheader"]:first').text() + '</span>').click(function() {
-				voteNow(false);
+			$('td[class="tableheader"]:first').html(
+				$('<span>').addClass('orange').css({'cursor': 'pointer', 'color': 'orange'}).attr({'id': 'votelink', 'title': ''}).text($('td[class="tableheader"]:first').text())
+			).click(function () {
+					voteNow(false);
 			});
 			var lastVote = getV('lastvote', 0); //get last voting time
 			if (lastVote == 0) {
@@ -230,7 +232,6 @@ if (document.getElementById('game_container') !== null) {
 				}
 			} else { //not first run
 				var till = (parseInt(lastVote, 10) + 86400) - time(); // time till next vote
-				alert(till);
 				var msg = '';
 				if (till <= 0) { // user can vote again so ask
 					var ago = time() - lastVote; // time since last vote
