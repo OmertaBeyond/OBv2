@@ -210,6 +210,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 		}
+		// 1 click voter
 		if (on_page('/vfo.php') && nn == 'center') {
 			$('a[href*="votelot.php"]').attr('name', 'forticket');
 			function voteNow(save) {
@@ -252,6 +253,18 @@ if (document.getElementById('game_container') !== null) {
 					voteNow(true);
 				}
 			}
+		}
+		// GroupCrime accept focus
+		if (on_page('module=GroupCrimes') && nn == 'center') {
+			if($('a')[0]) {
+				$('a')[0].focus();
+			}
+		}
+		//Heist Autoform
+		if (on_page('module=Heist') && nn == 'center') {
+			$('input[name="bullets"]').val('50');
+			$('select[name="gun"]').val('real');
+			$('input[name="driver"]').focus();
 		}
 	}, true);
 }
