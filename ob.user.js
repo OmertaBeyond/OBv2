@@ -39,6 +39,7 @@ this.$ = this.jQuery = jQuery.noConflict(true);
 const OB_WEBSITE = 'http://www.omertabeyond.com';
 const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
+const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const v = 'com';
 
 function on_page(str) {
@@ -151,7 +152,7 @@ if (document.getElementById('game_container') !== null) {
 									$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
 								),
 								$('<td>').attr('align', 'center').append(
-									$('<a>').attr('href', 'http://stats.omertabeyond.com/history.php?v=com&name=' + v['Name']).text(v['Rank'])
+									$('<a>').attr('href', OB_STATS_WEBSITE + '/history.php?v=com&name=' + v['Name']).text(v['Rank'])
 								),
 								$('<td>').attr('align', 'center').text(v['Date']),
 								$('<td>').css('text-align', 'right').text(v['Agod'] + 'd ' + v['Agoh'] + 'h ' + v['Agom'] + 'm')
