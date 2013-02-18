@@ -284,6 +284,51 @@ if (document.getElementById('game_container') !== null) {
 				}, 0);
 			}
 		}
+		//Inbox
+		if (on_page('action=inbox') && nn == 'center'){
+			//add custom system delete
+			function delMsg(name) {
+				var msgs = $('td[style="cursor:pointer;cursor:hand"]').length;
+				for(var i=0;i<msgs-1;i++){
+					var title = $('td[style="cursor:pointer;cursor:hand"] > a:eq('+i+')').text().replace(/[\n\r\t]/g, '').replace(' ', '');
+					var thismsgid = $('td[style="cursor:pointer;cursor:hand"] > a:eq('+i+')').attr('href').split('iMsgId=')[1];
+					if(title==name) {
+						GM_xmlhttpRequest({ //grab data from xml
+							method: 'GET',
+							url: 'http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2',
+							onload: function(response) {
+								var errormsg = response.responseText.split('<font color="red">')[1];
+								errormsg = errormsg.split('</font>')[0];
+								errormsg.replace(/\t/g, '');
+								$('font[color="red"]').text(name+' messages deleted.');
+								setTimeout(function() {
+									window.location.reload()
+								}, 1000);
+							}
+						});
+					}
+				}
+			}
+			$('td[align="right"][colspan="100%"]').append(
+				$('<br />'),
+				$('<span>').text('Delete System: '),
+				$('<span>').css('cursor', 'pointer').text('Super Lottery').on('click', function() {
+					delMsg('Omerta Super Lottery')
+				}),
+				$('<span>').text(' | '),
+				$('<span>').css('cursor', 'pointer').text('Target not found').click(function() {
+					delMsg('Target not found')
+				}),
+				$('<span>').text(' | '),
+				$('<span>').css('cursor', 'pointer').text('Target found').click(function() {
+					delMsg('Target found')
+				}),
+				$('<span>').text(' | '),
+				$('<span>').css('cursor', 'pointer').text('Promoted').click(function() {
+					delMsg('Promoted')
+				})
+			)
+		}
 		//Outbox
 		if (on_page('action=outbox') && nn == 'center'){
 			setTimeout(function () {
