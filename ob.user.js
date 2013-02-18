@@ -283,6 +283,7 @@ if (document.getElementById('game_container') !== null) {
 					var prev = ids[i+1];
 				}
 			}
+			//check unread msg and grab obay bullets
 			var unread = getV('unread', '').split(',');
 			for (var x = 0; x < unread.length; ++x) {
 				if (unread[x] != '' && unread[x] == id) { //msg is unread
@@ -303,28 +304,30 @@ if (document.getElementById('game_container') !== null) {
 					x = unread.length; // not needed to continue because we found our id
 				}
 			}
+			//add previous and next arrows
 			$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
 				$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
-					$('<img>').attr({title: 'Previous', class: 'inboxImg', src:  GM_getResourceURL('prev')}) //.css(noprev)					
+					$('<img>').attr({title: 'Previous', class: 'inboxImg', src: GM_getResourceURL('prev')}) //.css(noprev)					
 				).append(
-					$('<img>').attr({title: 'Next', class: 'inboxImg', src:  GM_getResourceURL('next')}) //.css(nonext)					
+					$('<img>').attr({title: 'Next', class: 'inboxImg', src: GM_getResourceURL('next')}) //.css(nonext)					
 				)
 			);
+			//remove target from family invite
 			if ($('a[contains(@href,"/family.php?join=yes")]').length>0) {
 				$('a[contains(@href,"/family.php?join=yes")]').removeAttr('target');
 			}
-
+			//replace reply and delete links
 			var linkz = $('table.thinline > tbody > tr:eq(9) > td > a');
 			if (linkz.length == 1) {
 				$('table.thinline > tbody > tr:eq(9) > td > a').append(
-					$('<img />').attr({src:  GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
+					$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
 				).attr('accesskey', '[');
 			} else {
 				$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
-					$('<img />').attr({src:  GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
+					$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
 				).attr('accesskey', '[');
 				$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
-					$('<img />').attr({src:  GM_getResourceURL('reply'), title: 'Reply (])', class: 'inboxImg'})
+					$('<img />').attr({src: GM_getResourceURL('reply'), title: 'Reply (])', class: 'inboxImg'})
 				).attr('accesskey', ']');
 			}
 		}
