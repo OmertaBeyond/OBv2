@@ -286,6 +286,22 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//Inbox
 		if (on_page('action=inbox') && nn == 'center'){
+			//select all button
+			$('td[align="right"][colspan="100%"]').append(
+				$('<span>').css('float', 'left').append(
+					$('<input />').attr({type: 'button', value: '(Un)Select All'}).click(function() {
+						var box = document.getElementsByName('selective[]');
+						var length = box.length;
+						for(var i=-1; ++i<length;){
+							if(box[i].checked==1){
+								box[i].checked=false;
+							} else {
+								box[i].checked=true;
+							}
+						}
+					})
+				)
+			);
 			//add custom system delete
 			function delMsg(name) {
 				var msgs = $('td[style="cursor:pointer;cursor:hand"]').length;
