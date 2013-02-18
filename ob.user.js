@@ -286,6 +286,19 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//Inbox
 		if (on_page('action=inbox') && nn == 'center'){
+			//save unread msg and msg ids
+			var msg = $('td[style="cursor:pointer;cursor:hand"]').length;
+			var unreadmsg = $('tr[class="color2"]').length;
+			var id = [];
+			for(var i=0;i<msg;i++){ //find first open spot
+				id[i] = $('a[href*="showMsg"]:eq('+i+')').attr('href').split('?')[1].match(/\d+/g);
+				setV('msgids', id.join(',')); //join and save values
+			}
+			var unreadid = [];
+			for(var a=0;a<unreadmsg;a++){ //find first open spot
+				unreadid[a] = $('tr[class="color2"] > td:eq(1) > a:eq('+a+')').attr('href').split('?')[1].match(/\d+/g);
+				setV('unread', unreadid.join(',')); //join and save values
+			}
 			//select all button
 			$('td[align="right"][colspan="100%"]').append(
 				$('<span>').css('float', 'left').append(
