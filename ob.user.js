@@ -278,10 +278,10 @@ if (document.getElementById('game_container') !== null) {
 		//Mail
 		//redirect
 		if (on_page('module=Mail') && nn == 'center'){
-			if ($('font:eq(0)').text().indexOf('Message Deleted') != -1) {
+			if ($('font:eq(0)').text().indexOf('Deleted') != -1) {
 				setTimeout(function () {
 					window.history.back()
-				}, 0);
+				}, 1000);
 			}
 		}
 		//Inbox
@@ -298,6 +298,13 @@ if (document.getElementById('game_container') !== null) {
 			for(var a=0;a<unreadmsg;a++){ //find first open spot
 				unreadid[a] = $('tr[class="color2"] > td:eq(1) > a:eq('+a+')').attr('href').split('?')[1].match(/\d+/g);
 				setV('unread', unreadid.join(',')); //join and save values
+			}
+			//hotkeys for system delete
+			var keys = ['-', '=', '[', ']', ';', '\''];
+			var selectors = $('td[align="right"][colspan="100%"] > a');
+			for (i = -1; ++i < selectors.length;) {
+				$('td[align="right"][colspan="100%"] > a:eq('+i+')').text('['+keys[i]+'] '+$('td[align="right"][colspan="100%"] > a:eq('+i+')').text());
+				$('td[align="right"][colspan="100%"] > a:eq('+i+')').attr('accesskey', keys[i]);
 			}
 			//select all button
 			$('td[align="right"][colspan="100%"]').append(
