@@ -347,26 +347,26 @@ if (document.getElementById('game_container') !== null) {
 			);
 			//add custom system delete
 			function delMsg(name) {
-				var msgs = $('td[style="cursor:pointer;cursor:hand"]').length;
-				for(var i=0;i<msgs-1;i++){
-					var title = $('td[style="cursor:pointer;cursor:hand"] > a:eq('+i+')').text().replace(/[\n\r\t]/g, '').replace(' ', '');
-					var thismsgid = $('td[style="cursor:pointer;cursor:hand"] > a:eq('+i+')').attr('href').split('iMsgId=')[1];
+				$('tr[class*="color"]').each(function() {
+					var tr = $(this);
+					var title = tr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
+					var thismsgid = tr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
 					if(title==name) {
+						alert(thismsgid);
 						GM_xmlhttpRequest({ //grab data from xml
 							method: 'GET',
-							url: 'http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2',
+							url: 'http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+thismsgid+'&iParty=2',
 							onload: function(response) {
 								var errormsg = response.responseText.split('<font color="red">')[1];
 								errormsg = errormsg.split('</font>')[0];
 								errormsg.replace(/\t/g, '');
 								$('font[color="red"]').text(name+' messages deleted.');
-								setTimeout(function() {
-									window.location.reload()
-								}, 1000);
 							}
 						});
+						tr.hide();
+						tr.next().hide();
 					}
-				}
+				});
 			}
 			$('td[align="right"][colspan="100%"]').append(
 				$('<br />'),
