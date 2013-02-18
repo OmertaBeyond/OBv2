@@ -23,7 +23,7 @@
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
-// @resource    prev	https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
+// @resource    prev    https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
 // @resource    next    https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png
 // @resource    reply   https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
 // @resource    delete  https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
