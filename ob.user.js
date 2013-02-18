@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                17-02-2013
+// @date                18-02-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -23,6 +23,10 @@
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
+// @resource    prev	https://raw.github.com/OmertaBeyond/OBv2/master/images/previous.png
+// @resource    next    https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png
+// @resource    reply   https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
+// @resource    delete  https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
 // @include             http://*.omerta3.com/*
 // @include             http://omerta3.com/*
 // @include             http://*.barafranca.com/*
@@ -301,9 +305,9 @@ if (document.getElementById('game_container') !== null) {
 			}
 			$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
 				$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
-					$('<img>').attr({title: 'Previous', class: 'inboxImg', src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/previous.png'}) //.css(noprev)					
+					$('<img>').attr({title: 'Previous', class: 'inboxImg', src:  GM_getResourceURL('previous')}) //.css(noprev)					
 				).append(
-					$('<img>').attr({title: 'Next', class: 'inboxImg', src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png'}) //.css(nonext)					
+					$('<img>').attr({title: 'Next', class: 'inboxImg', src:  GM_getResourceURL('next')}) //.css(nonext)					
 				)
 			);
 			if ($('a[contains(@href,"/family.php?join=yes")]').length>0) {
@@ -313,14 +317,14 @@ if (document.getElementById('game_container') !== null) {
 			var linkz = $('table.thinline > tbody > tr:eq(9) > td > a');
 			if (linkz.length == 1) {
 				$('table.thinline > tbody > tr:eq(9) > td > a').append(
-					$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png', title: 'Delete ([)', class: 'inboxImg'})
+					$('<img />').attr({src:  GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
 				).attr('accesskey', '[');
 			} else {
 				$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
-					$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png', title: 'Delete ([)', class: 'inboxImg'})
+					$('<img />').attr({src:  GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
 				).attr('accesskey', '[');
 				$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
-					$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png', title: 'Reply (])', class: 'inboxImg'})
+					$('<img />').attr({src:  GM_getResourceURL('reply'), title: 'Reply (])', class: 'inboxImg'})
 				).attr('accesskey', ']');
 			}
 		}
