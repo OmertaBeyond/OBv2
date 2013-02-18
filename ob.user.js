@@ -256,9 +256,9 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// GroupCrime accept focus
 		if (on_page('module=GroupCrimes') && nn == 'center') {
-			if($('a')[0]) {
-				$('a')[0].focus();
-			}
+			$('a').filter(function(){
+				return (/Accept/i).test($(this).text())
+			}).focus();
 		}
 		//Heist Autoform
 		if (on_page('module=Heist') && nn == 'center') {
