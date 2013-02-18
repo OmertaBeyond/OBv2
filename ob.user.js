@@ -366,6 +366,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				});
 			}
+			$('td[align="right"][colspan="100%"] > a:eq(0)').before($('<br />'));
 			$('td[align="right"][colspan="100%"]').append(
 				$('<br />'),
 				$('<span>').text('Delete System: '),
