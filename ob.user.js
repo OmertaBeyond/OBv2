@@ -421,10 +421,6 @@ if (document.getElementById('game_container') !== null) {
 					)
 				);
 			}, 0);
-			//remove target from family invite
-			if ($('a[href*="/family.php?join=yes"]').length>0) {
-				$('a[href*="/family.php?join=yes"]').removeAttr('target');
-			}
 			//replace reply and delete links
 			var linkz = $('table.thinline > tbody > tr:eq(9) > td > a');
 			if (linkz.length == 1) {
