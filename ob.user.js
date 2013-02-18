@@ -78,7 +78,7 @@ if (document.getElementById('game_container') !== null) {
 		var wlh = window.location.hash;
 		var nn  = event.target.tagName.toLowerCase();
 
-		if (on_page('/family.php') && nn == 'center') {
+		if (on_page('family.php') && nn == 'center') {
 
 			// add HR, Deaths and Worth
 			var famid = wlh.split('=')[1];
