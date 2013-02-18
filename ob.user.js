@@ -473,6 +473,17 @@ if (document.getElementById('game_container') !== null) {
 				}, 1000);
 			}
 		}
+		//look its me
+		if ((on_page('users_online') && nn == 'center') || (on_page('allusers.php') && nn == 'div') || (on_page('global_stats')) && nn == 'center') {
+			var nick = getV('nick', '');
+			if (nick !== '') {
+				$('a[class!="link"]').each(function() {
+					if ($(this).text() == nick || $(this).text() == nick + '+') {
+						$(this).html('<span style="color:green;font-weight:bold;">' + $(this).html() + '</span>');
+					}
+				});
+			}
+		}
 	}, true);
 }
 
