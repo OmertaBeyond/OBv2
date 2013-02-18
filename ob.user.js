@@ -287,7 +287,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('action=inbox') && nn == 'center'){
 			//save unread msg and msg ids
 			var msg = $('td[style="cursor:pointer;cursor:hand"]').length;
-			var unreadmsg = $('tr[class="color2"]').length;
+			var unreadmsg = $('tr.color2').length;
 			var id = [];
 			for(var i=0;i<msg;i++){ //find first open spot
 				id[i] = $('a[href*="showMsg"]:eq('+i+')').attr('href').split('?')[1].match(/\d+/g);
@@ -295,7 +295,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			var unreadid = [];
 			for(var a=0;a<unreadmsg;a++){ //find first open spot
-				unreadid[a] = $('tr[class="color2"] > td:eq(1) > a').attr('href').split('?')[1].match(/\d+/g);
+				unreadid[a] = $('tr.color2 > td:eq(1) > a').attr('href').split('?')[1].match(/\d+/g);
 				setV('unread', unreadid.join(',')); //join and save values
 			}
 			//delete and reply icons
@@ -352,7 +352,6 @@ if (document.getElementById('game_container') !== null) {
 					var title = tr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 					var thismsgid = tr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
 					if(title==name) {
-						alert(thismsgid);
 						GM_xmlhttpRequest({ //grab data from xml
 							method: 'GET',
 							url: 'http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+thismsgid+'&iParty=2',
