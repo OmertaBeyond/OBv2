@@ -260,8 +260,13 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// GroupCrime accept focus
 		if (on_page('module=GroupCrimes') && nn == 'center') {
+			//focus on accept
 			$('a').filter(function(){
 				return (/Accept/i).test($(this).text())
+			}).focus();
+			//focus on transfer
+			$('a').filter(function(){
+				return (/Make Transfer/i).test($(this).text())
 			}).focus();
 		}
 		//Heist Autoform
