@@ -275,7 +275,28 @@ if (document.getElementById('game_container') !== null) {
 			$('select[name="gun"]').val('real');
 			$('input[name="driver"]').focus();
 		}
-		//Inbox
+		//Mail
+		//redirect
+		if (on_page('module=Mail') && nn == 'center'){
+			if ($('font:eq(0)').text().indexOf('Message Deleted') != -1) {
+				setTimeout(function () {
+					window.history.back()
+				}, 0);
+			}
+		}
+		//Outbox
+		if (on_page('action=outbox') && nn == 'center'){
+			setTimeout(function () {
+				$('a[href*="showSentMsg"]').each(function() {
+					var id = $(this).attr('href').split('?')[1].match(/\d+/g)[0];
+					$(this).parent().prepend(
+						$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=1').html(
+							$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete', class: 'inboxImg'})
+						)
+					);
+				});
+			}, 0);
+		}
 		//Show message
 		if (on_page('action=showMsg') && nn == 'center') {
 			var id = wlh.split('iMsgId=')[1].match(/\d+/g)[0];
