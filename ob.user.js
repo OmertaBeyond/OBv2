@@ -152,7 +152,7 @@ if (document.getElementById('game_container') !== null) {
 
 						deaths_body.append(
 							$('<tr>').append(
-								$('<td>').text(extra).append(
+								$('<td>').html(extra).append(
 									$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
 								),
 								$('<td>').attr('align', 'center').append(
@@ -170,7 +170,6 @@ if (document.getElementById('game_container') !== null) {
 						)
 					);
 				}
-
 
 				// add Famlog
 				$('table.thinline:eq(1)').closest('td').append(
