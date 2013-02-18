@@ -326,8 +326,7 @@ if (document.getElementById('game_container') !== null) {
 			var keys = ['-', '=', '[', ']', ';', '\''];
 			var selectors = $('td[align="right"][colspan="100%"] > a');
 			for (i = -1; ++i < selectors.length;) {
-				$('td[align="right"][colspan="100%"] > a:eq('+i+')').text('['+keys[i]+'] '+$('td[align="right"][colspan="100%"] > a:eq('+i+')').text());
-				$('td[align="right"][colspan="100%"] > a:eq('+i+')').attr('accesskey', keys[i]);
+				$('td[align="right"][colspan="100%"] > a:eq('+i+')').attr({accesskey: keys[i], title: 'Hotkey: '+keys[i]});
 			}
 			//select all button
 			$('td[align="right"][colspan="100%"]').prepend(
