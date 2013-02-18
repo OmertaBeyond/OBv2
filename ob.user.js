@@ -23,7 +23,7 @@
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
-// @resource    prev	https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
+// @resource    prev    https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
 // @resource    next    https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png
 // @resource    reply   https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
 // @resource    delete  https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
@@ -439,9 +439,9 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
 					$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
-						$('<img>').attr({title: 'Previous', class: 'inboxImg', src: GM_getResourceURL('prev')}) //.css(noprev)					
+						$('<img>').attr({title: 'Previous', class: 'inboxImg', src: GM_getResourceURL('prev')}) //.css(noprev)
 					).append(
-						$('<img>').attr({title: 'Next', class: 'inboxImg', src: GM_getResourceURL('next')}) //.css(nonext)					
+						$('<img>').attr({title: 'Next', class: 'inboxImg', src: GM_getResourceURL('next')}) //.css(nonext)
 					)
 				);
 			}, 0);
