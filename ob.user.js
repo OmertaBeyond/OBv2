@@ -305,13 +305,15 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 			//add previous and next arrows
-			$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
-				$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
-					$('<img>').attr({title: 'Previous', class: 'inboxImg', src: GM_getResourceURL('prev')}) //.css(noprev)					
-				).append(
-					$('<img>').attr({title: 'Next', class: 'inboxImg', src: GM_getResourceURL('next')}) //.css(nonext)					
-				)
-			);
+			setTimeout(function () {
+				$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
+					$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
+						$('<img>').attr({title: 'Previous', class: 'inboxImg', src: GM_getResourceURL('prev')}) //.css(noprev)					
+					).append(
+						$('<img>').attr({title: 'Next', class: 'inboxImg', src: GM_getResourceURL('next')}) //.css(nonext)					
+					)
+				);
+			}, 0);
 			//remove target from family invite
 			if ($('a[contains(@href,"/family.php?join=yes")]').length>0) {
 				$('a[contains(@href,"/family.php?join=yes")]').removeAttr('target');
@@ -319,16 +321,20 @@ if (document.getElementById('game_container') !== null) {
 			//replace reply and delete links
 			var linkz = $('table.thinline > tbody > tr:eq(9) > td > a');
 			if (linkz.length == 1) {
-				$('table.thinline > tbody > tr:eq(9) > td > a').append(
-					$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
-				).attr('accesskey', '[');
+				setTimeout(function () {
+					$('table.thinline > tbody > tr:eq(9) > td > a').html(
+						$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
+					).attr('accesskey', '[');
+				}, 0);
 			} else {
-				$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
-					$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
-				).attr('accesskey', '[');
-				$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
-					$('<img />').attr({src: GM_getResourceURL('reply'), title: 'Reply (])', class: 'inboxImg'})
-				).attr('accesskey', ']');
+				setTimeout(function () {
+					$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
+						$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
+					).attr('accesskey', '[');
+					$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
+						$('<img />').attr({src: GM_getResourceURL('reply'), title: 'Reply (])', class: 'inboxImg'})
+					).attr('accesskey', ']');
+				}, 0);
 			}
 		}
 		//focus on text area
