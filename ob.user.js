@@ -324,6 +324,10 @@ if (document.getElementById('game_container') !== null) {
 				).attr('accesskey', ']');
 			}
 		}
+		//focus on text area
+		if (on_page('iReply=') && nn == 'center') {
+			$('textarea').focus();
+		}
 	}, true);
 }
 
