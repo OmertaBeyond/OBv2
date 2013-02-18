@@ -330,7 +330,7 @@ if (document.getElementById('game_container') !== null) {
 				$('td[align="right"][colspan="100%"] > a:eq('+i+')').attr('accesskey', keys[i]);
 			}
 			//select all button
-			$('td[align="right"][colspan="100%"]').append(
+			$('td[align="right"][colspan="100%"]').prepend(
 				$('<span>').css('float', 'left').append(
 					$('<input />').attr({type: 'button', value: '(Un)Select All'}).click(function() {
 						var box = document.getElementsByName('selective[]');
