@@ -266,6 +266,64 @@ if (document.getElementById('game_container') !== null) {
 			$('select[name="gun"]').val('real');
 			$('input[name="driver"]').focus();
 		}
+		//Inbox
+		//Show message
+		if (on_page('action=showMsg') && nn == 'center') {
+			var id = wlh.split('iMsgId=')[1].match(/\d+/g)[0];
+			var ids = getV('msgids', '').split(',');
+			for(i = 0;i<ids.length;i++){
+				if (ids[i] == id) {
+					var nonext = (i==0)?'visibility:hidden; ':'';
+					var noprev = (i==ids.length-1)?'visibility:hidden; ':'';
+					var next = ids[i-1];
+					var prev = ids[i+1];
+				}
+			}
+			var unread = getV('unread', '').split(',');
+			for (var x = 0; x < unread.length; ++x) {
+				if (unread[x] != '' && unread[x] == id) { //msg is unread
+					var msgTyp = $('tr.tableitem').text().split('Type:')[1].split('Sent:')[0];
+					var arr = $('table.thinline > tbody > tr:eq(7) > td').html().split(' ');
+					var bulletmsg = new RegExp('Obay bid succesful');
+					if (bulletmsg.test(msgTyp)) { //grab obay bullets from message
+						setV('obaybul', (getV('obaybul', 0) + parseInt(arr[2], 10)));
+					}
+					// resave unread msg's, without our msg
+					var str = '';
+					for (var y = 0; y < unread.length; ++y) {
+						if (unread[y] != '' && unread[y] != id) {
+							str += ','+unread[y];
+						}
+					}
+					setV('unread', str.substr(1));
+					x = unread.length; // not needed to continue because we found our id
+				}
+			}
+			$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
+				$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
+					$('<img>').attr({title: 'Previous', class: 'inboxImg', src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/previous.png'}) //.css(noprev)					
+				).append(
+					$('<img>').attr({title: 'Next', class: 'inboxImg', src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png'}) //.css(nonext)					
+				)
+			);
+			if ($('a[contains(@href,"/family.php?join=yes")]').length>0) {
+				$('a[contains(@href,"/family.php?join=yes")]').removeAttr('target');
+			}
+
+			var linkz = $('table.thinline > tbody > tr:eq(9) > td > a');
+			if (linkz.length == 1) {
+				$('table.thinline > tbody > tr:eq(9) > td > a').append(
+					$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png', title: 'Delete ([)', class: 'inboxImg'})
+				).attr('accesskey', '[');
+			} else {
+				$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
+					$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png', title: 'Delete ([)', class: 'inboxImg'})
+				).attr('accesskey', '[');
+				$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
+					$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png', title: 'Reply (])', class: 'inboxImg'})
+				).attr('accesskey', ']');
+			}
+		}
 	}, true);
 }
 
