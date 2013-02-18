@@ -328,6 +328,14 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('iReply=') && nn == 'center') {
 			$('textarea').focus();
 		}
+		//redirect on send message
+		if (on_page('action=sendMsg') && nn == 'b') {//needs testing
+			if ($('font:eq(0)').text().indexOf('Message sent to') != -1) {
+				setTimeout(function () {
+					$('a')[0].click();
+				}, 1000);
+			}
+		}
 	}, true);
 }
 
