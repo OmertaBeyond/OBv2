@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                18-02-2013
+// @date                19-02-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -484,6 +484,77 @@ if (document.getElementById('game_container') !== null) {
 					}
 				});
 			}
+		}
+//---------------- Bank ----------------
+		if (on_page('/bank.php') && nn == 'center') {
+			//auto reload after transfer
+			if ($('center').html().search('<table') == -1) { 
+				setTimeout(function () {
+					window.location.reload();
+				}, 1000);
+			}
+			// Add amount of interest next to %
+			if($('table.thinline:eq(1) > tbody > tr:eq(1) > td:eq(1)').length) { // check for banked money
+				var money = $('table.thinline:eq(1) > tbody > tr:eq(1) > td:eq(1)').text();
+				var rx = $('table.thinline:eq(1) > tbody > tr:eq(3) > td:eq(1)').text(); // get recieved amount
+				var tmp = 1 * rx.replace(/\D/g, '') - 1 * money.replace(/\D/g, ''); // calculate interest
+				$('table.thinline:eq(1) > tbody > tr:eq(2) > td:eq(1)').html($('table.thinline:eq(1) > tbody > tr:eq(2) > td:eq(1)').text()+' &rarr; ($'+commafy(tmp)+')');
+				setTimeout(function() {
+					setV('interest', tmp);
+				}, 0);
+
+				// Interest reminder
+				var seconds = 0;
+				seconds = (seconds + (parseInt($('span:eq(14)').html().split(' hours')[0], 10) * 3600));
+				seconds = (seconds + (parseInt($('span:eq(14)').html().split(' hours')[1].split(' minutes')[0], 10) * 60));
+				seconds = (seconds + parseInt($('span:eq(14)').html().split(' minutes')[1].split(' seconds')[0], 10));
+				setTimeout(function() {
+					setV('banktleft', (time() + seconds));
+				}, 0);
+			}
+			// Calculators
+			// !!!!!!!will make this "more" jQuery later..!!!!!!
+			var func1 = 'javascript: var amt=this.value.replace(/\\D/g,\'\'); if(amt){ get = document.getElementById(\''; //put ID here
+			var func2 = '\'); if(get){ tmp = \'\'+Math.round(amt'; //put factor here
+			var func3 = '); str =\'\'; while(tmp > 0){ if(str!=\'\'){ while(str.length % 4 !=3 ){ str = \'0\' + str;};';
+			func3 += 'str = \',\' + str;};dec = (tmp % 1000)+\'\';str = dec + str;tmp = Math.floor(tmp/1000);};';
+			func3 += 'get.textContent = \'$\' + str}; };';
+			var func_switch = '* (amt >= 1000000 ? (amt >= 3000000 ? (amt >= 6000000 ? (amt >= 10000000 ? (amt >= 15000000 ? ';
+			func_switch += '(amt >= 21000000 ? (amt >= 27000000 ? (amt >= 35000000 ? 1.01 : 1.015) : 1.02) : 1.025 ) : 1.03) : 1.035)';
+			func_switch += ' : 1.04) : 1.045) : 1.05 )';
+
+			var tbl = '<tr><td class="tableheader" colspan="4">Calculators</td></tr>';
+			tbl += '<tr><td align="left" width="33%">You send:</td>';
+			tbl += '<td align="left" width="13%"><input name="amount" type="text" value="" onKeyUp="' + func1 + 'get' + func2 + '*0.9' + func3 + '" size="15" maxlength="11" /></td>';
+			tbl += '<td align="left" width="28%">User gets:</td><td align="center" id="get">$0</td></tr>';
+			tbl += '<tr><td align="left" width="33%">You want:</td>';
+			tbl += '<td align="left" width="13%"><input name="amount" type="text" value="" onKeyUp="' + func1 + 'give' + func2 + '/0.9' + func3 + '" size="15" maxlength="11" /></td>';
+			tbl += '<td align="left" width="28%">User sends:</td><td align="center" id="give">$0</td></tr>';
+			tbl += '<tr><td align="left" width="33%">You put into bank:</td>';
+			tbl += '<td align="left" width="13%"><input name="amount" type="text" value="" onKeyUp="' + func1 + 'int' + func2 + func_switch + func3 + '" size="15" maxlength="11" /></td>';
+			tbl += '<td align="left" width="28%">You will receive:</td><td align="center" id="int">$0</td></tr>';
+
+			if($('td[width="33%"]:eq(2)').length) {
+				$('td[width="33%"]:eq(2)').append(
+					$('<br />'),
+					$('<table>').attr({class: 'thinline', width: '100%', align: 'center', rules: 'none'}).html(tbl)
+				)
+			}
+			// m/k usage
+			var inputs = $('input[name="amount"], input#amount');
+			inputs.each(function() {
+				$(this).keydown(function(event) {
+					var symcode = event.which;
+					if(symcode == 75){
+						$(this).val($(this).val() + "000");
+					}
+					if(symcode == 77){
+						$(this).val($(this).val() + "000000");
+					}
+					$(this).val($(this).val().replace(/k|m/g,""));
+					return (symcode == 75 || symcode == 77)?false:true;
+				});
+			});
 		}
 	}, true);
 }
