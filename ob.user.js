@@ -332,15 +332,9 @@ if (document.getElementById('game_container') !== null) {
 			$('td[align="right"][colspan="100%"]').prepend(
 				$('<span>').css('float', 'left').append(
 					$('<input />').attr({type: 'button', value: '(Un)Select All'}).click(function() {
-						var box = document.getElementsByName('selective[]');
-						var length = box.length;
-						for(var i=-1; ++i<length;){
-							if(box[i].checked==1){
-								box[i].checked=false;
-							} else {
-								box[i].checked=true;
-							}
-						}
+						$('[name="selective[]"]').each(function() {
+    						$(this).prop('checked', !$(this).prop('checked'));
+						})
 					})
 				)
 			);
