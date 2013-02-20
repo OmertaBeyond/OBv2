@@ -553,6 +553,21 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 		}
+//---------------- All users ----------------
+		if (on_page('/allusers.php') && nn == 'div') {
+			//add pagenumber
+			var page = $.urlParam('start');
+			page = (page/15)+1;
+			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').html('Page: '+page));
+			
+			//edit show/hide dead link
+			var dead = $.urlParam('dead');
+			if(dead != null) {
+				var url = document.location.hash.replace('#', '');
+				var hs = (dead == 'HIDE') ? 'SHOW' : 'HIDE';
+				$('a[href*="/allusers.php?dead="]').attr('href', url.replace(dead, hs));
+			}
+		}
 	}, true);
 }
 //---------------- Game Menu ----------------
