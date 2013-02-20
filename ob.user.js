@@ -239,7 +239,7 @@ if (document.getElementById('game_container') !== null) {
 				var msg = '';
 				if (till <= 0) { // user can vote again so ask
 					var ago = time() - lastVote; // time since last vote
-					msg += 'You haven\'t used the 1-click voter today!' + '\n' + 'Since you last used the 1-click voter, it\'s been:';
+					msg += 'You haven\'t used the 1-click voter today!' + '\n' + 'Since you last used the 1-click voter, it\'s been:\n';
 					msg += Math.floor(ago / 86400) + ' days, '; // days
 					msg += Math.floor((ago % 86400) / 3600) + ' hours, '; // hours
 					msg += Math.floor((ago % 3600) / 60) + ' minutes and '; // minutes
