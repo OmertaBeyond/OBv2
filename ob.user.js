@@ -62,7 +62,27 @@ function setV(name, value) {
 function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
 }
-
+function GetParam(name) {
+	var start, end, c, result;
+	start = location.search.indexOf("?" + name + "=");
+	if (start < 0) {
+		start = location.search.indexOf("&" + name + "=");
+	}
+	if (start < 0) {
+		return '';
+	}
+	start += name.length + 2;
+	end = location.search.indexOf("&", start) - 1;
+	if (end < 0) {
+		end = location.search.length;
+	}
+	result = '';
+	for (I = start; I <= end; I++) {
+		c = location.search.charAt(I);
+		result = result + (c == '+' ? ' ' : c);
+	}
+	return unescape(result);
+}
 
 if (document.getElementById('game_container') !== null) {
 	document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
