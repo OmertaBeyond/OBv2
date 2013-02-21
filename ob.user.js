@@ -320,28 +320,30 @@ if (document.getElementById('game_container') !== null) {
 			}
 			//delete and reply icons
 			var num = 1;
-			$('tr[class*="color"]').each(function() {
-				//$(this).children('td:eq(0)').text('jottem');
-				var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
-				$(this).children('td:eq(0)').append(
-					$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=2').html(
-						$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png', title: 'Delete', class: 'inboxImg'})
-					)
-				);
-				if ($(this).children('td:eq(2)').children('a').length) { //add reply icon
+			setTimeout(function () {
+				$('tr[class*="color"]').each(function() {
+					//$(this).children('td:eq(0)').text('jottem');
+					var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).children('td:eq(0)').append(
-						$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=sendMsg&iReply='+id).html(
-							$('<img />').attr({src: 'https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png', title: 'Reply', class: 'inboxImg'})
+						$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=2').html(
+							$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete', class: 'inboxImg'})
 						)
 					);
-				}
-				if (num < 11) { //add msg hotkeys
-					var title = $(this).children('td:eq(1)').children();
-					title.html('['+(num == 10 ? 0 : num)+'] '+title.html())
-					title.attr('accesskey', (num == 10 ? 0 : num));
-					num++;
-				}
-			});
+					if ($(this).children('td:eq(2)').children('a').length) { //add reply icon
+						$(this).children('td:eq(0)').append(
+							$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=sendMsg&iReply='+id).html(
+								$('<img />').attr({src: GM_getResourceURL('reply'), title: 'Reply', class: 'inboxImg'})
+							)
+						);
+					}
+					if (num < 11) { //add msg hotkeys
+						var title = $(this).children('td:eq(1)').children();
+						title.html('['+(num == 10 ? 0 : num)+'] '+title.html())
+						title.attr('accesskey', (num == 10 ? 0 : num));
+						num++;
+					}
+				});
+			}, 0);
 			//hotkeys for system delete
 			var keys = ['-', '=', '[', ']', ';', '\''];
 			var selectors = $('td[align="right"][colspan="100%"] > a');
