@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                20-02-2013
+// @date                21-02-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -38,13 +38,19 @@
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
 
-// some global defines
+/*
+* Define constants for our website
+*/
 
 const OB_WEBSITE = 'http://www.omertabeyond.com';
 const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const v = 'com';
+
+/*
+* Helper functions
+*/
 
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
@@ -66,6 +72,12 @@ $.urlParam = function(name){
     var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
     return results[1] || 0;
 }
+
+
+/*
+* Main game listener
+*/
+
 
 if (document.getElementById('game_container') !== null) {
 	document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
@@ -216,6 +228,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 		}
+
 		// 1 click voter
 		if (on_page('/vfo.php') && nn == 'center') {
 			$('a[href*="votelot.php"]').attr('name', 'forticket');
@@ -260,6 +273,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
+
 		// GroupCrime accept focus
 		if (on_page('module=GroupCrimes') && nn == 'center') {
 			//focus on accept
@@ -271,12 +285,14 @@ if (document.getElementById('game_container') !== null) {
 				return (/Make Transfer/i).test($(this).text())
 			}).focus();
 		}
+
 		//Heist Autoform
 		if (on_page('module=Heist') && nn == 'center') {
 			$('input[name="bullets"]').val('50');
 			$('select[name="gun"]').val('real');
 			$('input[name="driver"]').focus();
 		}
+
 		//Mail
 		//redirect
 		if (on_page('module=Mail') && nn == 'center'){
@@ -286,6 +302,7 @@ if (document.getElementById('game_container') !== null) {
 				}, 1000);
 			}
 		}
+
 		//Inbox
 		if (on_page('action=inbox') && nn == 'center'){
 			//save unread msg and msg ids
@@ -384,6 +401,7 @@ if (document.getElementById('game_container') !== null) {
 				})
 			)
 		}
+
 		//Outbox
 		if (on_page('action=outbox') && nn == 'center'){
 			setTimeout(function () {
@@ -397,6 +415,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			}, 0);
 		}
+
 		//Show message
 		if (on_page('action=showMsg') && nn == 'center') {
 			var id = wlh.split('iMsgId=')[1].match(/\d+/g)[0];
@@ -471,6 +490,7 @@ if (document.getElementById('game_container') !== null) {
 				}, 1000);
 			}
 		}
+
 		//look its me
 		if ((on_page('users_online') && nn == 'center') || (on_page('allusers.php') && nn == 'div') || (on_page('global_stats')) && nn == 'center') {
 			var nick = getV('nick', '');
@@ -485,7 +505,7 @@ if (document.getElementById('game_container') !== null) {
 //---------------- Bank ----------------
 		if (on_page('/bank.php') && nn == 'center') {
 			//auto reload after transfer
-			if ($('center').html().search('<table') == -1) { 
+			if ($('center').html().search('<table') == -1) {
 				setTimeout(function () {
 					window.location.reload();
 				}, 1000);
@@ -559,7 +579,7 @@ if (document.getElementById('game_container') !== null) {
 			var page = $.urlParam('start');
 			page = (page/15)+1;
 			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').html('Page: '+page));
-			
+
 			//edit show/hide dead link
 			var dead = $.urlParam('dead');
 			if(dead != null) {
@@ -585,7 +605,7 @@ if (document.getElementById('game_menu') !== null) {
 		var wlh = window.location.hash;
 		var nn  = event.target.tagName.toLowerCase();
 		var nid  = event.target.getAttribute('id');
-		
+
 		//Change allusers link
 		if(nn == 'div' && nid == 'game_menu_alerts') {
 			$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
@@ -593,6 +613,7 @@ if (document.getElementById('game_menu') !== null) {
 	}, true);
 }
 
+// Add focus on front page
 $('input[name="email"]').focus();
 
 // Replace Omerta's favicon
