@@ -308,6 +308,15 @@ if (document.getElementById('game_container') !== null) {
 			//ALL
 			$('input[type="submit"]').focus();
 		}
+		//MOC Participants autoform
+		if (on_page('module=MegaOC') && nn == 'form') {
+			//WE
+			$('input[type="text"]').val('500');
+			//EE
+			$('input:radio:eq(2)').prop('checked', 'true');
+			//ALL
+			$('input[type="submit"]').focus();
+		}
 //---------------- Mail ----------------
 		//redirect
 		if (on_page('module=Mail') && nn == 'center'){
@@ -337,7 +346,6 @@ if (document.getElementById('game_container') !== null) {
 			var num = 1;
 			setTimeout(function () {
 				$('tr[class*="color"]').each(function() {
-					//$(this).children('td:eq(0)').text('jottem');
 					var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).children('td:eq(0)').append(
 						$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=2').html(
