@@ -273,8 +273,8 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
-
-		// GroupCrime accept focus
+//---------------- Group Crimes ----------------
+		// GroupCrime general accept focus
 		if (on_page('module=GroupCrimes') && nn == 'center') {
 			//focus on accept
 			$('a').filter(function(){
@@ -285,15 +285,30 @@ if (document.getElementById('game_container') !== null) {
 				return (/Make Transfer/i).test($(this).text())
 			}).focus();
 		}
-
-		//Heist Autoform
+		//Heist LE autoform
 		if (on_page('module=Heist') && nn == 'center') {
 			$('input[name="bullets"]').val('50');
 			$('select[name="gun"]').val('real');
 			$('input[name="driver"]').focus();
 		}
-
-		//Mail
+		//OC accept focus
+		if (on_page('/orgcrime2.php') && nn == 'br') {
+			//focus on accept
+			$('a').filter(function(){
+				return (/Yes/i).test($(this).text())
+			}).focus();
+		}
+		//OC Participants autoform
+		if (on_page('?takepart=yes') && nn == 'form') {
+			//WE
+			$('input[name="bulletz"]').val('100');
+			$('select[name="guns"]').val('2');
+			//EE
+			$('input:radio[name="exploz"]').prop('checked', 'true');
+			//ALL
+			$('input[type="submit"]').focus();
+		}
+//---------------- Mail ----------------
 		//redirect
 		if (on_page('module=Mail') && nn == 'center'){
 			if ($('font:eq(0)').text().indexOf('Deleted') != -1) {
