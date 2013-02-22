@@ -241,8 +241,8 @@ if (document.getElementById('game_container') !== null) {
 					setV('lastvote', time());
 				}
 			}
-			$('td[class="tableheader"]:first').html(
-				$('<span>').addClass('orange').css({'cursor': 'pointer', 'color': 'orange'}).attr({'id': 'votelink', 'title': ''}).text($('td[class="tableheader"]:first').text())
+			$('td.tableheader:first').html(
+				$('<span>').addClass('orange').css({'cursor': 'pointer', 'color': 'orange'}).attr({'id': 'votelink', 'title': ''}).text($('td.tableheader:first').text())
 			).click(function () {
 					voteNow(false);
 			});
@@ -614,12 +614,14 @@ if (document.getElementById('game_container') !== null) {
 				$('a[href*="/allusers.php?dead="]').attr('href', url.replace(dead, hs));
 			}
 		}
-//---------------- TOP 3 ----------------
 
-		//linkify CP log
+//---------------- TOP 3 ----------------
+		
+		//Control Panel
 		if (on_page('module=Family') && nn == 'div') {
+			//linkify CP log
 			if(nid == 'jsprogbar_fam_rank_progress') {
-				$('table[class="color2"]:eq(0) > tbody > tr > td').not(':first').not(':last').each(function( ) {
+				$('table.color2:eq(0) > tbody > tr > td').not(':first').not(':last').each(function( ) {
 					if ($(this).text() != '') {
 						var len = $(this).html().trim().split(' ').length - 1;
 						var who = $(this).html().trim().split(' ');
@@ -639,10 +641,26 @@ if (document.getElementById('game_container') !== null) {
 					}
 				});
 			}
+			// Add promo calculation for CD/GF/FL.
+			var brugP = $('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(0)').text().replace(/\D/g, '');
+			var perc = (brugP != '0') ? $ ('input[name="ppercentage"]').val() : 0;
+			var cdP = (((brugP/100)*perc)+brugP);
+			var gfP = (((cdP/100)*perc)+parseInt(cdP));
+			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan')
+			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6)').append(
+				$('<td>').text('Capodecina'),
+				$('<td>').text('$ '+commafy(cdP))
+			)
+			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody').append(
+				$('<tr>').append(
+					$('<td>').text('GF / FL'),
+					$('<td>').text('$ '+commafy(gfP))
+				)
+			)
 		}
 		//linkify opened CP log
 		if (on_page('/familylog.php') && nn == 'table') {
-			$('table[class="color2"] > tbody > tr > td').not(':first').each(function( ) {
+			$('table.color2 > tbody > tr > td').not(':first').each(function( ) {
 				if ($(this).text() != '') {
 					var len = $(this).html().trim().split(' ').length - 1;
 					var who = $(this).html().trim().split(' ');
