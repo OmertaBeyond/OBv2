@@ -662,6 +662,41 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 		}
+		//Family bank
+		if (on_page('/cpbank.php') && nn == 'center') {
+			//Calculators
+			var func1  = 'javascript: var amt=this.value.replace(/\\D/g,\'\'); if(amt){ get = document.getElementById(\'';//put ID here
+			var func2 = '\'); if(get){ tmp = \'\'+Math.round(amt';//put factor here
+			var func3  = '); str =\'\'; while(tmp > 0){ if(str!=\'\'){ while(str.length % 4 !=3 ){ str = \'0\' + str;};';
+			func3 += 'str = \',\' + str;};dec = (tmp % 1000)+\'\';str = dec + str;tmp = Math.floor(tmp/1000);};';
+			func3 += 'get.textContent = \'$\' + str}; };';
+		
+			var tbl = '<tr><td class="tableheader" colspan="4">Calculators</td></tr>';
+			tbl += '<tr><td align="right" width="25%">You send:</td>';
+			tbl += '<td align="center" width="25%"><input name="amount" type="text" value="" onKeyUp="'+func1+'get'+func2+'*0.85'+func3+'" /></td>';
+			tbl += '<td align="right" width="25%">User gets:</td><td align="center" id="get" width="25%">$0</td></tr>';
+			tbl += '<tr><td align="right" width="25%">You want:</td>';
+			tbl += '<td align="center" width="25l%"><input name="amount" type="text" value="" onKeyUp="'+func1+'give'+func2+'/0.85'+func3+'" /></td>';
+			tbl += '<td align="right" width="25%">User sends:</td><td align="center" id="give" width="25%">$0</td></tr>';
+
+			$('table.thinline:eq(0)').after($('<br />'), $('<table>').attr({class: 'thinline', width: '600', align: 'center', rules: 'none'}).html(tbl));
+
+			// m/k usage
+			var inputs = $('input[name="amount"]');
+			inputs.each(function() {
+				$(this).keydown(function(event) {
+					var symcode = event.which;
+					if(symcode == 75){
+						$(this).val($(this).val() + "000");
+					}
+					if(symcode == 77){
+						$(this).val($(this).val() + "000000");
+					}
+					$(this).val($(this).val().replace(/k|m/g,""));
+					return (symcode == 75 || symcode == 77)?false:true;
+				});
+			});
+		}
 	}, true);
 }
 
