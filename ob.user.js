@@ -613,9 +613,36 @@ if (document.getElementById('game_container') !== null) {
 				$('a[href*="/allusers.php?dead="]').attr('href', url.replace(dead, hs));
 			}
 		}
+//---------------- TOP 3 ----------------
+		//link names at fully opened cp log
+		if (on_page('/familylog.php') && nn == 'table') {
+			$('table[class="color2"] > tbody > tr > td').not(':first').each(function( ) {
+				if ($(this).text() != '') {
+					var len = $(this).html().trim().split(' ').length - 1;
+					var who = $(this).html().trim().split(' ');
+					if (who[0].match(/[A-Z]/g)) {
+						who[0] = '<a href="/user.php?nick=' + who[0] + '"><b>' + who[0] + '</b></a>';
+					}
+					if (who[len].match(/[A-Z]/g)) {
+						if(who[len] != 'Capo(s)') {
+							if(who[len] != 'Object(s)') {
+								if(who[len] != 'Unlocked') {
+									who[len] = '<a href="/user.php?nick=' + who[len].match(/\D+/g)[0].replace('.', '') + '"><b>' + who[len] + '</b></a>';
+								}
+							}
+						}
+					}
+					$(this).html(who.join(' '));
+				}
+			});
+		}
 	}, true);
 }
-//---------------- Game Menu ----------------
+
+/*
+* Menu listener
+*/
+
 if (document.getElementById('game_menu') !== null) {
 	document.getElementById('game_menu').addEventListener('DOMNodeInserted', function(event) {
 		if (event.target.nodeType != 1) {
