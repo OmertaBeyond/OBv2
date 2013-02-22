@@ -92,6 +92,7 @@ if (document.getElementById('game_container') !== null) {
 
 		var wlh = window.location.hash;
 		var nn  = event.target.tagName.toLowerCase();
+		var nid  = event.target.getAttribute('id');
 
 		if (on_page('family.php') && nn == 'center') {
 
@@ -614,7 +615,32 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 //---------------- TOP 3 ----------------
-		//link names at fully opened cp log
+
+		//linkify CP log
+		if (on_page('module=Family') && nn == 'div') {
+			if(nid == 'jsprogbar_fam_rank_progress') {
+				$('table[class="color2"]:eq(0) > tbody > tr > td').not(':first').not(':last').each(function( ) {
+					if ($(this).text() != '') {
+						var len = $(this).html().trim().split(' ').length - 1;
+						var who = $(this).html().trim().split(' ');
+						if (who[0].match(/[A-Z]/g)) {
+							who[0] = '<a href="/user.php?nick=' + who[0] + '"><b>' + who[0] + '</b></a>';
+						}
+						if (who[len].match(/[A-Z]/g)) {
+							if(who[len] != 'Capo(s)') {
+								if(who[len] != 'Object(s)') {
+									if(who[len] != 'Unlocked') {
+										who[len] = '<a href="/user.php?nick=' + who[len].match(/\D+/g)[0].replace('.', '') + '"><b>' + who[len] + '</b></a>';
+									}
+								}
+							}
+						}
+						$(this).html(who.join(' '));
+					}
+				});
+			}
+		}
+		//linkify opened CP log
 		if (on_page('/familylog.php') && nn == 'table') {
 			$('table[class="color2"] > tbody > tr > td').not(':first').each(function( ) {
 				if ($(this).text() != '') {
