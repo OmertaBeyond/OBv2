@@ -47,6 +47,102 @@ const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const v = 'com';
+const RAID_SPOTS_CORDS = {
+	'Detroit': {
+		'Car Lot (Thunderbolt)': 'F3',
+		'Car Lot (Avus)': 'G10',
+		'Car Lot (Spyder)': 'J6',
+		'Whiskey Stills': 'G6',
+		'Farm (Marijuana)': 'F1',
+		'Farm (Beer)': 'G1',
+		'Docks (Heroin)': 'H8',
+		'Docks (Cognac)': '?',
+		'Factory': 'E4',
+		'Scrapyard': 'I2',
+		'Bar': 'G7',
+		'Restaurant': 'H7',
+		'Army Surplus Store': 'F10',
+		'Lawyers Office': 'H6'
+	},
+	'Chicago': {
+		'Car Lot (Thunderbolt)': 'D5',
+		'Car Lot (Avus)': 'J7',
+		'Car Lot (Spyder)': 'H5',
+		'Whiskey Stills': 'F6',
+		'Farm (Marijuana)': 'L9',
+		'Farm (Beer)': 'M7',
+		'Docks (Heroin)': 'F7',
+		'Docks (Cognac)': '?',
+		'Factory': 'M10',
+		'Scrapyard': 'L7',
+		'Bar': 'H6',
+		'Restaurant': 'H8',
+		'Army Surplus Store': 'C4',
+		'Lawyers Office': 'E5'
+	},
+	'Las Vegas': {
+		'Car Lot (Spyder)': 'J7',
+		'Scrapyard': 'F6',
+		'Bar': 'H7',
+		'Restaurant': 'I6',
+		'Army Surplus Store': 'E5'
+	},
+	'Corleone': {
+		'Farm (Marijuana)': 'I7',
+		'Scrapyard': 'G6',
+		'Restaurant': 'H6',
+		'Army Surplus Store': 'F5'
+	},
+	'Palermo': {
+		'Car Lot (Thunderbolt)': 'E5',
+		'Car Lot (Spyder)': 'J8',
+		'Farm (Marijuana)': 'H4',
+		'Factory': 'G6',
+		'Scrapyard': 'J7',
+		'Bar': 'H5',
+		'Restaurant': 'I6',
+		'Army Surplus Store': 'G4',
+		'Lawyers Office': 'H6'
+	},
+	'New York': {
+		'Car Lot (Thunderbolt)': 'D4',
+		'Car Lot (Avus)': 'K6',
+		'Car Lot (Spyder)': 'F8',
+		'Whiskey Stills': 'H5',
+		'Farm (Marijuana)': 'B6',
+		'Farm (Beer)': 'M9',
+		'Docks (Heroin)': 'G8',
+		'Docks (Cognac)': 'I8',
+		'Factory': 'G4',
+		'Scrapyard': 'K5',
+		'Bar': 'I5',
+		'Restaurant': 'F6',
+		'Army Surplus Store': 'N7',
+		'Lawyers Office': 'J6'
+	},
+	'Philadelphia': {
+		'Car Lot (Thunderbolt)': 'E5',
+		'Car Lot (Spyder)': 'J3',
+		'Whiskey Stills': 'H5',
+		'Farm (Marijuana)': 'B3',
+		'Docks (Heroin)': 'G9',
+		'Docks (Cognac)': 'L6',
+		'Scrapyard': 'L2',
+		'Bar': 'I4',
+		'Lawyers Office': 'G6'
+	},
+	'Baltimore': {
+		'Car Lot (Thunderbolt)': 'D6',
+		'Car Lot (Spyder)': 'G2',
+		'Farm (Marijuana)': 'M3',
+		'Factory': 'K7',
+		'Scrapyard': 'G10',
+		'Bar': 'F5',
+		'Restaurant': 'G6',
+		'Army Surplus Store': 'B10',
+		'Lawyers Office': 'F6'
+	}
+};
 
 /*
 * Helper functions
@@ -228,7 +324,158 @@ if (document.getElementById('game_container') !== null) {
 					);
 				}
 			});
-		}
+		} // end of family page
+
+		/*
+		 *
+		 * RAIDPAGE
+		 *
+		 */
+		if (on_page('index.php?module=Spots') && nn == 'div' && nid == 'map') {
+			var spot_table = $('<table>').addClass('thinline').css({'width': '630px', 'background-color': '#F0F0F0', 'border': '1px solid black', 'font-family': 'Tahoma, Verdana'}).attr('cellpadding', '0').append(
+				$('<tr>').addClass('tableheader').append(
+					$('<td>').html('&nbsp;'),
+					$('<td>').text('Type'),
+					$('<td>').text('Owner'),
+					$('<td>').text('Profit left'),
+					$('<td>').text('Protection'),
+					$('<td>').text('Next raid'),
+					$('<td>').text('Invite')
+				),
+				$('<tr>').append(
+					$('<td>').attr('height', '2').attr('bgcolor', 'black').attr('colspan', '7')
+				)
+			);
+
+			var secs = [];
+			var user = '';
+			var ownerid = null;
+			var city = $('b[data-beyond-fired="true"]').text();
+			$('div[id*="spot_"]').not('div[id*="spot_d"]').not('div[id*="spot_e"]').each(function() {
+				id = parseInt($(this).attr('id').replace('spot_', ''), 10);
+				spot_default = $('#spot_default_' + id);
+				type = spot_default.find('b').first().text();
+				owner = spot_default.find('td:eq(1)').text();
+				rex = new RegExp('\\(([\\w\\s]+)\\)');
+				rpfam = owner.match(rex);
+				profit = spot_default.find('tr:eq(2)').find('td:eq(1)').html();
+				protnum = $('#jsprogbar_div_protection_' + id).text();
+				prot = $('#jsprogbar_protection_' + id).clone();
+
+				prot.find('div[id*="jsprogbar_div_protection_"]').attr('style', '').css({'text-align': 'center', 'position': 'absolute', 'width': '100px'}).empty().append(
+					$('<font>').attr('color', '#000').text(protnum + '%')
+				);
+
+				spot_time = '';
+				// Not sure if this is the best / cleanest selector
+				// original code:
+				// if ($X('//*[@id="spot_default_'+id+'"]/table/tbody/tr[2]/td[2]') !== undefined) {
+				if (spot_default.find('table > tbody > tr:eq(1) > td:eq(1)').length) {
+					spot_time = spot_default.find('table > tbody > tr:eq(1) > td:eq(1)').html();
+				}
+				if (spot_time === '<b>now</b>') {
+					spot_time = 'Now!';
+					secs.push(0);
+				} else {
+					spot_time = '';
+					timem = 0;
+					times = 0;
+					if ($('#counter_nextraid_' + id + '_minutes_value').length) {
+						timem = $('#counter_nextraid_' + id + '_minutes_value').text();
+						spot_time = timem + 'm ';
+					}
+					if ($('#counter_nextraid_' + id + '_seconds_value').length) {
+						times = $('#counter_nextraid_' + id + '_seconds_value').text();
+						spot_time += times + 's ';
+					}
+					if (timem === 0 && times === 0) {
+						spot_time = 'Now!';
+					}
+					secs.push(parseInt(timem * 60, 10) + parseInt(times, 10));
+				}
+
+				show_form = true;
+
+				owner_string = (owner!='Local Mob'?('<a href="/user.php?nick='+owner.split(' ')[0]+'">'+owner.split(' ')[0]+'</a> '+ (owner.split(' ')[1]?owner.split(' ')[1]:'')):owner);
+				spot_table.append(
+					$('<tr>').css('height', '22px').append(
+						$('<td>').css('padding-left', '5px').text(RAID_SPOTS_CORDS[city][type]),
+						$('<td>').text(type),
+						$('<td>').html(owner_string),
+						$('<td>').css({'text-align': 'right', 'padding-right': '10px'}).text(profit),
+						$('<td>').append(
+							$('<table>').css({'border': '1px solid #000', 'margin': '0', 'padding': '0', 'width': '102px', 'border-radius': '3px'}).attr('cellpadding', '0').attr('cellspacing', '0').append(
+								$('<tr>').append(
+									$('<td>').append(prot)
+								)
+							)
+						),
+						$('<td>').css('text-align', 'center').append(
+							$('<div>').attr('id', 'timer_' + id).text(spot_time)
+						),
+						$('<td>').css('text-align', 'center').append(
+							$('<input>').attr({'type': 'button', 'data-spot-id': id}).val('Go!').css({'display': 'none', 'border-radius': '5px'}).click(function() {
+								$('input[name="type"]').val($(this).attr('data-spot-id'));
+								$('#raid_form').submit();
+							})
+						)
+					)
+				);
+
+				if (show_form) {
+					spot_table.find('input[data-spot-id="' + id + '"]').show();
+				}
+
+				if (owner.split(' ')[0] == user) {
+					ownerid = id;
+				}
+			});
+
+			form_table = $('<form>').attr({'id': 'raid_form', 'method': 'post', 'action': '/BeO/webroot/index.php?module=Spots&action=start_raid'}).append(
+				$('<input>').attr({'name': 'type', 'type': 'hidden'}),
+				$('<table>').addClass('thinline').css({'width': '630px', 'background-color': '#F0F0F0', 'border': '1px solid black'}).append(
+					$('<tr>').append(
+						$('<td>').addClass('tableheader').attr('colspan', '2').text('Information')
+					),
+					$('<tr>').append(
+						$('<td>').attr({'colspan': '2', 'height': '1', 'bgcolor': 'black'})
+					),
+					$('<tr>').css('background-color', '#F0F0F0')
+				)
+			);
+
+			if (ownerid !== null && $('#spot_extra_' + ownerid).length) {
+				form_table.find('tr').last().append(
+					$('<td>').html($('#spot_extra_' + ownerid).html())
+				);
+			} else {
+				form_table.find('tr').last().append(
+					$('<td>').css('text-align', 'right').text('Bullets'),
+					$('<td>').css('padding-left', '40px').append(
+						$('<input />').attr({'id': 'raidpagebullets', 'name': 'bullets', 'type': 'text', 'size': '3', 'value': '200'}).css({'border-radius': '5px', 'padding-left': '4px'})
+					)
+				);
+				form_table.find('tbody').append(
+					$('<tr>').css('background-color', '#F0F0F0').append(
+						$('<td>').css('text-align', 'right').text('Driver'),
+						$('<td>').css('padding-left', '40px').append(
+							$('<input />').attr({'id': 'raidpagedriver', 'name': 'driver', 'type': 'text'}).css({'border-radius': '5px', 'padding-left': '4px'})
+						)
+					)
+				);
+			}
+
+			$('#game_container').empty().append(
+				$('<center>').append(
+					$('<br />'),
+					form_table,
+					$('<br />'),
+					spot_table
+				)
+			);
+
+			$('#raidpagedriver').focus();
+		} // end of raidpage
 
 		// 1 click voter
 		if (on_page('/vfo.php') && nn == 'center') {
@@ -616,7 +863,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 //---------------- TOP 3 ----------------
-		
+
 		//Control Panel
 		if (on_page('module=Family') && nn == 'div') {
 			//linkify CP log
@@ -688,7 +935,7 @@ if (document.getElementById('game_container') !== null) {
 			var func3  = '); str =\'\'; while(tmp > 0){ if(str!=\'\'){ while(str.length % 4 !=3 ){ str = \'0\' + str;};';
 			func3 += 'str = \',\' + str;};dec = (tmp % 1000)+\'\';str = dec + str;tmp = Math.floor(tmp/1000);};';
 			func3 += 'get.textContent = \'$\' + str}; };';
-		
+
 			var tbl = '<tr><td class="tableheader" colspan="4">Calculators</td></tr>';
 			tbl += '<tr><td align="right" width="25%">You send:</td>';
 			tbl += '<td align="center" width="25%"><input name="amount" type="text" value="" onKeyUp="'+func1+'get'+func2+'*0.85'+func3+'" /></td>';
