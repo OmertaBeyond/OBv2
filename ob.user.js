@@ -167,6 +167,35 @@ function time() {
 $.urlParam = function(name){
     var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
     return results[1] || 0;
+};
+function voteNow(save) {
+	$('a[name="forticket"]').each(function() {
+		window.open(this);
+	});
+	if (save) {//store last voting time
+		setV('lastvote', time());
+	}
+}
+function delMsg(name) {
+	$('tr[class*="color"]').each(function() {
+		var tr = $(this);
+		var title = tr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
+		var thismsgid = tr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
+		if(title==name) {
+			GM_xmlhttpRequest({ //grab data from xml
+				method: 'GET',
+				url: 'http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+thismsgid+'&iParty=2',
+				onload: function(response) {
+					var errormsg = response.responseText.split('<font color="red">')[1];
+					errormsg = errormsg.split('</font>')[0];
+					errormsg.replace(/\t/g, '');
+					$('font[color="red"]').text(name+' messages deleted.');
+				}
+			});
+			tr.hide();
+			tr.next().hide();
+		}
+	});
 }
 
 
@@ -480,21 +509,14 @@ if (document.getElementById('game_container') !== null) {
 		// 1 click voter
 		if (on_page('/vfo.php') && nn == 'center') {
 			$('a[href*="votelot.php"]').attr('name', 'forticket');
-			function voteNow(save) {
-				$('a[name="forticket"]').each(function() {
-					window.open(this);
-				});
-				if (save) {//store last voting time
-					setV('lastvote', time());
-				}
-			}
+
 			$('td.tableheader:first').html(
 				$('<span>').addClass('orange').css({'cursor': 'pointer', 'color': 'orange'}).attr({'id': 'votelink', 'title': ''}).text($('td.tableheader:first').text())
 			).click(function () {
 					voteNow(false);
 			});
 			var lastVote = getV('lastvote', 0); //get last voting time
-			if (lastVote == 0) {
+			if (lastVote === 0) {
 				if (confirm('You haven\'t used the 1-click voter yet!\nDo you want to use it now?')) {
 					voteNow(true);
 				}
@@ -526,11 +548,11 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=GroupCrimes') && nn == 'center') {
 			//focus on accept
 			$('a').filter(function(){
-				return (/Accept/i).test($(this).text())
+				return (/Accept/i).test($(this).text());
 			}).focus();
 			//focus on transfer
 			$('a').filter(function(){
-				return (/Make Transfer/i).test($(this).text())
+				return (/Make Transfer/i).test($(this).text());
 			}).focus();
 		}
 		//Heist LE autoform
@@ -543,7 +565,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('/orgcrime2.php') && nn == 'br') {
 			//focus on accept
 			$('a').filter(function(){
-				return (/Yes/i).test($(this).text())
+				return (/Yes/i).test($(this).text());
 			}).focus();
 		}
 		//OC Participants autoform
@@ -570,7 +592,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=Mail') && nn == 'center'){
 			if ($('font:eq(0)').text().indexOf('Deleted') != -1) {
 				setTimeout(function () {
-					window.history.back()
+					window.history.back();
 				}, 1000);
 			}
 		}
@@ -597,19 +619,19 @@ if (document.getElementById('game_container') !== null) {
 					var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).children('td:eq(0)').append(
 						$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=2').html(
-							$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete', class: 'inboxImg'})
+							$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('delete'), title: 'Delete'})
 						)
 					);
 					if ($(this).children('td:eq(2)').children('a').length) { //add reply icon
 						$(this).children('td:eq(0)').append(
 							$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=sendMsg&iReply='+id).html(
-								$('<img />').attr({src: GM_getResourceURL('reply'), title: 'Reply', class: 'inboxImg'})
+								$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('reply'), title: 'Reply'})
 							)
 						);
 					}
 					if (num < 11) { //add msg hotkeys
 						var title = $(this).children('td:eq(1)').children();
-						title.html('['+(num == 10 ? 0 : num)+'] '+title.html())
+						title.html('['+(num == 10 ? 0 : num)+'] '+title.html());
 						title.attr('accesskey', (num == 10 ? 0 : num));
 						num++;
 					}
@@ -626,53 +648,32 @@ if (document.getElementById('game_container') !== null) {
 				$('<span>').css('float', 'left').append(
 					$('<input />').attr({type: 'button', value: '(Un)Select All'}).click(function() {
 						$('[name="selective[]"]').each(function() {
-    						$(this).prop('checked', !$(this).prop('checked'));
-						})
+							$(this).prop('checked', !$(this).prop('checked'));
+						});
 					})
 				)
 			);
 			//add custom system delete
-			function delMsg(name) {
-				$('tr[class*="color"]').each(function() {
-					var tr = $(this);
-					var title = tr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
-					var thismsgid = tr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
-					if(title==name) {
-						GM_xmlhttpRequest({ //grab data from xml
-							method: 'GET',
-							url: 'http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+thismsgid+'&iParty=2',
-							onload: function(response) {
-								var errormsg = response.responseText.split('<font color="red">')[1];
-								errormsg = errormsg.split('</font>')[0];
-								errormsg.replace(/\t/g, '');
-								$('font[color="red"]').text(name+' messages deleted.');
-							}
-						});
-						tr.hide();
-						tr.next().hide();
-					}
-				});
-			}
 			$('td[align="right"][colspan="100%"] > a:eq(0)').before($('<br />'));
 			$('td[align="right"][colspan="100%"]').append(
 				$('<br />'),
 				$('<span>').text('Delete System: '),
 				$('<span>').css('cursor', 'pointer').text('Super Lottery').on('click', function() {
-					delMsg('Omerta Super Lottery')
+					delMsg('Omerta Super Lottery');
 				}),
 				$('<span>').text(' | '),
 				$('<span>').css('cursor', 'pointer').text('Target not found').click(function() {
-					delMsg('Target not found')
+					delMsg('Target not found');
 				}),
 				$('<span>').text(' | '),
 				$('<span>').css('cursor', 'pointer').text('Target found').click(function() {
-					delMsg('Target found')
+					delMsg('Target found');
 				}),
 				$('<span>').text(' | '),
 				$('<span>').css('cursor', 'pointer').text('Promoted').click(function() {
-					delMsg('Promoted')
+					delMsg('Promoted');
 				})
-			)
+			);
 		}
 
 		//Outbox
@@ -682,7 +683,7 @@ if (document.getElementById('game_container') !== null) {
 					var id = $(this).attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).parent().prepend(
 						$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=1').html(
-							$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete', class: 'inboxImg'})
+							$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('delete'), title: 'Delete'})
 						)
 					);
 				});
@@ -693,9 +694,9 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('action=showMsg') && nn == 'center') {
 			var id = wlh.split('iMsgId=')[1].match(/\d+/g)[0];
 			var ids = getV('msgids', '').split(',');
-			for(i = 0;i<ids.length;i++){
+			for(var i = 0;i<ids.length;i++){
 				if (ids[i] == id) {
-					var nonext = (i==0)?'visibility:hidden; ':'';
+					var nonext = (i===0)?'visibility:hidden; ':'';
 					var noprev = (i==ids.length-1)?'visibility:hidden; ':'';
 					var next = ids[i-1];
 					var prev = ids[i+1];
@@ -704,7 +705,7 @@ if (document.getElementById('game_container') !== null) {
 			//check unread msg and grab obay bullets
 			var unread = getV('unread', '').split(',');
 			for (var x = 0; x < unread.length; ++x) {
-				if (unread[x] != '' && unread[x] == id) { //msg is unread
+				if (unread[x] !== '' && unread[x] == id) { //msg is unread
 					var msgTyp = $('tr.tableitem').text().split('Type:')[1].split('Sent:')[0];
 					var arr = $('table.thinline > tbody > tr:eq(7) > td').html().split(' ');
 					var bulletmsg = new RegExp('Obay bid succesful');
@@ -714,7 +715,7 @@ if (document.getElementById('game_container') !== null) {
 					// resave unread msg's, without our msg
 					var str = '';
 					for (var y = 0; y < unread.length; ++y) {
-						if (unread[y] != '' && unread[y] != id) {
+						if (unread[y] !== '' && unread[y] != id) {
 							str += ','+unread[y];
 						}
 					}
@@ -726,9 +727,9 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
 					$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
-						$('<img>').attr({title: 'Previous', class: 'inboxImg', src: GM_getResourceURL('prev')}) //.css(noprev)
+						$('<img>').addClass('inboxImg').attr({title: 'Previous', src: GM_getResourceURL('prev')}) //.css(noprev)
 					).append(
-						$('<img>').attr({title: 'Next', class: 'inboxImg', src: GM_getResourceURL('next')}) //.css(nonext)
+						$('<img>').addClass('inboxImg').attr({title: 'Next', src: GM_getResourceURL('next')}) //.css(nonext)
 					)
 				);
 			}, 0);
@@ -737,16 +738,16 @@ if (document.getElementById('game_container') !== null) {
 			if (linkz.length == 1) {
 				setTimeout(function () {
 					$('table.thinline > tbody > tr:eq(9) > td > a').html(
-						$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
+						$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)'})
 					).attr('accesskey', '[');
 				}, 0);
 			} else {
 				setTimeout(function () {
 					$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
-						$('<img />').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)', class: 'inboxImg'})
+						$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('delete'), title: 'Delete ([)'})
 					).attr('accesskey', '[');
 					$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
-						$('<img />').attr({src: GM_getResourceURL('reply'), title: 'Reply (])', class: 'inboxImg'})
+						$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('reply'), title: 'Reply (])'})
 					).attr('accesskey', ']');
 				}, 0);
 			}
@@ -827,8 +828,8 @@ if (document.getElementById('game_container') !== null) {
 			if($('td[width="33%"]:eq(2)').length) {
 				$('td[width="33%"]:eq(2)').append(
 					$('<br />'),
-					$('<table>').attr({class: 'thinline', width: '100%', align: 'center', rules: 'none'}).html(tbl)
-				)
+					$('<table>').addClass('thinline').attr({width: '100%', align: 'center', rules: 'none'}).html(tbl)
+				);
 			}
 			// m/k usage
 			var inputs = $('input[name="amount"], input#amount');
@@ -855,7 +856,7 @@ if (document.getElementById('game_container') !== null) {
 
 			//edit show/hide dead link
 			var dead = $.urlParam('dead');
-			if(dead != null) {
+			if(dead !== null) {
 				var url = document.location.hash.replace('#', '');
 				var hs = (dead == 'HIDE') ? 'SHOW' : 'HIDE';
 				$('a[href*="/allusers.php?dead="]').attr('href', url.replace(dead, hs));
@@ -869,7 +870,7 @@ if (document.getElementById('game_container') !== null) {
 			//linkify CP log
 			if(nid == 'jsprogbar_fam_rank_progress') {
 				$('table.color2:eq(0) > tbody > tr > td').not(':first').not(':last').each(function( ) {
-					if ($(this).text() != '') {
+					if ($(this).text() !== '') {
 						var len = $(this).html().trim().split(' ').length - 1;
 						var who = $(this).html().trim().split(' ');
 						if (who[0].match(/[A-Z]/g)) {
@@ -892,23 +893,23 @@ if (document.getElementById('game_container') !== null) {
 			var brugP = $('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(0)').text().replace(/\D/g, '');
 			var perc = (brugP != '0') ? $ ('input[name="ppercentage"]').val() : 0;
 			var cdP = (((brugP/100)*perc)+brugP);
-			var gfP = (((cdP/100)*perc)+parseInt(cdP));
-			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan')
+			var gfP = (((cdP/100)*perc)+parseInt(cdP, 10));
+			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan');
 			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6)').append(
 				$('<td>').text('Capodecina'),
 				$('<td>').text('$ '+commafy(cdP))
-			)
+			);
 			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody').append(
 				$('<tr>').append(
 					$('<td>').text('GF / FL'),
 					$('<td>').text('$ '+commafy(gfP))
 				)
-			)
+			);
 		}
 		//linkify opened CP log
 		if (on_page('/familylog.php') && nn == 'table') {
 			$('table.color2 > tbody > tr > td').not(':first').each(function( ) {
-				if ($(this).text() != '') {
+				if ($(this).text() !== '') {
 					var len = $(this).html().trim().split(' ').length - 1;
 					var who = $(this).html().trim().split(' ');
 					if (who[0].match(/[A-Z]/g)) {
@@ -944,7 +945,7 @@ if (document.getElementById('game_container') !== null) {
 			tbl += '<td align="center" width="25l%"><input name="amount" type="text" value="" onKeyUp="'+func1+'give'+func2+'/0.85'+func3+'" /></td>';
 			tbl += '<td align="right" width="25%">User sends:</td><td align="center" id="give" width="25%">$0</td></tr>';
 
-			$('table.thinline:eq(0)').after($('<br />'), $('<table>').attr({class: 'thinline', width: '600', align: 'center', rules: 'none'}).html(tbl));
+			$('table.thinline:eq(0)').addClass('thinline').after($('<br />'), $('<table>').attr({width: '600', align: 'center', rules: 'none'}).html(tbl));
 
 			// m/k usage
 			var inputs = $('input[name="amount"]');
