@@ -574,7 +574,7 @@ if (document.getElementById('game_container') !== null) {
 			$('input[name="bulletz"]').val('100');
 			$('select[name="guns"]').val('2');
 			//EE
-			$('input:radio[name="exploz"]').prop('checked', 'true');
+			$('input:radio[name="exploz"]').prop('checked', true);
 			//ALL
 			$('input[type="submit"]').focus();
 		}
@@ -583,7 +583,7 @@ if (document.getElementById('game_container') !== null) {
 			//WE
 			$('input[type="text"]').val('500');
 			//EE
-			$('input:radio:eq(2)').prop('checked', 'true');
+			$('input:radio:eq(2)').prop('checked', true);
 			//ALL
 			$('input[type="submit"]').focus();
 		}
