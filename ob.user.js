@@ -37,7 +37,7 @@
 
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
-
+/* Hi! <3 */
 /*
 * Define constants for our website
 */
@@ -196,6 +196,12 @@ function delMsg(name) {
 			tr.next().hide();
 		}
 	});
+}
+function commafy(num) {
+	var str = (num + '').split('.'),
+		dec = str[1] || '',
+		num = str[0].replace(/(\d)(?=(\d{3})+\b)/g, '$1,');
+	return (dec) ? num + '.' + dec : num;
 }
 
 
@@ -837,12 +843,12 @@ if (document.getElementById('game_container') !== null) {
 				$(this).keydown(function(event) {
 					var symcode = event.which;
 					if(symcode == 75){
-						$(this).val($(this).val() + "000");
+						$(this).val($(this).val() + '000');
 					}
 					if(symcode == 77){
-						$(this).val($(this).val() + "000000");
+						$(this).val($(this).val() + '000000');
 					}
-					$(this).val($(this).val().replace(/k|m/g,""));
+					$(this).val($(this).val().replace(/k|m/g, ''));
 					return (symcode == 75 || symcode == 77)?false:true;
 				});
 			});
@@ -852,17 +858,16 @@ if (document.getElementById('game_container') !== null) {
 			//add pagenumber
 			var page = $.urlParam('start');
 			page = (page/15)+1;
-			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').html('Page: '+page));
+			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').text('Page: '+page));
 
 			//edit show/hide dead link
 			var dead = $.urlParam('dead');
 			if(dead !== null) {
-				var url = document.location.hash.replace('#', '');
+				var url = wlh.replace('#', '');
 				var hs = (dead == 'HIDE') ? 'SHOW' : 'HIDE';
 				$('a[href*="/allusers.php?dead="]').attr('href', url.replace(dead, hs));
 			}
 		}
-
 //---------------- TOP 3 ----------------
 
 		//Control Panel
@@ -890,10 +895,10 @@ if (document.getElementById('game_container') !== null) {
 				});
 			}
 			// Add promo calculation for CD/GF/FL.
-			var brugP = $('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(0)').text().replace(/\D/g, '');
-			var perc = (brugP != '0') ? $ ('input[name="ppercentage"]').val() : 0;
-			var cdP = (((brugP/100)*perc)+brugP);
-			var gfP = (((cdP/100)*perc)+parseInt(cdP, 10));
+			var brugP = parseInt($('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').text().replace(/\D/g, ''), 10);
+			var perc = (brugP != '0') ? $('input[name="ppercentage"]').val() : 0;
+			var cdP = parseInt((((brugP/100)*perc)+brugP), 10);
+			var gfP = parseInt((((cdP/100)*perc)+parseInt(cdP, 10)), 10);
 			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan');
 			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6)').append(
 				$('<td>').text('Capodecina'),
@@ -953,12 +958,12 @@ if (document.getElementById('game_container') !== null) {
 				$(this).keydown(function(event) {
 					var symcode = event.which;
 					if(symcode == 75){
-						$(this).val($(this).val() + "000");
+						$(this).val($(this).val() + '000');
 					}
 					if(symcode == 77){
-						$(this).val($(this).val() + "000000");
+						$(this).val($(this).val() + '000000');
 					}
-					$(this).val($(this).val().replace(/k|m/g,""));
+					$(this).val($(this).val().replace(/k|m/g, ''));
 					return (symcode == 75 || symcode == 77)?false:true;
 				});
 			});
