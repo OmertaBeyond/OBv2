@@ -18,7 +18,7 @@ At the moment OB is fully compatible with:
 
 ## Dev Team
 * [vBm](https://github.com/vBm) - Founder, Minor code tweaks
-* Dopedog - dopedog@omertabeyond.com - Admin, Developer
+* [Dopedog](https://github.com/TheDopedog) - Admin, Developer
 * [Rix](https://github.com/Gwildor) - Admin, Developer
 * [MrWhite](https://github.com/Ivdbroek85) - Admin, Developer
 * [sbanks](https://github.com/susanbanks) - Admin, Website
