@@ -37,7 +37,7 @@
 
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
-
+/* Hi! <3 */
 /*
 * Define constants for our website
 */
