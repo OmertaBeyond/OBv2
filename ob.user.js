@@ -837,12 +837,12 @@ if (document.getElementById('game_container') !== null) {
 				$(this).keydown(function(event) {
 					var symcode = event.which;
 					if(symcode == 75){
-						$(this).val($(this).val() + "000");
+						$(this).val($(this).val() + '000');
 					}
 					if(symcode == 77){
-						$(this).val($(this).val() + "000000");
+						$(this).val($(this).val() + '000000');
 					}
-					$(this).val($(this).val().replace(/k|m/g,""));
+					$(this).val($(this).val().replace(/k|m/g, ''));
 					return (symcode == 75 || symcode == 77)?false:true;
 				});
 			});
@@ -952,12 +952,12 @@ if (document.getElementById('game_container') !== null) {
 				$(this).keydown(function(event) {
 					var symcode = event.which;
 					if(symcode == 75){
-						$(this).val($(this).val() + "000");
+						$(this).val($(this).val() + '000');
 					}
 					if(symcode == 77){
-						$(this).val($(this).val() + "000000");
+						$(this).val($(this).val() + '000000');
 					}
-					$(this).val($(this).val().replace(/k|m/g,""));
+					$(this).val($(this).val().replace(/k|m/g, ''));
 					return (symcode == 75 || symcode == 77)?false:true;
 				});
 			});
