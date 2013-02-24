@@ -30,4 +30,9 @@ Many thanks to everyone who supported development without having write access.
 
 ## Info
 
-You can find us at [**#beyond**](irc://irc.barafranca.com/beyond "irc://irc.barafranca.com/beyond") on Barafranca network.
+You can find us at:
+
+ * [**#beyond**](irc://irc.barafranca.com/beyond "irc://irc.barafranca.com/beyond") on Barafranca network.
+ * [news.omertabeyond.com](http://news.omertabeyond.com)
+ * [Facebook](http://www.facebook.com/OmertaBeyond)
+ * [Twitter](http://twitter.com/omertabeyond)
