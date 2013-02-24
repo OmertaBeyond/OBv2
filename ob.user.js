@@ -975,27 +975,9 @@ if (document.getElementById('game_container') !== null) {
 * Menu listener
 */
 
-if (document.getElementById('game_menu') !== null) {
-	document.getElementById('game_menu').addEventListener('DOMNodeInserted', function(event) {
-		if (event.target.nodeType != 1) {
-			return false;
-		}
-		if ($(event.target).attr('data-beyond-menu-fired') !== undefined) {
-			return false;
-		}
-
-		$(event.target).attr('data-beyond-menu-fired', 'true');
-
-		var wlh = window.location.hash;
-		var nn  = event.target.tagName.toLowerCase();
-		var nid  = event.target.getAttribute('id');
-
-		//Change allusers link
-		if(nn == 'div' && nid == 'game_menu_alerts') {
-			$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
-		}
-	}, true);
-}
+$('#game_menu').one('DOMNodeInserted', function() {
+	$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
+});
 
 // Add focus on front page
 $('input[name="email"]').focus();
