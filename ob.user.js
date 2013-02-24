@@ -445,7 +445,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').css('text-align', 'center').append(
 							$('<input>').attr({'type': 'button', 'data-spot-id': id}).val('Go!').css({'display': 'none', 'border-radius': '5px'}).click(function() {
 								$('input[name="type"]').val($(this).attr('data-spot-id'));
-								$('#raid_form').submit();
+								unsafeWindow.$('#raid_form').trigger('submit');
 							})
 						)
 					)
