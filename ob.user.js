@@ -197,6 +197,12 @@ function delMsg(name) {
 		}
 	});
 }
+function commafy(num) {
+	var str = (num + '').split('.'),
+		dec = str[1] || '',
+		num = str[0].replace(/(\d)(?=(\d{3})+\b)/g, '$1,');
+	return (dec) ? num + '.' + dec : num;
+}
 
 
 /*
