@@ -895,10 +895,10 @@ if (document.getElementById('game_container') !== null) {
 				});
 			}
 			// Add promo calculation for CD/GF/FL.
-			var brugP = $('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(0)').text().replace(/\D/g, '');
-			var perc = (brugP != '0') ? $ ('input[name="ppercentage"]').val() : 0;
-			var cdP = (((brugP/100)*perc)+brugP);
-			var gfP = (((cdP/100)*perc)+parseInt(cdP, 10));
+			var brugP = parseInt($('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').text().replace(/\D/g, ''), 10);
+			var perc = (brugP != '0') ? $('input[name="ppercentage"]').val() : 0;
+			var cdP = parseInt((((brugP/100)*perc)+brugP), 10);
+			var gfP = parseInt((((cdP/100)*perc)+parseInt(cdP, 10)), 10);
 			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan');
 			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6)').append(
 				$('<td>').text('Capodecina'),
