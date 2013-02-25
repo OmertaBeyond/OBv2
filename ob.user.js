@@ -990,6 +990,86 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 		}
+//---------------- Scratchtracker ----------------
+		if (on_page('/scratch.php') && (nn == 'center' || nn == 'b' || nn == 'form')) {
+			var on, unopened, monin, mils, bullets, scratches;
+			on = getV('on', 0);
+			unopened = getV('unopened', 0);
+			monin = parseInt(getV('monin', 0), 10);
+			mils = parseInt(getV('mils', 0), 10);
+			bullets = parseInt(getV('bullets', 0), 10);
+			scratches = parseInt(getV('scratches', 0), 10);
+
+			if ($('b:last').text() == 'Congratulations!') { //grab winning event
+				if ($('#game_container:contains(They have been added to your account!)').length) { //bullets
+					var rex = new RegExp('won (\\d+) bullets');
+					var r = $('#game_container').text().match(rex);
+					bullets += parseInt(r[1]);
+					setV('bullets', bullets);
+				}
+				if ($('#game_container:contains(It has been added to your account!)').length) { //money
+					var rex = new RegExp('You have won \\$ (\\d+)');
+					var str = $('#game_container').text().replace(/,/g, '');
+					var r = str.match(rex);
+					monin += parseInt(r[1]);
+					setV('monin', monin);
+					if (parseInt(r[1]) == 1000000) {
+						mils += 1;
+						setV('mils', mils);
+					}
+					$('input[name="scratch"]').focus()
+				}
+			}
+			if ($('#game_container:contains(Start scratching)').length) { //grab scratching event
+				scratches += 1;
+				setV('scratches', scratches);
+				if($('input[name="Check"]').length) {
+					$('input[name="Check"]').focus();
+				} else {
+					$('input[type="submit"]').focus();
+				}
+			} else {
+				if ($('input[name="codescratch"]').length) {//focus on unclaimed prices
+					$('input[type="submit"]:eq(1)').focus()
+				} else { //focus on scratch
+					$('input[name="scratch"]').focus()
+				}
+			}
+		
+			var monout = (scratches * 5000);
+			if ((monin - monout) < 0) {
+				var profit = '-$'+commafy(monout - monin);
+			} else {
+				var profit = '$'+commafy(monin - monout);
+			}
+			var ppk = Math.round(((monout - monin) / bullets) * 100000) / 100000;
+			if (isNaN(ppk) || bullets == 0) {
+				ppk = 0;
+			}
+
+			$('#game_container').append(
+				$('<div>').addClass('NRinfo').attr('id', 'info').css({'position': 'fixed', 'bottom': '20px', 'right': '20%', 'width': '200px', 'color': '#FFF', 'background-color': '#3F505F', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
+					$('<center>').text('ScratchTracker'),
+					$('<hr>').css({'line-height': '30px', 'color': 'gray'}),
+					$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right"><b>'+profit+'</b></font><br />Millions:<font style="float:right"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right"><b>$'+commafy(ppk)+'</b></font>'),
+					$('<hr>').css({'line-height': '30px', 'color': 'gray'}),
+					$('<center>').append(
+						$('<div>').attr('id', 'resetscratcher').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
+							$(this).text('Stats have been reset!');
+							$('#statsscratcher').html('Scratched:<font style="float:right"><b>0</b></font><br />Money spent:<font style="float:right"><b>$0</b></font><br />Money won: <font style="float:right"><b>$0</b></font><br />Profit:<font style="float:right"><b>$0</b></font><br />Millions:<font style="float:right"><b>0</b></font><br />Bullets won:<font style="float:right"><b>0</b></font><br />Price per bullet:<font style="float:right"><b>$0</b></font>');
+							setV('monin', 0);
+							setV('mils', 0);
+							setV('bullets', 0);
+							setV('scratches', 0);
+						}).hover(function() {
+							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid yellow', 'cursor': 'pointer'});
+						}, function () {
+							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
+						})
+					)
+				)
+			);
+		}
 	}, true);
 }
 
