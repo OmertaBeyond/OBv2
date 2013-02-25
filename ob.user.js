@@ -1054,21 +1054,21 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			$('#game_container').append(
-				$('<div>').addClass('NRinfo').attr('id', 'info').css({'position': 'fixed', 'bottom': '20px', 'right': '20%', 'width': '200px', 'color': '#FFF', 'background-color': '#3F505F', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
-					$('<center>').text('ScratchTracker'),
-					$('<hr>').css({'line-height': '30px', 'color': 'gray'}),
-					$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right"><b>'+profit+'</b></font><br />Millions:<font style="float:right"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right"><b>$'+commafy(ppk)+'</b></font>'),
-					$('<hr>').css({'line-height': '30px', 'color': 'gray'}),
+				$('<div>').addClass('NRinfo').attr('id', 'info').css({'position': 'fixed', 'bottom': '5px', 'right': '15.5%', 'width': '200px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
+					$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
+					$('<hr>').css({'color': 'gray'}),
+					$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
+					$('<hr>').css({'color': 'gray'}),
 					$('<center>').append(
 						$('<div>').attr('id', 'resetscratcher').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
 							$(this).text('Stats have been reset!');
-							$('#statsscratcher').html('Scratched:<font style="float:right"><b>0</b></font><br />Money spent:<font style="float:right"><b>$0</b></font><br />Money won: <font style="float:right"><b>$0</b></font><br />Profit:<font style="float:right"><b>$0</b></font><br />Millions:<font style="float:right"><b>0</b></font><br />Bullets won:<font style="float:right"><b>0</b></font><br />Price per bullet:<font style="float:right"><b>$0</b></font>');
+							$('#statsscratcher').html('Scratched:<font style="float:right;"><b>0</b></font><br />Money spent:<font style="float:right;"><b>$0</b></font><br />Money won: <font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font><br />Millions:<font style="float:right;"><b>0</b></font><br />Bullets won:<font style="float:right;"><b>0</b></font><br />Price per bullet:<font style="float:right;"><b>$0</b></font>');
 							setV('monin', 0);
 							setV('mils', 0);
 							setV('bullets', 0);
 							setV('scratches', 0);
 						}).hover(function() {
-							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid yellow', 'cursor': 'pointer'});
+							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
 						}, function () {
 							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
 						})
