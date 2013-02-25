@@ -383,7 +383,7 @@ if (document.getElementById('game_container') !== null) {
 			);
 
 			var secs = [];
-			var user = '';
+			var user = getV('nick', '');
 			var ownerid = null;
 			var city = $('b[data-beyond-fired="true"]').text();
 			$('div[id*="spot_"]').not('div[id*="spot_d"]').not('div[id*="spot_e"]').each(function() {
@@ -512,7 +512,13 @@ if (document.getElementById('game_container') !== null) {
 			$('#raidpagedriver').focus();
 		} // end of raidpage
 
-		// 1 click voter
+//---------------- My account ----------------
+		if (on_page('/information.php') && nn == 'table') {
+			var nick  = $('table.thinline:eq(0) > tbody > tr:eq(2) > td:eq(1)').text()
+			setV('nick', nick);
+		}
+
+//---------------- 1-click voter ----------------
 		if (on_page('/vfo.php') && nn == 'center') {
 			$('a[href*="votelot.php"]').attr('name', 'forticket');
 
