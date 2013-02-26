@@ -1010,8 +1010,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- Scratchtracker ----------------
 		if (on_page('/scratch.php') && (nn == 'center' || nn == 'b' || nn == 'form')) {
-			var on, unopened, monin, mils, bullets, scratches;
-			on = getV('on', 0);
+			var unopened, monin, mils, bullets, scratches;
 			unopened = getV('unopened', 0);
 			monin = parseInt(getV('monin', 0), 10);
 			mils = parseInt(getV('mils', 0), 10);
