@@ -600,15 +600,6 @@ if (document.getElementById('game_container') !== null) {
 			$('input[type="submit"]').focus();
 		}
 //---------------- Mail ----------------
-		//redirect
-		if (on_page('module=Mail') && nn == 'center'){
-			if ($('font:eq(0)').text().indexOf('Deleted') != -1) {
-				setTimeout(function () {
-					window.history.back();
-				}, 1000);
-			}
-		}
-
 		//Inbox
 		if (on_page('action=inbox') && nn == 'center'){
 			//save unread msg and msg ids
