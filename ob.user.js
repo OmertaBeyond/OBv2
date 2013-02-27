@@ -1072,7 +1072,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			$('#game_container').append(
-				$('<div>').addClass('NRinfo').attr('id', 'info').css({'position': 'fixed', 'bottom': '10px', 'right': '16.5%', 'width': '200px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
+				$('<div>').addClass('NRinfo').attr('id', 'info').css({'position': 'absolute', 'bottom': '10px', 'right': '10px', 'width': '200px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
 					$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
 					$('<hr>').css({'color': 'gray'}),
 					$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
