@@ -1094,6 +1094,56 @@ if (document.getElementById('game_container') !== null) {
 				)
 			);
 		}
+//---------------- BulletTracker ----------------
+		if (on_page('/bullets2.php') && nn == 'br') {
+			var d = new Date();
+			var btdate = getV('btdate', 0);
+			if(d.getDate()>btdate){ setV('bttoday', 0); }
+			var obaybul = parseInt(getV('obaybul', 0), 10);
+			var btbullets = parseInt(getV('btbullets', 0), 10);
+			var bttoday = parseInt(getV('bttoday', 0), 10);
+			var btmoney = parseInt(getV('btmoney', 0), 10);
+			if ($('#game_container:contains(Success, you bought)').length) {
+				var rex = new RegExp('Success you bought (\\d+) bullets for \\$ (\\d+)');
+				var str = $('#game_container').text().split('Bulletfactory')[0].replace(/,/g, '');;
+				var r = str.match(rex);
+				btbullets += parseInt(r[1], 10);
+				bttoday += parseInt(r[1], 10);
+				btmoney += parseInt(r[2], 10);
+				setV('btbullets', btbullets);
+				setV('bttoday', bttoday);
+				setV('btmoney', btmoney);
+				setV('btdate', d.getDate());
+			}
+			if (btbullets == 0) {
+				var btdolpbul = 0;
+			} else {
+				var btdolpbul = Math.round((btmoney / btbullets) * 100) / 100;
+			}
+			$('#game_container').append(
+				$('<div>').addClass('NRinfo').attr('id', 'btinfo').css({'position': 'absolute', 'bottom': '10px', 'right': '10px', 'width': '200px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
+					$('<center>').text('BulletTracker').css('font-weight', 'bold'),
+					$('<hr>').css({'color': 'gray'}),
+					$('<div>').attr('id', 'btracker').html('Bullets bought:<font style="float:right;"><b>'+commafy(btbullets)+'</b></font><br />Bought today:<font style="float:right;"><b>'+commafy(bttoday)+'</b></font><br />Money spent:<font style="float:right;">$<b>'+commafy(btmoney)+'</b></font><br />Price per bullet:<font style="float:right;">$<b>'+commafy(btdolpbul)+'</b></font><br />Bought on Obay:*<font style="float:right;"><b>'+commafy(obaybul)+'</b></font><br /><font size="1">*not included in total or price per bullet</font>'),
+					$('<hr>').css({'color': 'gray'}),
+					$('<center>').append(
+						$('<div>').attr('id', 'resetbt').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
+							$(this).text('Stats have been reset!');
+							$('#btracker > font:not(:last-child) > b').text('0'); //temporary fix
+							setV('btbullets', 0);
+							setV('btmoney', 0);
+							setV('bttoday', 0);
+							setV('btdate', 0);
+							setV('obaybul', 0);
+						}).hover(function() {
+							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
+						}, function () {
+							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
+						})
+					)
+				)
+			);
+		}
 	}, true);
 }
 
