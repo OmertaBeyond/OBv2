@@ -235,6 +235,52 @@ function setPow(name, i, value) {
 	}
 	setV(name, info); //store string
 }
+function bnUpdate(current){
+	var xpath = current ? '#game_container' : '#str2dom';//use current page OR xhr str2dom
+
+	var nick = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(2) > td:eq(1) > a').text();
+	var rank = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(7) > td:eq(1)').text();
+	var type = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(9) > td:eq(1) > a').text();
+	var city = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(10) > td:eq(1) > a').text();
+	var health = 100 - parseInt($(xpath+' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq(3) > td:eq(1) > a > table > tbody > tr > td').attr('width'));
+	var ride = $(xpath+' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(2) > td:eq(1)').text();
+
+	setV('bloodType', type);
+	setV('nick', nick);
+
+	//define max b/n judging by rank
+	var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Boy', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
+	var maxBooze = [1, 2, 2, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 70, 70];
+	var maxNarcs = [0, 0, 0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 20, 20, 20];
+	for(booze=0,narc=0, i=0;i<=17;i++){
+		if(ranks[i]==rank){
+			booze = maxBooze[i]; narc = maxNarcs[i];
+			break;
+		}
+	}
+	setPow('bninfo', 0, narc);
+	setPow('bninfo', 1, booze);
+
+	//parse city to ID
+	var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
+	for(var cityCode=0, i=0;i<8;i++){
+		if(city == cities[i]){
+			cityCode = i+4;
+			break;
+		}
+	}
+	setPow('bninfo', 2, cityCode);//save
+
+	//parse plane to ID
+	var rides = ['none', 'geen', 'Fokker DR-1' ,'Havilland DH 82A' ,'Fleet 7', 'Douglas DC-3'];
+	for(plane=0, i=0;i<=5;i++){
+		if(rides[i] == ride){
+			plane = [0, 0, 1, 2, 3, 4][i];
+			break;
+		}
+	}
+	setPow('bninfo', 3, plane);//save
+}
 
 /*
 * Main game listener
