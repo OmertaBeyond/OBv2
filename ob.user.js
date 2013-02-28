@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                21-02-2013
+// @date                28-02-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -1152,7 +1152,27 @@ if (document.getElementById('game_container') !== null) {
 */
 
 $('#game_menu').one('DOMNodeInserted', function() {
+	//change all users link
 	$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
+
+	//add beyond menu
+	var a = $('<a>').addClass('link').attr({'href': '#', 'data-box': 'true'}).append(
+		$('<span>').addClass('title').css('background', 'url("https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png") no-repeat scroll left center transparent').text('Beyond'),
+		$('<span>').addClass('menu_open')
+	);
+	var div = $('<div>').addClass('menu').append(
+		$('<a>').addClass('sublink').attr({target: 'main', href: 'main.php', title: 'Preferences'}).text('Preferences').click(function() {
+			setTimeout(function() {
+				$('#game_container').empty();
+				$('#game_container').append(prefs_page);
+			}, 500);
+		})
+	);
+
+	$('a.link:eq(2)').before(a)
+	$('a.link:eq(3)').before(div)
+
+	var prefs_page = $('<span>').text('This will be the preferences page'); //here we can build prefs page
 });
 
 // Add focus on front page
