@@ -203,7 +203,38 @@ function commafy(num) {
 		num = str[0].replace(/(\d)(?=(\d{3})+\b)/g, '$1,');
 	return (dec) ? num + '.' + dec : num;
 }
-
+function getPow(name, i, def) {
+	var info = getV(name, '' + def);
+	if (name == 'bninfo') {
+		var w = 2; //set width of buckets
+	} else if (name == 'prefs') {
+		var w = 1;
+	}
+	return (1 * info.substr((i * w), w)); //return int version of bucket
+}
+function setPow(name, i, value) {
+	var info = getV(name, '0');
+	if (name == 'bninfo') {
+		var w = 2; //set width of buckets
+	} else if (name == 'prefs') {
+		var w = 1;
+	}
+	i = i * w; //set string index
+	value += ''; //toString
+	while (value.length < w) {
+		value = '0' + value; //pad with zeros
+	}
+	if (i > 0 && (i + w) < info.length) {
+		info = info.substring(0, i) + value + info.substring(i + w); //value goes in middle
+	} else if (i === 0) {
+		info = value + info.substring(w); //value goes at beginning
+	} else if ((i + w) >= info.length) {
+		info = info.substring(0, i) + value; //value goes at end
+	} else {
+		return;
+	}
+	setV(name, info); //store string
+}
 
 /*
 * Main game listener
