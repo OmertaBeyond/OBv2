@@ -1251,6 +1251,52 @@ $('#game_menu').one('DOMNodeInserted', function() {
 	var prefs_page = $('<span>').text('This will be the preferences page'); //here we can build prefs page
 });
 
+/*
+* Info grabber
+*/
+
+var d = new Date();//check once every hour for new info
+if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != d.getHours()) {
+	$.get('/information.php', function(data) {
+		var a = data.split('<tbody');
+		if(a[2]){ // fails on clicklimit or other error
+			$('#wrapper').append(
+				$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
+			)
+			bnUpdate(0);//call update fucntion
+			$.get('/user.php?nick='+getV('nick', ''), function(data) {
+				var a = data.split('<script');
+				$('#wrapper').append(
+					$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
+				)
+				if($('#xhr').length) {
+					var role = 1;//default is in a family
+					var pos = $('span#position').attr('value');
+					var fam = $('span#family').attr('value');
+					var hascapo = ($('span#capo').length)?1:0;
+					if(/None|Geen/.test(fam)){
+						role = 0;
+					} else {
+						if(/Capo (of|van):/.test(pos)){
+							role = 2;
+						}
+						if(/(Sottocapo|Consiglieri|Don) (of|van):/.test(pos)){
+							role = 3;
+						}
+						if(hascapo) {
+							role = 4;
+						}
+					}
+					setV('family',fam);
+					setPow('bninfo',4,role);//save
+				}
+				var d = new Date();//set check date
+				setV('brcDate', d.getHours());
+			});
+		}
+	});
+}
+
 // Add focus on front page
 $('input[name="email"]').focus();
 
