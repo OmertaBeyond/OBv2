@@ -1272,7 +1272,7 @@ if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != 
 				if($('#xhr').length) {
 					var role = 1;//default is in a family
 					var pos = $('span#position').attr('value');
-					var fam = $('span#family').attr('value');
+					var fam = ($('span#family > a').length?$('span#family > a').text():$('span#family').text());
 					var hascapo = ($('span#capo').length)?1:0;
 					if(/None|Geen/.test(fam)){
 						role = 0;
