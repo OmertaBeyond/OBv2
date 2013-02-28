@@ -468,8 +468,7 @@ if (document.getElementById('game_container') !== null) {
 				spot_default = $('#spot_default_' + id);
 				type = spot_default.find('b').first().text();
 				owner = spot_default.find('td:eq(1)').text();
-				rex = new RegExp('\\(([\\w\\s]+)\\)');
-				rpfam = owner.match(rex);
+				rpfam = (owner.split(' ')[1]?owner.split(' ')[1]:'');
 				profit = spot_default.find('tr:eq(2)').find('td:eq(1)').html();
 				protnum = $('#jsprogbar_div_protection_' + id).text();
 				prot = $('#jsprogbar_protection_' + id).clone();
@@ -490,25 +489,17 @@ if (document.getElementById('game_container') !== null) {
 					secs.push(0);
 				} else {
 					spot_time = '';
-					timem = 0;
-					times = 0;
-					if ($('#counter_nextraid_' + id + '_minutes_value').length) {
-						timem = $('#counter_nextraid_' + id + '_minutes_value').text();
-						spot_time = timem + 'm ';
-					}
-					if ($('#counter_nextraid_' + id + '_seconds_value').length) {
-						times = $('#counter_nextraid_' + id + '_seconds_value').text();
-						spot_time += times + 's ';
-					}
-					if (timem === 0 && times === 0) {
-						spot_time = 'Now!';
-					}
-					secs.push(parseInt(timem * 60, 10) + parseInt(times, 10));
+					var seconds = spot_default.find('table > tbody > tr:eq(1) > td:eq(1) > span').attr('data-timeleft');
+					spot_time = spot_default.find('table > tbody > tr:eq(1) > td:eq(1) > span').text().replace(' minutes', 'M ').replace(' seconds', 'S');// should replace for a countdown
+					secs.push(seconds);
 				}
 
 				show_form = true;
 
 				owner_string = (owner!='Local Mob'?('<a href="/user.php?nick='+owner.split(' ')[0]+'">'+owner.split(' ')[0]+'</a> '+ (owner.split(' ')[1]?owner.split(' ')[1]:'')):owner);
+				if (!getV('family', '').search(rpfam)) {
+					show_form = false;
+				}
 				spot_table.append(
 					$('<tr>').css('height', '22px').append(
 						$('<td>').css('padding-left', '5px').text(RAID_SPOTS_CORDS[city][type]),
