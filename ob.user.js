@@ -444,7 +444,7 @@ if (document.getElementById('game_container') !== null) {
 		 *
 		 */
 		if (on_page('index.php?module=Spots') && nn == 'div' && nid == 'map') {
-			var spot_table = $('<table>').addClass('thinline').css({'width': '630px', 'background-color': '#F0F0F0', 'border': '1px solid black', 'font-family': 'Tahoma, Verdana'}).attr('cellpadding', '0').append(
+			var spot_table = $('<table>').addClass('thinline').css({'color': '#000', 'width': '630px', 'background-color': '#F0F0F0', 'border': '1px solid black', 'font-family': 'Tahoma, Verdana'}).attr('cellpadding', '0').append(
 				$('<tr>').addClass('tableheader').append(
 					$('<td>').html('&nbsp;'),
 					$('<td>').text('Type'),
@@ -536,7 +536,7 @@ if (document.getElementById('game_container') !== null) {
 
 			form_table = $('<form>').attr({'id': 'raid_form', 'method': 'post', 'action': '/BeO/webroot/index.php?module=Spots&action=start_raid'}).append(
 				$('<input>').attr({'name': 'type', 'type': 'hidden'}),
-				$('<table>').addClass('thinline').css({'width': '630px', 'background-color': '#F0F0F0', 'border': '1px solid black'}).append(
+				$('<table>').addClass('thinline').css({'color': '#000', 'width': '630px', 'background-color': '#F0F0F0', 'border': '1px solid black'}).append(
 					$('<tr>').append(
 						$('<td>').addClass('tableheader').attr('colspan', '2').text('Information')
 					),
