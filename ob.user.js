@@ -591,8 +591,7 @@ if (document.getElementById('game_container') !== null) {
 
 //---------------- My account ----------------
 		if (on_page('/information.php') && nn == 'table') {
-			var nick  = $('table.thinline:eq(0) > tbody > tr:eq(2) > td:eq(1)').text()
-			setV('nick', nick);
+			bnUpdate(1);
 		}
 
 //---------------- 1-click voter ----------------
