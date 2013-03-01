@@ -1211,6 +1211,95 @@ if (document.getElementById('game_container') !== null) {
 				)
 			);
 		}
+//---------------- User Profile ----------------
+		if (on_page('user.php') && nn == 'center') {
+	
+			var status = $('span#status').text();
+			var inFam = ($('span#family > a').length?$('span#family > a').text():$('span#family').text());
+			var alive = (status.search('Dead'));
+			var unick = $('span#username').text();
+	
+			// DEAD or AKILLED ?
+			if (!alive) {
+				var rankings = '<a href="http://www.barafranca.com/BeO/webroot/index.php?module=Rankings&nick='+unick+'">View Rankings</a>';
+				if($('img[src*="/userbadges/rip.gif"]').parent().get(0).tagName != 'A'){
+					var akill = '<span style="color:red; font-weight:bold;"> (Akill) </span>';
+					status += akill;
+				}
+				$.getJSON('http://gm.omertabeyond.com?p=stats&w=deaths&v='+v+'&ing='+unick, function(data) {
+					if (data["DiedAt"] === null) {
+						$('span#status').text(status + ' | Death date is not known');
+					} else {
+						$('span#status').html(status + ' | '+rankings+' | Died at '+data['Date']+' OT ('+data['Agod']+'d '+data['Agoh']+'h '+data['Agom']+'m ago)');
+					}
+				});
+			}
+			if(status === 'Alive') {
+				$.getJSON('http://gm.omertabeyond.com?p=stats&w=laston&v='+v+'&ing='+unick, function(data) {
+					if (data['LastOn'] === 0) { // 1970, thus not seen by logger
+						$('span#status').text(status+' | This user has not been seen online by our logger yet');
+					} else {
+						$('span#status').html(status+' | Last on: '+data['Date']+' OT ('+data['Agod']+'d '+data['Agoh']+'h '+data['Agom']+'m ago)');
+					}
+				});
+			}
+
+			// Wealth
+			var tr, x, y, z, xpath;
+			tr = 10;
+			x = $('#game_container').html().search('Marital status:');
+			y = $('#game_container').html().search('SMS Status');
+			z = $('#game_container').html().search('Family Buster of');
+	
+			if (x == -1) { tr--; }
+			if (y == -1) { tr--; }
+			if (z == -1) { tr--; }
+			
+			var wlth = $('table.thinline > tbody > tr:eq('+tr+') > td:eq(1)').text()
+	
+			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'], i=1;
+			var wealth = ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich'];
+			$.each(wealth, function(x){
+				if(wlth.search(x)){
+					$('table.thinline > tbody > tr:eq('+tr+') > td:eq(1)').text(wlth+kind[i])
+				}
+			});
+	
+			// Raceform
+			var rf = $('table.thinline > tbody > tr:eq('+(tr+1)+') > td:eq(1)').text();
+			var driver = ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion'];
+			for (i=0;i<=10;i++) {
+				if(rf.match(driver[i]) && (rf.length == driver[i].length)) {
+					$('table.thinline > tbody > tr:eq('+(tr+1)+') > td:eq(1)').text((i+1)+' - '+rf)
+				}
+			}
+
+			// Actions
+			var self = ($('table.thinline > tbody > tr:eq(2) > td:eq(1) > a > span').text() == getV('nick', ''));
+			$('td.tableheader').parent().after(
+				$('<tr>').append(
+					$('<td>').addClass('profilerow').attr({'id': 'actions', 'colspan': '2', 'align': 'center'}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&who='+unick+'">Heist</a> | <a href="BeO/webroot/index.php?module=Spots&action=&driver='+unick+'">Raid</a> | <a href="kill.php?search='+unick+'">Hire Detectives</a>')
+				)
+			)
+			if(!self && alive) {
+				$('td.tableheader').append(
+					$('<span>').text(' | '),
+					$('<a>').attr({'href': 'http://stats.omertabeyond.com/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History'),
+					$('<span>').text(' | '),
+					$('<span>').text('Actions').css('cursor', 'pointer').click(function() {
+						$('#actions').toggle()
+					})
+				)
+			} else {
+				$('td.tableheader').append(
+					$('<span>').text(' | '),
+					$('<a>').attr({'href': 'http://stats.omertabeyond.com/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History')
+				)
+			}
+			if (parseInt(getPow('bninfo',4,-1),10) === 3 && inFam === 'None') {
+				$('#actions').html($('#actions').html()+' | <a href="/BeO/webroot/index.php?module=Family&who='+unick+'">Invite to Family</a>');
+			}
+		}
 	}, true);
 }
 
