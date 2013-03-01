@@ -37,7 +37,7 @@
 
 // Prevent Omerta's jQuery to conflict with our
 this.$ = this.jQuery = jQuery.noConflict(true);
-/* Hi! <3 */
+
 /*
 * Define constants for our website
 */
@@ -1129,7 +1129,7 @@ if (document.getElementById('game_container') !== null) {
 					$('input[name="scratch"]').focus()
 				}
 			}
-		
+
 			var monout = (scratches * 5000);
 			if ((monin - monout) < 0) {
 				var profit = '-$'+commafy(monout - monin);
@@ -1216,12 +1216,12 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- User Profile ----------------
 		if (on_page('user.php') && nn == 'center') {
-	
+
 			var status = $('span#status').text();
 			var inFam = ($('span#family > a').length?$('span#family > a').text():$('span#family').text());
 			var alive = (status.search('Dead'));
 			var unick = $('span#username').text();
-	
+
 			// DEAD or AKILLED ?
 			if (!alive) {
 				var rankings = '<a href="http://www.barafranca.com/BeO/webroot/index.php?module=Rankings&nick='+unick+'">View Rankings</a>';
@@ -1229,7 +1229,7 @@ if (document.getElementById('game_container') !== null) {
 					var akill = '<span style="color:red; font-weight:bold;"> (Akill) </span>';
 					status += akill;
 				}
-				$.getJSON('http://gm.omertabeyond.com?p=stats&w=deaths&v='+v+'&ing='+unick, function(data) {
+				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v='+v+'&ing='+unick, function(data) {
 					if (data["DiedAt"] === null) {
 						$('span#status').text(status + ' | Death date is not known');
 					} else {
@@ -1238,7 +1238,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			}
 			if(status === 'Alive') {
-				$.getJSON('http://gm.omertabeyond.com?p=stats&w=laston&v='+v+'&ing='+unick, function(data) {
+				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=laston&v='+v+'&ing='+unick, function(data) {
 					if (data['LastOn'] === 0) { // 1970, thus not seen by logger
 						$('span#status').text(status+' | This user has not been seen online by our logger yet');
 					} else {
@@ -1253,13 +1253,13 @@ if (document.getElementById('game_container') !== null) {
 			x = $('#game_container').html().search('Marital status:');
 			y = $('#game_container').html().search('SMS Status');
 			z = $('#game_container').html().search('Family Buster of');
-	
+
 			if (x == -1) { tr--; }
 			if (y == -1) { tr--; }
 			if (z == -1) { tr--; }
-			
+
 			var wlth = $('table.thinline > tbody > tr:eq('+tr+') > td:eq(1)').text()
-	
+
 			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'], i=1;
 			var wealth = ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich'];
 			$.each(wealth, function(x){
@@ -1267,7 +1267,7 @@ if (document.getElementById('game_container') !== null) {
 					$('table.thinline > tbody > tr:eq('+tr+') > td:eq(1)').text(wlth+kind[i])
 				}
 			});
-	
+
 			// Raceform
 			var rf = $('table.thinline > tbody > tr:eq('+(tr+1)+') > td:eq(1)').text();
 			var driver = ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion'];
@@ -1287,7 +1287,7 @@ if (document.getElementById('game_container') !== null) {
 			if(!self && alive) {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<a>').attr({'href': 'http://stats.omertabeyond.com/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History'),
+					$('<a>').attr({'href': OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History'),
 					$('<span>').text(' | '),
 					$('<span>').text('Actions').css('cursor', 'pointer').click(function() {
 						$('#actions').toggle()
@@ -1296,7 +1296,7 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<a>').attr({'href': 'http://stats.omertabeyond.com/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History')
+					$('<a>').attr({'href': OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History')
 				)
 			}
 			if (parseInt(getPow('bninfo',4,-1),10) === 3 && inFam === 'None') {
