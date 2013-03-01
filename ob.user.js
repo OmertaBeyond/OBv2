@@ -313,7 +313,7 @@ if (document.getElementById('game_container') !== null) {
 			var famname = $('td.profilerow').text().split(' ')[0].trim().toLowerCase();
 			var url = (famid === famIdFromImg) ? 'id='+famid : 'ing='+famname;
 
-			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=com&' + url, function(data) {
+			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v='+v+'&' + url, function(data) {
 
 				/*
 				 * Family position and worth
