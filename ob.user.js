@@ -1136,7 +1136,7 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				var profit = '$'+commafy(monin - monout);
 			}
-			var ppk = Math.round(((monout - monin) / bullets) * 100000) / 100000;
+			var ppk = Math.round((((monout - monin) / bullets) * 100000) / 100000);
 			if (isNaN(ppk) || bullets == 0) {
 				ppk = 0;
 			}
