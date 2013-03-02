@@ -1303,6 +1303,30 @@ if (document.getElementById('game_container') !== null) {
 				$('#actions').html($('#actions').html()+' | <a href="/BeO/webroot/index.php?module=Family&who='+unick+'">Invite to Family</a>');
 			}
 		}
+//---------------- Linkify ----------------
+		// Messages
+		if (on_page('action=showMsg') && nn == 'center') {
+			var msgType = $('.tableheader:eq(1) > b > strong').text();
+			var msgTxt = '.thinline:eq(1) > tbody > tr:eq(4) > td';
+			var arr = $(msgTxt).html().split(' ');
+			var linkify = ['Route 66 heist', 'Organised Crime', 'Mega Organized Crime', 'Target not found', 'Carrace invite', 'Target found', 'Kill success', 'Witness statement', 'Condolences', 'found', 'Ticket update', 'Crashed Message', 'Invitation', 'Raid Notification', 'Married', 'Wedding Gift', 'Wedding', 'Wedding Invitation', 'shot!'];
+
+			function setArr(num) {
+				return arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>';
+			}
+
+			var WitnessMsg = new RegExp(linkify[7]); //witness
+			if (WitnessMsg.test(msgType)) {
+				setArr(3);
+				setArr(5);
+				$(msgTxt).html(arr.join(' '));
+			}
+			var TnFMsg = new RegExp(linkify[3]); //witness
+			if (TnFMsg.test(msgType)) {
+				setArr(5);
+				$(msgTxt).html(arr.join(' '));
+			}
+		}
 	}, true);
 }
 
