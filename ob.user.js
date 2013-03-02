@@ -181,6 +181,7 @@ function delMsg(what, name) {
 		var tr = $(this);
 		var title = tr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 		var thismsgid = tr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
+		name = name.replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 		if(what == 'id'){
 			if(name == thismsgid) {
 				$.get('http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+thismsgid+'&iParty=2', function(data) {
@@ -1315,13 +1316,13 @@ if (document.getElementById('game_container') !== null) {
 				return arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>';
 			}
 
-			var WitnessMsg = new RegExp(linkify[7]); //witness
+			var WitnessMsg = new RegExp(linkify[7]); // Witness statement
 			if (WitnessMsg.test(msgType)) {
 				setArr(3);
 				setArr(5);
 				$(msgTxt).html(arr.join(' '));
 			}
-			var TnFMsg = new RegExp(linkify[3]); //witness
+			var TnFMsg = new RegExp(linkify[3]); // Target not found
 			if (TnFMsg.test(msgType)) {
 				setArr(5);
 				$(msgTxt).html(arr.join(' '));
