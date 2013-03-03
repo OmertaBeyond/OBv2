@@ -978,7 +978,6 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 //---------------- TOP 3 ----------------
-
 		//Control Panel
 		if (on_page('module=Family') && nn == 'div') {
 			//linkify CP log
@@ -1288,7 +1287,18 @@ if (document.getElementById('game_container') !== null) {
 			if(!self && alive) {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<a>').attr({'href': OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History'),
+					$('<a>').attr({target: 'main', href: 'main.php', title: 'View History'}).text('View History').click(function() {
+						setTimeout(function() {
+							$('#game_container').empty();
+							GM_xmlhttpRequest({
+								method: "GET",
+								url: OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick,
+								onload: function(response) {
+									$('#game_container').html(response.responseText);
+								}
+							});
+						}, 500);
+					}),
 					$('<span>').text(' | '),
 					$('<span>').text('Actions').css('cursor', 'pointer').click(function() {
 						$('#actions').toggle()
@@ -1297,7 +1307,18 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<a>').attr({'href': OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick, 'target': '_blank'}).text('View History')
+					$('<a>').attr({target: 'main', href: 'main.php', title: 'View History'}).text('View History').click(function() {
+						setTimeout(function() {
+							$('#game_container').empty();
+							GM_xmlhttpRequest({
+								method: "GET",
+								url: OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick,
+								onload: function(response) {
+									$('#game_container').html(response.responseText);
+								}
+							});
+						}, 500);
+					})
 				)
 			}
 			if (parseInt(getPow('bninfo',4,-1),10) === 3 && inFam === 'None') {
