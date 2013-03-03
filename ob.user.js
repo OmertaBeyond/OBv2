@@ -1368,6 +1368,12 @@ if (document.getElementById('game_container') !== null) {
 				setArr(5);
 				$(msgTxt).html(arr.join(' '));
 			}
+			var HeistMsg = new RegExp(linkify[0]); // Route 66 heist
+			if (HeistMsg.test(msgType)) {
+				setArr(0);
+				setArr(13);
+				$(msgTxt).html(arr.join(' '));
+			}
 		}
 	}, true);
 }
