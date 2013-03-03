@@ -1407,11 +1407,9 @@ $('#game_menu').one('DOMNodeInserted', function() {
 		$('<span>').addClass('menu_open')
 	);
 	var div = $('<div>').addClass('menu').append(
-		$('<a>').addClass('sublink').attr({target: 'main', href: 'main.php', title: 'Preferences'}).text('Preferences').click(function() {
-			setTimeout(function() {
-				$('#game_container').empty();
-				$('#game_container').append(prefs_page);
-			}, 500);
+		$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Preferences').click(function() {
+			$('#game_container').empty();
+			$('#game_container').append(prefs_page);
 		})
 	);
 
