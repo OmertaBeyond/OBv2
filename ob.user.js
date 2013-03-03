@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                01-03-2013
+// @date                03-03-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -1370,9 +1370,36 @@ if (document.getElementById('game_container') !== null) {
 			}
 			var HeistMsg = new RegExp(linkify[0]); // Route 66 heist
 			if (HeistMsg.test(msgType)) {
-				setArr(0);
-				setArr(13);
+				if(arr[2] == 'inviting') {
+					setArr(0);
+					setArr(13);
+					$(msgTxt).html(arr.join(' '));
+				} else {
+					$(msgTxt).html($(msgTxt).html());
+				}
+			}
+			var RaceMsg = new RegExp(linkify[4]); // Car Race invite
+			if (RaceMsg.test(msgType)) {
+				setArr(9);
+				arr[arr.length - 15] = '<a href="/races.php"><strong>' + arr[arr.length - 15];
+				arr[arr.length - 14] = arr[arr.length - 14] + '</strong></a>';
 				$(msgTxt).html(arr.join(' '));
+			}
+			var RaidMsg = new RegExp(linkify[13]); // Raid Notification
+			if (RaidMsg.test(msgType)) {
+				setArr(9);
+				arr[arr.length - 8] = arr[arr.length - 8].split('<br>')[0]+'<br /><br /><a href="/BeO/webroot/index.php?module=Spots"><strong>' + arr[arr.length - 8].split('<br>')[2] + '</strong></a>';
+				$(msgTxt).html(arr.join(' '));
+			}
+			var OCMsg = new RegExp(linkify[1]); // Organised Crime
+			if (OCMsg.test(msgType)) {
+				if(arr[2] == 'inviting') {
+					setArr(0);
+					setArr(arr.length - 8);
+					$(msgTxt).html(arr.join(' '));
+				} else {
+					$(msgTxt).html($(msgTxt).html());
+				}
 			}
 		}
 	}, true);
