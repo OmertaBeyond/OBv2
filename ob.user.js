@@ -313,6 +313,7 @@ if (document.getElementById('game_container') !== null) {
 			var famIdFromImg = $('img[src*="family_image.php"]').attr('src').match(/\d+/g)[0];
 			var famname = $('td.profilerow').text().split(' ')[0].trim().toLowerCase();
 			var url = (famid === famIdFromImg) ? 'id='+famid : 'ing='+famname;
+			var ownfam = getV('family', '');
 
 			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v='+v+'&' + url, function(data) {
 
@@ -325,6 +326,25 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').addClass('profilerow').text('#'+data['pos']+' - Worth: '+data['worth']+'')
 					)
 				);
+
+				// add HQ space to members
+				var hq = $('table.thinline:eq(0) > tbody > tr:eq(12) > td:last').text()
+				var members = $('table.thinline:eq(0) > tbody > tr:eq(10) > td:last').text()
+				$('table.thinline:eq(0) > tbody > tr:eq(10) > td:last').text(members+'/'+hq);
+
+				// add color to HQ space
+				var hqperc = ((members/hq)*100);
+				$('table.thinline:eq(0) > tbody > tr:eq(10) > td:last').css({'background-image': '-moz-linear-gradient(left, #CCCCCC '+hqperc+'%, #F0F0F0 '+hqperc+'%)'})
+
+				// add color to donating %
+				var doperc = $('table.thinline:eq(0) > tbody > tr:eq(11) > td:last').text().split(' (')[0];
+				$('table.thinline:eq(0) > tbody > tr:eq(11) > td:last').css({'background-image': '-moz-linear-gradient(left, #CCCCCC '+doperc+', #F0F0F0 '+doperc+')'})
+
+				// add color to rankprogress
+				if(famname == ownfam.toLowerCase()) {
+					var rankperc = $('table.thinline:eq(0) > tbody > tr:last > td:last').text().split(' (')[1].replace(')', '');
+					$('table.thinline:eq(0) > tbody > tr:last > td:last').css({'background-image': '-moz-linear-gradient(left, #CCCCCC '+rankperc+', #F0F0F0 '+rankperc+')'})
+				}
 
 				// add HR
 				$('table.thinline').first().find('tbody').append(
