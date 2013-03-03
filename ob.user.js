@@ -1307,17 +1307,11 @@ if (document.getElementById('game_container') !== null) {
 			if(!self && alive) {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<a>').attr({target: 'main', href: 'main.php', title: 'View History'}).text('View History').click(function() {
-						setTimeout(function() {
+					$('<span>').text('View History').css('cursor', 'pointer').click(function() {
+						$.get(OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick, function(data) {
 							$('#game_container').empty();
-							GM_xmlhttpRequest({
-								method: "GET",
-								url: OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick,
-								onload: function(response) {
-									$('#game_container').html(response.responseText);
-								}
-							});
-						}, 500);
+							$('#game_container').html(data);
+						});
 					}),
 					$('<span>').text(' | '),
 					$('<span>').text('Actions').css('cursor', 'pointer').click(function() {
@@ -1327,17 +1321,11 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<a>').attr({target: 'main', href: 'main.php', title: 'View History'}).text('View History').click(function() {
-						setTimeout(function() {
+					$('<span>').text('View History').css('cursor', 'pointer').click(function() {
+						$.get(OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick, function(data) {
 							$('#game_container').empty();
-							GM_xmlhttpRequest({
-								method: "GET",
-								url: OB_STATS_WEBSITE + '/history.php?v='+v+'&name='+unick,
-								onload: function(response) {
-									$('#game_container').html(response.responseText);
-								}
-							});
-						}, 500);
+							$('#game_container').html(data);
+						});
 					})
 				)
 			}
