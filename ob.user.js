@@ -1337,6 +1337,7 @@ if (document.getElementById('game_container') !== null) {
 		// Messages
 		if (on_page('action=showMsg') && nn == 'center') {
 			var msgType = $('.tableheader:eq(1) > b > strong').text();
+			var msgType2 = $('.tableheader:eq(1) > b').text();
 			var msgTxt = '.thinline:eq(1) > tbody > tr:eq(4) > td';
 			var arr = $(msgTxt).html().split(' ');
 			var linkify = ['Route 66 heist', 'Organised Crime', 'Mega Organized Crime', 'Target not found', 'Carrace invite', 'Target found', 'Kill success', 'Witness statement', 'Condolences', 'found', 'Ticket update', 'Crashed Message', 'Invitation', 'Raid Notification', 'Married', 'Wedding Gift', 'Wedding', 'Wedding Invitation', 'shot!'];
@@ -1405,9 +1406,19 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=Lackeys') && nn == 'div') {
 			//General
 			var logpath = 'table[data-info="log"] > tbody > tr';
+			var credits = $('td[data-info="credits"]').text();
+			var money = $('td[data-info="money"]').text().replace(/,/g, '');
 			// Sluggs
 			if (on_page('type=6') && nn == 'div') {
 				var sluggsHideLaughing = getV('sluggsHideLaughing', 'true');
+				var price = $('input#setting_bullets_max_price_price_6').val();
+
+				// commafy and alert money
+				var needed = (credits/5)*(price*1000);
+				var short = money.substr(1)-needed;
+				var enough = (short<0)?'<p style="color:red;">'+commafy(money)+' ($'+commafy(short)+')</p>':'<p style="color:green;">'+commafy(money)+'</p>';
+				$('td[data-info="money"]').html(enough);
+
 				// Price per bullet
 				var x = 0;
 				$(logpath).each(function() {
