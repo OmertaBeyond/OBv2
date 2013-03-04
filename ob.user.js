@@ -1464,6 +1464,224 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
+//---------------- Smuggling ----------------
+		if (on_page('smuggling.php') && nn == 'center') {
+			var lbooze = 0, lnarcs = 0, lboth = 0, lex = 0;
+
+			//check if lackeys on
+			if ($('#game_container').html().match('/orourke.jpg') != null && $('#game_container').html().match('/freekowski.jpg') != null) {
+				lboth = 1;
+			}
+			else if ($('#game_container').html().match('/orourke.jpg') != null) {
+				lbooze = 1;
+			}
+			else if ($('#game_container').html().match('/freekowski.jpg') != null) {
+				lnarcs = 1;
+			}
+
+			//get input fields
+			inputs = $('input');
+			bn_xp = 'form > table > tbody > tr:eq(0) > td';
+			bn_text = $(bn_xp).html().split('<br>');
+		
+			var cash = parseInt(bn_text[3].replace(/[^0-9.]/g, ''), 10);
+			var booze = parseInt(bn_text[4].match(/\d+/), 10); //max amount user can carry
+			var narcs = parseInt(bn_text[5].match(/\d+/), 10);
+			if(bn_text[6]) {
+				lex = parseInt(bn_text[6].match(/\d+/), 10);
+			}
+		
+			b_amount = [0, 0, 0, 0, 0, 0]; //what is user carrying
+			n_amount = [0, 0, 0, 0, 0, 0];
+		
+			var xpb = 'table.thinline > tbody > tr:eq(';
+			var xpn = 'table.thinline:eq(1) > tbody > tr:eq(';
+		
+			if(!lboth) {
+				for (var i = 0; i <= 13; i++) { //add click to fill stuff and hotkeys
+					if (i < 7 && !lbooze) { //booze
+						var x = i + 3;
+						var bname = $(xpb + x + ') > td:eq(0)').text()
+						b_amount[i] = parseInt($(xpb + x + ') > td:eq(2)').html(), 10); //define how much of this item is being carried
+						$(xpb + x + ') > td:eq(0)').empty()
+						$(xpb + x + ') > td:eq(0)').append(
+							$('<span>').attr({id: 'bh'+i, index: i, acceskey: (i + 1), title: 'Fill in this booze (Hotkey: '+(i+1)+')'}).text((i + 1)+' '+bname).click(function() {
+								var i = parseInt($(this).attr('index'));
+								var inpt = $('input[type="text"]')
+								for(var j=0;j<=6;j++) {//reset form
+									if (j!=i) {
+										inpt[j].value = 0;
+									}
+								}
+								var total = b_amount.sum();
+								var missing = booze - b_amount[i];
+								var value = inpt[i].value;
+								if (b_amount[i] == 0 && total < booze) {
+									if (value == 0) {
+										inpt[i].value = booze;
+										$('input[type="radio"]:eq(1)').prop('checked', true)
+									} else {
+										inpt[i].value = 0;
+									}
+								} else if (b_amount[i] == booze) {
+									if (value == 0) {
+										inpt[i].value = booze;
+										$('input[type="radio"]:eq(0)').prop('checked', true)
+									} else {
+										inpt[i].value = 0;
+									}
+								} else if (b_amount[i] < booze && total < booze) {
+									if (value == 0) {
+										inpt[i].value = missing;
+										$('input[type="radio"]:eq(1)').prop('checked', true)
+									} else if (value == missing) {
+										inpt[i].value = b_amount[i];
+										$('input[type="radio"]:eq(0)').prop('checked', true)
+									} else {
+										inpt[i].value = 0;
+									}
+								} else if (n_amount[i-9] > booze) {
+									if (value == 0) {
+										inpt[i].value = b_amount[i];
+										$('input[type="radio"]:eq(0)').prop('checked', true)
+									} else {
+										inpt[i].value = 0;
+									}
+								}
+								$('input#ver').focus();
+							})
+						)
+					}
+					if (i > 6 && !lnarcs) { //narcs
+						var x = i - 4;
+						var nname = $(xpn + x + ') > td:eq(0)').text()
+						n_amount[(i - 7)] = parseInt($(xpn + x + ') > td:eq(2)').html(), 10); //define how much of this item is being carried
+						$(xpn + x + ') > td:eq(0)').empty()
+						$(xpn + x + ') > td:eq(0)').append(
+							$('<span>').attr({id: 'nh'+i, index: i, title: 'Fill in this narc'}).text(nname).click(function() {
+								var i = parseInt($(this).attr('index'));
+								var inpt = $('input[type="text"]')
+								for(var j=0;j<=6;j++) {//reset form
+									if (j!=i-7) {
+										if(lbooze) {
+											inpt[j].value = 0;
+										} else {
+											inpt[j+7].value = 0;
+										}
+									}
+								}
+								var total = n_amount.sum();
+								var missing = narcs - n_amount[i-7];
+								if(lbooze) {
+									var value = parseInt(inpt[i-7].value);
+								} else {
+									var value = parseInt(inpt[i].value);
+								}
+								if (n_amount[i-7] == 0 && total < narcs) {
+									if (value == 0) {
+										if(lbooze) {
+											inpt[i-7].value = narcs;
+											$('input[type="radio"]:eq(1)').prop('checked', true)
+										} else {
+											inpt[i].value = narcs;
+											$('input[type="radio"]:eq(3)').prop('checked', true)
+										}
+									} else {
+										inpt[i].value = 0;
+									}
+								} else if (n_amount[i-7] == narcs) {
+									if (value == 0) {
+										if(lbooze) {
+											inpt[i-7].value = narcs;
+											$('input[type="radio"]:eq(0)').prop('checked', true)
+										} else {
+											inpt[i].value = narcs;
+											$('input[type="radio"]:eq(2)').prop('checked', true)
+										}
+									} else {
+										inpt[i].value = 0;
+									}
+								} else if (n_amount[i-7] < narcs && total < narcs) {
+									if (value == 0) {
+										if(lbooze) {
+											inpt[i-7].value = missing;
+											$('input[type="radio"]:eq(1)').prop('checked', true)
+										} else {
+											inpt[i].value = missing;
+											$('input[type="radio"]:eq(3)').prop('checked', true)
+										}
+									} else if (value == missing) {
+										if(lbooze) {
+											inpt[i-7].value = n_amount[i-7];
+											$('input[type="radio"]:eq(0)').prop('checked', true)
+										} else {
+											inpt[i].value = n_amount[i-7];
+											$('input[type="radio"]:eq(3)').prop('checked', true)
+										}
+									} else {
+										inpt[i].value = 0;
+									}
+								} else if (n_amount[i-7] > narcs) {
+									if (value == 0) {
+										if(lbooze) {
+											inpt[i-7].value = n_amount[i-7];
+											$('input[type="radio"]:eq(0)').prop('checked', true)
+										} else {
+											inpt[i].value = n_amount[i-7];
+											$('input[type="radio"]:eq(3)').prop('checked', true)
+										}
+									} else {
+										inpt[i].value = 0;
+									}
+								}
+								$('input#ver').focus();
+							})
+						)
+					}
+				}
+			}
+
+			var inp = $('input[name="typebooze"], input[name="typedrugs"]');
+			inp.each(function(){
+				$(this).click(function() {
+					if ($('input#ver').length) {
+						$('input#ver').focus();
+					}
+				});
+			});
+		
+			//visual fix
+			if(lnarcs) {
+				$('table.thinline:eq(1)').append(
+					$('<br />'),
+					$('<br />')
+				)
+			}
+			if(lbooze) {
+				$('table.thinline:eq(0)').append(
+					$('<br />'),
+					$('<br />')
+				)
+			}
+		
+			//create more efficient info text
+			var str = $('<center>'). append(
+				$('<table>').append(
+					$('<tr>').append(
+						$('<td>').text('Pocket: $ '+commafy(cash)+' |'),
+						$('<td>').text('Booze: '+booze+' |'),
+						$('<td>').text('Narcs: '+narcs+' |'),
+						$('<td>').text('Lex: '+lex)
+					)
+				)
+			);
+			$(bn_xp).html(str).append(
+				$('<a>').attr({href: 'prices.php', target: 'main'}).text('Current Booze/Narcotics Prices')
+			)
+			if(!lboth) {
+				$('input#ver').focus(); //focus captcha field
+			}
+		}
 	}, true);
 }
 
