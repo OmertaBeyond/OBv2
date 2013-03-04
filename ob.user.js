@@ -1389,6 +1389,17 @@ if (document.getElementById('game_container') !== null) {
 					$(msgTxt).html($(msgTxt).html());
 				}
 			}
+			var MOCMsg = new RegExp(linkify[2]); // Mega Organized Crime
+			if (MOCMsg.test(msgType2)) {
+				if(arr[2] == 'invited') {
+					setArr(0);
+					arr[arr.length - 8] = '<a href="/BeO/webroot/index.php?module=MegaOC"><strong>' + arr[arr.length - 8];
+					arr[arr.length - 7] = arr[arr.length - 7] + '</strong></a>';
+					$(msgTxt).html(arr.join(' '));
+				} else {
+					$(msgTxt).html($(msgTxt).html());
+				}
+			}
 		}
 	}, true);
 }
