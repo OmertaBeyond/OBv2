@@ -1401,6 +1401,46 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
+//---------------- Lackeys ----------------
+		if (on_page('module=Lackeys') && nn == 'div') {
+			var logpath = 'table[data-info="log"] > tbody > tr';
+			// Sluggs
+			if (on_page('type=6') && nn == 'div') {
+				var sluggsHideLaughing = getV('sluggsHideLaughing', 'true');
+				function hideLaughing(hide) {
+					setV('sluggsHideLaughing', hide);
+					sluggsHideLaughing = hide;
+					x = 0;
+					$(logpath).each(function() {
+						if($(logpath+':eq('+x+') > td:eq(1)').html().match(/Sluggs is laughing at your measly limit/) && x != logpath.length) {
+							if (hide) {
+								$(this).hide();
+							} else {
+								$(this).show();
+							}
+						}
+						++x;
+					});
+				}
+				// Hide useless entries
+				$('div.oheader:last').append(
+					$('<span>').append(
+						$('<input>').attr({id: 'cb', type: 'checkbox'}).click(function() {
+							if (sluggsHideLaughing === true) {
+								hideLaughing(false);
+							} else {
+								hideLaughing(true);
+							}
+						}),
+						$('<label />').attr('for', 'cb').text('Hide "Sluggs is laughing" entries')
+					)
+				)
+				if (sluggsHideLaughing === 'true') {
+					$('#cb').prop('checked', true);
+					hideLaughing(true);
+				}
+			}
+		}
 	}, true);
 }
 
