@@ -1403,10 +1403,23 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- Lackeys ----------------
 		if (on_page('module=Lackeys') && nn == 'div') {
+			//General
 			var logpath = 'table[data-info="log"] > tbody > tr';
 			// Sluggs
 			if (on_page('type=6') && nn == 'div') {
 				var sluggsHideLaughing = getV('sluggsHideLaughing', 'true');
+				// Price per bullet
+				var x = 0;
+				$(logpath).each(function() {
+					// show price per bullet when Sluggs bought
+					if ($(logpath+':eq('+x+') > td:eq(1)').html().replace(/,/g, '').match(/Sluggs bought (\d+) bullets for \$(\d+)/) && x != logpath.length) {
+						var r = $(logpath+':eq('+x+') > td:eq(1)').html().replace(/,/g, '').match(/Sluggs bought (\d+) bullets for \$(\d+)/);
+						var ppb = Math.round(r[2]/r[1]);
+						$(logpath+':eq('+x+') > td:eq(1)').html($(logpath+':eq('+x+') > td:eq(1)').html()+' ($'+ppb+'/bullet)')
+					}
+					++x;
+				});
+				// Hide useless entries
 				function hideLaughing(hide) {
 					setV('sluggsHideLaughing', hide);
 					sluggsHideLaughing = hide;
@@ -1422,7 +1435,6 @@ if (document.getElementById('game_container') !== null) {
 						++x;
 					});
 				}
-				// Hide useless entries
 				$('div.oheader:last').append(
 					$('<span>').append(
 						$('<input>').attr({id: 'cb', type: 'checkbox'}).click(function() {
