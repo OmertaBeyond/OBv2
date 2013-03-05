@@ -1474,6 +1474,66 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
+//---------------- BRC ----------------
+		if (on_page('prices.php') && nn == 'center') {
+			if (on_page('prices.php') && nn == 'center') {
+				noBRC = false; //asume working BRC table
+				if (typeof BN == 'undefined') { //see if prices are grabbed already
+					noBRC = true; //no BRC mean no need to try and HL 'em
+					for (BN = [], i = 0; i <= 1; i++) { // B/N
+						for (BN[i] = [], j = 0; j <= 6; j++) { // type
+							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
+								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, '')));
+							}
+							BN[i][j].unshift(BN[i][j].min()); //get min
+							BN[i][j].unshift(BN[i][j].max()); //get max
+						}
+					}
+				}
+				for (i = 0; i <= 1; i++) {
+					for (j = 0; j <= 6; j++) {
+						for (k = 2; k <= 9; k++) {
+							if (j == 0) { //add mouseover effects
+								row = $('center:eq('+i+') > table > tbody > tr:eq('+(1+k)+')');
+								row.attr('id', i+'row'+k);
+								row.css('borderTop', '1px solid #000');
+								row.mouseover(function(event) {
+									$(this).css('backgroundColor', '#888');
+									$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#888');
+									if (!noBRC) {
+										$('#2row'+(k-2)).css('backgroundColor', '#888');
+									}
+								})
+								row.mouseout(function(event) {
+									$(this).css('backgroundColor', '#F0F0F0');
+									$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#F0F0F0');
+									if (!noBRC) {
+										$('#2row'+(k-2)).css('backgroundColor', '#F0F0F0');
+									}
+								})
+							}
+
+							item = $('center:eq('+i+') > table > tbody > tr:eq('+(1+k)+') > td:eq('+(1+j)+')');
+							item.css({'borderTop': '1px solid #000', 'text-align': 'center', 'width': '12%'});
+							if (!(j % 2)) { //add colors to rows
+								item.css('backgroundColor', '#B0B0B0');
+							}
+							if (BN[i][j][k] == BN[i][j][0]) { //HL max
+								item.css('fontWeight', 'bold');
+								item.css('color', '#FF0000');
+							}
+							if (BN[i][j][k] == BN[i][j][1]) { //HL min
+								item.css('fontWeight', 'bold');
+								item.css('color', '#16E54A');
+							}
+							if (j == 5 && i == 0) { //bold-ify cocaine
+								item.css('fontWeight', 'bold');
+							}
+						}
+					}
+				}
+			}
+		}
 //---------------- Smuggling ----------------
 		if (on_page('smuggling.php') && nn == 'center') {
 			var lbooze = 0, lnarcs = 0, lboth = 0, lex = 0;
