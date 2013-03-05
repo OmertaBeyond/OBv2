@@ -1557,6 +1557,13 @@ if (document.getElementById('game_container') !== null) {
 									} else {
 										inpt[i].value = 0;
 									}
+								} else if (b_amount[i] < booze && total > booze){
+									if (value == 0) {
+										inpt[i].value = b_amount[i];
+										$('input[type="radio"]:eq(0)').prop('checked', true)
+									} else {
+										inpt[i].value = 0;
+									}
 								}
 								$('input#ver').focus();
 							})
@@ -1639,6 +1646,18 @@ if (document.getElementById('game_container') !== null) {
 										} else {
 											inpt[i].value = n_amount[i-7];
 											$('input[type="radio"]:eq(3)').prop('checked', true)
+										}
+									} else {
+										inpt[i].value = 0;
+									}
+								} else if (b_amount[i] < narcs && total > narcs){
+									if (value == 0) {
+										if(lbooze) {
+											inpt[i-7].value = n_amount[i-7];
+											$('input[type="radio"]:eq(0)').prop('checked', true)
+										} else {
+											inpt[i].value = n_amount[i-7];
+											$('input[type="radio"]:eq(2)').prop('checked', true)
 										}
 									} else {
 										inpt[i].value = 0;
