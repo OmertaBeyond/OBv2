@@ -144,6 +144,10 @@ const RAID_SPOTS_CORDS = {
 	}
 };
 
+var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
+var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
+var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
+
 /*
 * Helper functions
 */
@@ -276,7 +280,6 @@ function bnUpdate(current){
 	setPow('bninfo', 1, booze);
 
 	//parse city to ID
-	var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 	for(var cityCode=0, i=0;i<8;i++){
 		if(city == cities[i]){
 			cityCode = i+4;
