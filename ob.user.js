@@ -148,6 +148,16 @@ const RAID_SPOTS_CORDS = {
 * Helper functions
 */
 
+Array.prototype.sum = function () {
+	for (i = 0, sum = 0; i < this.length; sum += this[i++]);
+	return sum;
+};
+Array.prototype.max = function () {
+	return Math.max.apply({}, this);
+};
+Array.prototype.min = function () {
+	return Math.min.apply({}, this);
+};
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
