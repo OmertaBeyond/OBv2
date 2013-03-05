@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                03-03-2013
+// @date                06-03-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -1478,7 +1478,592 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 //---------------- BRC ----------------
-		if (on_page('prices.php') && nn == 'center') {
+		if ((on_page('prices.php') && nn == 'center') || (on_page('smuggling.php') && nn == 'center')) {
+			var carry_n, carry_b;
+			bninfo = getV('bninfo', -1);
+			if (bninfo != '' && bninfo != -1) { //extra checker for undefined crap
+				if (bninfo.search(/[^0-9]/) != -1) {
+					setV('bninfo', -1);
+				}
+			}
+			//grab Lex
+			if ($('span#lexhelpsyou').length) {
+				lex = parseInt($('span#lexhelpsyou').html().replace(/[^0-9]/g,''), 10);
+				setV('lex', lex);
+				d = new Date();
+				lexDay = d.getDay();
+				lexHour = d.getHours();
+				setV('lexHour', lexHour);
+				setV('lexDay', lexDay);
+			} else {
+				lex = getV('lex', 0);
+				lexDay = getV('lexDay', -1);
+				lexHour = getV('lexHour', -1);
+			}
+
+			function fillBRC(n, b, mode) { //actually filling the forms
+				values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //set defaults
+				// booze    - narcs    == maximum user can buy
+				// carry_b  - carry_n  == total user is carrying
+				// b_amount - n_amount == amount per item user is carrying
+				// b        - n        == item we want
+				if (n > -1 && !lnarcs && mode != 3) { //do we want narcs?
+					if (carry_n == 0) { //nothing in pocket, fill it all
+						values[7+n] = narcs;
+						$('input[name="typedrugs"]:eq(1)').prop('checked', true); //buy
+					} else { //something in pocket
+						if (carry_n < narcs) { // we got space for more
+							if (n_amount[n] < narcs) { //not full of wanted
+								if (n_amount[n] != carry_n) { //there is unwanted stuff
+									for (i=0; i<=6; i++) {
+										if (i != n || mode == 1) { //only sell what we don't want
+											values[i+7] = n_amount[i];
+										}
+									}
+									$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
+								} else { //only carrying wanted narcs
+									values[7+n] = narcs - carry_n; //if any, fill missing amount
+									$('input[name="typedrugs"]:eq(1)').prop('checked', true); //buy
+								}
+							} else { //full of wanted
+								if (mode > 0) { //CD/RP mode, sell all
+									values[7+n] = n_amount[n];
+									$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
+								}
+							}
+						} else { // we go too much, guess it was a good heist
+							for(i=0;i<=6;i++) { //check what we carry
+								if(mode==0 && i == n) {
+									values[i+7] = 0;
+								} else {
+									values[i+7] = n_amount[i];
+									$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
+								}
+							}
+						}
+					}
+				}
+				if(n == -1 && mode == 4 && !lnarcs) {
+					for (i=0; i<=6; i++) {
+						values[i+7] = n_amount[i];
+						$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
+					}
+				}
+
+				//check for scenario: failed selling narcs in high
+				selling_n = 0;
+				for (i=0; i<=6; i++) {
+					selling_n += values[i+7];
+				}
+				fail_n = (carry_b == 0 && carry_n == narcs && mode == 0 && selling_n > 0) ? 1 : 0;
+
+				if (b > -1 && !fail_n && !lbooze && mode != 3) { //do we want booze? Or are we still selling narcs in high?
+					if (carry_b == 0) {
+						values[b] = booze; //nothing in pocket, fill it all
+						$('input[name="typebooze"]:eq(1)').prop('checked', true); //buy
+					} else {
+						if (carry_b < booze) { // we got space for more
+							if (b_amount[b] < booze) { //not full of wanted
+								if (b_amount[b] != carry_b) { //there is unwanted stuff
+									for (i=0; i<=6; i++) {
+										if ( (i != b || true) || mode == 1) { //only sell what we don't want or in CD mode
+											values[i] = b_amount[i];
+										}
+									}
+									$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+								} else { //only carrying wanted narcs
+									if(mode = 2) {
+										values[b] = carry_b; //if any, fill missing amount
+										$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+									} else {
+										values[b] = booze - carry_b; //if any, fill missing amount
+										$('input[name="typebooze"]:eq(1)').prop('checked', true); //buy
+									}
+								}
+							} else { //full of wanted
+								if (mode > 0) { //CD/RP mode, sell all
+									values[b] = b_amount[b];
+									$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+								}
+							}
+						} else { // we go too much, guess it was a good heist
+							for(i=0;i<=6;i++) { //check what we carry
+								if(mode==0 && i == b) {
+									values[i] = 0;
+								} else {
+									values[i] = b_amount[i];
+									$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+								}
+							}
+						}
+					}
+				}
+				if(b == -1 && mode == 4 && !lbooze) {
+					for (i=0; i<=6; i++) {
+						values[i] = b_amount[i];
+						$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+					}
+				}
+
+				//fill in the fields with the calculated values
+				var sorts = ['wine', 'cognac', 'whiskey', 'amaretto', 'beer', 'port', 'rum', 'morphine', 'heroin', 'opium', 'cocaine', 'marihuana', 'tabacco', 'glue'];
+				var start = (lbooze)?7:0;
+				var end = (lnarcs)?6:13;
+				for (i=start; i<=end; i++) {
+					var box = $('input[name="'+sorts[i]+'"]');
+					box.val(values[i]);
+				}
+
+				//focus
+				$('input#ver').focus();
+			}
+
+			function appBRC(BN) {
+				if(!lboth) {
+					var getInfo = $('div#info:eq(0)').text();
+					getInfo = getInfo.split('*');
+					narc = getInfo[0];
+					booze = getInfo[1];
+					city = getInfo[2];
+					plane = getInfo[3];
+					fam = getInfo[4];
+					lex = parseInt(getInfo[8]);
+					lexHour = parseInt(getInfo[9]);
+					lexDay = parseInt(getInfo[10]);
+
+					// extra city checker
+					if (on_page('smuggling.php') && nn == 'center') {
+						smugCity = $('h3').text();
+						for (i = 0; i < 8; i++) {
+							if (smugCity.search(cities[i]) != -1) {
+								city = i + 4;
+								setPow('bninfo', 2, city);
+							}
+						}
+					}
+					// calc profits per item per city
+					lex = 1 + 0.01*lex;
+					for (nCityprofit = [], bCityprofit = [], i = 0; i <= 7; i++) { // get profit per single unit of b/n
+						for (nCityprofit[i] = [], bCityprofit[i] = [], j = 0; j <= 6; j++) { // price there - price here
+							nCityprofit[i].push(Math.round(BN[0][j][(i + 2)]*lex) - BN[0][j][(city - 4 + 2)]); //-4 correction for city ID,
+							bCityprofit[i].push(Math.round(BN[1][j][(i + 2)]*lex) - BN[1][j][(city - 4 + 2)]); //+2 correction for min/max @ [0]+[1] in BN array
+						}
+						nCityprofit[i].unshift(nCityprofit[i].max()); //most profit per unit in this city
+						bCityprofit[i].unshift(bCityprofit[i].max());
+					}
+					// create BRC table
+					var table = $('<table>').addClass('thinline').attr('id', 'brc').css('width', '500').append(
+						$('<tr>').append(
+							$('<td>').addClass('tableheader').attr('colspan', '5').css('background-color', '#F0F0F0').text('Best Run Calculator')
+						),
+						$('<tr>').append(
+							$('<td>').attr({colspan: '5', height: '1'}).css('background-color', '#000')
+						),
+						$('<tr>').css({'border-bottom': '1px solid #000', 'background-color': '#F0F0F0'}).append(
+							$('<td>').html('&nbsp; City'),
+							$('<td>').html('&nbsp; Booze'),
+							$('<td>').html('&nbsp; Narc'),
+							$('<td>').html('&nbsp; Profit'),
+							$('<td>').html('&nbsp;')
+						)
+					)
+					// add city rows with individual profits
+					for (allProfits = [], bestBN = [], i = 0; i <= 7; i++) {
+						var tr  = $('<tr>');
+						if (on_page('prices.php') && nn == 'center') { //add HL effects here too
+							tr.attr('id', '2row'+i)
+							tr.css('background-color', '#F0F0F0')
+							tr.mouseover(function(event) {
+								$(this).css('backgroundColor', '#888');
+								$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#888');
+								if (!noBRC) {
+									$('#2row'+(k-2)).css('backgroundColor', '#888');
+								}
+							})
+							row.mouseout(function(event) {
+								$(this).css('backgroundColor', '#F0F0F0');
+								$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#F0F0F0');
+								if (!noBRC) {
+									$('#2row'+(k-2)).css('backgroundColor', '#F0F0F0');
+								}
+							})
+						}
+						var td = $('<td>').attr('colspan', '5').css({'border-bottom': '1px solid #000', 'heigth': '19px'});
+		
+						//--Calc profits
+						if (i == city - 4) { //This is the current city
+							td.html('<center><i>You are in '+cities[i]+'</i></center>')
+							tr.append(td);
+							allProfits.push(0);
+							bestBN.push([0, 0]);
+						} else if (plane == 0 && (((city == 6 || city == 11) && (i + 4) != 6 && (i + 4) != 11) || ((city != 6 && city != 11) && ((i + 4) == 6 || (i + 4) == 11)))) { //No plane to travel there
+							td.html('<center><i>You can\'t fly to '+cities[i]+'</i></center>')
+							tr.append(td);
+							allProfits.push(0);
+							bestBN.push([0, 0]);
+						} else { //Nothing wrong, clear to go
+							bestNarc = nCityprofit[i][0] < 0 ? 0 : nCityprofit[i].lastIndexOf(nCityprofit[i][0]); //best, if any, narc?
+							profitNarc = (bestNarc == 0) ? 0 : nCityprofit[i][bestNarc]; //profit per unit
+							profitNarc = profitNarc * narc;
+
+							bestBooze = bCityprofit[i][0] < 0 ? 0 : bCityprofit[i].lastIndexOf(bCityprofit[i][0]); //best, if any, booze?
+							profitBooze = (bestBooze == 0) ? 0 : bCityprofit[i][bestBooze]; //profit per unit
+							profitBooze = profitBooze * booze;
+
+							//calc travelcost
+							travelPrices = [ //travelcosts from A to B
+								[    0,   600, 10350, 1575,  3600, 1350,  1050, 10800], //det
+								[  600,     0, 11025, 2025,  3000, 1725,  1425, 11400], //chi
+								[10350, 11025,     0, 9075, 14025, 9450,  9750,  1875], //pal
+								[ 1575,  2025,  9075,    0,  5025,  375,   675,  9375], //ny
+								[ 3600,  3000, 14025, 5025,     0, 4650,  4350, 14400], //lv
+								[ 1350,  1725,  9450,  375,  4650,    0,   300,  9750], //phi
+								[ 1050,  1425,  9750,  675,  4350,  300,     0, 10050], //bal
+								[10800, 11400,  1875, 9375, 14400, 9750, 10050,     0]  //cor
+							];  //det   chi    pal    ny    lv     phi   bal    cor
+							travelCost = travelPrices[i][(city - 4)];
+							if (plane == 0) { //no plane => half travelcost
+								travelCost /= 2;
+							}
+
+							//Our total profit in this city
+							totalProfit = (profitNarc + profitBooze) - Math.round(travelCost);
+
+							//save all profits in array for later
+							if (totalProfit < 0) {
+								bestBN.push([0, 0]); //push dummy to complete array
+							}
+							bestBN.push([bestNarc, bestBooze]);
+							var wnarc = (bestNarc == 0)?0:bestNarc-1;
+							var wbooze = (bestBooze == 0)?0:bestBooze-1;
+							var narcsell = (BN[0][wnarc][0] * narc) * lex;
+							var boozesell = (BN[1][wbooze][0] * booze) * lex;
+							var pay = (Math.round(narcsell * [0, 0.11, 0.11, 0, 0.1][fam])+Math.round(boozesell * [0, 0.11, 0.11, 0, 0.1][fam])); // famless, member no capo, capo, top3, member with capo
+							totalProfit = totalProfit - pay;
+							allProfits.push(totalProfit);
+
+							//What's the result
+							if (totalProfit < 0) { //no profit :(
+								td.html('<center><i>You won\'t make any profit in '+cities[i]+'</i></center>')
+								tr.append(td);
+							} else { //profit \o/
+								td.html('&nbsp;'+cities[i])
+								td.attr('colspan', '1');
+								tr.append(td);
+								tr.append(
+									$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp; '+boozenames[bestBooze]),
+									$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp; '+narcnames[bestNarc]),
+									$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp; $'+commafy(totalProfit))
+								)
+
+								if (on_page('smuggling.php') && nn == 'center') { //we need JS links @ smuggling and don't want to waste clicks
+									key = [0, 4, 6, 1, 2, 3, 5]; //convert b/n - botprices order to smuggling order
+									n1 = key[bestNarc-1];
+									b1 = key[bestBooze-1];
+
+									tr.append(
+										$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp;').append(
+											$('<span>').attr({id: 'go'+i, n: bestNarc, b: bestBooze}).css({'font-weight': 'inherit', 'text-align': 'center', 'cursor': 'pointer'}).text('Go!').click(function () {
+												fillBRC(parseInt($(this).attr('n'), 10), parseInt($(this).attr('b'), 10), 0)
+											})
+										)
+									)
+								} else { //we need to GET to smuggling too
+									tr.append(
+										$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp;').append(
+											$('<a>').attr({id: 'go'+i, href: 'http://www.barafranca.com/smuggling.php?n=' + (bestNarc - 1) + '&b=' + (bestBooze - 1)}).css({'font-weight': 'inherit', 'text-align': 'center', 'cursor': 'pointer'}).text('Go!')
+										)
+									)
+								}
+							}
+						}
+						table.append(tr);
+					}
+					// add lex row
+					if(lex>1) {
+						d = new Date();
+						table.append(
+							$('<tr>').append(
+								$('<td>').attr('colspan', '5').css({'text-align': 'center', 'font-size': '10px'}).text('Lex Level: ' + parseInt((lex-1)*100) + ' - Seen ' + ((d.getDay() != lexDay)?'1 Day ago':d.getHours() - lexHour + ' Hours ago'))
+							)
+						)
+					}
+					// add table to page
+					if (on_page('prices.php') && nn == 'center') {
+						if($('#brc').length == 0) {
+							$('#game_container').append(
+								$('<br />'),
+								$('<center>').append(table)
+							)
+						}
+					} else {
+						if($('#brc').length == 0) {
+							$('#game_container').append(
+								$('<br />'),
+								$('<center>').append(table)
+							)
+						}
+					}
+					// bold-ify Best Run
+					bestRun = allProfits.lastIndexOf(allProfits.max());
+					$('table#brc > tr:eq(' + (4 + bestRun) + ')').css('font-weight', 'bold');
+
+					if (on_page('smuggling.php') && nn == 'center') {
+						function AF(sel,Xn,Xb) {
+							n = -1;
+							b = -1;
+							//assemble info for AF
+							inputs = $('input');
+							bn_xp = 'form > table > tbody > tr:eq(0) > td';
+							bn_text = $(bn_xp).html().split('|');
+
+							cash = parseInt(bn_text[0].replace(/[^0-9.]/g, ''));
+							booze = parseInt(bn_text[1].replace(/[^0-9.]/g, '')); //max amount user can carry
+							narcs = parseInt(bn_text[2].replace(/[^0-9.]/g, ''));
+
+							b_amount = [0, 0, 0, 0, 0, 0, 0];
+							n_amount = [0, 0, 0, 0, 0, 0, 0]; //what is user carrying
+							var xpb = 'table.thinline > tbody > tr:eq(';
+							var xpn = 'table.thinline:eq(1) > tbody > tr:eq(';
+							for (i = 0; i <= 13; i++) { //define how much of this item is being carried
+								if (i < 7 && !lbooze) {
+									b_amount[i] = parseInt($(xpb + (i + 3) + ') > td:eq(2)').text());
+								}
+								if (i > 6 && !lnarcs) {
+									n_amount[(i - 7)] = parseInt($(xpn + (i - 4) + ') > td:eq(2)').text());
+								}
+							}
+							carry_n = n_amount.sum();
+							carry_b = b_amount.sum(); //how much is the user carrying already
+							//which item do we want?
+							key = [0, 4, 6, 1, 2, 3, 5];
+							if (sel == 0) { //Calc for Best Run
+								n = key[(bestBN[bestRun][0] - 1)]; //this trick works, even I'm amazed
+								b = key[(bestBN[bestRun][1] - 1)];
+							}
+							if (sel == 1) { //CD Run
+								for (i = 0; i <= 6; i++) {
+									nItem = parseInt(BN[0][i][(city - 4 + 2)]);
+									highNarc = ((i == 0) ? nItem : ((highNarc > nItem) ? highNarc : nItem));
+									if (highNarc == nItem) {
+										n = i;
+									}
+									bItem = parseInt(BN[1][i][(city - 4 + 2)]);
+									highBooze = ((i == 0) ? bItem : ((highBooze > bItem) ? highBooze : bItem));
+									if (highBooze == bItem) {
+										b = i;
+									}
+								}
+								n = key[n];
+								b = key[b];
+							}
+							if (sel == 2) { //RP Run
+								for (i = 0; i <= 6; i++) {
+									nItem = parseInt(BN[0][i][(city - 4 + 2)]);
+									lowNarc = ((i == 0) ? nItem : ((lowNarc < nItem) ? lowNarc : nItem));
+									if (lowNarc == nItem) {
+										n = i;
+									}
+									bItem = parseInt(BN[1][i][(city - 4 + 2)]);
+									lowBooze = ((i == 0) ? bItem : ((lowBooze < bItem) ? lowBooze : bItem));
+									if (lowBooze == bItem) {
+										b = i;
+									}
+								}
+
+								n = key[n];
+								b = key[b];
+
+								//don't fill in if we can't earn RP and AF would want to buy
+								if(!lbooze) {
+									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().search('NOW') == -1 && $('input[name="typebooze"]:eq(0)').prop('checked') == true) {
+										b = -1;
+									}
+								}
+								if(!lnarcs) {
+									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().search('NOW') == -1 && $('input[name="typedrugs"]:eq(0)').prop('checked') == true) {
+										n = -1;
+									}
+								}
+							}
+							if (sel == 3) { //None
+								n = b = -1;
+							}
+							if (document.location.search != '') { //user manual override using external Go! link
+								n = key[($.urlParam('n'))];
+								b = key[($.urlParam('b'))];
+							}
+
+							//overrule with hotkeys [ ] =
+							if(Xn) { var n = -1; }
+							if(Xb) { var b = -1; }
+
+							//we know our n and b => fill it in!
+							fillBRC(n, b, sel);
+						}
+						AF(getInfo[5]);
+
+						if(!$('#AF').length) {
+							var top = (getInfo[6] == -1) ? '-95px' : '10px';
+							$('#game_container').append(
+								$('<div>').addClass('NRinfo').attr({id: 'AF', mode: getInfo[6]}).css({'position': 'absolute', 'top': top, 'right': '10px', 'width': '100px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px 5px 2px 5px', 'border-radius': '5px'}).append(
+									$('<span>').append(
+										$('<input>').attr({id: 'brc0', type: 'radio', name: 'brc'}).click(function() {
+											AF(0);
+											try {
+												setV('brcAF', 0);
+											} catch (e) {}
+										}),
+										$('<a>').attr({id: 'a1', acceskey: '8', title: 'Fill in the most profitable b/n (Hotkey: 8 )'}).text('Best: (8)')
+									),
+									$('<span>').append(
+										$('<br />'),
+										$('<input>').attr({id: 'brc1', type: 'radio', name: 'brc'}).click(function() {
+											AF(1);
+											try {
+												setV('brcAF', 1);
+											} catch (e) {}
+										}),
+										$('<a>').attr({id: 'a2', acceskey: '9', title: 'Fill in the most expensive b/n (Hotkey: 9 )'}).text('CD: (9)')
+									),
+									$('<span>').append(
+										$('<br />'),
+										$('<input>').attr({id: 'brc2', type: 'radio', name: 'brc'}).click(function() {
+											AF(2);
+											try {
+												setV('brcAF', 2);
+											} catch (e) {}
+										}),
+										$('<a>').attr({id: 'a3', acceskey: '0', title: 'Fill in the cheapest b/n (Hotkey: 0 )'}).text('RP: (0)')
+									),
+									$('<span>').append(
+										$('<br />'),
+										$('<input>').attr({id: 'brc3', type: 'radio', name: 'brc'}).click(function() {
+											AF(3);
+											try {
+												setV('brcAF', 3);
+											} catch (e) {}
+										}),
+										$('<a>').attr({id: 'a4', acceskey: '-', title: 'Don\'t fill anything (Hotkey: - )'}).text('None: (-)')
+									),
+									$('<hr />'),
+									$('<span>').attr('title', 'Hide this!').append(
+										$('<center>').css({'text-decoration': 'underline', 'cursor': 'pointer'}).text('Auto-Fill')
+									).click(function() {
+										div = $('#AF');
+										if (div.attr('mode') == 1) { //mode 1 - visible
+											div.attr('mode', 0); //mode 0 - moving
+											div.animate({ top:"-95px" }, 500, function() {
+												div.attr('mode', -1);
+												setV('brcDiv', -1);
+											});
+										}
+										if (div.attr('mode') == -1) { //mode 1 - visible
+											div.attr('mode', 0); //mode 0 - moving
+											div.animate( { top:"10px" }, 500, function() {
+												div.attr('mode', 1);
+												setV('brcDiv', 1);
+											});
+										}
+									})
+								)
+							)
+						}
+
+						$('a#a1').attr('href', 'javascript:document.getElementById("brc0").click();');
+						$('a#a2').attr('href', 'javascript:document.getElementById("brc1").click();');
+						$('a#a3').attr('href', 'javascript:document.getElementById("brc2").click();');
+						$('a#a4').attr('href', 'javascript:document.getElementById("brc3").click();');
+
+						var getInfo = $('div#info:eq(0)').text();
+						getInfo = getInfo.split('*');
+						var mode = getInfo[5];
+
+						bn_xp = 'form > table > tbody > tr:eq(0) > td';
+						if($('#do_n').length == 0) {
+							$('#center1').append(
+								$('<span>').attr({id: 'do_n', title: 'AutoFill just narcs according to selected BRC mode (Hotkey: [ )', acceskey: '['}).css('cursor', 'pointer').text('Narcs'),
+								$('<span>').text(' | '),
+								$('<span>').attr({id: 'do_b', title: 'AutoFill just booze according to selected BRC mode (Hotkey: ] )', acceskey: ']'}).css('cursor', 'pointer').text('Booze'),
+								$('<span>').text(' | '),
+								$('<span>').attr({id: 'do_sell', title: 'Sell all you have (Hotkey: = )', acceskey: '='}).css('cursor', 'pointer').text('Sell All'),
+								$('<br />')
+							)
+						}
+						$('#do_n').click(function(){ AF(getV('brcAF', 0),0,1); });
+						$('#do_b').click(function(){ AF(getV('brcAF', 0),1,0); });
+						$('#do_sell').click(function(){ AF(4,1,1); });
+
+						$('input#brc'+getInfo[5]).prop('checked', true);
+					}
+				}
+			}
+			if (getV('bninfo', -1) > 0) { //do we have info data?
+
+//				if (getV('brcAF', 0) == 1 && prefs[18]) { //remove blue calculation texts
+//					if (db.innerHTML.search('<font color="blue">') != -1) {
+//						$del('//font[@color="blue"]');
+//					}
+//				}
+
+				//create 'unsafeDiv' to transfer data to XHR function
+				narc = getPow('bninfo', 0, -1);
+				booze = getPow('bninfo', 1, -1);
+				city = getPow('bninfo', 2, -1);
+				plane = getPow('bninfo', 3, -1);
+				fam = getPow('bninfo', 4, -1);
+
+				$('#wrapper').append(
+					$('<div>').attr('id', 'info').css('display', 'none').text(narc + '*' + booze + '*' + city + '*' + plane + '*' + fam + '*' + getV('brcAF', 0) + '*' + getV('brcDiv', 1) + '*https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png*' + lex + '*' + lexHour + '*' + lexDay)
+				)
+
+				//get all prices
+				if (on_page('prices.php') && nn == 'center') { //prices are on the page
+					for (BN = [], i = 0; i <= 1; i++) { //B/N
+						for (BN[i] = [], j = 0; j <= 6; j++) { //type
+							for (BN[i][j] = [], k = 0; k <= 7; k++) { //city
+								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, '')));
+							}
+							BN[i][j].unshift(BN[i][j].min()); //get min
+							BN[i][j].unshift(BN[i][j].max()); //get max
+						}
+					}
+					appBRC(BN);
+				} else {
+					function parsePrices(resp, url) {
+						parser = new DOMParser();
+						dom = parser.parseFromString(resp, 'application/xml');
+
+						for (BN = [], i = 0; i <= 1; i++) { //B/N
+							for (BN[i] = [], j = 0; j <= 6; j++) { //type
+								for (BN[i][j] = [], k = 0; k <= 7; k++) {
+									BN[i][j].push(parseInt(dom.getElementsByTagName((i == 0 ? (narcnames[(j + 1)]).replace('abacco', 'obacco') : boozenames[(j + 1)]).toLowerCase())[k].textContent)); //city
+								}
+								BN[i][j].unshift(BN[i][j].min()); //get min
+								BN[i][j].unshift(BN[i][j].max()); //get max
+							}
+						}
+						appBRC(BN); //send prices to BRC function
+					}
+					function grabHTML(url, func) {
+						var r = 0;
+						if (window.XMLHttpRequest) {
+							r = new XMLHttpRequest();
+						}
+						r.onreadystatechange = function () {
+							if (r.readyState == 4) {
+								if (r.status == 200) {
+									func(r.responseText, url);
+								}
+							}
+						};
+						r.open('GET', url, true);
+						r.send(null);
+					}
+					grabHTML('http://' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
+				}
+			}
+
 			if (on_page('prices.php') && nn == 'center') {
 				noBRC = false; //asume working BRC table
 				if (typeof BN == 'undefined') { //see if prices are grabbed already
