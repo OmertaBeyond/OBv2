@@ -1876,12 +1876,12 @@ if (document.getElementById('game_container') !== null) {
 
 								//don't fill in if we can't earn RP and AF would want to buy
 								if(!lbooze) {
-									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().search('NOW') == -1 && $('input[name="typebooze"]:eq(0)').prop('checked') == true) {
+									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().search('NOW') == false) {
 										b = -1;
 									}
 								}
 								if(!lnarcs) {
-									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().search('NOW') == -1 && $('input[name="typedrugs"]:eq(0)').prop('checked') == true) {
+									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().search('NOW') == false) {
 										n = -1;
 									}
 								}
