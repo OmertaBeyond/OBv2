@@ -1296,16 +1296,31 @@ if (document.getElementById('game_container') !== null) {
 			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'], i=1;
 			var wealth = ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich'];
 			var a = wealth.indexOf(wlth);
-			$('#wealth').text(kind[a])
+			$('#wealth').text(wlth+kind[a])
 
 			// Raceform
-			var rf = $('table.thinline > tbody > tr:eq('+(tr+1)+') > td:eq(1)').text();
+			var rf = $('#raceform').attr('value')
 			var driver = ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion'];
-			for (i=0;i<=10;i++) {
-				if(rf.match(driver[i]) && (rf.length == driver[i].length)) {
-					$('table.thinline > tbody > tr:eq('+(tr+1)+') > td:eq(1)').text((i+1)+' - '+rf)
-				}
-			}
+			var a = driver.indexOf(rf);
+			$('#raceform').text((a+1)+' - '+rf)
+
+			// Bust ranks
+			var bustrank = $('table.thinline > tbody > tr:eq('+(tr+2)+') > td:eq(1) > span').attr('value') // until span id is changed
+			var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'], i=1;
+			var brank = ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert'];
+			var a = brank.indexOf(bustrank);
+			$('table.thinline > tbody > tr:eq('+(tr+2)+') > td:eq(1)').text(bustrank+amount[a]) // until span id is changed
+
+//			Rookie (0-500)
+//			Novice (501-1.000)
+//			Initiate (1.001-2.500)
+//			Decent (2.501-5.000)
+//			Apprentice (5.001-10.000)
+//			Intermediate (10.001-15.000)
+//			Professional (15.001-20.000)
+//			Expert (20.001-25.000)
+//			Ultimate (25.001-27.500)
+//			Extreme Expert (27.501+)
 
 			// Actions
 			var self = ($('table.thinline > tbody > tr:eq(2) > td:eq(1) > a > span').text() == getV('nick', ''));
