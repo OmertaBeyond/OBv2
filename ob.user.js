@@ -1291,15 +1291,12 @@ if (document.getElementById('game_container') !== null) {
 			if (y == -1) { tr--; }
 			if (z == -1) { tr--; }
 
-			var wlth = $('table.thinline > tbody > tr:eq('+tr+') > td:eq(1)').text()
+			var wlth = $('#wealth').attr('value')
 
 			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'], i=1;
 			var wealth = ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich'];
-			$.each(wealth, function(x){
-				if(wlth.search(x)){
-					$('table.thinline > tbody > tr:eq('+tr+') > td:eq(1)').text(wlth+kind[i])
-				}
-			});
+			var a = wealth.indexOf(wlth);
+			$('#wealth').text(kind[a])
 
 			// Raceform
 			var rf = $('table.thinline > tbody > tr:eq('+(tr+1)+') > td:eq(1)').text();
