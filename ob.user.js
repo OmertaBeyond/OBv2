@@ -1654,7 +1654,7 @@ if (document.getElementById('game_container') !== null) {
 					// create BRC table
 					var table = $('<table>').addClass('thinline').attr('id', 'brc').css('width', '500').append(
 						$('<tr>').append(
-							$('<td>').addClass('tableheader').attr('colspan', '5').css('background-color', '#F0F0F0').text('Best Run Calculator')
+							$('<td>').addClass('tableheader').attr('colspan', '5').text('Best Run Calculator')
 						),
 						$('<tr>').append(
 							$('<td>').attr({colspan: '5', height: '1'}).css('background-color', '#000')
@@ -1763,7 +1763,7 @@ if (document.getElementById('game_container') !== null) {
 
 									tr.append(
 										$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp;').append(
-											$('<span>').attr({id: 'go'+i, n: bestNarc, b: bestBooze}).css({'font-weight': 'inherit', 'text-align': 'center', 'cursor': 'pointer'}).text('Go!').click(function () {
+											$('<span>').attr({id: 'go'+i, n: n1, b: b1}).css({'font-weight': 'inherit', 'text-align': 'center', 'cursor': 'pointer'}).text('Go!').click(function () {
 												fillBRC(parseInt($(this).attr('n'), 10), parseInt($(this).attr('b'), 10), 0)
 											})
 										)
@@ -1798,15 +1798,15 @@ if (document.getElementById('game_container') !== null) {
 						}
 					} else {
 						if($('#brc').length == 0) {
-							$('#game_container').append(
+							$('center:eq(0)').append(
 								$('<br />'),
-								$('<center>').append(table)
+								table
 							)
 						}
 					}
 					// bold-ify Best Run
 					bestRun = allProfits.lastIndexOf(allProfits.max());
-					$('table#brc > tr:eq(' + (4 + bestRun) + ')').css('font-weight', 'bold');
+					$('#brc > tbody > tr:eq(' + (3 + bestRun) + ')').css('font-weight', 'bold');
 
 					if (on_page('smuggling.php') && nn == 'center') {
 						function AF(sel,Xn,Xb) {
@@ -1876,12 +1876,12 @@ if (document.getElementById('game_container') !== null) {
 
 								//don't fill in if we can't earn RP and AF would want to buy
 								if(!lbooze) {
-									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().search('NOW') == false) {
+									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match('NOW') == null) {
 										b = -1;
 									}
 								}
 								if(!lnarcs) {
-									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().search('NOW') == false) {
+									if ($('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().match('NOW') == null) {
 										n = -1;
 									}
 								}
@@ -2329,14 +2329,20 @@ if (document.getElementById('game_container') !== null) {
 		
 			//visual fix
 			if(lnarcs) {
-				$('table.thinline:eq(1)').append(
+				$('form > table > tbody > tr:eq(1) > td:eq(1)').prepend(
 					$('<br />'),
+					$('<br />')
+				)
+				$('table.thinline:eq(1)').append(
 					$('<br />')
 				)
 			}
 			if(lbooze) {
-				$('table.thinline:eq(0)').append(
+				$('form > table > tbody > tr:eq(1) > td:eq(0)').prepend(
 					$('<br />'),
+					$('<br />')
+				)
+				$('table.thinline:eq(0)').append(
 					$('<br />')
 				)
 			}
