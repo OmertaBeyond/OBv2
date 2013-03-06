@@ -1795,10 +1795,17 @@ if (document.getElementById('game_container') !== null) {
 						}
 					} else {
 						if($('#brc').length == 0) {
-							$('center:eq(0)').append(
-								$('<br />'),
-								table
-							)
+							if($('center').length == '2') {
+								$('center:first').append(
+									$('<br />'),
+									table
+								)
+							} else {
+								$('center:eq(1)').append(
+									$('<br />'),
+									table
+								)
+							}
 						}
 					}
 					// bold-ify Best Run
