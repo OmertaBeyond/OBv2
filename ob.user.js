@@ -1704,13 +1704,15 @@ if (document.getElementById('game_container') !== null) {
 						var td = $('<td>').attr('colspan', '5').css({'border-bottom': '1px solid #000', 'heigth': '19px'});
 		
 						//--Calc profits
-						if (i == city - 4) { //This is the current city
-							td.html('<center><i>You are in '+cities[i]+'</i></center>')
+						if (i == city - 4) { // This is the current city
+							td.css('text-align', 'center');
+							td.html('<i>You are in '+cities[i]+'</i>')
 							tr.append(td);
 							allProfits.push(0);
 							bestBN.push([0, 0]);
-						} else if (plane == 0 && (((city == 6 || city == 11) && (i + 4) != 6 && (i + 4) != 11) || ((city != 6 && city != 11) && ((i + 4) == 6 || (i + 4) == 11)))) { //No plane to travel there
-							td.html('<center><i>You can\'t fly to '+cities[i]+'</i></center>')
+						} else if (plane == 0 && (((city == 6 || city == 11) && (i + 4) != 6 && (i + 4) != 11) || ((city != 6 && city != 11) && ((i + 4) == 6 || (i + 4) == 11)))) { // No plane to travel there
+							td.css('text-align', 'center');
+							td.html('<i>You can\'t fly to '+cities[i]+'</i>')
 							tr.append(td);
 							allProfits.push(0);
 							bestBN.push([0, 0]);
@@ -1757,7 +1759,8 @@ if (document.getElementById('game_container') !== null) {
 
 							//What's the result
 							if (totalProfit < 0) { //no profit :(
-								td.html('<center><i>You won\'t make any profit in '+cities[i]+'</i></center>')
+								td.css('text-align', 'center');
+								td.html('<i>You won\'t make any profit in '+cities[i]+'</i>');
 								tr.append(td);
 							} else { //profit \o/
 								td.html('&nbsp;'+cities[i])
@@ -1811,17 +1814,11 @@ if (document.getElementById('game_container') !== null) {
 						}
 					} else {
 						if($('#brc').length == 0) {
-							if($('center').length == '2') {
-								$('center:first').append(
-									$('<br />'),
-									table
-								)
-							} else {
-								$('center:eq(1)').append(
-									$('<br />'),
-									table
-								)
-							}
+							var len = $('center').length;
+							$('center:eq('+(len-2)+')').append(
+								$('<br />'),
+								table
+							)
 						}
 					}
 					// bold-ify Best Run
@@ -1967,9 +1964,7 @@ if (document.getElementById('game_container') !== null) {
 										$('<a>').attr({id: 'a4', acceskey: '-', title: 'Don\'t fill anything (Hotkey: - )'}).text('None: (-)')
 									),
 									$('<hr />'),
-									$('<span>').attr('title', 'Hide this!').append(
-										$('<center>').css({'text-decoration': 'underline', 'cursor': 'pointer'}).text('Auto-Fill')
-									).click(function() {
+									$('<span>').attr('title', 'Hide this!').css({'text-decoration': 'underline', 'cursor': 'pointer'}).text('Auto-Fill').click(function() {
 										div = $('#AF');
 										if (div.attr('mode') == 1) { //mode 1 - visible
 											div.attr('mode', 0); //mode 0 - moving
