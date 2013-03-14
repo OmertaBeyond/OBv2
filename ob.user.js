@@ -1701,27 +1701,15 @@ if (document.getElementById('game_container') !== null) {
 					)
 					// add city rows with individual profits
 					for (allProfits = [], bestBN = [], i = 0; i <= 7; i++) {
-						var tr  = $('<tr>');
-						if (on_page('prices.php') && nn == 'center') { //add HL effects here too
-							tr.attr('id', '2row'+i)
-							tr.css('background-color', '#F0F0F0')
-							tr.mouseover(function(event) {
-								$(this).css('backgroundColor', '#888');
-								$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#888');
-								if (!noBRC) {
-									$('#2row'+(k-2)).css('backgroundColor', '#888');
-								}
-							})
-							row.mouseout(function(event) {
-								$(this).css('backgroundColor', '#F0F0F0');
-								$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#F0F0F0');
-								if (!noBRC) {
-									$('#2row'+(k-2)).css('backgroundColor', '#F0F0F0');
-								}
-							})
-						}
+						var tr  = $('<tr>').attr('id', '2row'+(i+2));
+						tr.hover(function(event) {
+							$(this).css('backgroundColor', '#888');
+						}, function(event) {
+							$(this).css('backgroundColor', '#F0F0F0');
+						})
+
 						var td = $('<td>').attr('colspan', '5').css({'border-bottom': '1px solid #000', 'heigth': '19px'});
-		
+
 						//--Calc profits
 						if (i == city - 4) { // This is the current city
 							td.css('text-align', 'center');
@@ -2118,19 +2106,12 @@ if (document.getElementById('game_container') !== null) {
 								row = $('center:eq('+i+') > table > tbody > tr:eq('+(1+k)+')');
 								row.attr('id', i+'row'+k);
 								row.css('borderTop', '1px solid #000');
-								row.mouseover(function(event) {
+								row.hover(function(event) {
 									$(this).css('backgroundColor', '#888');
 									$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#888');
-									if (!noBRC) {
-										$('#2row'+(k-2)).css('backgroundColor', '#888');
-									}
-								})
-								row.mouseout(function(event) {
+								}, function(event) {
 									$(this).css('backgroundColor', '#F0F0F0');
 									$('#'+(i ? 0 : 1)+'row'+k).css('backgroundColor', '#F0F0F0');
-									if (!noBRC) {
-										$('#2row'+(k-2)).css('backgroundColor', '#F0F0F0');
-									}
 								})
 							}
 
