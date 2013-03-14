@@ -1828,12 +1828,12 @@ if (document.getElementById('game_container') !== null) {
 						if($('#brc').length == 0) {
 							$('#game_container').append(
 								$('<br />'),
-								$('<center>').append(table)
+								table
 							)
 						}
 					} else {
 						if($('#brc').length == 0) {
-							$('center:last').append(
+							$('#game_container').append(
 								$('<br />'),
 								table
 							)
@@ -2012,9 +2012,9 @@ if (document.getElementById('game_container') !== null) {
 						getInfo = getInfo.split('*');
 						var mode = getInfo[5];
 
-						bn_xp = 'form > table > tbody > tr:eq(0) > td';
+						var xp = 'form > table > tbody > tr:eq(0) > td > center';
 						if($('#do_n').length == 0) {
-							$('#center1').append(
+							$(xp).append(
 								$('<span>').attr({id: 'do_n', title: 'AutoFill just narcs according to selected BRC mode (Hotkey: [ )', acceskey: '['}).css('cursor', 'pointer').text('Narcs'),
 								$('<span>').text(' | '),
 								$('<span>').attr({id: 'do_b', title: 'AutoFill just booze according to selected BRC mode (Hotkey: ] )', acceskey: ']'}).css('cursor', 'pointer').text('Booze'),
