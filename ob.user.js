@@ -1902,12 +1902,12 @@ if (document.getElementById('game_container') !== null) {
 
 								//don't fill in if we can't earn RP and AF would want to buy
 								if(!lbooze) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match('NOW')) {
+									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match('NOW') && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
 										b = -1;
 									}
 								}
 								if(!lnarcs) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().match('NOW')) {
+									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().match('NOW') && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
 										n = -1;
 									}
 								}
@@ -2180,7 +2180,7 @@ if (document.getElementById('game_container') !== null) {
 						b_amount[i] = parseInt($(xpb + x + ') > td:eq(2)').html(), 10); //define how much of this item is being carried
 						$(xpb + x + ') > td:eq(0)').empty()
 						$(xpb + x + ') > td:eq(0)').append(
-							$('<span>').attr({id: 'bh'+i, index: i, acceskey: (i + 1), title: 'Fill in this booze (Hotkey: '+(i+1)+')'}).text((i + 1)+' '+bname).click(function() {
+							$('<span>').attr({id: 'bh'+i, index: i, acceskey: (i + 1), title: 'Fill in this booze (Hotkey: '+(i+1)+')'}).css('cursor', 'pointer').text((i + 1)+' '+bname).click(function() {
 								var i = parseInt($(this).attr('index'));
 								var inpt = $('input[type="text"]')
 								for(var j=0;j<=6;j++) {//reset form
@@ -2240,7 +2240,7 @@ if (document.getElementById('game_container') !== null) {
 						n_amount[(i - 7)] = parseInt($(xpn + x + ') > td:eq(2)').html(), 10); //define how much of this item is being carried
 						$(xpn + x + ') > td:eq(0)').empty()
 						$(xpn + x + ') > td:eq(0)').append(
-							$('<span>').attr({id: 'nh'+i, index: i, title: 'Fill in this narc'}).text(nname).click(function() {
+							$('<span>').attr({id: 'nh'+i, index: i, title: 'Fill in this narc'}).css('cursor', 'pointer').text(nname).click(function() {
 								var i = parseInt($(this).attr('index'));
 								var inpt = $('input[type="text"]')
 								for(var j=0;j<=6;j++) {//reset form
