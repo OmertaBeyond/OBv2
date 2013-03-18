@@ -1202,7 +1202,7 @@ if (document.getElementById('game_container') !== null) {
 			);
 		}
 //---------------- BulletTracker ----------------
-		if (on_page('/bullets2.php') && nn == 'br') {
+		if (on_page('/bullets2.php') && nn == 'center') {
 			var d = new Date();
 			var btdate = getV('btdate', 0);
 			if(d.getDate()>btdate){ setV('bttoday', 0); }
@@ -2106,7 +2106,7 @@ if (document.getElementById('game_container') !== null) {
 					for (j = 0; j <= 6; j++) {
 						for (k = 2; k <= 9; k++) {
 							if (j == 0) { //add mouseover effects
-								row = $('center:eq('+i+') > table > tbody > tr:eq('+(1+k)+')');
+								row = $('center:eq('+i+') > table > tbody > tr:eq('+(k+1)+')');
 								row.attr('id', i+'row'+k);
 								row.css('borderTop', '1px solid #000');
 								row.hover(function(event) {
@@ -2118,7 +2118,7 @@ if (document.getElementById('game_container') !== null) {
 								})
 							}
 
-							item = $('center:eq('+i+') > table > tbody > tr:eq('+(1+k)+') > td:eq('+(1+j)+')');
+							item = $('center:eq('+i+') > table > tbody > tr:eq('+(k+1)+') > td:eq('+(j+1)+')');
 							item.css({'borderTop': '1px solid #000', 'text-align': 'center', 'width': '12%'});
 							if (!(j % 2)) { //add colors to rows
 								item.css('backgroundColor', '#B0B0B0');
