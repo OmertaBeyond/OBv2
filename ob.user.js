@@ -2382,6 +2382,53 @@ if (document.getElementById('game_container') !== null) {
 				$('input#ver').focus(); //focus captcha field
 			}
 		}
+//---------------- Garage ----------------
+		if (on_page('garage.php') && nn == 'h2') {
+			var rows = $('table.thinline > tbody > tr').length;
+			var totVal = 0;
+			var types = [['h', 8, 9, 13, 15, 16, 17, 18, 19, 21, 22, 27, 32, 34, 35, 40, 43], ['oc', 23, 25, 26, 28, 29, 30, 31, 33, 39, 41, 42], ['moc', 45, 47, 48], ['tr', 23, 47, 54]];
+			$('tr.thinline').each(function() { //loop rows
+				var carType = '';
+				var carid = $(this).find('td:eq(0)').text();
+				var car = $(this).find('td:eq(1)').find('a').attr('href').match(/\d*$/);
+				var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', '')); //get value
+				totVal += carVal;
+				$(this).click(function() {
+					var check = $(this).find('input[value="'+carid+'"]');
+					if(check.prop('checked') === false) {
+						check.prop('checked', true)
+					} else {
+						check.prop('checked', false)
+					}
+				})
+				$(this).find('input[value="'+carid+'"]').click(function() {
+					if($(this).prop('checked') === false) {
+						$(this).prop('checked', true)
+					} else {
+						$(this).prop('checked', false)
+					}
+				})
+			})
+			//add amount of bullets
+			var head = $('h2');
+			var cars = head.text().match(/\d+/g)[2];
+			if(cars>0){
+				head.append(
+					$('<span>').text(' | Potential Bullets: '+cars*12)
+				)
+			}
+			//add amount of money
+			if(totVal>0){
+				head.append(
+					$('<span>').text(' | Total car value of this page: $'+commafy(totVal))
+				)
+			}
+			if(window.innerWidth>1024) {
+				$('center').append(
+					$('<div>').attr({id: 'footer'}).css({'position': 'fixed', 'bottom': '0px', 'background': '#F0F0F0', 'border': '1px solid black', 'width': '70%'}).html('<br />'+$('tr:eq('+(rows-1)+')').html())
+				)
+			}
+		}
 	}, true);
 }
 
