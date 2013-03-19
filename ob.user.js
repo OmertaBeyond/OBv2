@@ -21,6 +21,7 @@
 // @encoding            UTF-8
 // @priority            1
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+// @resource	css		https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
 // @resource    prev    https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
