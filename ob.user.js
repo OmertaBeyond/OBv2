@@ -411,36 +411,33 @@ if (document.getElementById('game_container') !== null) {
 							)
 						)
 					);
-				}, 0);
 
-				var deaths_body = $('table.thinline:eq(2)').find('tbody');
-				if (data['deaths']) {
-					$.each(data['deaths'], function(k, v) {
-						var extra = (v['Akill'] == 1)?'(<b>A</b>) ':(v['BF'] == 1)?'(<b>BF</b>) ':'';
-
+					var deaths_body = $('table.thinline:eq(2)').find('tbody');
+					if (data['deaths']) {
+						$.each(data['deaths'], function(k, v) {
+							var extra = (v['Akill'] == 1)?'(<b>A</b>) ':(v['BF'] == 1)?'(<b>BF</b>) ':'';
+							deaths_body.append(
+								$('<tr>').append(
+									$('<td>').html(extra).append(
+										$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
+									),
+									$('<td>').attr('align', 'center').append(
+										$('<a>').attr('href', OB_STATS_WEBSITE + '/history.php?v=com&name=' + v['Name']).text(v['Rank'])
+									),
+									$('<td>').attr('align', 'center').text(v['Date']),
+									$('<td>').css('text-align', 'right').text(v['Agod'] + 'd ' + v['Agoh'] + 'h ' + v['Agom'] + 'm')
+								)
+							);
+						});
+					} else {
 						deaths_body.append(
 							$('<tr>').append(
-								$('<td>').html(extra).append(
-									$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
-								),
-								$('<td>').attr('align', 'center').append(
-									$('<a>').attr('href', OB_STATS_WEBSITE + '/history.php?v=com&name=' + v['Name']).text(v['Rank'])
-								),
-								$('<td>').attr('align', 'center').text(v['Date']),
-								$('<td>').css('text-align', 'right').text(v['Agod'] + 'd ' + v['Agoh'] + 'h ' + v['Agom'] + 'm')
+								$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '4').text('There are no deaths yet!')
 							)
 						);
-					});
-				} else {
-					deaths_body.append(
-						$('<tr>').append(
-							$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '4').text('There are no deaths yet!')
-						)
-					);
-				}
+					}
 
-				// add Famlog
-				setTimeout(function () {
+					// add Famlog
 					$('table.thinline:eq(1)').closest('td').append(
 						$('<br />'),
 						$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
@@ -462,25 +459,25 @@ if (document.getElementById('game_container') !== null) {
 							)
 						)
 					);
-				}, 0);
 
-				var changes_body = $('table.thinline:eq(3)').find('tbody');
-				if (data['changes']) {
-					$.each(data['changes'], function(k, v) {
+					var changes_body = $('table.thinline:eq(3)').find('tbody');
+					if (data['changes']) {
+						$.each(data['changes'], function(k, v) {
+							changes_body.append(
+								$('<tr>').append(
+									$('<td>').css('width', '28%').attr('align', 'left').attr('valign', 'top').text(v['date']),
+									$('<td>').attr('align', 'left').text(v['text'])
+								)
+							);
+						});
+					} else {
 						changes_body.append(
 							$('<tr>').append(
-								$('<td>').css('width', '28%').attr('align', 'left').attr('valign', 'top').text(v['date']),
-								$('<td>').attr('align', 'left').text(v['text'])
+								$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '2').text('There are no changes yet!')
 							)
 						);
-					});
-				} else {
-					changes_body.append(
-						$('<tr>').append(
-							$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '2').text('There are no changes yet!')
-						)
-					);
-				}
+					}
+				}, 0);
 			});
 		} // end of family page
 
