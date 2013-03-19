@@ -732,7 +732,7 @@ if (document.getElementById('game_container') !== null) {
 				$('tr[class*="color"]').each(function() {
 					var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).children('td:eq(0)').append(
-						$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('delete'), title: 'Delete'}).css('cursor', 'pointer').click(function() {
+						$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('delete'), title: 'Delete'}).click(function() {
 							delMsg('id', id)
 						})
 					);
@@ -1183,7 +1183,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			$('#game_container').append(
-				$('<div>').addClass('NRinfo').attr('id', 'info').css({'position': 'absolute', 'bottom': '10px', 'right': '10px', 'width': '200px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
+				$('<div>').addClass('NRinfo').attr('id', 'info').append(
 					$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
 					$('<hr>').css({'color': 'gray'}),
 					$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
@@ -1234,7 +1234,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			if($('#game_container > div').attr('id') != 'btinfo') {
 				$('#game_container').append(
-					$('<div>').addClass('NRinfo').attr({id: 'btinfo', mode: btmode}).css({'position': 'absolute', 'bottom': '10px', 'right': '10px', 'width': '200px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px', 'border-radius': '5px'}).append(
+					$('<div>').addClass('NRinfo').attr({id: 'btinfo', mode: btmode}).append(
 						$('<center>').text('BulletTracker').css('font-weight', 'bold').click(function() {
 							div = $('#btinfo');
 							if (div.attr('mode') == 1) { //mode 1 - visible
@@ -1936,7 +1936,7 @@ if (document.getElementById('game_container') !== null) {
 						if(!$('#AF').length) {
 							var top = (getInfo[6] == -1) ? '-95px' : '10px';
 							$('#game_container').append(
-								$('<div>').addClass('NRinfo').attr({id: 'AF', mode: getInfo[6]}).css({'position': 'absolute', 'top': top, 'right': '10px', 'width': '100px', 'color': '#FFF', 'box-shadow': '2px 2px 2px 2px #1b1b1b', 'background-image': '-moz-linear-gradient(center top , #3F505F, #1B1B1B)', 'border': '2px double gray', 'opacity': '0.90', 'padding': '5px 5px 2px 5px', 'border-radius': '5px'}).append(
+								$('<div>').addClass('BRCinfo').attr({id: 'AF', mode: getInfo[6]}).css('top', top).append(
 									$('<span>').append(
 										$('<input>').attr({id: 'brc0', type: 'radio', name: 'brc'}).click(function() {
 											AF(0);
@@ -2516,3 +2516,5 @@ $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href
 
 // Replace Omerta's logo
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
+
+GM_addStyle(GM_getResourceText('css'));
