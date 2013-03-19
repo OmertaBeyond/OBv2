@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                06-03-2013
+// @date                19-03-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -27,6 +27,7 @@
 // @resource    next    https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png
 // @resource    reply   https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
 // @resource    delete  https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
+// @resource    log		https://raw.github.com/OmertaBeyond/OBv2/master/images/changelog.png
 // @include             http://*.omerta3.com/*
 // @include             http://omerta3.com/*
 // @include             http://*.barafranca.com/*
