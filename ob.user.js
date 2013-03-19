@@ -48,6 +48,7 @@ const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const v = 'com';
+const cur_v = '4.0';
 const RAID_SPOTS_CORDS = {
 	'Detroit': {
 		'Car Lot (Thunderbolt)': 'F3',
@@ -386,29 +387,31 @@ if (document.getElementById('game_container') !== null) {
 				/*
 				 * Family deaths
 				 */
-				$('table.thinline:eq(1)').closest('td').append(
-					$('<br />'),
-					$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
-						$('<tr>').append(
-							$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family deaths').append(
-								$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
-									$('<a>').attr('href', OB_NEWS_WEBSITE + '/deathslog/' + famid).attr('target', '_blank').append(
-										$('<img>').addClass('brcImg').attr('title', 'View full deathslog')
+				setTimeout(function () {
+					$('table.thinline:eq(1)').closest('td').append(
+						$('<br />'),
+						$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
+							$('<tr>').append(
+								$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family deaths').append(
+									$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
+										$('<a>').attr('href', OB_NEWS_WEBSITE + '/deathslog/'+cur_v+'/' + famid).attr('target', '_blank').append(
+											$('<img>').addClass('brcImg').attr({src: GM_getResourceURL('log'), title: 'View full deathslog'})
+										)
 									)
 								)
+							),
+							$('<tr>').append(
+								$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
+							),
+							$('<tr>').append(
+								$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Name'),
+								$('<td>').addClass('bold').attr('align', 'center').text('Rank'),
+								$('<td>').addClass('bold').attr('align', 'center').text('Date'),
+								$('<td>').addClass('bold').css('text-align', 'right').text('Ago')
 							)
-						),
-						$('<tr>').append(
-							$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
-						),
-						$('<tr>').append(
-							$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Name'),
-							$('<td>').addClass('bold').attr('align', 'center').text('Rank'),
-							$('<td>').addClass('bold').attr('align', 'center').text('Date'),
-							$('<td>').addClass('bold').css('text-align', 'right').text('Ago')
 						)
-					)
-				);
+					);
+				}, 0);
 
 				var deaths_body = $('table.thinline:eq(2)').find('tbody');
 				if (data['deaths']) {
@@ -437,27 +440,29 @@ if (document.getElementById('game_container') !== null) {
 				}
 
 				// add Famlog
-				$('table.thinline:eq(1)').closest('td').append(
-					$('<br />'),
-					$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
-						$('<tr>').append(
-							$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family changes').append(
-								$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
-									$('<a>').attr('href', OB_NEWS_WEBSITE + '/famlog/' + famid).attr('target', '_blank').append(
-										$('<img>').addClass('brcImg').attr('title', 'View full changelog')
+				setTimeout(function () {
+					$('table.thinline:eq(1)').closest('td').append(
+						$('<br />'),
+						$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
+							$('<tr>').append(
+								$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family changes').append(
+									$('<div>').css({'float': 'right', 'margin-right': '5px', 'margin-top': '3px'}).append(
+										$('<a>').attr('href', OB_NEWS_WEBSITE + '/famlog/'+cur_v+'/' + famid).attr('target', '_blank').append(
+											$('<img>').addClass('brcImg').attr({src: GM_getResourceURL('log'), title: 'View full changelog'})
+										)
 									)
 								)
+							),
+							$('<tr>').append(
+								$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
+							),
+							$('<tr>').append(
+								$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Date'),
+								$('<td>').addClass('bold').attr('align', 'left').text('Change')
 							)
-						),
-						$('<tr>').append(
-							$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
-						),
-						$('<tr>').append(
-							$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Date'),
-							$('<td>').addClass('bold').attr('align', 'left').text('Change')
 						)
-					)
-				);
+					);
+				}, 0);
 
 				var changes_body = $('table.thinline:eq(3)').find('tbody');
 				if (data['changes']) {
