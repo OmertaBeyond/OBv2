@@ -185,6 +185,24 @@ $.urlParam = function(name){
     var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
     return results[1] || 0;
 };
+$.fn.isVisible = function(){
+    
+    var win = $(window);
+    
+    var viewport = {
+        top : win.scrollTop(),
+        left : win.scrollLeft()
+    };
+    viewport.right = viewport.left + win.width();
+    viewport.bottom = viewport.top + win.height();
+    
+    var bounds = this.offset();
+    bounds.right = bounds.left + this.outerWidth();
+    bounds.bottom = bounds.top + this.outerHeight();
+    
+    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+    
+};
 function voteNow(save) {
 	$('a[name="forticket"]').each(function() {
 		window.open(this);
@@ -2427,9 +2445,15 @@ if (document.getElementById('game_container') !== null) {
 					$('<span>').text(' | Total car value of this page: $'+commafy(totVal))
 				)
 			}
+			// show footerdiv only when last tr is not visible
+			$('#game_container').scroll(function() {
+				if($('tr:eq('+(rows-1)+')').isVisible()) { $('#footer').css('display', 'none') }
+				if(!$('tr:eq('+(rows-1)+')').isVisible()) { $('#footer').css('display', 'block') }
+			});
+			// add footerdiv only window is bigger then 1024px
 			if(window.innerWidth>1024) {
 				$('center').append(
-					$('<div>').attr({id: 'footer'}).css({'position': 'fixed', 'bottom': '0px', 'background': '#F0F0F0', 'border': '1px solid black', 'width': '70%'}).html('<br />'+$('tr:eq('+(rows-1)+')').html())
+					$('<div>').attr({id: 'footer'}).css({'position': 'fixed', 'bottom': '0px', 'background': '#F0F0F0', 'border': '1px solid black', 'width': '70%', 'color': '#000'}).html($('tr:has(input[name="shipcity"])').html())
 				)
 			}
 		}
