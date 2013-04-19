@@ -2404,6 +2404,13 @@ if (document.getElementById('game_container') !== null) {
 				$('input#ver').focus(); //focus captcha field
 			}
 		}
+//---------------- Crimes ----------------
+		if (on_page('module=Crimes') && nn == 'br') {
+			setTimeout(function () {
+				$('input.option:last').prop('checked', true);
+			},100);
+		}
+
 //---------------- Garage ----------------
 		if (on_page('garage.php') && nn == 'h2') {
 			var rows = $('table.thinline > tbody > tr').length;
