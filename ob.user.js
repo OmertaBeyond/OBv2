@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                19-03-2013
+// @date                09-05-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -48,8 +48,9 @@ const OB_WEBSITE = 'http://www.omertabeyond.com';
 const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
+const OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 const v = 'com';
-const cur_v = '4.0';
+const cur_v = '4.01';
 const RAID_SPOTS_CORDS = {
 	'Detroit': {
 		'Car Lot (Thunderbolt)': 'F3',
@@ -2387,7 +2388,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 		
 			//create more efficient info text
-			var str = $('<center>'). append(
+			var str = $('<center>').append(
 				$('<table>').append(
 					$('<tr>').append(
 						$('<td>').text('Pocket: $ '+commafy(cash)+' |'),
@@ -2409,6 +2410,57 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('input.option:last').prop('checked', true);
 			},100);
+		}
+//---------------- Obay ----------------
+		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
+			$('table.thinline:eq(2) > thead > tr').each(function() {
+				if($(this).attr('class') != 'tableitem') { //this row does not have an object, but needs adjusted colspan
+					var sorting = (on_page('type=all'))?1:0; //are we sorting at all?
+					$(this).html($(this).html().replace('colspan="'+(sorting?5:6)+'"','colspan="'+(sorting?6:7)+'"'));
+				} else { //this row needs another collumn alltogether
+					var bet = $('<td>');
+					bet.html('Bet');
+					$(this).append(bet);
+				}
+			});
+			$('table.thinline:eq(2) > tbody > tr').each(function() {
+				if(['one','two','three'].indexOf($(this).attr('class')) > -1) { //this row has an object
+					var sort_b = (on_page('type=11'))?1:0; //are we sorting on bullets?
+					$(this).attr('onclick', '');
+					//add price per bullets
+					if($(this).text().indexOf('bullets') != -1) {
+						var bullets = parseInt($(this).find('td:eq('+(2-sort_b)+')').text().replace(/[^0-9.]/g, ''), 10);
+						var money = parseInt($(this).find('td:eq('+(3-sort_b)+')').text().replace(/[^0-9.]/g, ''), 10);
+						var ppb = parseInt(money/bullets, 10);
+						$(this).find('td:eq('+(2-sort_b)+')').text($(this).find('td:eq('+(2-sort_b)+')').text()+' ($'+commafy(ppb)+')')
+					}
+					//add fast bid link
+					var id = $(this).find('a').attr('href').split('=')[1];
+					var bettd = $('<td>');
+					bettd.css('cursor', 'pointer');
+					bettd.html('<form id="form'+id+'" method="post" style="display:none;" action="obay.php"><input type="hidden" value="" name="k"><input type="hidden" value="'+id+'" name="specific" /><input type="hidden" value="" name="bid" id="bid'+id+'" /><input type="hidden" value="0" name="anon" /></form>Bid');
+					bettd.click(function() {
+						$.get('/obay.php?specific='+id, function(data) {
+							$('#wrapper').append(
+								$('<div>').css('display', 'none').attr('id', 'xhr').html(data)
+							)
+							if($('div#xhr')) {
+								var minbid = $('div#xhr > center > form > input[name="bid"]').attr('value');
+								$('#bid'+id).attr('value', minbid);
+								$('#form'+id).submit();
+							}
+						});
+					});
+					$(this).append(bettd);
+				} else if($(this).attr('class') != 'tableitem') { //this row does not have an object, but needs adjusted colspan
+					var sorting = (on_page('type=all'))?1:0; //are we sorting at all?
+					$(this).html($(this).html().replace('colspan="'+(sorting?5:6)+'"','colspan="'+(sorting?6:7)+'"'));
+				}
+			})
+		}
+		if (on_page('obay.php?specific=') && nn == 'center') {
+			$('input#anon:first').prop('checked', 'checked');
+			$('input[type="submit"]').focus()
 		}
 
 //---------------- Garage ----------------
@@ -2454,8 +2506,11 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// show footerdiv only when last tr is not visible
 			$('#game_container').scroll(function() {
-				if($('tr:eq('+(rows-1)+')').isVisible()) { $('#footer').css('display', 'none') }
-				if(!$('tr:eq('+(rows-1)+')').isVisible()) { $('#footer').css('display', 'block') }
+				if($('#game_container').find('tr:eq('+(rows-1)+')').isVisible()) {
+					$('#footer').css('display', 'none');
+				} else {
+					$('#footer').css('display', 'block');
+				}
 			});
 			// add footerdiv only window is bigger then 1024px
 			if(window.innerWidth>1024) {
@@ -2484,6 +2539,9 @@ $('#game_menu').one('DOMNodeInserted', function() {
 		$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Preferences').click(function() {
 			$('#game_container').empty();
 			$('#game_container').append(prefs_page);
+		}),
+		$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Live Famstats').click(function() {
+			window.open(OB_RIX_WEBSITE + '/stats.php?v=com&d=n');
 		})
 	);
 
