@@ -187,7 +187,7 @@ function GetParam(name) {
     var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
     return results[1] || 0;
 }
-$.fn.isVisible = function(){
+function isVisible(node) {
     
     var win = $(window);
     
@@ -198,13 +198,13 @@ $.fn.isVisible = function(){
     viewport.right = viewport.left + win.width();
     viewport.bottom = viewport.top + win.height();
     
-    var bounds = this.offset();
-    bounds.right = bounds.left + this.outerWidth();
-    bounds.bottom = bounds.top + this.outerHeight();
+    var bounds = node.offset();
+    bounds.right = bounds.left + node.outerWidth();
+    bounds.bottom = bounds.top + node.outerHeight();
     
     return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
     
-};
+}
 function voteNow(save) {
 	$('a[name="forticket"]').each(function() {
 		window.open(this);
@@ -2507,7 +2507,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// show footerdiv only when last tr is not visible
 			$('#game_container').scroll(function() {
-				if($('#game_container').find('tr:eq('+(rows-1)+')').isVisible()) {
+				if(isVisible($('#game_container').find('tr:eq('+(rows-1)+')'))) {
 					$('#footer').css('display', 'none');
 				} else {
 					$('#footer').css('display', 'block');
