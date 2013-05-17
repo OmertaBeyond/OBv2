@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                09-05-2013
+// @date                17-05-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -182,10 +182,11 @@ function setV(name, value) {
 function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
 }
-$.urlParam = function(name){
+
+function GetParam(name) {
     var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
     return results[1] || 0;
-};
+}
 $.fn.isVisible = function(){
     
     var win = $(window);
@@ -1025,12 +1026,12 @@ if (document.getElementById('game_container') !== null) {
 //---------------- All users ----------------
 		if (on_page('/allusers.php') && nn == 'div') {
 			//add pagenumber
-			var page = $.urlParam('start');
+			var page = GetParam('start');
 			page = (page/15)+1;
 			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').text('Page: '+page));
 
 			//edit show/hide dead link
-			var dead = $.urlParam('dead');
+			var dead = GetParam('dead');
 			if(dead !== null) {
 				var url = wlh.replace('#', '');
 				var hs = (dead == 'HIDE') ? 'SHOW' : 'HIDE';
@@ -1939,8 +1940,8 @@ if (document.getElementById('game_container') !== null) {
 								n = b = -1;
 							}
 							if (document.location.search != '') { //user manual override using external Go! link
-								n = key[($.urlParam('n'))];
-								b = key[($.urlParam('b'))];
+								n = key[(GetParam('n'))];
+								b = key[(GetParam('b'))];
 							}
 
 							//overrule with hotkeys [ ] =
