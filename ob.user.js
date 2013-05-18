@@ -385,6 +385,60 @@ if (document.getElementById('game_container') !== null) {
 					$('table.thinline:eq(0) > tbody > tr:last > td:last').css({'background-image': '-moz-linear-gradient(left, #CCCCCC '+rankperc+', #F0F0F0 '+rankperc+')'})
 				}
 
+				// get tops
+				var tops = [];
+				var anchors = $('table.thinline:eq(0) > tbody > tr > td:has(a)').each(function() {
+					tops.push($(this).text());
+				});
+
+				var nTop = tops.length; //# tops
+				var SorC = (nTop == 3) ? 2 : /Consi/.test($('table.thinline:eq(0) > tbody > tr:eq(7) > td:first').text());//Sotto or Consi
+				var don = $.trim(tops[0]);
+				var sotto = (nTop > 1 && (nTop == 3 || SorC == 0)) ? tops.pop() : null;
+				var cons = (nTop > 1 && (nTop == 3 || SorC == 1)) ? tops.pop() : null;
+
+				//get capos
+				var capos = [];
+				var anchors = $('table.thinline:last > tbody > tr > td > a.tableheader').each(function() {
+					capos.push($(this).text());
+				});
+				
+				//get objectowners
+				var objects = [];
+				var anchors = $('table.thinline:eq(2) > tbody > tr > td:has(a)').each(function() {
+					objects.push($(this).text());
+				});
+				
+				//get spotowners
+				var spots = [];
+				var anchors = $('table.thinline:eq(3) > tbody > tr > td:has(a)').each(function() {
+					spots.push($(this).text());
+				});
+
+				$('a[href*="user.php"]').each(function() {
+					var n = $(this).text();//nick
+					var color = 'blue';//default online color
+					var vip = tPos = '';
+					if (n == don) { $(this).html('<u>'+n+'</u><small><sup>[D]</sup></small>'); color = 'red'; vip='[D]'; }
+					if (n == sotto) { $(this).html('<u>'+n+'</u><small><sup>[S]</sup></small>'); color = 'red'; vip='[S]'; }
+					if (n == cons) { $(this).html('<u>'+n+'</u><small><sup>[C]</sup></small>'); color = 'red'; vip='[C]'; }
+					if ($.inArray(n, capos) != -1) { $(this).html('<u>'+n+'</u><small><sup>'+vip+'(c)</sup></small>'); color = (tPos?'red':'orange'); vip = vip+'(c)'; }
+					if ($.inArray(n, objects) != -1) {
+						$(this).html((vip==''?'<u>':'')+n+(vip==''?'</u>':'')+'<small><sup>'+vip+'(o)</sup></small>');
+						vip = vip+'(o)';
+						if (vip == '') {
+							color = 'green';
+						}
+					}
+					if ($.inArray(n, spots) != -1) {
+						$(this).html((vip==''?'<u>':'')+n+(vip==''?'</u>':'')+'<small><sup>'+vip+'(s)</sup></small>');
+						vip = vip+'(s)';
+						if (vip == '') {
+							color = 'purple';
+						}
+					}
+				});
+					
 				// add HR
 				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
