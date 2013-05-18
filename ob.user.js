@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                17-05-2013
+// @date                18-05-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2518,6 +2518,42 @@ if (document.getElementById('game_container') !== null) {
 				$('center').append(
 					$('<div>').attr({id: 'footer'}).css({'position': 'fixed', 'bottom': '0px', 'background': '#F0F0F0', 'border': '1px solid black', 'width': '70%', 'color': '#000'}).html($('tr:has(input[name="shipcity"])').html())
 				)
+			}
+		}
+
+//---------------- quick lookup ----------------
+		if (on_page('user.php') && nn == 'span') {
+			var input = GetParam('nick');
+			if($('#game_container').find('This user does not exist') != -1 && input != false){
+				setTimeout(function () { //needed because $.get only works on same domain
+					GM_xmlhttpRequest({ //grab data from xml
+						method: 'GET',
+						url: 'http://rix.omertabeyond.com/obxml/quicklookup.xml.php?v='+v+'&input='+input,
+						onload: function(resp){
+							var parser = new DOMParser();
+							var xml = parser.parseFromString(resp.responseText, 'application/xml');
+							var total = xml.getElementsByTagName('totalresults')[0].textContent;
+								$('#game_container').html('This user does not exist: '+input);
+							if(input.length<3){
+								$('#game_container').html('This user does not exist:<br />This will give too many results. Try to be more specific.');
+							}
+							else if(total!='0'){
+								$('#game_container').html((total<=50)?'This user does not exist:<br />Maybe this is what you were looking for:<br />':'This user does not exist:<br />Maybe this is what you were looking for:<br />Total results: '+total+' Showing first 50 results<br />');
+								var num = (total<=50)?total:50;
+								for(var i=0;i<num;i++){
+									var results = xml.getElementsByTagName('name')[i].textContent;
+									$('#game_container').html($('#game_container').html()+'<br /><a href="user.php?nick='+results+'" id="'+i+'" class="sel">'+results+'</a>');
+								}
+								$('#0').focus();
+								var j = 0;
+								$(window).keydown(function(event){ if(event.keyCode == 40) { if(j<num-1) { j++; $('#'+j).focus(); } } });
+								$(window).keydown(function(event){ if(event.keyCode == 38) { if(j!=0) { j--; $('#'+j).focus(); } } });
+							} else {
+								$('#game_container').html('This user does not exist:<br />Sorry, we also couldn\'t find any alternatives.');
+							}
+						}
+					});
+				},0);
 			}
 		}
 	}, true);
