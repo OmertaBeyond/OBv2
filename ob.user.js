@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                18-05-2013
+// @date                19-05-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2578,7 +2578,7 @@ if (document.getElementById('game_container') !== null) {
 //---------------- quick lookup ----------------
 		if (on_page('user.php') && nn == 'span') {
 			var input = GetParam('nick');
-			if($('#game_container').find('This user does not exist') != -1 && input != false){
+			if($('#game_container:contains(This user does not exist)').length && input != false){
 				setTimeout(function () { //needed because $.get only works on same domain
 					GM_xmlhttpRequest({ //grab data from xml
 						method: 'GET',
