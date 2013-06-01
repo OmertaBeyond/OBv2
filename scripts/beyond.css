@@ -54,7 +54,7 @@
 }
 .BRCinfo {
 	position: absolute;
-	right: 10px;
+	left: 15%;
 	width: 100px;
 	color: #FFF;
 	box-shadow: 2px 2px 2px 2px #1b1b1b;

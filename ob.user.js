@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                19-05-2013
+// @date                01-06-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2115,7 +2115,7 @@ if (document.getElementById('game_container') !== null) {
 				plane = getPow('bninfo', 3, -1);
 				fam = getPow('bninfo', 4, -1);
 
-				$('#wrapper').append(
+				$('#game_wrapper').append(
 					$('<div>').attr('id', 'info').css('display', 'none').text(narc + '*' + booze + '*' + city + '*' + plane + '*' + fam + '*' + getV('brcAF', 0) + '*' + getV('brcDiv', 1) + '*https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png*' + lex + '*' + lexHour + '*' + lexDay)
 				)
 
@@ -2468,20 +2468,9 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- Obay ----------------
 		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
-			$('table.thinline:eq(2) > thead > tr').each(function() {
-				if($(this).attr('class') != 'tableitem') { //this row does not have an object, but needs adjusted colspan
-					var sorting = (on_page('type=all'))?1:0; //are we sorting at all?
-					$(this).html($(this).html().replace('colspan="'+(sorting?5:6)+'"','colspan="'+(sorting?6:7)+'"'));
-				} else { //this row needs another collumn alltogether
-					var bet = $('<td>');
-					bet.html('Bet');
-					$(this).append(bet);
-				}
-			});
 			$('table.thinline:eq(2) > tbody > tr').each(function() {
 				if(['one','two','three'].indexOf($(this).attr('class')) > -1) { //this row has an object
 					var sort_b = (on_page('type=11'))?1:0; //are we sorting on bullets?
-					$(this).attr('onclick', '');
 					//add price per bullets
 					if($(this).text().indexOf('bullets') != -1) {
 						var bullets = parseInt($(this).find('td:eq('+(2-sort_b)+')').text().replace(/[^0-9.]/g, ''), 10);
@@ -2489,27 +2478,6 @@ if (document.getElementById('game_container') !== null) {
 						var ppb = parseInt(money/bullets, 10);
 						$(this).find('td:eq('+(2-sort_b)+')').text($(this).find('td:eq('+(2-sort_b)+')').text()+' ($'+commafy(ppb)+')')
 					}
-					//add fast bid link
-					var id = $(this).find('a').attr('href').split('=')[1];
-					var bettd = $('<td>');
-					bettd.css('cursor', 'pointer');
-					bettd.html('<form id="form'+id+'" method="post" style="display:none;" action="obay.php"><input type="hidden" value="" name="k"><input type="hidden" value="'+id+'" name="specific" /><input type="hidden" value="" name="bid" id="bid'+id+'" /><input type="hidden" value="0" name="anon" /></form>Bid');
-					bettd.click(function() {
-						$.get('/obay.php?specific='+id, function(data) {
-							$('#wrapper').append(
-								$('<div>').css('display', 'none').attr('id', 'xhr').html(data)
-							)
-							if($('div#xhr')) {
-								var minbid = $('div#xhr > center > form > input[name="bid"]').attr('value');
-								$('#bid'+id).attr('value', minbid);
-								$('#form'+id).submit();
-							}
-						});
-					});
-					$(this).append(bettd);
-				} else if($(this).attr('class') != 'tableitem') { //this row does not have an object, but needs adjusted colspan
-					var sorting = (on_page('type=all'))?1:0; //are we sorting at all?
-					$(this).html($(this).html().replace('colspan="'+(sorting?5:6)+'"','colspan="'+(sorting?6:7)+'"'));
 				}
 			})
 		}
