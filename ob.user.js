@@ -49,7 +49,6 @@ const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-const v = 'com';
 const cur_v = '4.01';
 const RAID_SPOTS_CORDS = {
 	'Detroit': {
@@ -147,7 +146,30 @@ const RAID_SPOTS_CORDS = {
 		'Lawyers Office': 'F6'
 	}
 };
+function whatV(hostname) {
+	switch (hostname || window.location.hostname) {
+		case 'www.omerta3.com':
+		case 'omerta3.com':
+		case 'www.barafranca.com':
+		case 'barafranca.com':
+		case 'www.barafranca.us':
+		case 'barafranca.us':
+			return 'com';
+		case 'deathmatch.barafranca.com':
+		case 'dm.barafranca.com':
+			return 'dm';
+		case 'www.barafranca.nl':
+		case 'barafranca.nl':
+			return 'nl';
+		case 'www.barafranca.gen.tr':
+		case 'barafranca.gen.tr':
+			return 'tr';
+		default:
+			return undefined;
+	}
+}
 
+var v = whatV();
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
 var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
@@ -182,28 +204,25 @@ function setV(name, value) {
 function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
 }
-
 function GetParam(name) {
     var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
     return results[1] || 0;
 }
 function isVisible(node) {
-    
-    var win = $(window);
-    
-    var viewport = {
-        top : win.scrollTop(),
-        left : win.scrollLeft()
-    };
-    viewport.right = viewport.left + win.width();
-    viewport.bottom = viewport.top + win.height();
-    
-    var bounds = node.offset();
-    bounds.right = bounds.left + node.outerWidth();
-    bounds.bottom = bounds.top + node.outerHeight();
-    
-    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-    
+	var win = $(window);
+
+	var viewport = {
+		top : win.scrollTop(),
+		left : win.scrollLeft()
+	};
+	viewport.right = viewport.left + win.width();
+	viewport.bottom = viewport.top + win.height();
+
+	var bounds = node.offset();
+	bounds.right = bounds.left + node.outerWidth();
+	bounds.bottom = bounds.top + node.outerHeight();
+
+	return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
 }
 function voteNow(save) {
 	$('a[name="forticket"]').each(function() {
@@ -326,7 +345,6 @@ function bnUpdate(current){
 * Main game listener
 */
 
-
 if (document.getElementById('game_container') !== null) {
 	document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
 		if (event.target.nodeType != 1) {
@@ -342,7 +360,7 @@ if (document.getElementById('game_container') !== null) {
 		var nn  = event.target.tagName.toLowerCase();
 		var nid  = event.target.getAttribute('id');
 
-		if (on_page('family.php') && nn == 'center') {
+		if (on_page('family.php') && nn == 'center' && v === 'com') {
 
 			// add HR, Deaths and Worth
 			var famid = wlh.split('=')[1];
