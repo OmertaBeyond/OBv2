@@ -2611,7 +2611,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 			$('#game_container').append(prefs_page);
 		}),
 		$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Live Famstats').click(function() {
-			window.open(OB_RIX_WEBSITE + '/stats.php?v=com&d=n');
+			window.open(OB_RIX_WEBSITE + '/stats.php?v='+v+'&d=n');
 		})
 	);
 
