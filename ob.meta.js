@@ -29,10 +29,14 @@
 // @resource    reply   https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
 // @resource    delete  https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
 // @resource    log     https://raw.github.com/OmertaBeyond/OBv2/master/images/changelog.png
-// @include             http://*.omerta3.com/*
+// @include             http://www.omerta3.com/*
 // @include             http://omerta3.com/*
-// @include             http://*.barafranca.com/*
+// @include             http://www.barafranca.com/*
 // @include             http://barafranca.com/*
-// @include             http://*.barafranca.us/*
+// @include             http://www.barafranca.us/*
 // @include             http://barafranca.us/*
+// @include             http://dm.barafranca.com/*
+// @include             http://deathmatch.barafranca.com/*
+// @include             http://www.barafranca.nl/*
+// @include             http://barafranca.nl/*
 // ==/UserScript==
