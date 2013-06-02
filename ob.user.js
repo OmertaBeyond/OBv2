@@ -21,14 +21,14 @@
 // @encoding            UTF-8
 // @priority            1
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-// @resource	css		https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
+// @resource    css     https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
 // @resource    prev    https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
 // @resource    next    https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png
 // @resource    reply   https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
 // @resource    delete  https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
-// @resource    log		https://raw.github.com/OmertaBeyond/OBv2/master/images/changelog.png
+// @resource    log     https://raw.github.com/OmertaBeyond/OBv2/master/images/changelog.png
 // @include             http://*.omerta3.com/*
 // @include             http://omerta3.com/*
 // @include             http://*.barafranca.com/*
@@ -408,13 +408,13 @@ if (document.getElementById('game_container') !== null) {
 			var anchors = $('table.thinline:last > tbody > tr > td > a.tableheader').each(function() {
 				capos.push($(this).text());
 			});
-			
+
 			//get objectowners
 			var objects = [];
 			var anchors = $('table.thinline:eq(2) > tbody > tr > td:has(a)').each(function() {
 				objects.push($(this).text());
 			});
-			
+
 			//get spotowners
 			var spots = [];
 			var anchors = $('table.thinline:eq(3) > tbody > tr > td:has(a)').each(function() {
@@ -453,7 +453,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').addClass('profilerow').text('#'+data['pos']+' - Worth: '+data['worth']+'')
 					)
 				);
-					
+
 				// add HR
 				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
@@ -2247,20 +2247,20 @@ if (document.getElementById('game_container') !== null) {
 			inputs = $('input');
 			bn_xp = 'form > table > tbody > tr:eq(0) > td';
 			bn_text = $(bn_xp).html().split('<br>');
-		
+
 			var cash = parseInt(bn_text[3].replace(/[^0-9.]/g, ''), 10);
 			var booze = parseInt(bn_text[4].match(/\d+/), 10); //max amount user can carry
 			var narcs = parseInt(bn_text[5].match(/\d+/), 10);
 			if(bn_text[6]) {
 				lex = parseInt(bn_text[6].match(/\d+/), 10);
 			}
-		
+
 			b_amount = [0, 0, 0, 0, 0, 0]; //what is user carrying
 			n_amount = [0, 0, 0, 0, 0, 0];
-		
+
 			var xpb = 'table.thinline > tbody > tr:eq(';
 			var xpn = 'table.thinline:eq(1) > tbody > tr:eq(';
-		
+
 			if(!lboth) {
 				for (var i = 0; i <= 13; i++) { //add click to fill stuff and hotkeys
 					if (i < 7 && !lbooze) { //booze
@@ -2432,7 +2432,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				});
 			});
-		
+
 			//visual fix
 			if(lnarcs) {
 				$('form > table > tbody > tr:eq(1) > td:eq(1)').prepend(
@@ -2452,7 +2452,7 @@ if (document.getElementById('game_container') !== null) {
 					$('<br />')
 				)
 			}
-		
+
 			//create more efficient info text
 			var str = $('<center>').append(
 				$('<table>').append(
