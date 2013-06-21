@@ -49,7 +49,7 @@ const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-const cur_v = '4.01';
+const cur_v = '4.1';
 const RAID_SPOTS_CORDS = {
 	'Detroit': {
 		'Car Lot (Thunderbolt)': 'F3',
