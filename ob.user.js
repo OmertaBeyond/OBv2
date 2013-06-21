@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                01-06-2013
+// @date                21-06-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2272,51 +2272,51 @@ if (document.getElementById('game_container') !== null) {
 							$('<span>').attr({id: 'bh'+i, index: i, acceskey: (i + 1), title: 'Fill in this booze (Hotkey: '+(i+1)+')'}).css('cursor', 'pointer').text((i + 1)+' '+bname).click(function() {
 								var i = parseInt($(this).attr('index'));
 								var inpt = $('input[type="text"]')
-								for(var j=0;j<=6;j++) {//reset form
+								for(var j=0;j<=7;j++) {//reset form
 									if (j!=i) {
 										inpt[j].value = 0;
 									}
 								}
 								var total = b_amount.sum();
 								var missing = booze - b_amount[i];
-								var value = inpt[i].value;
+								var value = inpt[(i + 1)].value;
 								if (b_amount[i] == 0 && total < booze) {
 									if (value == 0) {
-										inpt[i].value = booze;
+										inpt[(i + 1)].value = booze;
 										$('input[type="radio"]:eq(1)').prop('checked', true)
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (b_amount[i] == booze) {
 									if (value == 0) {
-										inpt[i].value = booze;
+										inpt[(i + 1)].value = booze;
 										$('input[type="radio"]:eq(0)').prop('checked', true)
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (b_amount[i] < booze && total < booze) {
 									if (value == 0) {
-										inpt[i].value = missing;
+										inpt[(i + 1)].value = missing;
 										$('input[type="radio"]:eq(1)').prop('checked', true)
 									} else if (value == missing) {
-										inpt[i].value = b_amount[i];
+										inpt[(i + 1)].value = b_amount[i];
 										$('input[type="radio"]:eq(0)').prop('checked', true)
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (n_amount[i-9] > booze) {
 									if (value == 0) {
-										inpt[i].value = b_amount[i];
+										inpt[(i + 1)].value = b_amount[i];
 										$('input[type="radio"]:eq(0)').prop('checked', true)
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (b_amount[i] < booze && total > booze){
 									if (value == 0) {
-										inpt[i].value = b_amount[i];
+										inpt[(i + 1)].value = b_amount[i];
 										$('input[type="radio"]:eq(0)').prop('checked', true)
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								}
 								$('input#ver').focus();
@@ -2332,7 +2332,7 @@ if (document.getElementById('game_container') !== null) {
 							$('<span>').attr({id: 'nh'+i, index: i, title: 'Fill in this narc'}).css('cursor', 'pointer').text(nname).click(function() {
 								var i = parseInt($(this).attr('index'));
 								var inpt = $('input[type="text"]')
-								for(var j=0;j<=6;j++) {//reset form
+								for(var j=0;j<=7;j++) {//reset form
 									if (j!=i-7) {
 										if(lbooze) {
 											inpt[j].value = 0;
@@ -2346,7 +2346,7 @@ if (document.getElementById('game_container') !== null) {
 								if(lbooze) {
 									var value = parseInt(inpt[i-7].value);
 								} else {
-									var value = parseInt(inpt[i].value);
+									var value = parseInt(inpt[(i + 1)].value);
 								}
 								if (n_amount[i-7] == 0 && total < narcs) {
 									if (value == 0) {
@@ -2354,11 +2354,11 @@ if (document.getElementById('game_container') !== null) {
 											inpt[i-7].value = narcs;
 											$('input[type="radio"]:eq(1)').prop('checked', true)
 										} else {
-											inpt[i].value = narcs;
+											inpt[(i + 1)].value = narcs;
 											$('input[type="radio"]:eq(3)').prop('checked', true)
 										}
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (n_amount[i-7] == narcs) {
 									if (value == 0) {
@@ -2366,11 +2366,11 @@ if (document.getElementById('game_container') !== null) {
 											inpt[i-7].value = narcs;
 											$('input[type="radio"]:eq(0)').prop('checked', true)
 										} else {
-											inpt[i].value = narcs;
+											inpt[(i + 1)].value = narcs;
 											$('input[type="radio"]:eq(2)').prop('checked', true)
 										}
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (n_amount[i-7] < narcs && total < narcs) {
 									if (value == 0) {
@@ -2378,7 +2378,7 @@ if (document.getElementById('game_container') !== null) {
 											inpt[i-7].value = missing;
 											$('input[type="radio"]:eq(1)').prop('checked', true)
 										} else {
-											inpt[i].value = missing;
+											inpt[(i + 1)].value = missing;
 											$('input[type="radio"]:eq(3)').prop('checked', true)
 										}
 									} else if (value == missing) {
@@ -2386,11 +2386,11 @@ if (document.getElementById('game_container') !== null) {
 											inpt[i-7].value = n_amount[i-7];
 											$('input[type="radio"]:eq(0)').prop('checked', true)
 										} else {
-											inpt[i].value = n_amount[i-7];
+											inpt[(i + 1)].value = n_amount[i-7];
 											$('input[type="radio"]:eq(3)').prop('checked', true)
 										}
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (n_amount[i-7] > narcs) {
 									if (value == 0) {
@@ -2398,11 +2398,11 @@ if (document.getElementById('game_container') !== null) {
 											inpt[i-7].value = n_amount[i-7];
 											$('input[type="radio"]:eq(0)').prop('checked', true)
 										} else {
-											inpt[i].value = n_amount[i-7];
+											inpt[(i + 1)].value = n_amount[i-7];
 											$('input[type="radio"]:eq(3)').prop('checked', true)
 										}
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								} else if (b_amount[i] < narcs && total > narcs){
 									if (value == 0) {
@@ -2410,11 +2410,11 @@ if (document.getElementById('game_container') !== null) {
 											inpt[i-7].value = n_amount[i-7];
 											$('input[type="radio"]:eq(0)').prop('checked', true)
 										} else {
-											inpt[i].value = n_amount[i-7];
+											inpt[(i + 1)].value = n_amount[i-7];
 											$('input[type="radio"]:eq(2)').prop('checked', true)
 										}
 									} else {
-										inpt[i].value = 0;
+										inpt[(i + 1)].value = 0;
 									}
 								}
 								$('input#ver').focus();
