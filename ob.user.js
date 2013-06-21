@@ -2088,9 +2088,7 @@ if (document.getElementById('game_container') !== null) {
 						$('a#a3').attr('href', 'javascript:document.getElementById("brc2").click();');
 						$('a#a4').attr('href', 'javascript:document.getElementById("brc3").click();');
 
-						var getInfo = $('div#info:eq(0)').text();
-						getInfo = getInfo.split('*');
-						var mode = getInfo[5];
+						var mode = getV('brcAF', 0);
 
 						var xp = 'form > table > tbody > tr:eq(0) > td > center';
 						if($('#do_n').length == 0) {
@@ -2107,7 +2105,7 @@ if (document.getElementById('game_container') !== null) {
 						$('#do_b').click(function(){ AF(getV('brcAF', 0),1,0); });
 						$('#do_sell').click(function(){ AF(4,1,1); });
 
-						$('input#brc'+getInfo[5]).prop('checked', true);
+						$('input#brc'+mode).prop('checked', true);
 					}
 				}
 			}
