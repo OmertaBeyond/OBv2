@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                21-06-2013
+// @date                23-06-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -988,7 +988,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('action=sendMsg') && nn == 'b') {//needs testing
 			if ($('font:eq(0)').text().indexOf('Message sent to') != -1) {
 				setTimeout(function () {
-					$('a')[0].click();
+					$('a[href*=inbox]')[0].click();
 				}, 1000);
 			}
 		}
