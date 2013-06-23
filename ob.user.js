@@ -2272,7 +2272,7 @@ if (document.getElementById('game_container') !== null) {
 								var inpt = $('input[type="text"]')
 								for(var j=0;j<=7;j++) {//reset form
 									if (j!=i) {
-										inpt[j].value = 0;
+										inpt[j+1].value = 0;
 									}
 								}
 								var total = b_amount.sum();
@@ -2335,7 +2335,7 @@ if (document.getElementById('game_container') !== null) {
 										if(lbooze) {
 											inpt[j].value = 0;
 										} else {
-											inpt[j+7].value = 0;
+											inpt[j+8].value = 0;
 										}
 									}
 								}
