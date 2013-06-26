@@ -2124,9 +2124,11 @@ if (document.getElementById('game_container') !== null) {
 				plane = getPow('bninfo', 3, -1);
 				fam = getPow('bninfo', 4, -1);
 
-				$('#game_wrapper').append(
-					$('<div>').attr('id', 'info').css('display', 'none').text(narc + '*' + booze + '*' + city + '*' + plane + '*' + fam + '*' + getV('brcAF', 0) + '*' + getV('brcDiv', 1) + '*https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png*' + lex + '*' + lexHour + '*' + lexDay)
-				)
+				if($('#info').length == 0) {
+					$('#game_container').append(
+						$('<div>').attr('id', 'info').css('display', 'none').text(narc + '*' + booze + '*' + city + '*' + plane + '*' + fam + '*' + getV('brcAF', 0) + '*' + getV('brcDiv', 1) + '*https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png*' + lex + '*' + lexHour + '*' + lexDay)
+					)
+				}
 
 				//get all prices
 				if (on_page('prices.php') && nn == 'center') { //prices are on the page
