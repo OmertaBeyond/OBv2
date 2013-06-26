@@ -1267,8 +1267,8 @@ if (document.getElementById('game_container') !== null) {
 				ppk = 0;
 			}
 
-			var STtop = parseInt(getV('STtop', '10'));
-			var STleft = parseInt(getV('STleft', '15.5%'));
+			var STtop = parseInt(getV('STtop', '300'));
+			var STleft = parseInt(getV('STleft', '225'));
 			$('#game_container').append(
 				$('<div>').addClass('STinfo').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
 					$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
