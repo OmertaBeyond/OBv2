@@ -1267,8 +1267,10 @@ if (document.getElementById('game_container') !== null) {
 				ppk = 0;
 			}
 
+			var STtop = parseInt(getV('STtop', '10'));
+			var STleft = parseInt(getV('STleft', '15.5%'));
 			$('#game_container').append(
-				$('<div>').addClass('NRinfo').attr('id', 'info').append(
+				$('<div>').addClass('STinfo').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
 					$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
 					$('<hr>').css({'color': 'gray'}),
 					$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
@@ -1289,6 +1291,17 @@ if (document.getElementById('game_container') !== null) {
 					)
 				)
 			);
+			$(function() {
+				$('#STracker').draggable();
+			});
+			$('#STracker').mouseup(function() {
+				//alert('Set the x and y values using GM_getValue.');
+				var divOffset = $("#STracker").offset();
+				var left = divOffset.left;
+				var top = divOffset.top;
+				setV('STleft', left);
+				setV('STtop', top);
+			});
 		}
 //---------------- BulletTracker ----------------
 		if (on_page('/bullets2.php') && nn == 'center') {
