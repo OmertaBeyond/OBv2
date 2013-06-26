@@ -1610,6 +1610,7 @@ if (document.getElementById('game_container') !== null) {
 					setV('bninfo', -1);
 				}
 			}
+
 			//grab Lex
 			if ($('span#lexhelpsyou').length) {
 				lex = parseInt($('span#lexhelpsyou').html().replace(/[^0-9]/g,''), 10);
@@ -2251,8 +2252,18 @@ if (document.getElementById('game_container') !== null) {
 			var cash = parseInt(bn_text[3].replace(/[^0-9.]/g, ''), 10);
 			var booze = parseInt(bn_text[4].match(/\d+/), 10); //max amount user can carry
 			var narcs = parseInt(bn_text[5].match(/\d+/), 10);
+			d = new Date();
+			lexDay = d.getDay();
+			lexHour = d.getHours();
 			if(bn_text[6]) {
 				lex = parseInt(bn_text[6].match(/\d+/), 10);
+				setV('lex', lex);
+				setV('lexHour', lexHour);
+				setV('lexDay', lexDay);
+			} else {
+				setV('lex', 0);
+				setV('lexHour', lexHour);
+				setV('lexDay', lexDay);
 			}
 
 			b_amount = [0, 0, 0, 0, 0, 0]; //what is user carrying
