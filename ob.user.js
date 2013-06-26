@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                23-06-2013
+// @date                26-06-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2330,7 +2330,7 @@ if (document.getElementById('game_container') !== null) {
 							$('<span>').attr({id: 'nh'+i, index: i, title: 'Fill in this narc'}).css('cursor', 'pointer').text(nname).click(function() {
 								var i = parseInt($(this).attr('index'));
 								var inpt = $('input[type="text"]')
-								for(var j=0;j<=7;j++) {//reset form
+								for(var j=0;j<=6;j++) {//reset form
 									if (j!=i-7) {
 										if(lbooze) {
 											inpt[j].value = 0;
