@@ -343,6 +343,56 @@ function bnUpdate(current){
 	}
 	setPow('bninfo', 3, plane);//save
 }
+function CheckBmsg() {
+	setTimeout(function() {
+	var lastbmsg = getV('lastbmsg', 0);
+	GM_xmlhttpRequest({
+		method: 'GET',
+		url: 'http://gm.omertabeyond.com/index.php?p=bmsg&v='+v+'&last='+lastbmsg,
+		onload: function(xhr) {
+			var response = JSON.parse(xhr.responseText);
+			var len = response["deaths"].length;
+			if(len>1) {
+				var text = response["deaths"].length+' people died:\n\n';
+				var am = (response["deaths"].length<10?response["deaths"].length:10);
+				for (var i=0;i<am;i++) {
+					var d =  new Date(response['deaths'][i]['ts']*1000);
+					var time = (d.getHours()<10?'0':'') + d.getHours()+':'+(d.getMinutes()<10?'0':'') + d.getMinutes()+':'+(d.getSeconds()<10?'0':'') + d.getSeconds();
+					var extra = (response['deaths'][i]['akill'] == 1)?'(A)':(response['deaths'][i]['bf'] == 1)?'(BF)':'';
+					var fam = (response['deaths'][i]['fam'] == '')?'(none)':'('+response['deaths'][i]['fam']+')';
+					text += extra+' '+time+' '+response['deaths'][i]['name']+' '+response['deaths'][i]['rank_text']+' '+fam+'\n';
+				}
+
+				var notification = new Notification('Multiple Deaths!', {
+					dir: "auto",
+					lang: "",
+					body: text,
+					tag: "deaths",
+					icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png", 
+				});
+				notification.onclose = setTimeout(function() {CheckBmsg();},10000);
+				setV('lastbmsg', response["deaths"][0]["ts"]);
+			} else {
+//				var notification = new Notification('ADS', {
+//					dir: "auto",
+//					lang: "",
+//					body: 'http://www.omertabeyond.com\nhttp://www.omertabeyond.com\nhttp://www.omertabeyond.com\nhttp://www.omertabeyond.com\nhttp://www.omertabeyond.com\n',
+//					tag: "info",
+//					icon: "https://si0.twimg.com/profile_images/652064165/red-star.png", 
+//				});
+//				notification.onclose = setTimeout(function() {CheckBmsg();},500000);
+				setTimeout(function() {
+					CheckBmsg();
+				}, 2000);
+			}
+		}
+	});
+	},0);
+}
+
+setTimeout(function() {
+	CheckBmsg();
+}, 2000);
 
 /*
 * Main game listener
