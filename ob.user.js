@@ -352,7 +352,7 @@ function CheckBmsg() {
 		onload: function(xhr) {
 			var response = JSON.parse(xhr.responseText);
 			var len = response["deaths"].length;
-			if(len>1) {
+			if(len>=1) {
 				var text = response["deaths"].length+' people died:\n\n';
 				var am = (response["deaths"].length<10?response["deaths"].length:10);
 				for (var i=0;i<am;i++) {
