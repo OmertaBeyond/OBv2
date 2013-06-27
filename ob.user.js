@@ -363,7 +363,7 @@ function CheckBmsg() {
 					text += extra+' '+time+' '+response['deaths'][i]['name']+' '+response['deaths'][i]['rank_text']+' '+fam+'\n';
 				}
 
-				var notification = new Notification('Multiple Deaths!', {
+				var notification = new Notification('Deaths!', {
 					dir: "auto",
 					lang: "",
 					body: text,
@@ -2717,16 +2717,9 @@ $('#game_menu').one('DOMNodeInserted', function() {
 			})
 		}),
 		$('<br>'),
-		$('<input>').attr({id: 'nottitle', type: 'text', placeholder: 'title'}),
-		$('<input>').attr({id: 'nottext', type: 'text', placeholder: 'text'}),
-		$('<button>').text('Show notification').click(function() {
-			var notification = new Notification($('#nottitle').val(), {
-				dir: "auto",
-				lang: "",
-				body: $('#nottext').val(),
-				tag: "sometag",
-				icon: "http://upload.wikimedia.org/wikipedia/commons/d/d5/Japan_small_icon.png", 
-			});
+		$('<input>').attr({id: 'ts', type: 'text', placeholder: 'timestamp'}),
+		$('<button>').text('Show deaths').click(function() {
+			setV('lastbmsg', $('#ts').val());
 		})
 	); //here we can build prefs page
 });
