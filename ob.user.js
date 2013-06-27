@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                26-06-2013
+// @date                27-06-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -1213,7 +1213,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 //---------------- Scratchtracker ----------------
-		if (on_page('/scratch.php') && (nn == 'center' || nn == 'b' || nn == 'form')) {
+		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form')) {
 			var unopened, monin, mils, bullets, scratches;
 			unopened = getV('unopened', 0);
 			monin = parseInt(getV('monin', 0), 10);
@@ -1270,28 +1270,30 @@ if (document.getElementById('game_container') !== null) {
 
 			var STtop = parseInt(getV('STtop', '300'));
 			var STleft = parseInt(getV('STleft', '225'));
-			$('#game_container').append(
-				$('<div>').addClass('STinfo').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
-					$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
-					$('<hr>').css({'color': 'gray'}),
-					$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
-					$('<hr>').css({'color': 'gray'}),
-					$('<center>').append(
-						$('<div>').attr('id', 'resetscratcher').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
-							$(this).text('Stats have been reset!');
-							$('#statsscratcher').html('Scratched:<font style="float:right;"><b>0</b></font><br />Money spent:<font style="float:right;"><b>$0</b></font><br />Money won: <font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font><br />Millions:<font style="float:right;"><b>0</b></font><br />Bullets won:<font style="float:right;"><b>0</b></font><br />Price per bullet:<font style="float:right;"><b>$0</b></font>');
-							setV('monin', 0);
-							setV('mils', 0);
-							setV('bullets', 0);
-							setV('scratches', 0);
-						}).hover(function() {
-							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
-						}, function () {
-							$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
-						})
+			if($('#STracker').length ==0) {
+				$('#game_container').append(
+					$('<div>').addClass('STinfo').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
+						$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
+						$('<hr>').css({'color': 'gray'}),
+						$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
+						$('<hr>').css({'color': 'gray'}),
+						$('<center>').append(
+							$('<div>').attr('id', 'resetscratcher').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
+								$(this).text('Stats have been reset!');
+								$('#statsscratcher').html('Scratched:<font style="float:right;"><b>0</b></font><br />Money spent:<font style="float:right;"><b>$0</b></font><br />Money won: <font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font><br />Millions:<font style="float:right;"><b>0</b></font><br />Bullets won:<font style="float:right;"><b>0</b></font><br />Price per bullet:<font style="float:right;"><b>$0</b></font>');
+								setV('monin', 0);
+								setV('mils', 0);
+								setV('bullets', 0);
+								setV('scratches', 0);
+							}).hover(function() {
+								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
+							}, function () {
+								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
+							})
+						)
 					)
-				)
-			);
+				);
+			}
 			$(function() {
 				$('#STracker').draggable();
 			});
