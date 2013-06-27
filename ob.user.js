@@ -22,7 +22,7 @@
 // @priority            1
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require             https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
-// @resource    css     https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
+// @resource	css		https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
 // @resource    prev    https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
@@ -34,6 +34,8 @@
 // @include             http://omerta3.com/*
 // @include             http://*.barafranca.com/*
 // @include             http://barafranca.com/*
+// @include             http://*.barafranca.nl/*
+// @include             http://barafranca.nl/*
 // @include             http://*.barafranca.us/*
 // @include             http://barafranca.us/*
 // ==/UserScript==
@@ -454,7 +456,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').addClass('profilerow').text('#'+data['pos']+' - Worth: '+data['worth']+'')
 					)
 				);
-
+	
 				// add HR
 				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
@@ -989,7 +991,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('action=sendMsg') && nn == 'b') {//needs testing
 			if ($('font:eq(0)').text().indexOf('Message sent to') != -1) {
 				setTimeout(function () {
-					$('a[href*=inbox]')[0].click();
+					$('a[href*="inbox"]')[0].click();
 				}, 1000);
 			}
 		}
@@ -1221,7 +1223,7 @@ if (document.getElementById('game_container') !== null) {
 			bullets = parseInt(getV('bullets', 0), 10);
 			scratches = parseInt(getV('scratches', 0), 10);
 
-			if ($('b:last').text() == 'Congratulations!') { //grab winning event
+			if ($('#game_container:contains(Congratulations!)').length) { //grab winning event
 				if ($('#game_container:contains(They have been added to your account!)').length) { //bullets
 					var rex = new RegExp('won (\\d+) bullets');
 					var r = $('#game_container').text().match(rex);
@@ -1268,8 +1270,8 @@ if (document.getElementById('game_container') !== null) {
 				ppk = 0;
 			}
 
-			var STtop = parseInt(getV('STtop', '300'));
-			var STleft = parseInt(getV('STleft', '225'));
+			var STtop = parseInt(getV('STtop', '225'));
+			var STleft = parseInt(getV('STleft', '300'));
 			if($('#STracker').length ==0) {
 				$('#game_container').append(
 					$('<div>').addClass('STinfo').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
@@ -1391,15 +1393,15 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- User Profile ----------------
 		if (on_page('user.php') && nn == 'center') {
-
+			var str = (v=='nl'?'Dead':'Dood');
 			var status = $('span#status').text();
 			var inFam = ($('span#family > a').length?$('span#family > a').text():$('span#family').text());
-			var alive = (status.search('Dead'));
+			var alive = (status.search(str));
 			var unick = $('span#username').text();
 
 			// DEAD or AKILLED ?
 			if (!alive) {
-				var rankings = '<a href="http://www.barafranca.com/BeO/webroot/index.php?module=Rankings&nick='+unick+'">View Rankings</a>';
+				var rankings = '<a href="'+document.location.hostname+'/BeO/webroot/index.php?module=Rankings&nick='+unick+'">View Rankings</a>';
 				if($('img[src*="/userbadges/rip.gif"]').parent().get(0).tagName != 'A'){
 					var akill = '<span style="color:red; font-weight:bold;"> (Akill) </span>';
 					status += akill;
@@ -1412,7 +1414,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				});
 			}
-			if(status === 'Alive') {
+			if(status === 'Alive'||status === 'Levend') {
 				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=laston&v='+v+'&ing='+unick, function(data) {
 					if (data['LastOn'] === 0) { // 1970, thus not seen by logger
 						$('span#status').text(status+' | This user has not been seen online by our logger yet');
@@ -1436,7 +1438,7 @@ if (document.getElementById('game_container') !== null) {
 			var wlth = $('#wealth').attr('value')
 
 			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'], i=1;
-			var wealth = ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich'];
+			var wealth = (v=='nl'?['Sloeber', 'Arm', 'Modaal', 'Erg rijk', 'Te rijk om waar te zijn', 'Rijker dan God ', 'Rijk']:['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich']);
 			var a = wealth.indexOf(wlth);
 			$('#wealth').text(wlth+kind[a])
 
@@ -2598,7 +2600,8 @@ if (document.getElementById('game_container') !== null) {
 //---------------- quick lookup ----------------
 		if (on_page('user.php') && nn == 'span') {
 			var input = GetParam('nick');
-			if($('#game_container:contains(This user does not exist)').length && input != false){
+			var str = (v=='nl'?'Deze speler bestaat niet':'This user does not exist');
+			if($('#game_container:contains('+str+')').length && input != false){
 				setTimeout(function () { //needed because $.get only works on same domain
 					GM_xmlhttpRequest({ //grab data from xml
 						method: 'GET',
@@ -2607,12 +2610,12 @@ if (document.getElementById('game_container') !== null) {
 							var parser = new DOMParser();
 							var xml = parser.parseFromString(resp.responseText, 'application/xml');
 							var total = xml.getElementsByTagName('totalresults')[0].textContent;
-								$('#game_container').html('This user does not exist: '+input);
+								$('#game_container').html(str+': '+input);
 							if(input.length<3){
-								$('#game_container').html('This user does not exist:<br />This will give too many results. Try to be more specific.');
+								$('#game_container').html(str+':<br />This will give too many results. Try to be more specific.');
 							}
 							else if(total!='0'){
-								$('#game_container').html((total<=50)?'This user does not exist:<br />Maybe this is what you were looking for:<br />':'This user does not exist:<br />Maybe this is what you were looking for:<br />Total results: '+total+' Showing first 50 results<br />');
+								$('#game_container').html((total<=50)?str+':<br />Maybe this is what you were looking for:<br />':str+':<br />Maybe this is what you were looking for:<br />Total results: '+total+' Showing first 50 results<br />');
 								var num = (total<=50)?total:50;
 								for(var i=0;i<num;i++){
 									var results = xml.getElementsByTagName('name')[i].textContent;
@@ -2623,11 +2626,11 @@ if (document.getElementById('game_container') !== null) {
 								$(window).keydown(function(event){ if(event.keyCode == 40) { if(j<num-1) { j++; $('#'+j).focus(); } } });
 								$(window).keydown(function(event){ if(event.keyCode == 38) { if(j!=0) { j--; $('#'+j).focus(); } } });
 							} else {
-								$('#game_container').html('This user does not exist:<br />Sorry, we also couldn\'t find any alternatives.');
+								$('#game_container').html(str+':<br />Sorry, we also couldn\'t find any alternatives.');
 							}
 						}
 					});
-				},0);
+				},100);
 			}
 		}
 	}, true);
@@ -2659,7 +2662,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 	$('a.link:eq(2)').before(a)
 	$('a.link:eq(3)').before(div)
 
-	var prefs_page =  $('<div>').append(
+	var prefs_page = $('<div>').append(
 		$('<div>').attr('id', 'Authmsg'),
 		$('<button>').text('Authorize for notifications').click(function() {
 			Notification.requestPermission(function(perm) {
