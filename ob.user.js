@@ -2645,7 +2645,26 @@ $('#game_menu').one('DOMNodeInserted', function() {
 	$('a.link:eq(2)').before(a)
 	$('a.link:eq(3)').before(div)
 
-	var prefs_page = $('<span>').text('This will be the preferences page'); //here we can build prefs page
+	var prefs_page =  $('<div>').append(
+		$('<div>').attr('id', 'Authmsg'),
+		$('<button>').text('Authorize for notifications').click(function() {
+			Notification.requestPermission(function(perm) {
+				$('#Authmsg').text('Authorization for notication is: '+perm);
+			})
+		}),
+		$('<br>'),
+		$('<input>').attr({id: 'nottitle', type: 'text', placeholder: 'title'}),
+		$('<input>').attr({id: 'nottext', type: 'text', placeholder: 'text'}),
+		$('<button>').text('Show notification').click(function() {
+			var notification = new Notification($('#nottitle').val(), {
+				dir: "auto",
+				lang: "",
+				body: $('#nottext').val(),
+				tag: "sometag",
+				icon: "http://upload.wikimedia.org/wikipedia/commons/d/d5/Japan_small_icon.png", 
+			});
+		})
+	); //here we can build prefs page
 });
 
 /*
