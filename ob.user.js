@@ -2051,10 +2051,14 @@ if (document.getElementById('game_container') !== null) {
 						}
 						AF(getInfo[5]);
 
+						var AFtop = parseInt(getV('AFtop', '225'));
+						var AFleft = parseInt(getV('AFleft', '300'));
 						if(!$('#AF').length) {
 							var top = (getInfo[6] == -1) ? '-95px' : '10px';
 							$('#game_container').append(
-								$('<div>').addClass('BRCinfo').attr({id: 'AF', mode: getInfo[6]}).css('top', top).append(
+								$('<div>').addClass('BRCinfo').attr({id: 'AF'}).css({top: AFtop, left: AFleft}).append(
+									$('<center>').text('Auto-Fill').css('font-weight', 'bold'),
+									$('<hr>').css({'color': 'gray'}),
 									$('<span>').append(
 										$('<input>').attr({id: 'brc0', type: 'radio', name: 'brc'}).click(function() {
 											AF(0);
@@ -2093,28 +2097,21 @@ if (document.getElementById('game_container') !== null) {
 											} catch (e) {}
 										}),
 										$('<a>').attr({id: 'a4', acceskey: '-', title: 'Don\'t fill anything (Hotkey: - )'}).text('None: (-)')
-									),
-									$('<hr />'),
-									$('<span>').attr('title', 'Hide this!').css({'text-decoration': 'underline', 'cursor': 'pointer'}).text('Auto-Fill').click(function() {
-										div = $('#AF');
-										if (div.attr('mode') == 1) { //mode 1 - visible
-											div.attr('mode', 0); //mode 0 - moving
-											div.animate({ top:"-95px" }, 500, function() {
-												div.attr('mode', -1);
-												setV('brcDiv', -1);
-											});
-										}
-										if (div.attr('mode') == -1) { //mode 1 - visible
-											div.attr('mode', 0); //mode 0 - moving
-											div.animate( { top:"10px" }, 500, function() {
-												div.attr('mode', 1);
-												setV('brcDiv', 1);
-											});
-										}
-									})
+									)
 								)
 							)
 						}
+						$(function() {
+							$('#AF').draggable();
+						});
+						$('#AF').mouseup(function() {
+							//alert('Set the x and y values using GM_getValue.');
+							var divOffset = $("#AF").offset();
+							var left = divOffset.left;
+							var top = divOffset.top;
+							setV('AFleft', left);
+							setV('AFtop', top);
+						});
 
 						$('a#a1').attr('href', 'javascript:document.getElementById("brc0").click();');
 						$('a#a2').attr('href', 'javascript:document.getElementById("brc1").click();');
