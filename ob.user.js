@@ -364,7 +364,7 @@ function CheckBmsg() {
 						lang: "",
 						body: text,
 						tag: "news",
-						icon: "https://si0.twimg.com/profile_images/652064165/red-star.png", 
+						icon: "https://si0.twimg.com/profile_images/652064165/red-star.png",
 					});
 					notification.onclose = function() { setTimeout(CheckBmsg(), 10000); }
 					notification.onclick = function() { window.open('http://news.omertabeyond.com/'+response['news'][0]['id']) }
@@ -380,13 +380,13 @@ function CheckBmsg() {
 							var fam = (response['deaths'][i]['fam'] == '')?'(none)':'('+response['deaths'][i]['fam']+')';
 							text += extra+' '+time+' '+response['deaths'][i]['name']+' '+response['deaths'][i]['rank_text']+' '+fam+'\n';
 						}
-		
+
 						var notification = new Notification('Deaths!', {
 							dir: "auto",
 							lang: "",
 							body: text,
 							tag: "deaths",
-							icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png", 
+							icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png",
 						});
 						notification.onclose = function() { console.log('laterz'); setTimeout(CheckBmsg() ,10000); }
 						setV('lastbmsg', response["deaths"][0]["ts"]);
@@ -516,7 +516,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').addClass('profilerow').text('#'+data['pos']+' - Worth: '+data['worth']+'')
 					)
 				);
-	
+
 				// add HR
 				$('table.thinline').first().find('tbody').append(
 					$('<tr>').append(
