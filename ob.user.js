@@ -355,11 +355,9 @@ function CheckBmsg() {
 				var news = response["news"].length;
 				if (news==1) {
 					var text = 'A new article is posted http://news.omertabeyond.com\n\n';
-					var d =  new Date(response['news'][0]['ts']*1000);
-					var time = (d.getHours()<10?'0':'') + d.getHours()+':'+(d.getMinutes()<10?'0':'') + d.getMinutes()+':'+(d.getSeconds()<10?'0':'') + d.getSeconds();
 					var title = response['news'][0]['title'];
 					var type = response['news'][0]['type'];
-					text += time+'\n'+response['news'][0]['preview'];
+					text += response['news'][0]['preview'];
 
 					var notification = new Notification(title, {
 						dir: "auto",
