@@ -2584,6 +2584,9 @@ $('#game_menu').one('DOMNodeInserted', function() {
 	var prefs_page = $('<div>').append(
 		$('<div>').attr('id', 'Authmsg'),
 		$('<button>').text('Authorize for notifications').click(function() {
+			var rex = new RegExp(/Firefox\/([0-9]+)\./);
+			var r = navigator.userAgent.match(rex);
+			if(r[1] !== '22') $('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
 			Notification.requestPermission(function(perm) {
 				$('#Authmsg').text('Authorization for notication is: '+perm);
 			})
