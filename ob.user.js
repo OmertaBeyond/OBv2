@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                28-06-2013
+// @date                30-06-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -354,56 +354,55 @@ function CheckBmsg() {
 				var deaths = response["deaths"].length;
 				var news = response["news"].length;
 				if (news==1) {
-					var text = 'A new article is posted http://news.omertabeyond.com\n\n';
-					var title = response['news'][0]['title'];
-					var type = response['news'][0]['type'];
-					text += response['news'][0]['preview'];
-
-					var notification = new Notification(title, {
-						dir: "auto",
-						lang: "",
-						body: text,
-						tag: "news",
-						icon: "https://si0.twimg.com/profile_images/652064165/red-star.png",
-					});
-					notification.onclose = function() { setTimeout(CheckBmsg(), 10000); }
-					notification.onclick = function() { window.open('http://news.omertabeyond.com/'+response['news'][0]['id']) }
-					setV('lastbmsg', response["news"][0]["ts"]);
-				} else {
-					if(deaths>=1) {
-						var text = response["deaths"].length+' people died:\n\n';
-						var am = (response["deaths"].length<10?response["deaths"].length:10);
-						for (var i=0;i<am;i++) {
-							var d =  new Date(response['deaths'][i]['ts']*1000);
-							var time = (d.getHours()<10?'0':'') + d.getHours()+':'+(d.getMinutes()<10?'0':'') + d.getMinutes()+':'+(d.getSeconds()<10?'0':'') + d.getSeconds();
-							var extra = (response['deaths'][i]['akill'] == 1)?'(A)':(response['deaths'][i]['bf'] == 1)?'(BF)':'';
-							var fam = (response['deaths'][i]['fam'] == '')?'(none)':'('+response['deaths'][i]['fam']+')';
-							text += extra+' '+time+' '+response['deaths'][i]['name']+' '+response['deaths'][i]['rank_text']+' '+fam+'\n';
-						}
-
-						var notification = new Notification('Deaths!', {
+					if(getV('bmsgNews', 0)>0) {
+						var text = 'A new article is posted http://news.omertabeyond.com\n\n';
+						var title = response['news'][0]['title'];
+						var type = response['news'][0]['type'];
+						text += response['news'][0]['preview'];
+	
+						var notification = new Notification(title, {
 							dir: "auto",
 							lang: "",
 							body: text,
-							tag: "deaths",
-							icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png",
+							tag: "news",
+							icon: "https://si0.twimg.com/profile_images/652064165/red-star.png", 
 						});
-						notification.onclose = function() { console.log('laterz'); setTimeout(CheckBmsg() ,10000); }
-						setV('lastbmsg', response["deaths"][0]["ts"]);
+						notification.onclose = function() { setTimeout(CheckBmsg(), 60000); }
+						notification.onclick = function() { window.open('http://news.omertabeyond.com/'+response['news'][0]['id']) }
+						setV('lastbmsg', response["news"][0]["ts"]);
+					}
+				} else {
+					if(getV('bmsgDeaths', 0)>0) {
+						if(deaths>=1) {
+							var text = response["deaths"].length+' people died:\n\n';
+							var am = (response["deaths"].length<10?response["deaths"].length:10);
+							for (var i=0;i<am;i++) {
+								var d =  new Date(response['deaths'][i]['ts']*1000);
+								var time = (d.getHours()<10?'0':'') + d.getHours()+':'+(d.getMinutes()<10?'0':'') + d.getMinutes()+':'+(d.getSeconds()<10?'0':'') + d.getSeconds();
+								var extra = (response['deaths'][i]['akill'] == 1)?'(A)':(response['deaths'][i]['bf'] == 1)?'(BF)':'';
+								var fam = (response['deaths'][i]['fam'] == '')?'(none)':'('+response['deaths'][i]['fam']+')';
+								text += extra+' '+time+' '+response['deaths'][i]['name']+' '+response['deaths'][i]['rank_text']+' '+fam+'\n';
+							}
+			
+							var notification = new Notification('Deaths!', {
+								dir: "auto",
+								lang: "",
+								body: text,
+								tag: "deaths",
+								icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png", 
+							});
+							notification.onclose = function() { setTimeout(CheckBmsg() ,60000); }
+							setV('lastbmsg', response["deaths"][0]["ts"]);
+						}
 					}
 					setTimeout(function() {
 						CheckBmsg();
-					}, 15000);
+					}, 60000);
 				}
 			}
 		});
 	},0);
 }
-
-setTimeout(function() {
-	CheckBmsg();
-}, 2000);
-
 /*
 * Main game listener
 */
@@ -2556,6 +2555,16 @@ if (document.getElementById('game_container') !== null) {
 }
 
 /*
+* Notifications trigger
+*/
+
+$('#game_container').one('DOMNodeInserted', function() {
+	setTimeout(function() {
+		CheckBmsg();
+	}, 1000);
+});
+
+/*
 * Menu listener
 */
 
@@ -2580,22 +2589,37 @@ $('#game_menu').one('DOMNodeInserted', function() {
 
 	$('a.link:eq(2)').before(a)
 	$('a.link:eq(3)').before(div)
+	
+	var getnews = (getV('bmsgNews', 0)==0?false:true);
+	var getdeaths = (getV('bmsgDeaths', 0)==0?false:true);
 
-	var prefs_page = $('<div>').append(
-		$('<div>').attr('id', 'Authmsg'),
-		$('<button>').text('Authorize for notifications').click(function() {
-			var rex = new RegExp(/Firefox\/([0-9]+)\./);
-			var r = navigator.userAgent.match(rex);
-			if(r[1] !== '22') $('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
-			Notification.requestPermission(function(perm) {
-				$('#Authmsg').text('Authorization for notication is: '+perm);
-			})
-		}),
-		$('<br>'),
-		$('<input>').attr({id: 'ts', type: 'text', placeholder: 'timestamp'}),
-		$('<button>').text('Show deaths').click(function() {
-			setV('lastbmsg', $('#ts').val());
-		})
+	var prefs_page = $('<div>').attr({id: 'prefsDiv'}).css({border: '1px solid red'}).append(
+		$('<div>').attr({id: 'bmsgDiv'}).css({border: '1px solid blue', width: '250px'}).append(
+			$('<div>').attr('id', 'Authmsg'),
+			$('<button>').text('Authorize for notifications').click(function() {
+				var rex = new RegExp(/Firefox\/([0-9]+)\./);
+				var r = navigator.userAgent.match(rex);
+				if(r[1] !== '22') $('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
+				Notification.requestPermission(function(perm) {
+					$('#Authmsg').text('Authorization for notication is: '+perm);
+				})
+			}),
+			$('<br>'),
+			$('<input>').attr({id: 'ts', type: 'text', placeholder: 'timestamp'}),
+			$('<button>').text('Show deaths').click(function() {
+				setV('lastbmsg', $('#ts').val());
+			}),
+			$('<br>'),
+			$('<input>').attr({id: 'deaths', type: 'checkbox', checked: getdeaths}).click(function() {
+				setV('bmsgDeaths', $('#deaths:checked').length);
+			}),
+			$('<label>').attr('for', 'deaths').text('Deaths'),
+			$('<br>'),
+			$('<input>').attr({id: 'news', type: 'checkbox', checked: getnews}).click(function() {
+				setV('bmsgNews', $('#news:checked').length);
+			}),
+			$('<label>').attr('for', 'news').text('News')
+		)
 	); //here we can build prefs page
 });
 
