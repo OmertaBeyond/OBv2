@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                30-06-2013
+// @date                03-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -1051,23 +1051,23 @@ if (document.getElementById('game_container') !== null) {
 						$(this).html(who.join(' '));
 					}
 				});
+				// Add promo calculation for CD/GF/FL.
+				var brugP = parseInt($('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').text().replace(/\D/g, ''), 10);
+				var perc = (brugP != '0') ? $('input[name="ppercentage"]').val() : 0;
+				var cdP = parseInt((((brugP/100)*perc)+brugP), 10);
+				var gfP = parseInt((((cdP/100)*perc)+parseInt(cdP, 10)), 10);
+				$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan');
+				$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6)').append(
+					$('<td>').text('Capodecina'),
+					$('<td>').text('$ '+commafy(cdP))
+				);
+				$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody').append(
+					$('<tr>').append(
+						$('<td>').text('GF / FL'),
+						$('<td>').text('$ '+commafy(gfP))
+					)
+				);
 			}
-			// Add promo calculation for CD/GF/FL.
-			var brugP = parseInt($('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').text().replace(/\D/g, ''), 10);
-			var perc = (brugP != '0') ? $('input[name="ppercentage"]').val() : 0;
-			var cdP = parseInt((((brugP/100)*perc)+brugP), 10);
-			var gfP = parseInt((((cdP/100)*perc)+parseInt(cdP, 10)), 10);
-			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan');
-			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6)').append(
-				$('<td>').text('Capodecina'),
-				$('<td>').text('$ '+commafy(cdP))
-			);
-			$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody').append(
-				$('<tr>').append(
-					$('<td>').text('GF / FL'),
-					$('<td>').text('$ '+commafy(gfP))
-				)
-			);
 		}
 		//linkify opened CP log
 		if (on_page('/familylog.php') && nn == 'table') {
