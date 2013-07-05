@@ -53,20 +53,7 @@
 	border-radius: 5px;
 	text-align: center;
 }
-.STinfo {
-	position: fixed;
-	width: 200px;
-	height: 200px;
-	color: #FFF;
-	box-shadow: 2px 2px 2px 2px #1b1b1b;
-	background-image: -moz-linear-gradient(center top ,#3F505F,	#1B1B1B);
-	border: 2px double gray;
-	opacity: 0.90;
-	padding: 5px;
-	border-radius: 5px;
-	cursor: move;
-}
-.BTinfo {
+.tracker {
 	position: fixed;
 	width: 200px;
 	color: #FFF;
@@ -103,4 +90,7 @@
 	padding: 5px 5px 2px 5px;
 	border-radius: 5px;
 	cursor: move;
+}
+div.Bmsg table tr td {
+	padding: 1px;
 }

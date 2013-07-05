@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                03-07-2013
+// @date                05-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -1135,6 +1135,124 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 		}
+//---------------- SlotsTracker ----------------
+		if (on_page('/gambling/slotmachine.php') && nn == 'center') {
+			var slotjp =  parseInt(getV('slotjp', 0));
+			var slotbar = parseInt(getV('slotbar', 0));
+			var slotgames = parseInt(getV('slotgames', 0));
+			var slotgwon =  parseInt(getV('slotgwon', 0));
+			var slotmwon =  parseInt(getV('slotmwon', 0));
+			var slotspent =  parseInt(getV('slotspent', 0));
+			var slotbet =  parseInt(getV('slotbet', 0));
+			var jpmwon =  parseInt(getV('jpmwon', 0));
+			var str = $('#game_container').text().replace(/,/g, '');
+			var betinput = $('input[name="betted"]');
+			betinput.focus();
+			betinput.keyup(function() {
+				setV('slotbet', parseInt($(this).val(), 10));
+			});
+
+			if ($('#game_container:contains(Congratulations!)').length > 0 || $('#game_container:contains(YOU WON THE JACKPOT)').length > 0) {
+				var S1 = $('img[src*="slotmachine"]:eq(0)').attr('src').replace(/">/g, '').split('/');
+				var S2 = $('img[src*="slotmachine"]:eq(1)').attr('src').replace(/">/g, '').split('/');
+				var S3 = $('img[src*="slotmachine"]:eq(2)').attr('src').replace(/">/g, '').split('/');
+				if (S1[6] == "a.gif" && S2[6] == "a.gif" && S3[6] == "a.gif") { // Jackpot
+					var rexjp = new RegExp('You Win \\$(\\d+)');
+					var jpm = str.match(rexjp); // get money
+					jpmwon += parseInt(jpm[1], 10); // jp money won;
+					setV('jpmwon', jpmwon);
+					slotmwon += parseInt(jpm[1], 10); // money won;
+					setV('slotmwon', slotmwon);
+					slotjp += 1; // jackpot +1;
+					setV('slotjp', slotjp);
+				}
+				if (S1[6] == "b.gif" && S2[6] == "b.gif" && S3[6] == "b.gif") { // Triple Bar
+					slotbar += 1; //triple bar +1;
+					setV('slotbar', slotbar);
+				}
+				var rex = new RegExp('Congratulations! You won \\$(\\d+)');
+				var smw = str.match(rex); // get money
+				slotgames += 1; // games played +1;
+				setV('slotgames', slotgames);
+				slotgwon += 1; // games won +1;
+				setV('slotgwon', slotgwon);
+				slotmwon += parseInt(smw[1], 10); // money won;
+				slotmwon += parseInt(slotbet, 10); // bet back;
+				setV('slotmwon', slotmwon);
+				slotspent += parseInt(slotbet, 10);// money spent
+				setV('slotspent', slotspent);
+			}
+			if ($('#game_container:contains(Bummer)').length > 0) {//lost
+				slotgames += 1; //games played +1;
+				setV('slotgames', slotgames);
+				slotspent += parseInt(slotbet, 10);//money spent
+				setV('slotspent', slotspent);
+			}
+
+			var slotprofit = slotmwon - slotspent;
+			if (slotspent >= 0) {
+				if (slotprofit >= 0) slotprofit = '$'+commafy(slotprofit);
+				else slotprofit = '-$'+commafy(slotspent - slotmwon);
+			}
+			var sgamesWon = Math.round((slotgwon / slotgames) * 100);
+			var sgamesWon2 = isNaN(sgamesWon) ? 0 : sgamesWon;
+
+			var SlTtop = parseInt(getV('SlTtop', '225'));
+			var SlTleft = parseInt(getV('SlTleft', '300'));
+			if($('#SlTracker').length == 0) {
+				$('#game_container').append(
+					$('<div>').addClass('tracker').attr('id', 'SlTracker').css({'top': SlTtop, 'left': SlTleft}).append(
+						$('<center>').text('SlotsTracker').css('font-weight', 'bold'),
+						$('<hr>').css({'color': 'gray'}),
+						$('<div>').attr('id', 'slotstats').html('Games played:<font style="float:right;"><b>'+commafy(slotgames)+'</b></font><br />Games won:<font style="float:right;"><b>'+commafy(slotgwon)+' ('+sgamesWon2+'%)</b></font><br />Jackpot:<font style="float:right;"><b>'+slotjp+' ($'+commafy(jpmwon)+')</b></font><br />Triple BAR:<font style="float:right;"><b>'+slotbar+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(slotspent)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(slotmwon)+'</b></font><br />Profit:<font style="float:right;"><b>'+slotprofit+'</b></font>'),
+						$('<hr>').css({'color': 'gray'}),
+						$('<center>').append(
+							$('<div>').attr('id', 'resetslot').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
+								$(this).text('Stats have been reset!');
+								$('#slotstats').html('Games played:<font style="float:right;"><b>0</b></font><br />Games won:<font style="float:right;"><b>0 (0%)</b></font><br />Jackpot:<font style="float:right;"><b>0 ($0)</b></font><br />Triple BAR:<font style="float:right;"><b>0</b></font><br />Money Spent:<font style="float:right;"><b>$0</b></font><br />Money won:<font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font>');
+								setV('slotgames', 0);
+								setV('slotgwon', 0);
+								setV('slotmwon', 0);
+								setV('slotspent', 0);
+								setV('slotjp', 0);
+								setV('slotbar', 0);
+								setV('jpmwon', 0);
+							}).hover(function() {
+								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
+							}, function () {
+								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
+							})
+						)
+					)
+				);
+			}
+
+			$(function() {
+				$('#SlTracker').draggable();
+			});
+			$('#SlTracker').mouseup(function() {
+				var divOffset = $("#SlTracker").offset();
+				var left = divOffset.left;
+				var top = divOffset.top;
+				setV('SlTleft', left);
+				setV('SlTtop', top);
+			});
+			// m/k usage
+			var inputs = $('input[name="betted"]');
+			inputs.each(function() {
+				$(this).keydown(function(event) {
+					var symcode = event.which;
+					if(symcode == 75){
+						$(this).val($(this).val() + '000');
+					}
+					if(symcode == 77){
+						$(this).val($(this).val() + '000000');
+					}
+					$(this).val($(this).val().replace(/k|m/g, ''));
+					return (symcode == 75 || symcode == 77)?false:true;
+				});
+			});
+		}
 //---------------- Scratchtracker ----------------
 		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form')) {
 			var unopened, monin, mils, bullets, scratches;
@@ -1195,7 +1313,7 @@ if (document.getElementById('game_container') !== null) {
 			var STleft = parseInt(getV('STleft', '300'));
 			if($('#STracker').length ==0) {
 				$('#game_container').append(
-					$('<div>').addClass('STinfo').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
+					$('<div>').addClass('tracker').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
 						$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
 						$('<hr>').css({'color': 'gray'}),
 						$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
@@ -1261,7 +1379,7 @@ if (document.getElementById('game_container') !== null) {
 			var BTleft = parseInt(getV('BTleft', '225'));
 			if($('#BTracker').length ==0) {
 				$('#game_container').append(
-					$('<div>').addClass('BTinfo').attr({id: 'BTracker', mode: btmode}).css({'top': BTtop, 'left': BTleft}).append(
+					$('<div>').addClass('tracker').attr({id: 'BTracker', mode: btmode}).css({'top': BTtop, 'left': BTleft}).append(
 						$('<center>').text('BulletTracker').css('font-weight', 'bold').click(function() {
 							div = $('#btinfo');
 							if (div.attr('mode') == 1) { //mode 1 - visible
