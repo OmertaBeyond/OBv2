@@ -305,7 +305,7 @@ function bnUpdate(current){
 	var rank = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(7) > td:eq(1)').text();
 	var type = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(9) > td:eq(1) > a').text();
 	var city = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(10) > td:eq(1) > a').text();
-	var health = 100 - parseInt($(xpath+' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq(3) > td:eq(1) > a > table > tbody > tr > td').attr('width'));
+	var health = 100 - parseInt($(xpath+' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq(3) > td:eq(1) > a > table > tbody > tr > td').attr('width'), 10);
 	var ride = $(xpath+' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(2) > td:eq(1)').text();
 
 	setV('bloodType', type);
@@ -1137,14 +1137,14 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- SlotsTracker ----------------
 		if (on_page('/gambling/slotmachine.php') && nn == 'center') {
-			var slotjp =  parseInt(getV('slotjp', 0));
-			var slotbar = parseInt(getV('slotbar', 0));
-			var slotgames = parseInt(getV('slotgames', 0));
-			var slotgwon =  parseInt(getV('slotgwon', 0));
-			var slotmwon =  parseInt(getV('slotmwon', 0));
-			var slotspent =  parseInt(getV('slotspent', 0));
-			var slotbet =  parseInt(getV('slotbet', 0));
-			var jpmwon =  parseInt(getV('jpmwon', 0));
+			var slotjp =  parseInt(getV('slotjp', 0), 10);
+			var slotbar = parseInt(getV('slotbar', 0), 10);
+			var slotgames = parseInt(getV('slotgames', 0), 10);
+			var slotgwon =  parseInt(getV('slotgwon', 0), 10);
+			var slotmwon =  parseInt(getV('slotmwon', 0), 10);
+			var slotspent =  parseInt(getV('slotspent', 0), 10);
+			var slotbet =  parseInt(getV('slotbet', 0), 10);
+			var jpmwon =  parseInt(getV('jpmwon', 0), 10);
 			var str = $('#game_container').text().replace(/,/g, '');
 			var betinput = $('input[name="betted"]');
 			betinput.focus();
@@ -1197,8 +1197,8 @@ if (document.getElementById('game_container') !== null) {
 			var sgamesWon = Math.round((slotgwon / slotgames) * 100);
 			var sgamesWon2 = isNaN(sgamesWon) ? 0 : sgamesWon;
 
-			var SlTtop = parseInt(getV('SlTtop', '225'));
-			var SlTleft = parseInt(getV('SlTleft', '300'));
+			var SlTtop = parseInt(getV('SlTtop', '225'), 10);
+			var SlTleft = parseInt(getV('SlTleft', '300'), 10);
 			if($('#SlTracker').length == 0) {
 				$('#game_container').append(
 					$('<div>').addClass('tracker').attr('id', 'SlTracker').css({'top': SlTtop, 'left': SlTleft}).append(
@@ -1266,16 +1266,16 @@ if (document.getElementById('game_container') !== null) {
 				if ($('#game_container:contains(They have been added to your account!)').length) { //bullets
 					var rex = new RegExp('won (\\d+) bullets');
 					var r = $('#game_container').text().match(rex);
-					bullets += parseInt(r[1]);
+					bullets += parseInt(r[1], 10);
 					setV('bullets', bullets);
 				}
 				if ($('#game_container:contains(It has been added to your account!)').length) { //money
 					var rex = new RegExp('You have won \\$ (\\d+)');
 					var str = $('#game_container').text().replace(/,/g, '');
 					var r = str.match(rex);
-					monin += parseInt(r[1]);
+					monin += parseInt(r[1], 10);
 					setV('monin', monin);
-					if (parseInt(r[1]) == 1000000) {
+					if (parseInt(r[1], 10) == 1000000) {
 						mils += 1;
 						setV('mils', mils);
 					}
@@ -1309,8 +1309,8 @@ if (document.getElementById('game_container') !== null) {
 				ppk = 0;
 			}
 
-			var STtop = parseInt(getV('STtop', '225'));
-			var STleft = parseInt(getV('STleft', '300'));
+			var STtop = parseInt(getV('STtop', '225'), 10);
+			var STleft = parseInt(getV('STleft', '300'), 10);
 			if($('#STracker').length ==0) {
 				$('#game_container').append(
 					$('<div>').addClass('tracker').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
@@ -1375,8 +1375,8 @@ if (document.getElementById('game_container') !== null) {
 				var btdolpbul = Math.round((btmoney / btbullets) * 100) / 100;
 			}
 
-			var BTtop = parseInt(getV('BTtop', '300'));
-			var BTleft = parseInt(getV('BTleft', '225'));
+			var BTtop = parseInt(getV('BTtop', '300'), 10);
+			var BTleft = parseInt(getV('BTleft', '225'), 10);
 			if($('#BTracker').length ==0) {
 				$('#game_container').append(
 					$('<div>').addClass('tracker').attr({id: 'BTracker', mode: btmode}).css({'top': BTtop, 'left': BTleft}).append(
@@ -1537,7 +1537,7 @@ if (document.getElementById('game_container') !== null) {
 					})
 				)
 			}
-			if (parseInt(getPow('bninfo',4,-1),10) === 3 && inFam === 'None') {
+			if (parseInt(getPow('bninfo',4,-1), 10) === 3 && inFam === 'None') {
 				$('#actions').html($('#actions').html()+' | <a href="/BeO/webroot/index.php?module=Family&who='+unick+'">Invite to Family</a>');
 			}
 		}
@@ -1823,9 +1823,9 @@ if (document.getElementById('game_container') !== null) {
 					city = getInfo[2];
 					plane = getInfo[3];
 					fam = getInfo[4];
-					lex = parseInt(getInfo[8]);
-					lexHour = parseInt(getInfo[9]);
-					lexDay = parseInt(getInfo[10]);
+					lex = parseInt(getInfo[8], 10);
+					lexHour = parseInt(getInfo[9], 10);
+					lexDay = parseInt(getInfo[10], 10);
 
 					// extra city checker
 					if (on_page('smuggling.php') && nn == 'center') {
@@ -1971,7 +1971,7 @@ if (document.getElementById('game_container') !== null) {
 						d = new Date();
 						table.append(
 							$('<tr>').append(
-								$('<td>').attr('colspan', '5').css({'text-align': 'center', 'font-size': '10px'}).text('Lex Level: ' + parseInt((lex-1)*100) + ' - Seen ' + ((d.getDay() != lexDay)?'1 Day ago':d.getHours() - lexHour + ' Hours ago'))
+								$('<td>').attr('colspan', '5').css({'text-align': 'center', 'font-size': '10px'}).text('Lex Level: ' + parseInt((lex-1)*100, 10) + ' - Seen ' + ((d.getDay() != lexDay)?'1 Day ago':d.getHours() - lexHour + ' Hours ago'))
 							)
 						)
 					}
@@ -2004,9 +2004,9 @@ if (document.getElementById('game_container') !== null) {
 							bn_xp = 'form > table > tbody > tr:eq(0) > td';
 							bn_text = $(bn_xp).html().split('|');
 
-							cash = parseInt(bn_text[0].replace(/[^0-9.]/g, ''));
-							booze = parseInt(bn_text[1].replace(/[^0-9.]/g, '')); //max amount user can carry
-							narcs = parseInt(bn_text[2].replace(/[^0-9.]/g, ''));
+							cash = parseInt(bn_text[0].replace(/[^0-9.]/g, ''), 10);
+							booze = parseInt(bn_text[1].replace(/[^0-9.]/g, ''), 10); //max amount user can carry
+							narcs = parseInt(bn_text[2].replace(/[^0-9.]/g, ''), 10);
 
 							b_amount = [0, 0, 0, 0, 0, 0, 0];
 							n_amount = [0, 0, 0, 0, 0, 0, 0]; //what is user carrying
@@ -2014,10 +2014,10 @@ if (document.getElementById('game_container') !== null) {
 							var xpn = 'table.thinline:eq(1) > tbody > tr:eq(';
 							for (i = 0; i <= 13; i++) { //define how much of this item is being carried
 								if (i < 7 && !lbooze) {
-									b_amount[i] = parseInt($(xpb + (i + 3) + ') > td:eq(2)').text());
+									b_amount[i] = parseInt($(xpb + (i + 3) + ') > td:eq(2)').text(), 10);
 								}
 								if (i > 6 && !lnarcs) {
-									n_amount[(i - 7)] = parseInt($(xpn + (i - 4) + ') > td:eq(2)').text());
+									n_amount[(i - 7)] = parseInt($(xpn + (i - 4) + ') > td:eq(2)').text(), 10);
 								}
 							}
 							carry_n = n_amount.sum();
@@ -2030,12 +2030,12 @@ if (document.getElementById('game_container') !== null) {
 							}
 							if (sel == 1) { //CD Run
 								for (i = 0; i <= 6; i++) {
-									nItem = parseInt(BN[0][i][(city - 4 + 2)]);
+									nItem = parseInt(BN[0][i][(city - 4 + 2)], 10);
 									highNarc = ((i == 0) ? nItem : ((highNarc > nItem) ? highNarc : nItem));
 									if (highNarc == nItem) {
 										n = i;
 									}
-									bItem = parseInt(BN[1][i][(city - 4 + 2)]);
+									bItem = parseInt(BN[1][i][(city - 4 + 2)], 10);
 									highBooze = ((i == 0) ? bItem : ((highBooze > bItem) ? highBooze : bItem));
 									if (highBooze == bItem) {
 										b = i;
@@ -2046,12 +2046,12 @@ if (document.getElementById('game_container') !== null) {
 							}
 							if (sel == 2) { //RP Run
 								for (i = 0; i <= 6; i++) {
-									nItem = parseInt(BN[0][i][(city - 4 + 2)]);
+									nItem = parseInt(BN[0][i][(city - 4 + 2)], 10);
 									lowNarc = ((i == 0) ? nItem : ((lowNarc < nItem) ? lowNarc : nItem));
 									if (lowNarc == nItem) {
 										n = i;
 									}
-									bItem = parseInt(BN[1][i][(city - 4 + 2)]);
+									bItem = parseInt(BN[1][i][(city - 4 + 2)], 10);
 									lowBooze = ((i == 0) ? bItem : ((lowBooze < bItem) ? lowBooze : bItem));
 									if (lowBooze == bItem) {
 										b = i;
@@ -2090,8 +2090,8 @@ if (document.getElementById('game_container') !== null) {
 						}
 						AF(getInfo[5]);
 
-						var AFtop = parseInt(getV('AFtop', '225'));
-						var AFleft = parseInt(getV('AFleft', '300'));
+						var AFtop = parseInt(getV('AFtop', '225'), 10);
+						var AFleft = parseInt(getV('AFleft', '300'), 10);
 						if(!$('#AF').length) {
 							var top = (getInfo[6] == -1) ? '-95px' : '10px';
 							$('#game_container').append(
@@ -2204,7 +2204,7 @@ if (document.getElementById('game_container') !== null) {
 					for (BN = [], i = 0; i <= 1; i++) { //B/N
 						for (BN[i] = [], j = 0; j <= 6; j++) { //type
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { //city
-								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, '')));
+								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, ''), 10));
 							}
 							BN[i][j].unshift(BN[i][j].min()); //get min
 							BN[i][j].unshift(BN[i][j].max()); //get max
@@ -2219,7 +2219,7 @@ if (document.getElementById('game_container') !== null) {
 						for (BN = [], i = 0; i <= 1; i++) { //B/N
 							for (BN[i] = [], j = 0; j <= 6; j++) { //type
 								for (BN[i][j] = [], k = 0; k <= 7; k++) {
-									BN[i][j].push(parseInt(dom.getElementsByTagName((i == 0 ? (narcnames[(j + 1)]).replace('abacco', 'obacco') : boozenames[(j + 1)]).toLowerCase())[k].textContent)); //city
+									BN[i][j].push(parseInt(dom.getElementsByTagName((i == 0 ? (narcnames[(j + 1)]).replace('abacco', 'obacco') : boozenames[(j + 1)]).toLowerCase())[k].textContent, 10)); //city
 								}
 								BN[i][j].unshift(BN[i][j].min()); //get min
 								BN[i][j].unshift(BN[i][j].max()); //get max
@@ -2253,7 +2253,7 @@ if (document.getElementById('game_container') !== null) {
 					for (BN = [], i = 0; i <= 1; i++) { // B/N
 						for (BN[i] = [], j = 0; j <= 6; j++) { // type
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
-								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, '')));
+								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, ''), 10));
 							}
 							BN[i][j].unshift(BN[i][j].min()); //get min
 							BN[i][j].unshift(BN[i][j].max()); //get max
@@ -2349,7 +2349,7 @@ if (document.getElementById('game_container') !== null) {
 						$(xpb + x + ') > td:eq(0)').empty()
 						$(xpb + x + ') > td:eq(0)').append(
 							$('<span>').attr({id: 'bh'+i, index: i, acceskey: (i + 1), title: 'Fill in this booze (Hotkey: '+(i+1)+')'}).css('cursor', 'pointer').text((i + 1)+' '+bname).click(function() {
-								var i = parseInt($(this).attr('index'));
+								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]')
 								for(var j=0;j<=7;j++) {//reset form
 									if (j!=i) {
@@ -2409,7 +2409,7 @@ if (document.getElementById('game_container') !== null) {
 						$(xpn + x + ') > td:eq(0)').empty()
 						$(xpn + x + ') > td:eq(0)').append(
 							$('<span>').attr({id: 'nh'+i, index: i, title: 'Fill in this narc'}).css('cursor', 'pointer').text(nname).click(function() {
-								var i = parseInt($(this).attr('index'));
+								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]')
 								for(var j=0;j<=6;j++) {//reset form
 									if (j!=i-7) {
@@ -2423,9 +2423,9 @@ if (document.getElementById('game_container') !== null) {
 								var total = n_amount.sum();
 								var missing = narcs - n_amount[i-7];
 								if(lbooze) {
-									var value = parseInt(inpt[i-7].value);
+									var value = parseInt(inpt[i-7].value, 10);
 								} else {
-									var value = parseInt(inpt[(i + 1)].value);
+									var value = parseInt(inpt[(i + 1)].value, 10);
 								}
 								if (n_amount[i-7] == 0 && total < narcs) {
 									if (value == 0) {
@@ -2585,7 +2585,7 @@ if (document.getElementById('game_container') !== null) {
 				var carType = '';
 				var carid = $(this).find('td:eq(0)').text();
 				var car = $(this).find('td:eq(1)').find('a').attr('href').match(/\d*$/);
-				var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', '')); //get value
+				var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); //get value
 				totVal += carVal;
 				$(this).click(function() {
 					var check = $(this).find('input[value="'+carid+'"]');
