@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                05-07-2013
+// @date                07-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2680,6 +2680,150 @@ $('#game_container').one('DOMNodeInserted', function() {
 	setTimeout(function() {
 		CheckBmsg();
 	}, 1000);
+});
+
+/*
+* Prices in topbar
+*/
+
+$('#omerta_bar').one('DOMNodeInserted', function() {
+	function buildMarquee() {
+		setTimeout(function() {
+			GM_xmlhttpRequest({
+				method: 'GET',
+				url: 'http://www.barafranca.com/BeO/webroot/index.php?module=API&action=smuggling_prices',
+				onload: function(resp){
+					var parser = new DOMParser();
+					var dom = parser.parseFromString(resp.responseText, 'application/xml');
+
+					function getPrice(drug, city) {
+						return dom.getElementsByTagName(drug)[city].textContent;
+					}
+					function refreshMarquee(h,m) {
+						h = (m>=31?h+1:h);
+						m = (m>=31?1:31);
+						var d = new Date();
+						d.setHours( h );
+						d.setMinutes( m );
+						d.setSeconds( 0 );
+						d.setMilliseconds( 0 );
+						return ( d.getTime() - unsafeWindow.omerta.server.clock.getTime() ) ;
+					}
+
+					var p = [];
+					var q = new Array;
+					var p_C = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
+					var p_id = ['0', '1', '2', '3', '4', '5', '6', '7'];
+
+					for (i=0;i<=7;i++){ p[i]=getPrice('cocaine', i); q[i]=p[i]; }
+
+					var max = p.sort( function(a, b){ return b-a; } )[0];
+					var min = p[(p.length-1)];
+
+					i=0;
+					q.forEach(function($n){
+						if($n==min){
+							q[i] = '<span style="color:#00ff00;">' + $n + '</span>';
+						}
+						if($n==max){
+							q[i] = '<span style="color:#ff0000;">' + $n + '</span>';
+						}
+						i++;
+					});
+
+					var time = dom.getElementsByTagName('humantime')[0].textContent;
+					time = time.split(' ')[0];
+					time = time.split(':');
+					time = (time[1]<30)?time[0]+':00 OT':time[0]+':30 OT';
+
+					function hovermenu(city, x) {
+						$('#hiddenbox').css({display: 'inline', left: x}).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city))
+					}
+
+					function flytolink(city, priceStr, priceToFly, cityId) {
+						var mycity = getPow('bninfo', 2, -1);
+						var link = $('<a>').attr({id: p_C[city], href: '#'}).css({color: '#FFF', fontSize: '10px'}).click(function () {
+							if (mycity-4 == city) {
+								alert('You are already staying in this city!');
+							} else if (confirm('Are you sure you want to travel to ' + p_C[city] + '?')) {
+								window.location = '#/BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId='+((city == 'nul') ? 0 : city)+'&travel=yes';
+							}
+						});
+
+						if (city == 5 || city == 6 || city == 7) {
+							link.mouseover(function(event) {
+								hovermenu(city, event.clientX - 560);
+								$(this).css('textDecoration', 'underline')
+							});
+						} else if (city == 0 || city == 1 || city == 2) {
+							link.mouseover(function(event) {
+								hovermenu(city, event.clientX + 25);
+								$(this).css('textDecoration', 'underline')
+							});
+						} else {
+							link.mouseover(function(event) {
+								hovermenu(city, event.clientX - 200);
+								$(this).css('textDecoration', 'underline')
+							});
+						}
+						link.mouseout(function(event) {
+							$('#hiddenbox').css('display', 'none');
+							$(this).css('textDecoration', 'none')
+						});
+						link.html(priceStr);
+	
+						return link;
+					}
+
+					var span = $('<span>').append(
+						$('<span>').text(time+' : ')
+					)
+
+					i=0;
+					p.forEach(function($n){
+						span.css('color', '#FFF')
+						span.append(flytolink(i, p_C[i]+':'+q[i], 500, p_id[i]), $('<span>').text(' | '))
+						i++;
+					});
+
+					span.append(
+						$('<a>').attr({href: 'http://gm.omertabeyond.com/prices.php?v='+v, target: 'main'}).text('All Prices').css({color: '#FFF', fontSize: '10px'}).hover(function() {
+							$(this).css('textDecoration', 'underline')
+						}, function() {
+							$(this).css('textDecoration', 'none')
+						})
+					)
+
+					$('#marquee').html(span)
+					setTimeout(buildMarquee, refreshMarquee(new Date().getHours(),new Date().getMinutes()));
+
+					// testing will be removed
+					var t = refreshMarquee(new Date().getHours(), new Date().getMinutes())
+					var s = unsafeWindow.omerta.server.clock.getTime()
+					var ts = new Date(refreshMarquee(new Date().getHours(), new Date().getMinutes()))
+					var mins = ts.getMinutes();
+					var secs = ts.getSeconds();
+					console.log('refreshing in '+mins+'m '+secs+'s @ '+new Date(s+t));
+					console.log('its now '+new Date());
+				}
+			});
+		});
+	}
+
+	$('.menu > ul').append(
+		$('<li>').addClass('right').append(
+			$('<div>').attr('id', 'marquee').css({align: 'center', width: '100%', paddingTop: '5px'}),
+			$('<div>').attr('id', 'hiddenbox').addClass('marqueebox')
+		)
+	)
+
+	buildMarquee();
+
+	city = getPow('bninfo', 2, -1);
+	if(city > 0){
+		city = p_C[city-4];
+		$('#'+city).css('font-style', 'italic')
+	}
 });
 
 /*
