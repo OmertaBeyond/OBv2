@@ -2711,8 +2711,7 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 					}
 
 					var p = [];
-					var q = new Array;
-					var p_id = ['0', '1', '2', '3', '4', '5', '6', '7'];
+					var q = [];
 
 					for (i=0;i<=7;i++){ p[i]=getPrice('cocaine', i); q[i]=p[i]; }
 
@@ -2781,7 +2780,7 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 					i=0;
 					p.forEach(function($n){
 						span.css('color', '#FFF')
-						span.append(flytolink(i, cities[i]+':'+q[i], 500, p_id[i]), $('<span>').text(' | '))
+						span.append(flytolink(i, cities[i]+':'+q[i], 500, i), $('<span>').text(' | '))
 						i++;
 					});
 
@@ -2795,15 +2794,6 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 
 					$('#marquee').html(span)
 					setTimeout(buildMarquee, refreshMarquee(new Date().getHours(),new Date().getMinutes()));
-
-					// testing will be removed
-					var t = refreshMarquee(new Date().getHours(), new Date().getMinutes())
-					var s = unsafeWindow.omerta.server.clock.getTime()
-					var ts = new Date(refreshMarquee(new Date().getHours(), new Date().getMinutes()))
-					var mins = ts.getMinutes();
-					var secs = ts.getSeconds();
-					console.log('refreshing in '+mins+'m '+secs+'s @ '+new Date(s+t));
-					console.log('its now '+new Date());
 				}
 			});
 		});
