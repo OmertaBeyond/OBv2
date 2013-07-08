@@ -54,6 +54,29 @@ const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 const cur_v = '4.1';
 
+function whatV(hostname) {
+	switch (hostname || window.location.hostname) {
+		case 'www.omerta3.com':
+		case 'omerta3.com':
+		case 'www.barafranca.com':
+		case 'barafranca.com':
+		case 'www.barafranca.us':
+		case 'barafranca.us':
+			return 'com';
+		case 'deathmatch.barafranca.com':
+		case 'dm.barafranca.com':
+			return 'dm';
+		case 'www.barafranca.nl':
+		case 'barafranca.nl':
+			return 'nl';
+		case 'www.barafranca.gen.tr':
+		case 'barafranca.gen.tr':
+			return 'tr';
+		default:
+			return undefined;
+	}
+}
+
 var v = whatV();
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
