@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                07-07-2013
+// @date                08-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -86,10 +86,6 @@ var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium',
 * Helper functions
 */
 
-Array.prototype.sum = function () {
-	for (i = 0, sum = 0; i < this.length; sum += this[i++]);
-	return sum;
-};
 Array.prototype.max = function () {
 	return Math.max.apply({}, this);
 };
@@ -1586,7 +1582,6 @@ if (document.getElementById('game_container') !== null) {
 					setV('bninfo', -1);
 				}
 			}
-
 			//grab Lex
 			if ($('span#lexhelpsyou').length) {
 				lex = parseInt($('span#lexhelpsyou').html().replace(/[^0-9]/g,''), 10);
@@ -1746,8 +1741,8 @@ if (document.getElementById('game_container') !== null) {
 					lex = 1 + 0.01*lex;
 					for (nCityprofit = [], bCityprofit = [], i = 0; i <= 7; i++) { // get profit per single unit of b/n
 						for (nCityprofit[i] = [], bCityprofit[i] = [], j = 0; j <= 6; j++) { // price there - price here
-							nCityprofit[i].push(Math.round(BN[0][j][(i + 2)]*lex) - BN[0][j][(city - 4 + 2)]); //-4 correction for city ID,
-							bCityprofit[i].push(Math.round(BN[1][j][(i + 2)]*lex) - BN[1][j][(city - 4 + 2)]); //+2 correction for min/max @ [0]+[1] in BN array
+							nCityprofit[i].push(Math.round(BN[0][j][(i + 2)]*lex) - Math.round(BN[0][j][(city - 4 + 2)])); //-4 correction for city ID,
+							bCityprofit[i].push(Math.round(BN[1][j][(i + 2)]*lex) - Math.round(BN[1][j][(city - 4 + 2)])); //+2 correction for min/max @ [0]+[1] in BN array
 						}
 						nCityprofit[i].unshift(nCityprofit[i].max()); //most profit per unit in this city
 						bCityprofit[i].unshift(bCityprofit[i].max());
@@ -1925,8 +1920,8 @@ if (document.getElementById('game_container') !== null) {
 									n_amount[(i - 7)] = parseInt($(xpn + (i - 4) + ') > td:eq(2)').text(), 10);
 								}
 							}
-							carry_n = n_amount.sum();
-							carry_b = b_amount.sum(); //how much is the user carrying already
+							carry_n = array_sum(n_amount);
+							carry_b = array_sum(b_amount); //how much is the user carrying already
 							//which item do we want?
 							key = [0, 4, 6, 1, 2, 3, 5];
 							if (sel == 0) { //Calc for Best Run
@@ -2064,9 +2059,10 @@ if (document.getElementById('game_container') !== null) {
 
 						var mode = getV('brcAF', 0);
 
-						var xp = 'form > table > tbody > tr:eq(0) > td > center';
+						var xp = 'form > table > tbody > tr:eq(0) > td';
 						if($('#do_n').length == 0) {
 							$(xp).append(
+								$('<br />'),
 								$('<span>').attr({id: 'do_n', title: 'AutoFill just narcs according to selected BRC mode (Hotkey: [ )', acceskey: '['}).css('cursor', 'pointer').text('Narcs'),
 								$('<span>').text(' | '),
 								$('<span>').attr({id: 'do_b', title: 'AutoFill just booze according to selected BRC mode (Hotkey: ] )', acceskey: ']'}).css('cursor', 'pointer').text('Booze'),
@@ -2261,7 +2257,7 @@ if (document.getElementById('game_container') !== null) {
 										inpt[j+1].value = 0;
 									}
 								}
-								var total = b_amount.sum();
+								var total = array_sum(b_amount);
 								var missing = booze - b_amount[i];
 								var value = inpt[(i + 1)].value;
 								if (b_amount[i] == 0 && total < booze) {
@@ -2325,7 +2321,7 @@ if (document.getElementById('game_container') !== null) {
 										}
 									}
 								}
-								var total = n_amount.sum();
+								var total = array_sum(n_amount);
 								var missing = narcs - n_amount[i-7];
 								if(lbooze) {
 									var value = parseInt(inpt[i-7].value, 10);
@@ -2438,17 +2434,9 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			//create more efficient info text
-			var str = $('<center>').append(
-				$('<table>').append(
-					$('<tr>').append(
-						$('<td>').text('Pocket: $ '+commafy(cash)+' |'),
-						$('<td>').text('Booze: '+booze+' |'),
-						$('<td>').text('Narcs: '+narcs+' |'),
-						$('<td>').text('Lex: '+lex)
-					)
-				)
-			);
+			var str = $('<span>').text('Pocket: $ '+commafy(cash)+' | Booze: '+booze+' | Narcs: '+narcs+' | Lex: '+lex);
 			$(bn_xp).html(str).append(
+				$('<br />'),
 				$('<a>').attr({href: 'prices.php', target: 'main'}).text('Current Booze/Narcotics Prices')
 			)
 			if(!lboth) {
@@ -2574,6 +2562,7 @@ if (document.getElementById('game_container') !== null) {
 				},100);
 			}
 		}
+//end
 	}, true);
 }
 
