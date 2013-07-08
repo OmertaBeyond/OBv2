@@ -2712,7 +2712,6 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 
 					var p = [];
 					var q = new Array;
-					var p_C = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 					var p_id = ['0', '1', '2', '3', '4', '5', '6', '7'];
 
 					for (i=0;i<=7;i++){ p[i]=getPrice('cocaine', i); q[i]=p[i]; }
@@ -2742,10 +2741,10 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 
 					function flytolink(city, priceStr, priceToFly, cityId) {
 						var mycity = getPow('bninfo', 2, -1);
-						var link = $('<a>').attr({id: p_C[city], href: '#'}).css({color: '#FFF', fontSize: '10px'}).click(function () {
+						var link = $('<a>').attr({id: cities[city], href: '#'}).css({color: '#FFF', fontSize: '10px'}).click(function () {
 							if (mycity-4 == city) {
 								alert('You are already staying in this city!');
-							} else if (confirm('Are you sure you want to travel to ' + p_C[city] + '?')) {
+							} else if (confirm('Are you sure you want to travel to ' + cities[city] + '?')) {
 								window.location = '#/BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId='+((city == 'nul') ? 0 : city)+'&travel=yes';
 							}
 						});
@@ -2782,7 +2781,7 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 					i=0;
 					p.forEach(function($n){
 						span.css('color', '#FFF')
-						span.append(flytolink(i, p_C[i]+':'+q[i], 500, p_id[i]), $('<span>').text(' | '))
+						span.append(flytolink(i, cities[i]+':'+q[i], 500, p_id[i]), $('<span>').text(' | '))
 						i++;
 					});
 
@@ -2821,7 +2820,7 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 
 	city = getPow('bninfo', 2, -1);
 	if(city > 0){
-		city = p_C[city-4];
+		city = cities[city-4];
 		$('#'+city).css('font-style', 'italic')
 	}
 });
