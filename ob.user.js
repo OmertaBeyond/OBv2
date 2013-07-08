@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                08-07-2013
+// @date                09-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -86,12 +86,6 @@ var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium',
 * Helper functions
 */
 
-Array.prototype.max = function () {
-	return Math.max.apply({}, this);
-};
-Array.prototype.min = function () {
-	return Math.min.apply({}, this);
-};
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
@@ -1744,8 +1738,8 @@ if (document.getElementById('game_container') !== null) {
 							nCityprofit[i].push(Math.round(BN[0][j][(i + 2)]*lex) - Math.round(BN[0][j][(city - 4 + 2)])); //-4 correction for city ID,
 							bCityprofit[i].push(Math.round(BN[1][j][(i + 2)]*lex) - Math.round(BN[1][j][(city - 4 + 2)])); //+2 correction for min/max @ [0]+[1] in BN array
 						}
-						nCityprofit[i].unshift(nCityprofit[i].max()); //most profit per unit in this city
-						bCityprofit[i].unshift(bCityprofit[i].max());
+						nCityprofit[i].unshift(Math.max.apply(null, nCityprofit[i])); //most profit per unit in this city
+						bCityprofit[i].unshift(Math.max.apply(null, bCityprofit[i]));
 					}
 					// create BRC table
 					var table = $('<table>').addClass('thinline').attr('id', 'brc').css('width', '500').append(
@@ -1892,7 +1886,7 @@ if (document.getElementById('game_container') !== null) {
 						}
 					}
 					// bold-ify Best Run
-					bestRun = allProfits.lastIndexOf(allProfits.max());
+					bestRun = allProfits.lastIndexOf(Math.max.apply(null, allProfits));
 					$('#brc > tbody > tr:eq(' + (3 + bestRun) + ')').css('font-weight', 'bold');
 
 					if (on_page('smuggling.php') && nn == 'center') {
@@ -2107,8 +2101,8 @@ if (document.getElementById('game_container') !== null) {
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { //city
 								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, ''), 10));
 							}
-							BN[i][j].unshift(BN[i][j].min()); //get min
-							BN[i][j].unshift(BN[i][j].max()); //get max
+							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); //get min
+							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); //get max
 						}
 					}
 					appBRC(BN);
@@ -2122,8 +2116,8 @@ if (document.getElementById('game_container') !== null) {
 								for (BN[i][j] = [], k = 0; k <= 7; k++) {
 									BN[i][j].push(parseInt(dom.getElementsByTagName((i == 0 ? (narcnames[(j + 1)]).replace('abacco', 'obacco') : boozenames[(j + 1)]).toLowerCase())[k].textContent, 10)); //city
 								}
-								BN[i][j].unshift(BN[i][j].min()); //get min
-								BN[i][j].unshift(BN[i][j].max()); //get max
+								BN[i][j].unshift(Math.min.apply(null, BN[i][j])); //get min
+								BN[i][j].unshift(Math.max.apply(null, BN[i][j])); //get max
 							}
 						}
 						appBRC(BN); //send prices to BRC function
@@ -2156,8 +2150,8 @@ if (document.getElementById('game_container') !== null) {
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
 								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, ''), 10));
 							}
-							BN[i][j].unshift(BN[i][j].min()); //get min
-							BN[i][j].unshift(BN[i][j].max()); //get max
+							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); //get min
+							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); //get max
 						}
 					}
 				}
@@ -2252,7 +2246,7 @@ if (document.getElementById('game_container') !== null) {
 							$('<span>').attr({id: 'bh'+i, index: i, acceskey: (i + 1), title: 'Fill in this booze (Hotkey: '+(i+1)+')'}).css('cursor', 'pointer').text((i + 1)+' '+bname).click(function() {
 								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]')
-								for(var j=0;j<=7;j++) {//reset form
+								for(var j=0;j<=6;j++) {//reset form
 									if (j!=i) {
 										inpt[j+1].value = 0;
 									}
