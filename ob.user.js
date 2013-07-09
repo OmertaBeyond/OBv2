@@ -103,8 +103,8 @@ function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
 }
 function GetParam(name) {
-    var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
-    return results[1] || 0;
+    var results = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href);
+    return results[1] || null;
 }
 function isVisible(node) {
 	var win = $(window);
