@@ -1272,50 +1272,29 @@ if (document.getElementById('game_container') !== null) {
 
 			var BTtop = parseInt(getV('BTtop', '300'), 10);
 			var BTleft = parseInt(getV('BTleft', '225'), 10);
-			if($('#BTracker').length ==0) {
+			if($('#BTracker').length == 0) {
 				$('#game_container').append(
-					$('<div>').addClass('tracker').attr({id: 'BTracker', mode: btmode}).css({'top': BTtop, 'left': BTleft}).append(
-						$('<center>').text('BulletTracker').css('font-weight', 'bold').click(function() {
-							div = $('#btinfo');
-							if (div.attr('mode') == 1) { //mode 1 - visible
-								div.attr('mode', 0); //mode 0 - moving
-								div.animate({ bottom:"-155px" }, 500, function() {
-									div.attr('mode', -1);
-									setV('brcDiv', -1);
-								});
-							}
-							if (div.attr('mode') == -1) { //mode 1 - visible
-								div.attr('mode', 0); //mode 0 - moving
-								div.animate( { bottom:"10px" }, 500, function() {
-									div.attr('mode', 1);
-									setV('brcDiv', 1);
-								});
-							}
+					$('<div>').addClass('tracker').attr({id: 'BTracker'}).css({top: BTtop, left: BTleft}).append(
+						$('<div>').attr({id: 'bthead'}).append(
+							$('<center>').text('BulletTracker').css({fontWeight: 'bold'})
+						).click(function() {
+							$('#BTracker').draggable();
 						}),
-						$('<hr>').css({'color': 'gray'}),
-						$('<div>').attr('id', 'bullettracker').html('Bullets bought:<font style="float:right;"><b>'+commafy(btbullets)+'</b></font><br />Bought today:<font style="float:right;"><b>'+commafy(bttoday)+'</b></font><br />Money spent:<font style="float:right;">$<b>'+commafy(btmoney)+'</b></font><br />Price per bullet:<font style="float:right;">$<b>'+commafy(btdolpbul)+'</b></font><br />Bought on Obay:*<font style="float:right;"><b>'+commafy(obaybul)+'</b></font><br /><font size="1">*not included in total or price per bullet</font>'),
-						$('<hr>').css({'color': 'gray'}),
-						$('<center>').append(
-							$('<div>').attr('id', 'resetbt').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
-								$(this).text('Stats have been reset!');
-								$('#bullettracker > font:not(:last-child) > b').text('0'); //temporary fix
-								setV('btbullets', 0);
-								setV('btmoney', 0);
-								setV('bttoday', 0);
-								setV('btdate', 0);
-								setV('obaybul', 0);
-							}).hover(function() {
-								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
-							}, function () {
-								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
-							})
-						)
+						$('<hr>').css({color: 'gray'}),
+						$('<div>').attr({id: 'bullettracker'}).html('Bullets bought:<font style="float:right;"><b>'+commafy(btbullets)+'</b></font><br />Bought today:<font style="float:right;"><b>'+commafy(bttoday)+'</b></font><br />Money spent:<font style="float:right;">$<b>'+commafy(btmoney)+'</b></font><br />Price per bullet:<font style="float:right;">$<b>'+commafy(btdolpbul)+'</b></font><br />Bought on Obay:*<font style="float:right;"><b>'+commafy(obaybul)+'</b></font><br /><font size="1">*not included in total or price per bullet</font>'),
+						$('<hr>').css({color: 'gray'}),
+						$('<div>').attr({id: 'btreset'}).text('Reset stats').click(function() {
+							$(this).text('Stats have been reset!');
+							$('#bullettracker > font:not(:last-child) > b').text('0');
+							setV('btbullets', 0);
+							setV('btmoney', 0);
+							setV('bttoday', 0);
+							setV('btdate', 0);
+							setV('obaybul', 0);
+						})
 					)
 				);
 			}
-			$(function() {
-				$('#BTracker').draggable();
-			});
 			$('#BTracker').mouseup(function() {
 				//alert('Set the x and y values using GM_getValue.');
 				var divOffset = $("#BTracker").offset();
