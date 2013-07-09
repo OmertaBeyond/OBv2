@@ -2486,7 +2486,6 @@ if (document.getElementById('game_container') !== null) {
 				)
 			}
 		}
-
 //---------------- quick lookup ----------------
 		if (on_page('user.php') && nn == 'span') {
 			var input = GetParam('nick');
@@ -2502,10 +2501,10 @@ if (document.getElementById('game_container') !== null) {
 							var total = xml.getElementsByTagName('totalresults')[0].textContent;
 								$('#game_container').html(str+': '+input);
 							if(input.length<3){
-								$('#game_container').html(str+':<br />This will give too many results. Try to be more specific.');
+								$('#game_container').html(str+': '+input+'<br />This will give too many results. Try to be more specific.');
 							}
 							else if(total!='0'){
-								$('#game_container').html((total<=50)?str+':<br />Maybe this is what you were looking for:<br />':str+':<br />Maybe this is what you were looking for:<br />Total results: '+total+' Showing first 50 results<br />');
+								$('#game_container').html((total<=50)?str+': '+input+'<br />Maybe this is what you were looking for:<br />':str+': '+input+'<br />Maybe this is what you were looking for:<br />Total results: '+total+' Showing first 50 results<br />');
 								var num = (total<=50)?total:50;
 								for(var i=0;i<num;i++){
 									var results = xml.getElementsByTagName('name')[i].textContent;
@@ -2516,7 +2515,7 @@ if (document.getElementById('game_container') !== null) {
 								$(window).keydown(function(event){ if(event.keyCode == 40) { if(j<num-1) { j++; $('#'+j).focus(); } } });
 								$(window).keydown(function(event){ if(event.keyCode == 38) { if(j!=0) { j--; $('#'+j).focus(); } } });
 							} else {
-								$('#game_container').html(str+':<br />Sorry, we also couldn\'t find any alternatives.');
+								$('#game_container').html(str+': '+input+'<br />Sorry, we also couldn\'t find any alternatives.');
 							}
 						}
 					});
