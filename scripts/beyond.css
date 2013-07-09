@@ -63,7 +63,19 @@
 	opacity: 0.90;
 	padding: 5px;
 	border-radius: 5px;
-	cursor: move;
+}
+.reset {
+	padding: 2px;
+	border-radius: 7px;
+	border: 2px solid grey;
+	text-align: center;
+}
+.reset:hover {
+	padding: 2px;
+	border-radius: 7px;
+	border: 2px solid #960011;
+	text-align: center;
+	cursor: pointer;
 }
 .NRinfo {
 	position: absolute;
@@ -93,4 +105,19 @@
 }
 div.Bmsg table tr td {
 	padding: 1px;
+}
+.marqueebox {
+	display: none;
+	position: absolute;
+	border: 1px solid #FFF;
+	top: 20px;
+	text-align: center;
+	border-radius: 5px;
+	padding: 3px;
+}
+#bthead {
+	cursor: move;
+}
+#sthead {
+	cursor: move;
 }
