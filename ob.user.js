@@ -1096,35 +1096,29 @@ if (document.getElementById('game_container') !== null) {
 			var SlTleft = parseInt(getV('SlTleft', '300'), 10);
 			if($('#SlTracker').length == 0) {
 				$('#game_container').append(
-					$('<div>').addClass('tracker').attr('id', 'SlTracker').css({'top': SlTtop, 'left': SlTleft}).append(
-						$('<center>').text('SlotsTracker').css('font-weight', 'bold'),
-						$('<hr>').css({'color': 'gray'}),
-						$('<div>').attr('id', 'slotstats').html('Games played:<font style="float:right;"><b>'+commafy(slotgames)+'</b></font><br />Games won:<font style="float:right;"><b>'+commafy(slotgwon)+' ('+sgamesWon2+'%)</b></font><br />Jackpot:<font style="float:right;"><b>'+slotjp+' ($'+commafy(jpmwon)+')</b></font><br />Triple BAR:<font style="float:right;"><b>'+slotbar+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(slotspent)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(slotmwon)+'</b></font><br />Profit:<font style="float:right;"><b>'+slotprofit+'</b></font>'),
-						$('<hr>').css({'color': 'gray'}),
-						$('<center>').append(
-							$('<div>').attr('id', 'resetslot').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
-								$(this).text('Stats have been reset!');
-								$('#slotstats').html('Games played:<font style="float:right;"><b>0</b></font><br />Games won:<font style="float:right;"><b>0 (0%)</b></font><br />Jackpot:<font style="float:right;"><b>0 ($0)</b></font><br />Triple BAR:<font style="float:right;"><b>0</b></font><br />Money Spent:<font style="float:right;"><b>$0</b></font><br />Money won:<font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font>');
-								setV('slotgames', 0);
-								setV('slotgwon', 0);
-								setV('slotmwon', 0);
-								setV('slotspent', 0);
-								setV('slotjp', 0);
-								setV('slotbar', 0);
-								setV('jpmwon', 0);
-							}).hover(function() {
-								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
-							}, function () {
-								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
-							})
-						)
+					$('<div>').addClass('tracker').attr({id: 'SlTracker'}).css({top: SlTtop, left: SlTleft}).append(
+						$('<div>').attr({id: 'slthead'}).append(
+							$('<center>').text('SlotsTracker').css({fontWeight: 'bold'})
+						).click(function() {
+							$('#SlTracker').draggable();
+						}),
+						$('<hr>').css({color: 'gray'}),
+						$('<div>').attr({id: 'sltbody'}).html('Games played:<font style="float:right;"><b>'+commafy(slotgames)+'</b></font><br />Games won:<font style="float:right;"><b>'+commafy(slotgwon)+' ('+sgamesWon2+'%)</b></font><br />Jackpot:<font style="float:right;"><b>'+slotjp+' ($'+commafy(jpmwon)+')</b></font><br />Triple BAR:<font style="float:right;"><b>'+slotbar+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(slotspent)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(slotmwon)+'</b></font><br />Profit:<font style="float:right;"><b>'+slotprofit+'</b></font>'),
+						$('<hr>').css({color: 'gray'}),
+						$('<div>').attr({id: 'sltreset'}).addClass('reset').text('Reset stats').click(function() {
+							$(this).text('Stats have been reset!');
+							$('#sltbody').html('Games played:<font style="float:right;"><b>0</b></font><br />Games won:<font style="float:right;"><b>0 (0%)</b></font><br />Jackpot:<font style="float:right;"><b>0 ($0)</b></font><br />Triple BAR:<font style="float:right;"><b>0</b></font><br />Money Spent:<font style="float:right;"><b>$0</b></font><br />Money won:<font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font>');
+							setV('slotgames', 0);
+							setV('slotgwon', 0);
+							setV('slotmwon', 0);
+							setV('slotspent', 0);
+							setV('slotjp', 0);
+							setV('slotbar', 0);
+							setV('jpmwon', 0);
+						})
 					)
 				);
 			}
-
-			$(function() {
-				$('#SlTracker').draggable();
-			});
 			$('#SlTracker').mouseup(function() {
 				var divOffset = $("#SlTracker").offset();
 				var left = divOffset.left;
