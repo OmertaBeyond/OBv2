@@ -104,7 +104,7 @@ function time() {
 }
 function GetParam(name) {
     var results = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href);
-    return results[1] || null;
+    return results[1] || 0;
 }
 function isVisible(node) {
 	var win = $(window);
@@ -586,7 +586,13 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=Heist') && nn == 'center') {
 			$('input[name="bullets"]').val('50');
 			$('select[name="gun"]').val('real');
-			$('input[name="driver"]').focus();
+			if(GetParam('driver')) {
+				var dr = GetParam('driver');
+				$('input[name="driver"]').val(dr)
+				$('input[type="submit"]').focus();
+			} else {
+				$('input[name="driver"]').focus();
+			}
 		}
 		//OC accept focus
 		if (on_page('/orgcrime2.php') && nn == 'br') {
@@ -613,6 +619,16 @@ if (document.getElementById('game_container') !== null) {
 			$('input:radio:eq(2)').prop('checked', true);
 			//ALL
 			$('input[type="submit"]').focus();
+		}
+		//Raid LE autoform
+		if (on_page('module=Spots') && nn == 'form') {
+			$('input[name="bullets"]').val('200');
+			if(GetParam('driver')) {
+				var dr = GetParam('driver');
+				$('input[name="driver"]').val(dr)
+			} else {
+				$('input[name="driver"]').focus;
+			}
 		}
 //---------------- Mail ----------------
 		//Inbox
@@ -1371,7 +1387,7 @@ if (document.getElementById('game_container') !== null) {
 			var self = ($('table.thinline > tbody > tr:eq(2) > td:eq(1) > a > span').text() == getV('nick', ''));
 			$('td.tableheader').parent().after(
 				$('<tr>').append(
-					$('<td>').addClass('profilerow').attr({'id': 'actions', 'colspan': '2', 'align': 'center'}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&who='+unick+'">Heist</a> | <a href="BeO/webroot/index.php?module=Spots&action=&driver='+unick+'">Raid</a> | <a href="kill.php?search='+unick+'">Hire Detectives</a>')
+					$('<td>').addClass('profilerow').attr({'id': 'actions', 'colspan': '2', 'align': 'center'}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver='+unick+'">Heist</a> | <a href="http://www.barafranca.com/BeO/webroot/index.php?module=Spots&driver='+unick+'">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives?search='+unick+'">Hire Detectives</a>')
 				)
 			)
 			if(!self && alive) {
@@ -2520,6 +2536,14 @@ if (document.getElementById('game_container') !== null) {
 						}
 					});
 				},100);
+			}
+		}
+// Kill page
+		if (on_page('module=Detectives') && nn == 'div') {
+			if(nid=='wrappertest') {
+				if(GetParam('search')) {
+					$('input[name="target"]').val(GetParam('search'))
+				}
 			}
 		}
 //end
