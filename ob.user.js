@@ -1150,12 +1150,11 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- Scratchtracker ----------------
 		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form')) {
-			var unopened, monin, mils, bullets, scratches;
-			unopened = getV('unopened', 0);
-			monin = parseInt(getV('monin', 0), 10);
-			mils = parseInt(getV('mils', 0), 10);
-			bullets = parseInt(getV('bullets', 0), 10);
-			scratches = parseInt(getV('scratches', 0), 10);
+			var unopened = getV('unopened', 0);
+			var monin = parseInt(getV('monin', 0), 10);
+			var mils = parseInt(getV('mils', 0), 10);
+			var bullets = parseInt(getV('bullets', 0), 10);
+			var scratches = parseInt(getV('scratches', 0), 10);
 
 			if ($('#game_container:contains(Congratulations!)').length) { //grab winning event
 				if ($('#game_container:contains(They have been added to your account!)').length) { //bullets
@@ -1206,33 +1205,28 @@ if (document.getElementById('game_container') !== null) {
 
 			var STtop = parseInt(getV('STtop', '225'), 10);
 			var STleft = parseInt(getV('STleft', '300'), 10);
-			if($('#STracker').length ==0) {
+			if($('#STracker').length == 0) {
 				$('#game_container').append(
-					$('<div>').addClass('tracker').attr('id', 'STracker').css({'top': STtop, 'left': STleft}).append(
-						$('<center>').text('ScratchTracker').css('font-weight', 'bold'),
-						$('<hr>').css({'color': 'gray'}),
-						$('<div>').attr('id', 'statsscratcher').html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
-						$('<hr>').css({'color': 'gray'}),
-						$('<center>').append(
-							$('<div>').attr('id', 'resetscratcher').css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'}).text('Reset stats').click(function() {
-								$(this).text('Stats have been reset!');
-								$('#statsscratcher').html('Scratched:<font style="float:right;"><b>0</b></font><br />Money spent:<font style="float:right;"><b>$0</b></font><br />Money won: <font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font><br />Millions:<font style="float:right;"><b>0</b></font><br />Bullets won:<font style="float:right;"><b>0</b></font><br />Price per bullet:<font style="float:right;"><b>$0</b></font>');
-								setV('monin', 0);
-								setV('mils', 0);
-								setV('bullets', 0);
-								setV('scratches', 0);
-							}).hover(function() {
-								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid #960011', 'cursor': 'pointer'});
-							}, function () {
-								$(this).css({'padding': '2px', 'border-radius': '7px', 'border': '2px solid grey'});
-							})
-						)
+					$('<div>').addClass('tracker').attr({id: 'STracker'}).css({top: STtop, left: STleft}).append(
+						$('<div>').attr({id: 'sthead'}).append(
+							$('<center>').text('ScratchTracker').css({fontWeight: 'bold'})
+						).click(function() {
+							$('#STracker').draggable();
+						}),
+						$('<hr>').css({color: 'gray'}),
+						$('<div>').attr({id: 'stbody'}).html('Scratched:<font style="float:right;"><b>'+commafy(scratches)+'</b></font><br />Money spent:<font style="float:right;"><b>$'+commafy(monout)+'</b></font><br />Money won:<font style="float:right;"><b>$'+commafy(monin)+'</b></font><br />Profit:<font style="float:right;"><b>'+profit+'</b></font><br />Millions:<font style="float:right;"><b>'+commafy(mils)+'</b></font><br />Bullets won:<font style="float:right;"><b>'+commafy(bullets)+'</b></font><br />Price per bullet:<font style="float:right;"><b>$'+commafy(ppk)+'</b></font>'),
+						$('<hr>').css({color: 'gray'}),
+						$('<div>').attr({id: 'streset'}).addClass('reset').text('Reset stats').click(function() {
+							$(this).text('Stats have been reset!');
+							$('#stbody').html('Scratched:<font style="float:right;"><b>0</b></font><br />Money spent:<font style="float:right;"><b>$0</b></font><br />Money won: <font style="float:right;"><b>$0</b></font><br />Profit:<font style="float:right;"><b>$0</b></font><br />Millions:<font style="float:right;"><b>0</b></font><br />Bullets won:<font style="float:right;"><b>0</b></font><br />Price per bullet:<font style="float:right;"><b>$0</b></font>');
+							setV('monin', 0);
+							setV('mils', 0);
+							setV('bullets', 0);
+							setV('scratches', 0);
+						})
 					)
 				);
 			}
-			$(function() {
-				$('#STracker').draggable();
-			});
 			$('#STracker').mouseup(function() {
 				//alert('Set the x and y values using GM_getValue.');
 				var divOffset = $("#STracker").offset();
@@ -1281,11 +1275,11 @@ if (document.getElementById('game_container') !== null) {
 							$('#BTracker').draggable();
 						}),
 						$('<hr>').css({color: 'gray'}),
-						$('<div>').attr({id: 'bullettracker'}).html('Bullets bought:<font style="float:right;"><b>'+commafy(btbullets)+'</b></font><br />Bought today:<font style="float:right;"><b>'+commafy(bttoday)+'</b></font><br />Money spent:<font style="float:right;">$<b>'+commafy(btmoney)+'</b></font><br />Price per bullet:<font style="float:right;">$<b>'+commafy(btdolpbul)+'</b></font><br />Bought on Obay:*<font style="float:right;"><b>'+commafy(obaybul)+'</b></font><br /><font size="1">*not included in total or price per bullet</font>'),
+						$('<div>').attr({id: 'btbody'}).html('Bullets bought:<font style="float:right;"><b>'+commafy(btbullets)+'</b></font><br />Bought today:<font style="float:right;"><b>'+commafy(bttoday)+'</b></font><br />Money spent:<font style="float:right;">$<b>'+commafy(btmoney)+'</b></font><br />Price per bullet:<font style="float:right;">$<b>'+commafy(btdolpbul)+'</b></font><br />Bought on Obay:*<font style="float:right;"><b>'+commafy(obaybul)+'</b></font><br /><font size="1">*not included in total or price per bullet</font>'),
 						$('<hr>').css({color: 'gray'}),
-						$('<div>').attr({id: 'btreset'}).text('Reset stats').click(function() {
+						$('<div>').attr({id: 'btreset'}).addClass('reset').text('Reset stats').click(function() {
 							$(this).text('Stats have been reset!');
-							$('#bullettracker > font:not(:last-child) > b').text('0');
+							$('#btbody > font:not(:last-child) > b').text('0');
 							setV('btbullets', 0);
 							setV('btmoney', 0);
 							setV('bttoday', 0);
