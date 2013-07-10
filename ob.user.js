@@ -2495,7 +2495,7 @@ if (document.getElementById('game_container') !== null) {
 			).insertBefore('table.thinline')
 			// show footerdiv only when last tr is not visible
 			$(window).scroll(function() {
-				if(isVisible($('#game_container').find('tr:eq('+(rows-1)+')'))) {
+				if(isVisible($('tr:has(input[name="shipcity"])'))) {
 					$('#footer').css('display', 'none');
 				} else {
 					$('#footer').css('display', 'block');
