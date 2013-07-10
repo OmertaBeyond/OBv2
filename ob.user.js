@@ -78,6 +78,7 @@ function whatV(hostname) {
 }
 
 var v = whatV();
+var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
 var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
@@ -207,7 +208,6 @@ function bnUpdate(current){
 	setV('nick', nick);
 
 	//define max b/n judging by rank
-	var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Boy', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 	var maxBooze = [1, 2, 2, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 70, 70];
 	var maxNarcs = [0, 0, 0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 20, 20, 20];
 	for(booze=0,narc=0, i=0;i<=17;i++){
@@ -2057,14 +2057,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 			if (getV('bninfo', -1) > 0) { //do we have info data?
-
-//				if (getV('brcAF', 0) == 1 && prefs[18]) { //remove blue calculation texts
-//					if (db.innerHTML.search('<font color="blue">') != -1) {
-//						$del('//font[@color="blue"]');
-//					}
-//				}
-
-				//create 'unsafeDiv' to transfer data to XHR function
+				//create infodiv to transfer data to XHR function
 				narc = getPow('bninfo', 0, -1);
 				booze = getPow('bninfo', 1, -1);
 				city = getPow('bninfo', 2, -1);
@@ -2073,7 +2066,7 @@ if (document.getElementById('game_container') !== null) {
 
 				if($('#info').length == 0) {
 					$('#game_container').append(
-						$('<div>').attr('id', 'info').css('display', 'none').text(narc + '*' + booze + '*' + city + '*' + plane + '*' + fam + '*' + getV('brcAF', 0) + '*' + getV('brcDiv', 1) + '*https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png*' + lex + '*' + lexHour + '*' + lexDay)
+						$('<div>').attr('id', 'info').css('display', 'none').text(narc + '*' + booze + '*' + city + '*' + plane + '*' + fam + '*' + getV('brcAF', 0) + '*' + lex + '*' + lexHour + '*' + lexDay)
 					)
 				}
 
