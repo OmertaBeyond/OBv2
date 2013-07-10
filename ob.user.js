@@ -2792,13 +2792,13 @@ if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != 
 	$.get('/information.php', function(data) {
 		var a = data.split('<tbody');
 		if(a[2]){ // fails on clicklimit or other error
-			$('#wrapper').append(
+			$('#game_wrapper').append(
 				$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
 			)
 			bnUpdate(0);//call update fucntion
 			$.get('/user.php?nick='+getV('nick', ''), function(data) {
 				var a = data.split('<script');
-				$('#wrapper').append(
+				$('#game_wrapper').append(
 					$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
 				)
 				if($('#xhr').length) {
