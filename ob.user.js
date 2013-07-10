@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                09-07-2013
+// @date                10-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2507,6 +2507,31 @@ if (document.getElementById('game_container') !== null) {
 					$('<div>').attr({id: 'footer'}).css({'position': 'fixed', 'bottom': '0px', 'background': '#F0F0F0', 'border': '1px solid black', 'width': '70%', 'color': '#000'}).html($('tr:has(input[name="shipcity"])').html())
 				)
 			}
+			$('tr:has(input[name="shipcity"])>td').append(
+				$('<select>').attr({id: 'selsort'}).append(
+					$('<option>').attr('value', '0').text('-----'),
+					$('<option>').attr('value', '1').text('Above'),
+					$('<option>').attr('value', '2').text('Below')
+				),
+				$('<input>').attr({type: 'text', id: 'selval', size: '9'}),
+				$('<input>').attr({type: 'button', id: 'selgo', value: 'Select'}).click(function() {
+					if($('#selval').val() != '' && $('#selsort').val()!= '-----') {
+						var sort = $('#selsort').val();
+						var val = $('#selval').val();
+						$('tr.thinline').each(function() { //loop rows
+							var carid = $(this).find('td:eq(0)').text();
+							var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); //get value
+							var check = $(this).find('input[value="'+carid+'"]');
+							if(check.prop('checked') === true) {
+								check.prop('checked', false)
+							}
+							if((carVal>val && sort == 1)||(carVal<val && sort == 2)) {
+								check.prop('checked', true)
+							}
+						})
+					}
+				})
+			)
 		}
 //---------------- quick lookup ----------------
 		if (on_page('user.php') && nn == 'span') {
