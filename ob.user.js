@@ -316,6 +316,14 @@ if (document.getElementById('game_container') !== null) {
 		var wlh = window.location.hash;
 		var nn  = event.target.tagName.toLowerCase();
 		var nid  = event.target.getAttribute('id');
+		
+		// unbind events
+		if (!on_page('garage.php')) {
+			$(window).unbind('scroll');
+		}
+		if (!on_page('action=showMsg')) {
+			$(window).unbind('keydown');
+		}
 
 		if (on_page('family.php') && nn == 'center') {
 
@@ -798,22 +806,21 @@ if (document.getElementById('game_container') !== null) {
 				}, 0);
 			}
 			// Add arrow hotkeys
-			// Disabled until found a good way to bind it to showmsg only
-//			$(window).keydown(function(event){
-//				var key = event.which;
-//				if(key==39){ //right, reply
-//					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=sendMsg&iReply='+id;
-//				}
-//				if(key==38 && id != ids[0]) { //up, select previous
-//					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+next;
-//				}
-//				if(key==40 && id != ids[ids.length-1]) { //down, select next
-//					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+prev;
-//				}
-//				if(key==37) { //left, delete
-//					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=2';
-//				}
-//			});
+			$(window).keydown(function(event){
+				var key = event.which;
+				if(key==39){ //right, reply
+					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=sendMsg&iReply='+id;
+				}
+				if(key==38 && id != ids[0]) { //up, select previous
+					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+next;
+				}
+				if(key==40 && id != ids[ids.length-1]) { //down, select next
+					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+prev;
+				}
+				if(key==37) { //left, delete
+					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=2';
+				}
+			});
 		}
 		//focus on text area
 		if (on_page('iReply=') && nn == 'center') {
@@ -2481,7 +2488,7 @@ if (document.getElementById('game_container') !== null) {
 				)
 			}
 			// show footerdiv only when last tr is not visible
-			$('#game_container').scroll(function() {
+			$(window).scroll(function() {
 				if(isVisible($('#game_container').find('tr:eq('+(rows-1)+')'))) {
 					$('#footer').css('display', 'none');
 				} else {
