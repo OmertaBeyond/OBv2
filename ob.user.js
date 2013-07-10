@@ -1707,9 +1707,9 @@ if (document.getElementById('game_container') !== null) {
 					city = getInfo[2];
 					plane = getInfo[3];
 					fam = getInfo[4];
-					lex = parseInt(getInfo[8], 10);
-					lexHour = parseInt(getInfo[9], 10);
-					lexDay = parseInt(getInfo[10], 10);
+					lex = parseInt(getInfo[6], 10);
+					lexHour = parseInt(getInfo[7], 10);
+					lexDay = parseInt(getInfo[8], 10);
 
 					// extra city checker
 					if (on_page('smuggling.php') && nn == 'center') {
