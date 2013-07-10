@@ -2487,6 +2487,12 @@ if (document.getElementById('game_container') !== null) {
 					$('<span>').text(' | Total car value of this page: $'+commafy(totVal))
 				)
 			}
+			// scrolldown link
+			$('<div>').css({float: 'right', cursor: 'pointer'}).append(
+				$('<span>').text('Scroll down').click(function() {
+					$('html').animate({scrollTop: $('#game_wrapper_master').height()}, 1000);
+				})
+			).insertBefore('table.thinline')
 			// show footerdiv only when last tr is not visible
 			$(window).scroll(function() {
 				if(isVisible($('#game_container').find('tr:eq('+(rows-1)+')'))) {
