@@ -54,39 +54,13 @@ const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 const cur_v = '4.1';
 
-function whatV(hostname) {
-	switch (hostname || window.location.hostname) {
-		case 'www.omerta3.com':
-		case 'omerta3.com':
-		case 'www.barafranca.com':
-		case 'barafranca.com':
-		case 'www.barafranca.us':
-		case 'barafranca.us':
-			return 'com';
-		case 'deathmatch.barafranca.com':
-		case 'dm.barafranca.com':
-			return 'dm';
-		case 'www.barafranca.nl':
-		case 'barafranca.nl':
-			return 'nl';
-		case 'www.barafranca.gen.tr':
-		case 'barafranca.gen.tr':
-			return 'tr';
-		default:
-			return undefined;
-	}
-}
-
-var v = whatV();
-var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
-var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
-var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
-var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
-
 /*
 * Helper functions
 */
 
+function array_sum(array) {
+    return array.reduce(function (a, b) { return a + b; })
+}
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
@@ -109,7 +83,6 @@ function GetParam(name) {
 }
 function isVisible(node) {
 	var win = $(window);
-
 	var viewport = {
 		top : win.scrollTop(),
 		left : win.scrollLeft()
@@ -298,6 +271,36 @@ function CheckBmsg() {
 		});
 	},0);
 }
+
+function whatV(hostname) {
+	switch (hostname || window.location.hostname) {
+		case 'www.omerta3.com':
+		case 'omerta3.com':
+		case 'www.barafranca.com':
+		case 'barafranca.com':
+		case 'www.barafranca.us':
+		case 'barafranca.us':
+			return 'com';
+		case 'deathmatch.barafranca.com':
+		case 'dm.barafranca.com':
+			return 'dm';
+		case 'www.barafranca.nl':
+		case 'barafranca.nl':
+			return 'nl';
+		case 'www.barafranca.gen.tr':
+		case 'barafranca.gen.tr':
+			return 'tr';
+		default:
+			return undefined;
+	}
+}
+
+var v = whatV();
+var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
+var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
+var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
+var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
+
 /*
 * Main game listener
 */
@@ -325,8 +328,8 @@ if (document.getElementById('game_container') !== null) {
 			$(window).unbind('keydown');
 		}
 
+//---------------- FAMILY PAGE ----------------
 		if (on_page('family.php') && nn == 'center') {
-
 			// add HR, Deaths and Worth
 			var famid = wlh.split('=')[1];
 			var famIdFromImg = $('img[src*="family_image.php"]').attr('src').match(/\d+/g)[0];
@@ -534,13 +537,11 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}, 0);
 			});
-		} // end of family page
-
+		}
 //---------------- My account ----------------
 		if (on_page('/information.php') && nn == 'table') {
 			bnUpdate(1);
 		}
-
 //---------------- 1-click voter ----------------
 		if (on_page('/vfo.php') && nn == 'center') {
 			$('a[href*="votelot.php"]').attr('name', 'forticket');
@@ -832,18 +833,6 @@ if (document.getElementById('game_container') !== null) {
 				setTimeout(function () {
 					$('a[href*="inbox"]')[0].click();
 				}, 1000);
-			}
-		}
-
-		//look its me
-		if ((on_page('users_online') && nn == 'center') || (on_page('allusers.php') && nn == 'div') || (on_page('global_stats')) && nn == 'center') {
-			var nick = getV('nick', '');
-			if (nick !== '') {
-				$('a[class!="link"]').each(function() {
-					if ($(this).text() == nick || $(this).text() == nick + '+') {
-						$(this).html('<span style="color:green;font-weight:bold;">' + $(this).html() + '</span>');
-					}
-				});
 			}
 		}
 //---------------- Bank ----------------
@@ -1307,7 +1296,6 @@ if (document.getElementById('game_container') !== null) {
 				);
 			}
 			$('#BTracker').mouseup(function() {
-				//alert('Set the x and y values using GM_getValue.');
 				var divOffset = $("#BTracker").offset();
 				var left = divOffset.left;
 				var top = divOffset.top;
@@ -1378,17 +1366,6 @@ if (document.getElementById('game_container') !== null) {
 			var brank = ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert'];
 			var a = brank.indexOf(bustrank);
 			$('table.thinline > tbody > tr:eq('+(tr+2)+') > td:eq(1)').text(bustrank+amount[a]) // until span id is changed
-
-//			Rookie (0-500)
-//			Novice (501-1.000)
-//			Initiate (1.001-2.500)
-//			Decent (2.501-5.000)
-//			Apprentice (5.001-10.000)
-//			Intermediate (10.001-15.000)
-//			Professional (15.001-20.000)
-//			Expert (20.001-25.000)
-//			Ultimate (25.001-27.500)
-//			Extreme Expert (27.501+)
 
 			// Actions
 			var self = ($('table.thinline > tbody > tr:eq(2) > td:eq(1) > a > span').text() == getV('nick', ''));
@@ -1808,7 +1785,7 @@ if (document.getElementById('game_container') !== null) {
 							var wbooze = (bestBooze == 0)?0:bestBooze-1;
 							var narcsell = (BN[0][wnarc][0] * narc) * lex;
 							var boozesell = (BN[1][wbooze][0] * booze) * lex;
-							var pay = (Math.round(narcsell * [0, 0.11, 0.11, 0, 0.1][fam])+Math.round(boozesell * [0, 0.11, 0.11, 0, 0.1][fam])); // famless, member no capo, capo, top3, member with capo
+							var pay = (Math.round(narcsell * [0, 0.1, 0.1, 0, 0.1][fam])+Math.round(boozesell * [0, 0.1, 0.1, 0, 0.1][fam])); // famless, member no capo, capo, top3, member with capo
 							totalProfit = totalProfit - pay;
 							allProfits.push(totalProfit);
 
@@ -1977,7 +1954,6 @@ if (document.getElementById('game_container') !== null) {
 						var AFtop = parseInt(getV('AFtop', '225'), 10);
 						var AFleft = parseInt(getV('AFleft', '300'), 10);
 						if(!$('#AF').length) {
-							var top = (getInfo[6] == -1) ? '-95px' : '10px';
 							$('#game_container').append(
 								$('<div>').addClass('BRCinfo').attr({id: 'AF'}).css({top: AFtop, left: AFleft}).append(
 									$('<center>').text('Auto-Fill').css('font-weight', 'bold'),
@@ -2445,7 +2421,6 @@ if (document.getElementById('game_container') !== null) {
 			$('input#anon:first').prop('checked', 'checked');
 			$('input[type="submit"]').focus()
 		}
-
 //---------------- Garage ----------------
 		if (on_page('garage.php') && nn == 'h2') {
 			var rows = $('table.thinline > tbody > tr').length;
@@ -2533,7 +2508,27 @@ if (document.getElementById('game_container') !== null) {
 				})
 			)
 		}
-//---------------- quick lookup ----------------
+//---------------- Killpage ----------------
+		if (on_page('module=Detectives') && nn == 'div') {
+			if(nid=='wrappertest') {
+				if(GetParam('search')) {
+					$('input[name="target"]').val(GetParam('search'))
+				}
+			}
+		}
+//---------------- Misc ----------------
+		// look its me
+		if ((on_page('users_online') && nn == 'center') || (on_page('allusers.php') && nn == 'div') || (on_page('global_stats')) && nn == 'center') {
+			var nick = getV('nick', '');
+			if (nick !== '') {
+				$('a[class!="link"]').each(function() {
+					if ($(this).text() == nick || $(this).text() == nick + '+') {
+						$(this).html('<span style="color:green;font-weight:bold;">' + $(this).html() + '</span>');
+					}
+				});
+			}
+		}
+		// quick lookup
 		if (on_page('user.php') && nn == 'span') {
 			var input = GetParam('nick');
 			var str = (v=='nl'?'Deze speler bestaat niet':'This user does not exist');
@@ -2569,15 +2564,7 @@ if (document.getElementById('game_container') !== null) {
 				},100);
 			}
 		}
-// Kill page
-		if (on_page('module=Detectives') && nn == 'div') {
-			if(nid=='wrappertest') {
-				if(GetParam('search')) {
-					$('input[name="target"]').val(GetParam('search'))
-				}
-			}
-		}
-//end
+//---------------- END OF MAIN GAME CONTAINER ----------------
 	}, true);
 }
 
