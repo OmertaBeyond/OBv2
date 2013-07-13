@@ -2816,6 +2816,13 @@ if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != 
 	});
 }
 
+// Reset on death
+if(window.location.search.indexOf('action=omertician')!=-1) {
+	if(confirm('Do you want to reset all OB data?')) {
+		localStorage.clear()
+	}
+}
+
 // Add focus on front page
 $('input[name="email"]').focus();
 
