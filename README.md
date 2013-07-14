@@ -14,6 +14,8 @@ At the moment OB is fully compatible with:
 
 * Firefox
   * [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
+* Google Chrome (semi working)
+ * [TamperMonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 
 
 ## Dev Team
