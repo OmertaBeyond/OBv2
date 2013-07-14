@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0
-// @date                12-07-2013
+// @date                14-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -21,6 +21,7 @@
 // @encoding            UTF-8
 // @priority            1
 // @require             https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+// @require             https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
 // @resource    css     https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
@@ -33,6 +34,8 @@
 // @include             http://omerta3.com/*
 // @include             http://*.barafranca.com/*
 // @include             http://barafranca.com/*
+// @include             http://*.barafranca.nl/*
+// @include             http://barafranca.nl/*
 // @include             http://*.barafranca.us/*
 // @include             http://barafranca.us/*
 // ==/UserScript==
