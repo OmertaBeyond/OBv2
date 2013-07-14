@@ -10,12 +10,15 @@ This is complete rewrite of our old script [OmertaBeyond v1](https://github.com/
 
 ## Compatibility
 
-At the moment OB is fully compatible with:
+At the moment OB is compatible with:
 
-* Firefox
+* Firefox (fully working)
   * [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
+  * [Scriptish](https://addons.mozilla.org/en-US/firefox/addon/scriptish/)
 * Google Chrome (semi working)
  * [TamperMonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+* Opera (12) (semi working)
+ * [ViolentMonkey](https://addons.opera.com/en/extensions/details/violent-monkey/)
 
 
 ## Dev Team
