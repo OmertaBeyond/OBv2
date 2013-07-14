@@ -350,7 +350,7 @@ if (document.getElementById('game_container') !== null) {
 			var doperc = $('table.thinline:eq(0) > tbody > tr:eq('+(tr-4)+') > td:last').text().split(' (')[0];
 			$('table.thinline:eq(0) > tbody > tr:eq('+(tr-4)+') > td:last').css({'background-image': '-moz-linear-gradient(left, #CCCCCC '+doperc+', #F0F0F0 '+doperc+')'})
 
-			// add color to rankprogress
+			// add color to rank progress
 			if(famname == ownfam.toLowerCase()) {
 				var rankperc = $('table.thinline:eq(0) > tbody > tr:last > td:last').text().split(' (')[1].replace(')', '');
 				$('table.thinline:eq(0) > tbody > tr:last > td:last').css({'background-image': '-moz-linear-gradient(left, #CCCCCC '+rankperc+', #F0F0F0 '+rankperc+')'})
@@ -374,13 +374,13 @@ if (document.getElementById('game_container') !== null) {
 				capos.push($(this).text());
 			});
 
-			//get objectowners
+			//get object owners
 			var objects = [];
 			var anchors = $('table.thinline:eq(2) > tbody > tr > td:has(a)').each(function() {
 				objects.push($(this).text());
 			});
 
-			//get spotowners
+			//get spot owners
 			var spots = [];
 			var anchors = $('table.thinline:eq(3) > tbody > tr > td:has(a)').each(function() {
 				spots.push($(this).text());
@@ -918,7 +918,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- All users ----------------
 		if (on_page('/allusers.php') && nn == 'div') {
-			//add pagenumber
+			//add page number
 			var page = GetParam('start');
 			page = (page/15)+1;
 			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').text('Page: '+page));
@@ -1351,7 +1351,7 @@ if (document.getElementById('game_container') !== null) {
 			var a = wealth.indexOf(wlth);
 			$('#wealth').text(wlth+kind[a])
 
-			// Raceform
+			// Race form
 			var rf = $('#raceform').attr('value')
 			var driver = ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion'];
 			var a = driver.indexOf(rf);
@@ -1447,7 +1447,7 @@ if (document.getElementById('game_container') !== null) {
 				arr[arr.length - 8] = arr[arr.length - 8].split('<br>')[0]+'<br /><br /><a href="/BeO/webroot/index.php?module=Spots"><strong>' + arr[arr.length - 8].split('<br>')[2] + '</strong></a>';
 				$(msgTxt).html(arr.join(' '));
 			}
-			var OCMsg = new RegExp(linkify[1]); // Organised Crime
+			var OCMsg = new RegExp(linkify[1]); // Organized Crime
 			if (OCMsg.test(msgType)) {
 				if(arr[2] == 'inviting') {
 					setArr(0);
@@ -1754,8 +1754,8 @@ if (document.getElementById('game_container') !== null) {
 							profitBooze = (bestBooze == 0) ? 0 : bCityprofit[i][bestBooze]; //profit per unit
 							profitBooze = profitBooze * booze;
 
-							//calc travelcost
-							travelPrices = [ //travelcosts from A to B
+							//calc travel cost
+							travelPrices = [ //travel costs from A to B
 								[    0,   600, 10350, 1575,  3600, 1350,  1050, 10800], //det
 								[  600,     0, 11025, 2025,  3000, 1725,  1425, 11400], //chi
 								[10350, 11025,     0, 9075, 14025, 9450,  9750,  1875], //pal
@@ -1766,7 +1766,7 @@ if (document.getElementById('game_container') !== null) {
 								[10800, 11400,  1875, 9375, 14400, 9750, 10050,     0]  //cor
 							];  //det   chi    pal    ny    lv     phi   bal    cor
 							travelCost = travelPrices[i][(city - 4)];
-							if (plane == 0) { //no plane => half travelcost
+							if (plane == 0) { //no plane => half travel cost
 								travelCost /= 2;
 							}
 
@@ -1802,7 +1802,7 @@ if (document.getElementById('game_container') !== null) {
 								)
 
 								if (on_page('smuggling.php') && nn == 'center') { //we need JS links @ smuggling and don't want to waste clicks
-									key = [0, 4, 6, 1, 2, 3, 5]; //convert b/n - botprices order to smuggling order
+									key = [0, 4, 6, 1, 2, 3, 5]; //convert b/n - bot prices order to smuggling order
 									n1 = key[bestNarc-1];
 									b1 = key[bestBooze-1];
 
@@ -2037,7 +2037,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 			if (getV('bninfo', -1) > 0) { //do we have info data?
-				//create infodiv to transfer data to XHR function
+				//create info div to transfer data to XHR function
 				narc = getPow('bninfo', 0, -1);
 				booze = getPow('bninfo', 1, -1);
 				city = getPow('bninfo', 2, -1);
@@ -2098,7 +2098,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			if (on_page('prices.php') && nn == 'center') {
-				noBRC = false; //asume working BRC table
+				noBRC = false; //assume working BRC table
 				if (typeof BN == 'undefined') { //see if prices are grabbed already
 					noBRC = true; //no BRC mean no need to try and HL 'em
 					for (BN = [], i = 0; i <= 1; i++) { // B/N
@@ -2465,7 +2465,7 @@ if (document.getElementById('game_container') !== null) {
 					$('html').animate({scrollTop: $('#game_wrapper_master').height()}, 1000);
 				})
 			).insertBefore('table.thinline')
-			// show footerdiv only when last tr is not visible
+			// show footer div only when last tr is not visible
 			$(window).scroll(function() {
 				if(isVisible($('tr:has(input[name="shipcity"])'))) {
 					$('#footer').css('display', 'none');
@@ -2473,7 +2473,7 @@ if (document.getElementById('game_container') !== null) {
 					$('#footer').css('display', 'block');
 				}
 			});
-			// add footerdiv only window is bigger then 1024px
+			// add footer div only window is bigger then 1024px
 			if(window.innerWidth>1024) {
 				$('center').append(
 					$('<div>').attr({id: 'footer'}).css({'position': 'fixed', 'bottom': '0px', 'background': '#F0F0F0', 'border': '1px solid black', 'width': '70%', 'color': '#000'}).html($('tr:has(input[name="shipcity"])').html())
@@ -2576,7 +2576,7 @@ $('#game_container').one('DOMNodeInserted', function() {
 });
 
 /*
-* Prices in topbar
+* Prices in top bar
 */
 
 $('#omerta_bar').one('DOMNodeInserted', function() {
@@ -2775,11 +2775,11 @@ var d = new Date();//check once every hour for new info
 if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != d.getHours()) {
 	$.get('/information.php', function(data) {
 		var a = data.split('<tbody');
-		if(a[2]){ // fails on clicklimit or other error
+		if(a[2]){ // fails on click limit or other error
 			$('#game_wrapper').append(
 				$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
 			)
-			bnUpdate(0);//call update fucntion
+			bnUpdate(0);//call update function
 			$.get('/user.php?nick='+getV('nick', ''), function(data) {
 				var a = data.split('<script');
 				$('#game_wrapper').append(
