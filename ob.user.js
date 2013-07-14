@@ -40,9 +40,6 @@
 // @include             http://barafranca.us/*
 // ==/UserScript==
 
-// Prevent Omerta's jQuery to conflict with our
-//this.$ = this.jQuery = jQuery.noConflict(true);
-
 /*
 * Define constants for our website
 */
