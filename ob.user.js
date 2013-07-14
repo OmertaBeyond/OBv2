@@ -227,13 +227,13 @@ function CheckBmsg() {
 						var title = response['news'][0]['title'];
 						var type = response['news'][0]['type'];
 						text += response['news'][0]['preview'];
-	
+
 						var notification = new Notification(title, {
 							dir: "auto",
 							lang: "",
 							body: text,
 							tag: "news",
-							icon: "https://si0.twimg.com/profile_images/652064165/red-star.png", 
+							icon: "https://si0.twimg.com/profile_images/652064165/red-star.png",
 						});
 						notification.onclose = function() { setTimeout(CheckBmsg(), 60000); }
 						notification.onclick = function() { window.open('http://news.omertabeyond.com/'+response['news'][0]['id']) }
@@ -251,13 +251,13 @@ function CheckBmsg() {
 								var fam = (response['deaths'][i]['fam'] == '')?'(none)':'('+response['deaths'][i]['fam']+')';
 								text += extra+' '+time+' '+response['deaths'][i]['name']+' '+response['deaths'][i]['rank_text']+' '+fam+'\n';
 							}
-			
+
 							var notification = new Notification('Deaths!', {
 								dir: "auto",
 								lang: "",
 								body: text,
 								tag: "deaths",
-								icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png", 
+								icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png",
 							});
 							notification.onclose = function() { setTimeout(CheckBmsg() ,60000); }
 							setV('lastbmsg', response["deaths"][0]["ts"]);
@@ -319,7 +319,7 @@ if (document.getElementById('game_container') !== null) {
 		var wlh = window.location.hash;
 		var nn  = event.target.tagName.toLowerCase();
 		var nid  = event.target.getAttribute('id');
-		
+
 		// unbind events
 		if (!on_page('garage.php')) {
 			$(window).unbind('scroll');
@@ -2665,7 +2665,7 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 							$(this).css('textDecoration', 'none')
 						});
 						link.html(priceStr);
-	
+
 						return link;
 					}
 
@@ -2736,7 +2736,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 
 	$('a.link:eq(2)').before(a)
 	$('a.link:eq(3)').before(div)
-	
+
 	var getnews = (getV('bmsgNews', 0)==0?false:true);
 	var getdeaths = (getV('bmsgDeaths', 0)==0?false:true);
 
