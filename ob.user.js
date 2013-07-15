@@ -545,12 +545,12 @@ if (document.getElementById('game_container') !== null) {
 		}
 //-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form') {
-			var bos = getV('bustouts', 0);
-			var rows = $('#game_container > form > center > table.thinline > tbody > tr').length;
+			var bos = parseInt(getV('bustouts', 0), 10);
+			var rows = $('tr[bgcolor]').length;
 			// Build new row on top
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
 			// Loop inmates
-			$('#game_container > form > center > table.thinline > tbody > tr').each(function() {
+			$('tr[bgcolor]').each(function() {
 				// Find selected
 				if($(this).find('input[name="bust"]').is(':checked')) {
 					// Add selected on top
@@ -563,13 +563,20 @@ if (document.getElementById('game_container') !== null) {
 					$('#HLrow').html($(this).html())
 					$('#HLrow').css('background-color', $(this).attr('bgcolor'))
 					$(this).find('input[name="bust"]').attr('checked', true)
+					$('input[name="ver"]').focus()
 			});
+			// Add succesfull BO to total
+			if ($('#game_container:contains(You busted this person out of jail)').length) {
+				bos = (bos+1);
+				setV('bustouts', bos);
+			}
 			// Add amount of inmates and bustouts
 			$('table > tbody > tr > td > h1').parent().append(
-				$('<span>').text('In jail: '+(rows-3)),
+				$('<span>').text('In jail: '+rows),
 				$('<br />'),
 				$('<span>').text('Bustouts: '+bos)
 			)
+			$('input[name="ver"]').focus()
 		}
 //---------------- 1-click voter ----------------
 		if (on_page('/vfo.php') && nn == 'center') {
