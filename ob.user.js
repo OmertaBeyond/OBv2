@@ -2713,58 +2713,61 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 */
 
 $('#game_menu').one('DOMNodeInserted', function() {
-	//change all users link
-	$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
-
-	//add beyond menu
-	var a = $('<a>').addClass('link').attr({'href': '#', 'data-box': 'true'}).append(
-		$('<span>').addClass('title').css('background', 'url("https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png") no-repeat scroll left center transparent').text('Beyond'),
-		$('<span>').addClass('menu_open')
-	);
-	var div = $('<div>').addClass('menu').append(
-		$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Preferences').click(function() {
-			$('#game_container').empty();
-			$('#game_container').append(prefs_page);
-		}),
-		$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Live Famstats').click(function() {
-			window.open(OB_RIX_WEBSITE + '/stats.php?v='+v+'&d=n');
-		})
-	);
-
-	$('a.link:eq(2)').before(a)
-	$('a.link:eq(3)').before(div)
-
-	var getnews = (getV('bmsgNews', 0)==0?false:true);
-	var getdeaths = (getV('bmsgDeaths', 0)==0?false:true);
-
-	var prefs_page = $('<div>').attr({id: 'prefsDiv'}).css({border: '1px solid red'}).append(
-		$('<div>').attr({id: 'bmsgDiv'}).css({border: '1px solid blue', width: '250px'}).append(
-			$('<div>').attr('id', 'Authmsg'),
-			$('<button>').text('Authorize for notifications').click(function() {
-				var rex = new RegExp(/Firefox\/([0-9]+)\./);
-				var r = navigator.userAgent.match(rex);
-				if(r[1] !== '22') $('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
-				Notification.requestPermission(function(perm) {
-					$('#Authmsg').text('Authorization for notication is: '+perm);
-				})
+	// We're too fast, 1 sec delay
+	setTimeout(function() {
+		//change all users link
+		$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
+	
+		//add beyond menu
+		var a = $('<a>').addClass('link').attr({'href': '#', 'data-box': 'true'}).append(
+			$('<span>').addClass('title').css('background', 'url("https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png") no-repeat scroll left center transparent').text('Beyond'),
+			$('<span>').addClass('menu_open')
+		);
+		var div = $('<div>').addClass('menu').append(
+			$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Preferences').click(function() {
+				$('#game_container').empty();
+				$('#game_container').append(prefs_page);
 			}),
-			$('<br>'),
-			$('<input>').attr({id: 'ts', type: 'text', placeholder: 'timestamp'}),
-			$('<button>').text('Show deaths').click(function() {
-				setV('lastbmsg', $('#ts').val());
-			}),
-			$('<br>'),
-			$('<input>').attr({id: 'deaths', type: 'checkbox', checked: getdeaths}).click(function() {
-				setV('bmsgDeaths', $('#deaths:checked').length);
-			}),
-			$('<label>').attr('for', 'deaths').text('Deaths'),
-			$('<br>'),
-			$('<input>').attr({id: 'news', type: 'checkbox', checked: getnews}).click(function() {
-				setV('bmsgNews', $('#news:checked').length);
-			}),
-			$('<label>').attr('for', 'news').text('News')
-		)
-	); //here we can build prefs page
+			$('<span>').css({'color': 'rgb(255, 255, 255)', 'display': 'block', 'font-size': '11px', 'margin': '0px', 'padding': '3px 15px', 'text-decoration': 'none', 'cursor': 'pointer'}).text('Live Famstats').click(function() {
+				window.open(OB_RIX_WEBSITE + '/stats.php?v='+v+'&d=n');
+			})
+		);
+	
+		$('a.link:eq(2)').before(a)
+		$('a.link:eq(3)').before(div)
+		
+		var getnews = (getV('bmsgNews', 0)==0?false:true);
+		var getdeaths = (getV('bmsgDeaths', 0)==0?false:true);
+	
+		var prefs_page = $('<div>').attr({id: 'prefsDiv'}).css({border: '1px solid red'}).append(
+			$('<div>').attr({id: 'bmsgDiv'}).css({border: '1px solid blue', width: '250px'}).append(
+				$('<div>').attr('id', 'Authmsg'),
+				$('<button>').text('Authorize for notifications').click(function() {
+					var rex = new RegExp(/Firefox\/([0-9]+)\./);
+					var r = navigator.userAgent.match(rex);
+					if(r[1] !== '22') $('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
+					Notification.requestPermission(function(perm) {
+						$('#Authmsg').text('Authorization for notication is: '+perm);
+					})
+				}),
+				$('<br>'),
+				$('<input>').attr({id: 'ts', type: 'text', placeholder: 'timestamp'}),
+				$('<button>').text('Show deaths').click(function() {
+					setV('lastbmsg', $('#ts').val());
+				}),
+				$('<br>'),
+				$('<input>').attr({id: 'deaths', type: 'checkbox', checked: getdeaths}).click(function() {
+					setV('bmsgDeaths', $('#deaths:checked').length);
+				}),
+				$('<label>').attr('for', 'deaths').text('Deaths'),
+				$('<br>'),
+				$('<input>').attr({id: 'news', type: 'checkbox', checked: getnews}).click(function() {
+					setV('bmsgNews', $('#news:checked').length);
+				}),
+				$('<label>').attr('for', 'news').text('News')
+			)
+		); //here we can build prefs page
+	}, 1000);
 });
 
 /*

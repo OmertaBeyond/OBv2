@@ -38,27 +38,13 @@
 .inboxImg:hover {
 	opacity: 1.2;
 }
-
-.Bmsg {
-	position: fixed;
-	bottom: 0px;
-	right: 10px;
-	width: 300px;
-	color: #FFF;
-	box-shadow: 2px 2px 2px 2px #1b1b1b;
-	background-image: -moz-linear-gradient(center top ,#3F505F,	#1B1B1B);
-	border: 2px double gray;
-	opacity: 0.90;
-	padding: 5px;
-	border-radius: 5px;
-	text-align: center;
-}
 .tracker {
 	position: fixed;
 	width: 200px;
 	color: #FFF;
 	box-shadow: 2px 2px 2px 2px #1b1b1b;
 	background-image: -moz-linear-gradient(center top ,#3F505F,	#1B1B1B);
+	background-image: -webkit-linear-gradient(center top ,#3F505F,	#1B1B1B);
 	border: 2px double gray;
 	opacity: 0.90;
 	padding: 5px;
@@ -85,6 +71,7 @@
 	color: #FFF;
 	box-shadow: 2px 2px 2px 2px #1b1b1b;
 	background-image: -moz-linear-gradient(center top ,#3F505F,	#1B1B1B);
+	background-image: -webkit-linear-gradient(center top ,#3F505F,	#1B1B1B);
 	border: 2px double gray;
 	opacity: 0.90;
 	padding: 5px;
@@ -97,6 +84,7 @@
 	color: #FFF;
 	box-shadow: 2px 2px 2px 2px #1b1b1b;
 	background-image: -moz-linear-gradient(center top ,#3F505F,	#1B1B1B);
+	background-image: -webkit-linear-gradient(center top ,#3F505F,	#1B1B1B);
 	border: 2px double gray;
 	opacity: 0.90;
 	padding: 5px 5px 2px 5px;
