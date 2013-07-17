@@ -551,12 +551,17 @@ if (document.getElementById('game_container') !== null) {
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
 			// Loop inmates
 			$('tr[bgcolor]').each(function() {
-				// Find selected
-				if($(this).find('input[name="bust"]').is(':checked')) {
-					// Add selected on top
-					$('#HLrow').html($(this).html())
-					$('#HLrow').css('background-color', $(this).attr('bgcolor'))
-					$(this).find('input[name="bust"]').attr('checked', true)
+				// Set default priority
+				$(this).attr('priority', 10); // Default
+				if($(this).attr('bgcolor')!="") {
+					$(this).attr('priority', 8);
+				}
+				if($(this).find('td:eq(0)>font>span').text()!='') {
+					if($(this).attr('bgcolor')=="") {
+						$(this).attr('priority', 11); // other lackeys
+					} else {
+						$(this).attr('priority', 9); // friend/fam lackeys
+					}
 				}
 			}).click(function() {
 					// Add selected on top
@@ -565,6 +570,17 @@ if (document.getElementById('game_container') !== null) {
 					$(this).find('input[name="bust"]').attr('checked', true)
 					$('input[name="ver"]').focus()
 			});
+			// Loop inmates again for selection
+			var prior = 10;
+			for(i=rows-1;i>=0;i--) {
+				priority = parseInt($('tr[bgcolor]:eq('+i+')').attr('priority'));
+				if(priority<=prior) {
+					prior = priority; // changes highest priority
+					$('#HLrow').html($('tr[bgcolor]:eq('+i+')').html())
+					$('#HLrow').css('background-color', $(this).attr('bgcolor'))
+					$('tr[bgcolor]:eq('+i+')').find('input[name="bust"]').attr('checked', true)
+				}
+			}
 			// Add succesfull BO to total
 			if ($('#game_container:contains(You busted this person out of jail)').length) {
 				bos = (bos+1);
