@@ -548,6 +548,7 @@ if (document.getElementById('game_container') !== null) {
 			var bos = parseInt(getV('bustouts', 0), 10);
 			var jailHL_def = parseInt(getV('jailHL_def', 10), 10);
 			var jailHL_friends = parseInt(getV('jailHL_friends', 5), 10);
+			var jailHL_own_lackey = parseInt(getV('jailHL_own_lackey', 8), 10);
 			var jailHL_fr_lackey = parseInt(getV('jailHL_fr_lackey', 9), 10);
 			var jailHL_other_lackey = parseInt(getV('jailHL_other_lackey', 11), 10);
 			var rows = $('tr[bgcolor]').length;
@@ -564,7 +565,11 @@ if (document.getElementById('game_container') !== null) {
 					if($(this).attr('bgcolor')=="") {
 						$(this).attr('priority', jailHL_other_lackey); // other lackeys
 					} else {
-						$(this).attr('priority', jailHL_fr_lackey); // friend/fam lackeys
+						if($(this).find('td:eq(0) > font > a').text()==getV('nick', '')) {
+							$(this).attr('priority', jailHL_own_lackey); // friend/fam lackeys
+						} else {
+							$(this).attr('priority', jailHL_fr_lackey); // friend/fam lackeys
+						}
 					}
 				}
 			}).click(function() {
@@ -581,7 +586,7 @@ if (document.getElementById('game_container') !== null) {
 				if(priority<=prior) {
 					prior = priority; // changes highest priority
 					$('#HLrow').html($('tr[bgcolor]:eq('+i+')').html())
-					$('#HLrow').css('background-color', $(this).attr('bgcolor'))
+					$('#HLrow').css('background-color', $('tr[bgcolor]:eq('+i+')').attr('bgcolor'))
 					$('tr[bgcolor]:eq('+i+')').find('input[name="bust"]').attr('checked', true)
 				}
 			}
@@ -2799,6 +2804,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 		var getdeaths = (getV('bmsgDeaths', 0)==0?false:true);
 		var jailHL_def = getV('jailHL_def', 10);
 		var jailHL_friends = getV('jailHL_friends', 5);
+		var jailHL_own_lackey = getV('jailHL_own_lackey', 8);
 		var jailHL_fr_lackey = getV('jailHL_fr_lackey', 9);
 		var jailHL_other_lackey = getV('jailHL_other_lackey', 11);
 	
@@ -2842,6 +2848,11 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				$('<span>').text('jailHL Friends and Family'),
 				$('<input>').attr({id: 'jailHL_friends', type: 'text', value: jailHL_friends}).blur(function() {
 					setV('jailHL_friends', $('#jailHL_friends').val());
+				}),
+				$('<br>'),
+				$('<span>').text('jailHL own lackeys'),
+				$('<input>').attr({id: 'jailHL_own_lackey', type: 'text', value: jailHL_own_lackey}).blur(function() {
+					setV('jailHL_own_lackey', $('#jailHL_own_lackey').val());
 				}),
 				$('<br>'),
 				$('<span>').text('jailHL Friend/Family lackeys'),
