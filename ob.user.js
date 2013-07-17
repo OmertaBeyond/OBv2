@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0.1
-// @date                15-07-2013
+// @date                17-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -546,21 +546,25 @@ if (document.getElementById('game_container') !== null) {
 //-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form') {
 			var bos = parseInt(getV('bustouts', 0), 10);
+			var jailHL_def = parseInt(getV('jailHL_def', 10), 10);
+			var jailHL_friends = parseInt(getV('jailHL_friends', 5), 10);
+			var jailHL_fr_lackey = parseInt(getV('jailHL_fr_lackey', 9), 10);
+			var jailHL_other_lackey = parseInt(getV('jailHL_other_lackey', 11), 10);
 			var rows = $('tr[bgcolor]').length;
 			// Build new row on top
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
 			// Loop inmates
 			$('tr[bgcolor]').each(function() {
 				// Set default priority
-				$(this).attr('priority', 10); // Default
+				$(this).attr('priority', jailHL_def); // Default
 				if($(this).attr('bgcolor')!="") {
-					$(this).attr('priority', 8);
+					$(this).attr('priority', jailHL_friends);
 				}
 				if($(this).find('td:eq(0)>font>span').text()!='') {
 					if($(this).attr('bgcolor')=="") {
-						$(this).attr('priority', 11); // other lackeys
+						$(this).attr('priority', jailHL_other_lackey); // other lackeys
 					} else {
-						$(this).attr('priority', 9); // friend/fam lackeys
+						$(this).attr('priority', jailHL_fr_lackey); // friend/fam lackeys
 					}
 				}
 			}).click(function() {
@@ -2793,9 +2797,14 @@ $('#game_menu').one('DOMNodeInserted', function() {
 		
 		var getnews = (getV('bmsgNews', 0)==0?false:true);
 		var getdeaths = (getV('bmsgDeaths', 0)==0?false:true);
+		var jailHL_def = getV('jailHL_def', 10);
+		var jailHL_friends = getV('jailHL_friends', 5);
+		var jailHL_fr_lackey = getV('jailHL_fr_lackey', 9);
+		var jailHL_other_lackey = getV('jailHL_other_lackey', 11);
 	
-		var prefs_page = $('<div>').attr({id: 'prefsDiv'}).css({border: '1px solid red'}).append(
-			$('<div>').attr({id: 'bmsgDiv'}).css({border: '1px solid blue', width: '250px'}).append(
+		var prefs_page = $('<div>').attr({id: 'prefsDiv'}).append(
+			$('<div>').attr({id: 'bmsgDiv'}).append(
+				$('<h3>').text('Notifications'),
 				$('<div>').attr('id', 'Authmsg'),
 				$('<button>').text('Authorize for notifications').click(function() {
 					var rex = new RegExp(/Firefox\/([0-9]+)\./);
@@ -2820,6 +2829,30 @@ $('#game_menu').one('DOMNodeInserted', function() {
 					setV('bmsgNews', $('#news:checked').length);
 				}),
 				$('<label>').attr('for', 'news').text('News')
+			),
+			$('<div>').attr({id: 'jailDiv'}).append(
+				$('<h3>').text('Jailsettings'),
+				$('<span>').text('Bust Priorities:'),
+				$('<br>'),
+				$('<span>').text('jailHL default'),
+				$('<input>').attr({id: 'jailHL_def', type: 'text', value: jailHL_def}).blur(function() {
+					setV('jailHL_def', $('#jailHL_def').val());
+				}),
+				$('<br>'),
+				$('<span>').text('jailHL Friends and Family'),
+				$('<input>').attr({id: 'jailHL_friends', type: 'text', value: jailHL_friends}).blur(function() {
+					setV('jailHL_friends', $('#jailHL_friends').val());
+				}),
+				$('<br>'),
+				$('<span>').text('jailHL Friend/Family lackeys'),
+				$('<input>').attr({id: 'jailHL_fr_lackey', type: 'text', value: jailHL_fr_lackey}).blur(function() {
+					setV('jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
+				}),
+				$('<br>'),
+				$('<span>').text('jailHL Other lackeys'),
+				$('<input>').attr({id: 'jailHL_other_lackey', type: 'text', value: jailHL_other_lackey}).blur(function() {
+					setV('jailHL_other_lackey', $('#jailHL_other_lackey').val());
+				})
 			)
 		); //here we can build prefs page
 	}, 1000);
