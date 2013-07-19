@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
-// @version             2.0.2
+// @version             2.0.3
 // @date                19-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
@@ -2819,11 +2819,6 @@ $('#game_menu').one('DOMNodeInserted', function() {
 					Notification.requestPermission(function(perm) {
 						$('#Authmsg').text('Authorization for notication is: '+perm);
 					})
-				}),
-				$('<br>'),
-				$('<input>').attr({id: 'ts', type: 'text', placeholder: 'timestamp'}),
-				$('<button>').text('Show deaths').click(function() {
-					setV('lastbmsg', $('#ts').val());
 				}),
 				$('<br>'),
 				$('<input>').attr({id: 'deaths', type: 'checkbox', checked: getdeaths}).click(function() {
