@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
-// @version             2.0.1
-// @date                17-07-2013
+// @version             2.0.2
+// @date                19-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
-// @updateURL           https://raw.github.com/OmertaBeyond/OBv2/master/beyond.meta.js
+// @updateURL           https://raw.github.com/OmertaBeyond/OBv2/master/ob.meta.js
 // @supportURL          https://github.com/OmertaBeyond/OBv2/issues
 // @icon                https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.small.png
 // @screenshot          https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.small.png
