@@ -17,8 +17,10 @@ At the moment OB is compatible with:
   * [Scriptish](https://addons.mozilla.org/en-US/firefox/addon/scriptish/)
 * Google Chrome (semi working)
  * [TamperMonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
-* Opera (12) (semi working)
+* Opera 12 (semi working)
  * [ViolentMonkey](https://addons.opera.com/en/extensions/details/violent-monkey/)
+* Opera Next (semi working)
+ * [TamperMonkey Beta](http://www.tampermonkey.net)
 
 
 ## Dev Team
