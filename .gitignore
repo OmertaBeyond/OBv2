@@ -3,3 +3,6 @@ Thumbs.db
 
 # Folder config file
 Desktop.ini
+
+# IDE config files
+/.idea
