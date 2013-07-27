@@ -71,6 +71,19 @@ function getV(name, standard) {
 function setV(name, value) {
     return localStorage[name+'_'+v] = value;
 }
+function getA(name) {
+    return JSON.parse(localStorage[name+'_'+v]);
+}
+function setA(name, pref, value) {
+	if(name === 'prefs') {
+		prefs[pref] = value;
+		return localStorage[name+'_'+v] = JSON.stringify(prefs);
+	}
+	if(name === 'sets') {
+		sets[pref] = value;
+		return localStorage[name+'_'+v] = JSON.stringify(sets);
+	}  
+}
 function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
 }
@@ -297,6 +310,16 @@ var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shopli
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
 var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
+if(localStorage['prefs_'+v]) {
+	var prefs = getA('prefs');
+} else {
+	var prefs = {};
+}
+if(localStorage['sets_'+v]) {
+	var sets = getA('sets');
+} else {
+	var sets = {};
+}
 
 /*
 * Main game listener
@@ -546,11 +569,11 @@ if (document.getElementById('game_container') !== null) {
 //-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form') {
 			var bos = parseInt(getV('bustouts', 0), 10);
-			var jailHL_def = parseInt(getV('jailHL_def', 10), 10);
-			var jailHL_friends = parseInt(getV('jailHL_friends', 5), 10);
-			var jailHL_own_lackey = parseInt(getV('jailHL_own_lackey', 8), 10);
-			var jailHL_fr_lackey = parseInt(getV('jailHL_fr_lackey', 9), 10);
-			var jailHL_other_lackey = parseInt(getV('jailHL_other_lackey', 11), 10);
+			var jailHL_def = parseInt(sets['jailHL_def'] || 10, 10);
+			var jailHL_friends = parseInt(sets['jailHL_friends'] || 5, 10);
+			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 8, 10);
+			var jailHL_fr_lackey = parseInt(sets['jailHL_fr_lackey'] || 9, 10);
+			var jailHL_other_lackey = parseInt(sets['jailHL_other_lackey'] || 11, 10);
 			var rows = $('tr[bgcolor]').length;
 			// Build new row on top
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
@@ -1541,7 +1564,7 @@ if (document.getElementById('game_container') !== null) {
 			var money = $('td[data-info="money"]').text().replace(/,/g, '');
 			// Sluggs
 			if (on_page('type=6') && nn == 'div') {
-				var sluggsHideLaughing = getV('sluggsHideLaughing', 'true');
+				var sluggsHideLaughing = sets['sluggsHideLaughing'] || 'true';
 				var price = $('input#setting_bullets_max_price_price_6').val();
 
 				// commafy and alert money
@@ -1563,7 +1586,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 				// Hide useless entries
 				function hideLaughing(hide) {
-					setV('sluggsHideLaughing', hide);
+					setA('sets', 'sluggsHideLaughing', hide);
 					sluggsHideLaughing = hide;
 					x = 0;
 					$(logpath).each(function() {
@@ -2800,13 +2823,14 @@ $('#game_menu').one('DOMNodeInserted', function() {
 		$('a.link:eq(2)').before(a)
 		$('a.link:eq(3)').before(div)
 		
-		var getnews = (getV('bmsgNews', 0)==0?false:true);
-		var getdeaths = (getV('bmsgDeaths', 0)==0?false:true);
-		var jailHL_def = getV('jailHL_def', 10);
-		var jailHL_friends = getV('jailHL_friends', 5);
-		var jailHL_own_lackey = getV('jailHL_own_lackey', 8);
-		var jailHL_fr_lackey = getV('jailHL_fr_lackey', 9);
-		var jailHL_other_lackey = getV('jailHL_other_lackey', 11);
+		var getnews = (prefs['bmsgNews']?true:false);
+		var getdeaths = (prefs['bmsgDeaths']?true:false);
+		var jailHL_def = sets['jailHL_def'] || 10;
+		var jailHL_friends = sets['jailHL_friends'] || 5;
+		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 8;
+		var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 9;
+		var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
+		var block = (getV('bmsgNews', -1) != -1?'block':'none');
 	
 		var prefs_page = $('<div>').attr({id: 'prefsDiv'}).append(
 			$('<div>').attr({id: 'bmsgDiv'}).append(
@@ -2827,12 +2851,12 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				}),
 				$('<br>'),
 				$('<input>').attr({id: 'deaths', type: 'checkbox', checked: getdeaths}).click(function() {
-					setV('bmsgDeaths', $('#deaths:checked').length);
+					setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
 				}),
 				$('<label>').attr('for', 'deaths').text('Deaths'),
 				$('<br>'),
 				$('<input>').attr({id: 'news', type: 'checkbox', checked: getnews}).click(function() {
-					setV('bmsgNews', $('#news:checked').length);
+					setA('prefs', 'bmsgNews', $('#news:checked').length);
 				}),
 				$('<label>').attr('for', 'news').text('News')
 			),
@@ -2842,27 +2866,41 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				$('<br>'),
 				$('<span>').text('jailHL default'),
 				$('<input>').attr({id: 'jailHL_def', type: 'text', value: jailHL_def}).blur(function() {
-					setV('jailHL_def', $('#jailHL_def').val());
+					setA('sets', 'jailHL_def', $('#jailHL_def').val());
 				}),
 				$('<br>'),
 				$('<span>').text('jailHL Friends and Family'),
 				$('<input>').attr({id: 'jailHL_friends', type: 'text', value: jailHL_friends}).blur(function() {
-					setV('jailHL_friends', $('#jailHL_friends').val());
+					setA('sets', 'jailHL_friends', $('#jailHL_friends').val());
 				}),
 				$('<br>'),
 				$('<span>').text('jailHL own lackeys'),
 				$('<input>').attr({id: 'jailHL_own_lackey', type: 'text', value: jailHL_own_lackey}).blur(function() {
-					setV('jailHL_own_lackey', $('#jailHL_own_lackey').val());
+					setA('sets', 'jailHL_own_lackey', $('#jailHL_own_lackey').val());
 				}),
 				$('<br>'),
 				$('<span>').text('jailHL Friend/Family lackeys'),
 				$('<input>').attr({id: 'jailHL_fr_lackey', type: 'text', value: jailHL_fr_lackey}).blur(function() {
-					setV('jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
+					setA('sets', 'jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
 				}),
 				$('<br>'),
 				$('<span>').text('jailHL Other lackeys'),
 				$('<input>').attr({id: 'jailHL_other_lackey', type: 'text', value: jailHL_other_lackey}).blur(function() {
-					setV('jailHL_other_lackey', $('#jailHL_other_lackey').val());
+					setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
+				})
+			),
+			$('<div>').attr({id: 'oldPrefs'}).css('display', block).append(
+				$('<h3>').text('Clear old preferences'),
+				$('<span>').text('You have old preferences stored. Click the button to clear those'),
+				$('<button>').text('Clear').click(function() {
+					localStorage.removeItem("jailHL_def");
+					localStorage.removeItem("jailHL_friends");
+					localStorage.removeItem("jailHL_own_lackey");
+					localStorage.removeItem("jailHL_fr_lackey");
+					localStorage.removeItem("jailHL_other_lackey");
+					localStorage.removeItem("bmsgNews");
+					localStorage.removeItem("bmsgDeaths");
+					localStorage.removeItem("sluggsHideLaughing");
 				})
 			)
 		); //here we can build prefs page
