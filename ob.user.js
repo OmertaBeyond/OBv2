@@ -2893,14 +2893,16 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				$('<h3>').text('Clear old preferences'),
 				$('<span>').text('You have old preferences stored. Click the button to clear those'),
 				$('<button>').text('Clear').click(function() {
-					localStorage.removeItem("jailHL_def");
-					localStorage.removeItem("jailHL_friends");
-					localStorage.removeItem("jailHL_own_lackey");
-					localStorage.removeItem("jailHL_fr_lackey");
-					localStorage.removeItem("jailHL_other_lackey");
-					localStorage.removeItem("bmsgNews");
-					localStorage.removeItem("bmsgDeaths");
-					localStorage.removeItem("sluggsHideLaughing");
+					if(confirm('Are you sure?')) {
+						localStorage.removeItem("jailHL_def_"+v);
+						localStorage.removeItem("jailHL_friends_"+v);
+						localStorage.removeItem("jailHL_own_lackey_"+v);
+						localStorage.removeItem("jailHL_fr_lackey_"+v);
+						localStorage.removeItem("jailHL_other_lackey_"+v);
+						localStorage.removeItem("bmsgNews_"+v);
+						localStorage.removeItem("bmsgDeaths_"+v);
+						localStorage.removeItem("sluggsHideLaughing_"+v);
+					}
 				})
 			)
 		); //here we can build prefs page
