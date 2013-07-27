@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0.3
-// @date                19-07-2013
+// @date                27-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -2813,12 +2813,17 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				$('<h3>').text('Notifications'),
 				$('<div>').attr('id', 'Authmsg'),
 				$('<button>').text('Authorize for notifications').click(function() {
-					var rex = new RegExp(/Firefox\/([0-9]+)\./);
+					var rex = new RegExp(/Firefox\/([0-9]+)\.|Opera|Chrome/);
 					var r = navigator.userAgent.match(rex);
-					if(r[1] !== '22') $('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
-					Notification.requestPermission(function(perm) {
-						$('#Authmsg').text('Authorization for notication is: '+perm);
-					})
+					if(r[1] && r[1] !== '22') {
+						$('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
+					} else if(r[0]==='Opera') {
+						$('#Authmsg').text('You need Firefox 22.0 or Chrome to use this feature, update/change your browser!');
+					} else {
+						Notification.requestPermission(function(perm) {
+							$('#Authmsg').text('Authorization for notication is: '+perm);
+						})
+					}
 				}),
 				$('<br>'),
 				$('<input>').attr({id: 'deaths', type: 'checkbox', checked: getdeaths}).click(function() {
