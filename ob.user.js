@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
-// @version             2.0.3
+// @version             2.0.4
 // @date                27-07-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
@@ -232,7 +232,7 @@ function CheckBmsg() {
 				var deaths = response["deaths"].length;
 				var news = response["news"].length;
 				if (news==1) {
-					if(getV('bmsgNews', 0)>0) {
+					if(prefs['bmsgNews']) {
 						var text = 'A new article is posted http://news.omertabeyond.com\n\n';
 						var title = response['news'][0]['title'];
 						var type = response['news'][0]['type'];
@@ -250,7 +250,7 @@ function CheckBmsg() {
 						setV('lastbmsg', response["news"][0]["ts"]);
 					}
 				} else {
-					if(getV('bmsgDeaths', 0)>0) {
+					if(prefs['bmsgNews']) {
 						if(deaths>=1) {
 							var text = response["deaths"].length+' people died:\n\n';
 							var am = (response["deaths"].length<10?response["deaths"].length:10);
