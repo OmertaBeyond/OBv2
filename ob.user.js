@@ -2880,7 +2880,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 			),
 			$('<div>').attr({id: 'jailDiv'}).append(
 				$('<h3>').text('Jailsettings'),
-				$('<span>').text('Bust Priorities:'),
+				$('<span>').text('Bust Priorities:').attr('id', 'OBHeaderPrefs'),
 				$('<br>'),
 				$('<span>').text('jailHL default'),
 				$('<input>').attr({id: 'jailHL_def', type: 'text', value: jailHL_def}).blur(function() {

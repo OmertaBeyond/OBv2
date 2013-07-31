@@ -112,3 +112,22 @@ div.Bmsg table tr td {
 #sthead {
 	cursor: move;
 }
+
+#prefsDiv {
+	margin-left: 10px;
+}
+
+#jailDiv > span {
+	display: inline-block;
+	width: 180px;
+}
+
+#jailDiv > input {
+	width: 60px;
+	text-align: center;
+}
+
+#OBHeaderPrefs {
+	font-weight: bold;
+	margin-bottom: 5px;
+}
