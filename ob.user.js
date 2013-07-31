@@ -74,7 +74,7 @@ const cur_v = '4.1';
 */
 
 function array_sum(array) {
-    return array.reduce(function (a, b) { return a + b; })
+	return array.reduce(function (a, b) { return a + b; })
 }
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
@@ -84,13 +84,13 @@ function on_page(str) {
 	}
 }
 function getV(name, standard) {
-    return localStorage[name+'_'+v] || standard;
+	return localStorage[name+'_'+v] || standard;
 }
 function setV(name, value) {
-    return localStorage[name+'_'+v] = value;
+	return localStorage[name+'_'+v] = value;
 }
 function getA(name) {
-    return JSON.parse(localStorage[name+'_'+v]);
+	return JSON.parse(localStorage[name+'_'+v]);
 }
 function setA(name, pref, value) {
 	if(name === 'prefs') {
@@ -106,8 +106,8 @@ function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
 }
 function GetParam(name) {
-    var results = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href);
-    return results[1] || 0;
+	var results = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href);
+	return results[1] || 0;
 }
 function isVisible(node) {
 	var win = $(window);
