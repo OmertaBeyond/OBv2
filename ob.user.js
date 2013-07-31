@@ -100,7 +100,7 @@ function setA(name, pref, value) {
 	if(name === 'sets') {
 		sets[pref] = value;
 		return localStorage[name+'_'+v] = JSON.stringify(sets);
-	}  
+	}
 }
 function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
@@ -2822,7 +2822,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 	setTimeout(function() {
 		//change all users link
 		$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
-	
+
 		//add beyond menu
 		var a = $('<a>').addClass('link').attr({'href': '#', 'data-box': 'true'}).append(
 			$('<span>').addClass('title').css('background', 'url("https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png") no-repeat scroll left center transparent').text('Beyond'),
@@ -2837,10 +2837,10 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				window.open(OB_RIX_WEBSITE + '/stats.php?v='+v+'&d=n');
 			})
 		);
-	
+
 		$('a.link:eq(2)').before(a)
 		$('a.link:eq(3)').before(div)
-		
+
 		var getnews = (prefs['bmsgNews']?true:false);
 		var getdeaths = (prefs['bmsgDeaths']?true:false);
 		var jailHL_def = sets['jailHL_def'] || 10;
@@ -2849,7 +2849,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 		var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 9;
 		var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
 		var block = (getV('bmsgNews', -1) != -1?'block':'none');
-	
+
 		var prefs_page = $('<div>').attr({id: 'prefsDiv'}).append(
 			$('<div>').attr({id: 'bmsgDiv'}).append(
 				$('<h3>').text('Notifications'),
