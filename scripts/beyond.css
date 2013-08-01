@@ -47,33 +47,21 @@
 	opacity: 1.2;
 }
 
-.tracker {
-	position: fixed;
-	width: 200px;
+.tracker, .NRinfo, .BRCinfo {
 	color: #FFFFFF;
-	box-shadow: 2px 2px 2px 2px #1b1b1b;
+	box-shadow: 2px 2px 2px 2px #1B1B1B;
 	background-image: -moz-linear-gradient(center top, #3F505F, #1B1B1B);
 	background-image: -webkit-linear-gradient(center top ,#3F505F, #1B1B1B);
 	background-image: -o-linear-gradient(top, #3F505F, #1B1B1B);
-	border: 2px double gray;
 	opacity: 0.90;
-	padding: 5px;
 	border-radius: 5px;
 }
 
-.reset {
-	padding: 2px;
-	border-radius: 7px;
-	border: 2px solid #BEBEBE;
-	text-align: center;
-}
-
-.reset:hover {
-	padding: 2px;
-	border-radius: 7px;
-	border: 2px solid #960011;
-	text-align: center;
-	cursor: pointer;
+.tracker {
+	position: fixed;
+	width: 200px;
+	border: 2px double gray;
+	padding: 5px;
 }
 
 .NRinfo {
@@ -81,31 +69,32 @@
 	bottom: 10px;
 	right: 10px;
 	width: 200px;
-	color: #FFF;
-	box-shadow: 2px 2px 2px 2px #1b1b1b;
-	background-image: -moz-linear-gradient(center top, #3F505F, #1B1B1B);
-	background-image: -webkit-linear-gradient(center top, #3F505F, #1B1B1B);
-	background-image: -o-linear-gradient(top, #3F505F, #1B1B1B);
 	border: 2px double gray;
-	opacity: 0.90;
 	padding: 5px;
-	border-radius: 5px;
 }
 
 .BRCinfo {
 	position: fixed;
 	left: 16%;
 	width: 100px;
-	color: #FFF;
-	box-shadow: 2px 2px 2px 2px #1b1b1b;
-	background-image: -moz-linear-gradient(center top, #3F505F, #1B1B1B);
-	background-image: -webkit-linear-gradient(center top, #3F505F, #1B1B1B);
-	background-image: -o-linear-gradient(top, #3F505F, #1B1B1B);
 	border: 2px double gray;
-	opacity: 0.90;
 	padding: 5px 5px 2px 5px;
-	border-radius: 5px;
 	cursor: move;
+}
+
+.reset {
+	border: 2px solid #BEBEBE;
+}
+
+.reset:hover {
+	border: 2px solid #960011;
+	cursor: pointer;
+}
+
+.reset, .reset:hover {
+	padding: 2px;
+	border-radius: 7px;
+	text-align: center;
 }
 
 div.Bmsg table tr td {
@@ -115,7 +104,7 @@ div.Bmsg table tr td {
 .marqueebox {
 	display: none;
 	position: absolute;
-	border: 1px solid #FFF;
+	border: 1px solid #FFFFFF;
 	top: 20px;
 	text-align: center;
 	border-radius: 5px;
