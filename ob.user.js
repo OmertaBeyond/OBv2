@@ -2,7 +2,7 @@
 // @name                Omerta Beyond
 // @id                  Omerta Beyond
 // @version             2.0.5
-// @date                31-07-2013
+// @date                01-08-2013
 // @description         Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL         http://www.omertabeyond.com/
 // @namespace           v4.omertabeyond.com
@@ -128,7 +128,7 @@ function voteNow(save) {
 	$('a[name="forticket"]').each(function() {
 		window.open(this);
 	});
-	if (save) {//store last voting time
+	if (save) { // store last voting time
 		setV('lastvote', time());
 	}
 }
@@ -166,37 +166,37 @@ function commafy(num) {
 function getPow(name, i, def) {
 	var info = getV(name, '' + def);
 	if (name == 'bninfo') {
-		var w = 2; //set width of buckets
+		var w = 2; // set width of buckets
 	} else if (name == 'prefs') {
 		var w = 1;
 	}
-	return (1 * info.substr((i * w), w)); //return int version of bucket
+	return (1 * info.substr((i * w), w)); // return int version of bucket
 }
 function setPow(name, i, value) {
 	var info = getV(name, '0');
 	if (name == 'bninfo') {
-		var w = 2; //set width of buckets
+		var w = 2; // set width of buckets
 	} else if (name == 'prefs') {
 		var w = 1;
 	}
-	i = i * w; //set string index
-	value += ''; //toString
+	i = i * w; // set string index
+	value += ''; // toString
 	while (value.length < w) {
-		value = '0' + value; //pad with zeros
+		value = '0' + value; // pad with zeros
 	}
 	if (i > 0 && (i + w) < info.length) {
-		info = info.substring(0, i) + value + info.substring(i + w); //value goes in middle
+		info = info.substring(0, i) + value + info.substring(i + w); // value goes in middle
 	} else if (i === 0) {
-		info = value + info.substring(w); //value goes at beginning
+		info = value + info.substring(w); // value goes at beginning
 	} else if ((i + w) >= info.length) {
-		info = info.substring(0, i) + value; //value goes at end
+		info = info.substring(0, i) + value; // value goes at end
 	} else {
 		return;
 	}
-	setV(name, info); //store string
+	setV(name, info); // store string
 }
 function bnUpdate(current){
-	var xpath = current ? '#game_container' : '#str2dom';//use current page OR xhr str2dom
+	var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
 
 	var nick = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(2) > td:eq(1) > a').text();
 	var rank = $(xpath+' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(7) > td:eq(1)').text();
@@ -208,7 +208,7 @@ function bnUpdate(current){
 	setV('bloodType', type);
 	setV('nick', nick);
 
-	//define max b/n judging by rank
+	// define max b/n judging by rank
 	var maxBooze = [1, 2, 2, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 70, 70];
 	var maxNarcs = [0, 0, 0, 1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 20, 20, 20];
 	for(booze=0,narc=0, i=0;i<=17;i++){
@@ -220,16 +220,16 @@ function bnUpdate(current){
 	setPow('bninfo', 0, narc);
 	setPow('bninfo', 1, booze);
 
-	//parse city to ID
+	// parse city to ID
 	for(var cityCode=0, i=0;i<8;i++){
 		if(city == cities[i]){
 			cityCode = i+4;
 			break;
 		}
 	}
-	setPow('bninfo', 2, cityCode);//save
+	setPow('bninfo', 2, cityCode); // save
 
-	//parse plane to ID
+	// parse plane to ID
 	var rides = ['none', 'geen', 'Fokker DR-1' ,'Havilland DH 82A' ,'Fleet 7', 'Douglas DC-3'];
 	for(plane=0, i=0;i<=5;i++){
 		if(rides[i] == ride){
@@ -237,7 +237,7 @@ function bnUpdate(current){
 			break;
 		}
 	}
-	setPow('bninfo', 3, plane);//save
+	setPow('bninfo', 3, plane); // save
 }
 function CheckBmsg() {
 	setTimeout(function() {
@@ -409,13 +409,13 @@ if (document.getElementById('game_container') !== null) {
 			var sotto = (nTop > 1 && (nTop == 3 || SorC == 0)) ? tops.pop() : null;
 			var cons = (nTop > 1 && (nTop == 3 || SorC == 1)) ? tops.pop() : null;
 
-			//get capos
+			// get capos
 			var capos = [];
 			var anchors = $('table.thinline:last > tbody > tr > td > a.tableheader').each(function() {
 				capos.push($(this).text());
 			});
 
-			//get object owners
+			// get object owners
 			var objects = [];
 			var anchors = $('table.thinline:eq(2) > tbody > tr > td:has(a)').each(function() {
 				objects.push($(this).text());
@@ -428,8 +428,8 @@ if (document.getElementById('game_container') !== null) {
 			});
 
 			$('a[href*="user.php"]').each(function() {
-				var n = $(this).text();//nick
-				var color = 'blue';//default online color
+				var n = $(this).text(); // nick
+				var color = 'blue'; // default online color
 				var vip = tPos = '';
 				if (n == don) { $(this).html('<u>'+n+'</u><small><sup>[D]</sup></small>'); color = 'red'; vip='[D]'; }
 				if (n == sotto) { $(this).html('<u>'+n+'</u><small><sup>[S]</sup></small>'); color = 'red'; vip='[S]'; }
@@ -631,7 +631,7 @@ if (document.getElementById('game_container') !== null) {
 					$('tr[bgcolor]:eq('+i+')').find('input[name="bust"]').attr('checked', true)
 				}
 			}
-			// Add succesfull BO to total
+			// Add successful BO to total
 			if ($('#game_container:contains(You busted this person out of jail)').length) {
 				bos = (bos+1);
 				setV('bustouts', bos);
@@ -653,12 +653,12 @@ if (document.getElementById('game_container') !== null) {
 			).click(function () {
 					voteNow(false);
 			});
-			var lastVote = getV('lastvote', 0); //get last voting time
+			var lastVote = getV('lastvote', 0); // get last voting time
 			if (lastVote === 0) {
 				if (confirm('You haven\'t used the 1-click voter yet!\nDo you want to use it now?')) {
 					voteNow(true);
 				}
-			} else { //not first run
+			} else { // not first run
 				var till = (parseInt(lastVote, 10) + 86400) - time(); // time till next vote
 				var msg = '';
 				if (till <= 0) { // user can vote again so ask
@@ -684,16 +684,16 @@ if (document.getElementById('game_container') !== null) {
 //---------------- Group Crimes ----------------
 		// GroupCrime general accept focus
 		if (on_page('module=GroupCrimes') && nn == 'center') {
-			//focus on accept
+			// focus on accept
 			$('a').filter(function(){
 				return (/Accept/i).test($(this).text());
 			}).focus();
-			//focus on transfer
+			// focus on transfer
 			$('a').filter(function(){
 				return (/Make Transfer/i).test($(this).text());
 			}).focus();
 		}
-		//Heist LE autoform
+		// Heist LE autoform
 		if (on_page('module=Heist') && nn == 'center') {
 			$('input[name="bullets"]').val('50');
 			$('select[name="gun"]').val('real');
@@ -705,33 +705,33 @@ if (document.getElementById('game_container') !== null) {
 				$('input[name="driver"]').focus();
 			}
 		}
-		//OC accept focus
+		// OC accept focus
 		if (on_page('/orgcrime2.php') && nn == 'br') {
-			//focus on accept
+			// focus on accept
 			$('a').filter(function(){
 				return (/Yes/i).test($(this).text());
 			}).focus();
 		}
-		//OC Participants autoform
+		// OC Participants autoform
 		if (on_page('?takepart=yes') && nn == 'form') {
-			//WE
+			// WE
 			$('input[name="bulletz"]').val('100');
 			$('select[name="guns"]').val('2');
-			//EE
+			// EE
 			$('input:radio[name="exploz"]').prop('checked', true);
-			//ALL
+			// ALL
 			$('input[type="submit"]').focus();
 		}
-		//MOC Participants autoform
+		// MOC Participants autoform
 		if (on_page('module=MegaOC') && nn == 'form') {
-			//WE
+			// WE
 			$('input[type="text"]').val('500');
-			//EE
+			// EE
 			$('input:radio:eq(2)').prop('checked', true);
-			//ALL
+			// ALL
 			$('input[type="submit"]').focus();
 		}
-		//Raid LE autoform
+		// Raid LE autoform
 		if (on_page('module=Spots') && nn == 'form') {
 			$('input[name="bullets"]').val('200');
 			if(GetParam('driver')) {
@@ -742,22 +742,22 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 //---------------- Mail ----------------
-		//Inbox
+		// Inbox
 		if (on_page('action=inbox') && nn == 'center'){
-			//save unread msg and msg ids
+			// save unread msg and msg ids
 			var msg = $('td[style="cursor:pointer;cursor:hand"]').length;
 			var unreadmsg = $('tr.color2').length;
 			var id = [];
-			for(var i=0;i<msg;i++){ //find first open spot
+			for(var i=0;i<msg;i++){ // find first open spot
 				id[i] = $('a[href*="showMsg"]:eq('+i+')').attr('href').split('?')[1].match(/\d+/g);
-				setV('msgids', id.join(',')); //join and save values
+				setV('msgids', id.join(',')); // join and save values
 			}
 			var unreadid = [];
-			for(var a=0;a<unreadmsg;a++){ //find first open spot
+			for(var a=0;a<unreadmsg;a++){ // find first open spot
 				unreadid[a] = $('tr.color2 > td:eq(1) > a').attr('href').split('?')[1].match(/\d+/g);
-				setV('unread', unreadid.join(',')); //join and save values
+				setV('unread', unreadid.join(',')); // join and save values
 			}
-			//delete and reply icons
+			// delete and reply icons
 			var num = 1;
 			setTimeout(function () {
 				$('tr[class*="color"]').each(function() {
@@ -767,14 +767,14 @@ if (document.getElementById('game_container') !== null) {
 							delMsg('id', id)
 						})
 					);
-					if ($(this).children('td:eq(2)').children('a').length) { //add reply icon
+					if ($(this).children('td:eq(2)').children('a').length) { // add reply icon
 						$(this).children('td:eq(0)').append(
 							$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=sendMsg&iReply='+id).html(
 								$('<img />').addClass('inboxImg').attr({src: GM_getResourceURL('reply'), title: 'Reply'})
 							)
 						);
 					}
-					if (num < 11) { //add msg hotkeys
+					if (num < 11) { // add msg hotkeys
 						var title = $(this).children('td:eq(1)').children();
 						title.html('['+(num == 10 ? 0 : num)+'] '+title.html());
 						title.attr('accesskey', (num == 10 ? 0 : num));
@@ -782,13 +782,13 @@ if (document.getElementById('game_container') !== null) {
 					}
 				});
 			}, 0);
-			//hotkeys for system delete
+			// hotkeys for system delete
 			var keys = ['-', '=', '[', ']', ';', '\''];
 			var selectors = $('td[align="right"][colspan="100%"] > a');
 			for (i = -1; ++i < selectors.length;) {
 				$('td[align="right"][colspan="100%"] > a:eq('+i+')').attr({accesskey: keys[i], title: 'Hotkey: '+keys[i]});
 			}
-			//select all button
+			// select all button
 			$('td[align="right"][colspan="100%"]').prepend(
 				$('<span>').css('float', 'left').append(
 					$('<input />').attr({type: 'button', value: '(Un)Select All'}).click(function() {
@@ -798,7 +798,7 @@ if (document.getElementById('game_container') !== null) {
 					})
 				)
 			);
-			//add custom system delete
+			// add custom system delete
 			$('td[align="right"][colspan="100%"] > a:eq(0)').before($('<br />'));
 			$('td[align="right"][colspan="100%"]').append(
 				$('<br />'),
@@ -821,7 +821,7 @@ if (document.getElementById('game_container') !== null) {
 			);
 		}
 
-		//Outbox
+		// Outbox
 		if (on_page('action=outbox') && nn == 'center'){
 			setTimeout(function () {
 				$('a[href*="showSentMsg"]').each(function() {
@@ -835,7 +835,7 @@ if (document.getElementById('game_container') !== null) {
 			}, 0);
 		}
 
-		//Show message
+		// Show message
 		if (on_page('action=showMsg') && nn == 'center') {
 			var id = wlh.split('iMsgId=')[1].match(/\d+/g)[0];
 			var ids = getV('msgids', '').split(',');
@@ -845,14 +845,14 @@ if (document.getElementById('game_container') !== null) {
 					var prev = ids[i+1];
 				}
 			}
-			//check unread msg and grab obay bullets
+			// check unread msg and grab obay bullets
 			var unread = getV('unread', '').split(',');
 			for (var x = 0; x < unread.length; ++x) {
-				if (unread[x] !== '' && unread[x] == id) { //msg is unread
+				if (unread[x] !== '' && unread[x] == id) { // msg is unread
 					var msgTyp = $('tr.tableitem').text().split('Type:')[1].split('Sent:')[0];
 					var arr = $('table.thinline > tbody > tr:eq(7) > td').html().split(' ');
 					var bulletmsg = new RegExp('Obay bid succesful');
-					if (bulletmsg.test(msgTyp)) { //grab obay bullets from message
+					if (bulletmsg.test(msgTyp)) { // grab obay bullets from message
 						setV('obaybul', (getV('obaybul', 0) + parseInt(arr[2], 10)));
 					}
 					// resave unread msg's, without our msg
@@ -866,7 +866,7 @@ if (document.getElementById('game_container') !== null) {
 					x = unread.length; // not needed to continue because we found our id
 				}
 			}
-			//add previous and next arrows
+			// add previous and next arrows
 			setTimeout(function () {
 				$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
 					$('<span>').css({'float': 'right', 'padding-top': '2px'}).append(
@@ -890,7 +890,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 			}, 0);
-			//replace reply and delete links
+			// replace reply and delete links
 			var linkz = $('table.thinline > tbody > tr:eq(9) > td > a');
 			if (linkz.length == 1) {
 				setTimeout(function () {
@@ -911,26 +911,26 @@ if (document.getElementById('game_container') !== null) {
 			// Add arrow hotkeys
 			$(window).keydown(function(event){
 				var key = event.which;
-				if(key==39){ //right, reply
+				if(key==39){ // right, reply
 					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=sendMsg&iReply='+id;
 				}
-				if(key==38 && id != ids[0]) { //up, select previous
+				if(key==38 && id != ids[0]) { // up, select previous
 					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+next;
 				}
-				if(key==40 && id != ids[ids.length-1]) { //down, select next
+				if(key==40 && id != ids[ids.length-1]) { // down, select next
 					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+prev;
 				}
-				if(key==37) { //left, delete
+				if(key==37) { // left, delete
 					window.location.href = 'http://'+document.location.hostname+'/game.php#http://'+document.location.hostname+'/BeO/webroot/index.php?module=Mail&action=delMsg&iId='+id+'&iParty=2';
 				}
 			});
 		}
-		//focus on text area
+		// focus on text area
 		if (on_page('iReply=') && nn == 'center') {
 			$('textarea').focus();
 		}
-		//redirect on send message
-		if (on_page('action=sendMsg') && nn == 'b') {//needs testing
+		// redirect on send message
+		if (on_page('action=sendMsg') && nn == 'b') {// needs testing
 			if ($('font:eq(0)').text().indexOf('Message sent to') != -1) {
 				setTimeout(function () {
 					$('a[href*="inbox"]')[0].click();
@@ -939,7 +939,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- Bank ----------------
 		if (on_page('/bank.php') && nn == 'center') {
-			//auto reload after transfer
+			// auto reload after transfer
 			if ($('center').html().search('<table') == -1) {
 				setTimeout(function () {
 					window.location.reload();
@@ -948,7 +948,7 @@ if (document.getElementById('game_container') !== null) {
 			// Add amount of interest next to %
 			if($('table.thinline:eq(1) > tbody > tr:eq(1) > td:eq(1)').length) { // check for banked money
 				var money = $('table.thinline:eq(1) > tbody > tr:eq(1) > td:eq(1)').text();
-				var rx = $('table.thinline:eq(1) > tbody > tr:eq(3) > td:eq(1)').text(); // get recieved amount
+				var rx = $('table.thinline:eq(1) > tbody > tr:eq(3) > td:eq(1)').text(); // get received amount
 				var tmp = 1 * rx.replace(/\D/g, '') - 1 * money.replace(/\D/g, ''); // calculate interest
 				$('table.thinline:eq(1) > tbody > tr:eq(2) > td:eq(1)').html($('table.thinline:eq(1) > tbody > tr:eq(2) > td:eq(1)').text()+' &rarr; ($'+commafy(tmp)+')');
 				setTimeout(function() {
@@ -1023,12 +1023,12 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- All users ----------------
 		if (on_page('/allusers.php') && nn == 'div') {
-			//add page number
+			// add page number
 			var page = GetParam('start');
 			page = (page/15)+1;
 			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').text('Page: '+page));
 
-			//edit show/hide dead link
+			// edit show/hide dead link
 			var dead = GetParam('dead');
 			if(dead !== null) {
 				var url = wlh.replace('#', '');
@@ -1037,9 +1037,9 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 //---------------- TOP 3 ----------------
-		//Control Panel
+		// Control Panel
 		if (on_page('module=Family') && nn == 'div') {
-			//linkify CP log
+			// linkify CP log
 			if(nid == 'jsprogbar_fam_rank_progress') {
 				$('table.color2:eq(0) > tbody > tr > td').not(':first').not(':last').each(function( ) {
 					if ($(this).text() !== '') {
@@ -1078,7 +1078,7 @@ if (document.getElementById('game_container') !== null) {
 				);
 			}
 		}
-		//linkify opened CP log
+		// linkify opened CP log
 		if (on_page('/familylog.php') && nn == 'table') {
 			$('table.color2 > tbody > tr > td').not(':first').each(function( ) {
 				if ($(this).text() !== '') {
@@ -1100,7 +1100,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 		}
-		//Family bank
+		// Family bank
 		if (on_page('/cpbank.php') && nn == 'center') {
 			$('table.thinline:eq(0)').after($('<br />'), $('<table>').addClass('thinline').attr({width: '600', align: 'center', rules: 'none'}).append(
 				$('<tr>').append(
@@ -1176,7 +1176,7 @@ if (document.getElementById('game_container') !== null) {
 					setV('slotjp', slotjp);
 				}
 				if (S1[6] == "b.gif" && S2[6] == "b.gif" && S3[6] == "b.gif") { // Triple Bar
-					slotbar += 1; //triple bar +1;
+					slotbar += 1; // triple bar +1;
 					setV('slotbar', slotbar);
 				}
 				var rex = new RegExp('Congratulations! You won \\$(\\d+)');
@@ -1191,10 +1191,10 @@ if (document.getElementById('game_container') !== null) {
 				slotspent += parseInt(slotbet, 10);// money spent
 				setV('slotspent', slotspent);
 			}
-			if ($('#game_container:contains(Bummer)').length > 0) {//lost
-				slotgames += 1; //games played +1;
+			if ($('#game_container:contains(Bummer)').length > 0) {// lost
+				slotgames += 1; // games played +1;
 				setV('slotgames', slotgames);
-				slotspent += parseInt(slotbet, 10);//money spent
+				slotspent += parseInt(slotbet, 10);// money spent
 				setV('slotspent', slotspent);
 			}
 
@@ -1256,7 +1256,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 		}
-//---------------- Scratchtracker ----------------
+//---------------- Scratch tracker ----------------
 		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form')) {
 			var unopened = getV('unopened', 0);
 			var monin = parseInt(getV('monin', 0), 10);
@@ -1264,14 +1264,14 @@ if (document.getElementById('game_container') !== null) {
 			var bullets = parseInt(getV('bullets', 0), 10);
 			var scratches = parseInt(getV('scratches', 0), 10);
 
-			if ($('#game_container:contains(Congratulations!)').length) { //grab winning event
-				if ($('#game_container:contains(They have been added to your account!)').length) { //bullets
+			if ($('#game_container:contains(Congratulations!)').length) { // grab winning event
+				if ($('#game_container:contains(They have been added to your account!)').length) { // bullets
 					var rex = new RegExp('won (\\d+) bullets');
 					var r = $('#game_container').text().match(rex);
 					bullets += parseInt(r[1], 10);
 					setV('bullets', bullets);
 				}
-				if ($('#game_container:contains(It has been added to your account!)').length) { //money
+				if ($('#game_container:contains(It has been added to your account!)').length) { // money
 					var rex = new RegExp('You have won \\$ (\\d+)');
 					var str = $('#game_container').text().replace(/,/g, '');
 					var r = str.match(rex);
@@ -1284,7 +1284,7 @@ if (document.getElementById('game_container') !== null) {
 					$('input[name="scratch"]').focus()
 				}
 			}
-			if ($('#game_container:contains(Start scratching)').length) { //grab scratching event
+			if ($('#game_container:contains(Start scratching)').length) { // grab scratching event
 				scratches += 1;
 				setV('scratches', scratches);
 				if($('input[name="Check"]').length) {
@@ -1293,9 +1293,9 @@ if (document.getElementById('game_container') !== null) {
 					$('input[type="submit"]').focus();
 				}
 			} else {
-				if ($('input[name="codescratch"]').length) {//focus on unclaimed prices
+				if ($('input[name="codescratch"]').length) {// focus on unclaimed prices
 					$('input[type="submit"]:eq(1)').focus()
-				} else { //focus on scratch
+				} else { // focus on scratch
 					$('input[name="scratch"]').focus()
 				}
 			}
@@ -1344,7 +1344,7 @@ if (document.getElementById('game_container') !== null) {
 				setV('STtop', top);
 			});
 		}
-//---------------- BulletTracker ----------------
+//---------------- Bullet Tracker ----------------
 		if (on_page('/bullets2.php') && nn == 'center') {
 			var d = new Date();
 			var btdate = getV('btdate', 0);
@@ -1576,7 +1576,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 //---------------- Lackeys ----------------
 		if (on_page('module=Lackeys') && nn == 'div') {
-			//General
+			// General
 			var logpath = 'table[data-info="log"] > tbody > tr';
 			var credits = $('td[data-info="credits"]').text();
 			var money = $('td[data-info="money"]').text().replace(/,/g, '');
@@ -1640,12 +1640,12 @@ if (document.getElementById('game_container') !== null) {
 		if ((on_page('prices.php') && nn == 'center') || (on_page('smuggling.php') && nn == 'center')) {
 			var carry_n, carry_b;
 			bninfo = getV('bninfo', -1);
-			if (bninfo != '' && bninfo != -1) { //extra checker for undefined crap
+			if (bninfo != '' && bninfo != -1) { // extra checker for undefined crap
 				if (bninfo.search(/[^0-9]/) != -1) {
 					setV('bninfo', -1);
 				}
 			}
-			//grab Lex
+			// grab Lex
 			if ($('span#lexhelpsyou').length) {
 				lex = parseInt($('span#lexhelpsyou').html().replace(/[^0-9]/g,''), 10);
 				setV('lex', lex);
@@ -1660,43 +1660,43 @@ if (document.getElementById('game_container') !== null) {
 				lexHour = getV('lexHour', -1);
 			}
 
-			function fillBRC(n, b, mode) { //actually filling the forms
-				values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //set defaults
+			function fillBRC(n, b, mode) { // actually filling the forms
+				values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // set defaults
 				// booze    - narcs    == maximum user can buy
 				// carry_b  - carry_n  == total user is carrying
 				// b_amount - n_amount == amount per item user is carrying
 				// b        - n        == item we want
-				if (n > -1 && !lnarcs && mode != 3) { //do we want narcs?
-					if (carry_n == 0) { //nothing in pocket, fill it all
+				if (n > -1 && !lnarcs && mode != 3) { // do we want narcs?
+					if (carry_n == 0) { // nothing in pocket, fill it all
 						values[7+n] = narcs;
-						$('input[name="typedrugs"]:eq(1)').prop('checked', true); //buy
-					} else { //something in pocket
+						$('input[name="typedrugs"]:eq(1)').prop('checked', true); // buy
+					} else { // something in pocket
 						if (carry_n < narcs) { // we got space for more
-							if (n_amount[n] < narcs) { //not full of wanted
-								if (n_amount[n] != carry_n) { //there is unwanted stuff
+							if (n_amount[n] < narcs) { // not full of wanted
+								if (n_amount[n] != carry_n) { // there is unwanted stuff
 									for (i=0; i<=6; i++) {
-										if (i != n || mode == 1) { //only sell what we don't want
+										if (i != n || mode == 1) { // only sell what we don't want
 											values[i+7] = n_amount[i];
 										}
 									}
-									$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
-								} else { //only carrying wanted narcs
-									values[7+n] = narcs - carry_n; //if any, fill missing amount
-									$('input[name="typedrugs"]:eq(1)').prop('checked', true); //buy
+									$('input[name="typedrugs"]:eq(0)').prop('checked', true); // sell
+								} else { // only carrying wanted narcs
+									values[7+n] = narcs - carry_n; // if any, fill missing amount
+									$('input[name="typedrugs"]:eq(1)').prop('checked', true); // buy
 								}
-							} else { //full of wanted
-								if (mode > 0) { //CD/RP mode, sell all
+							} else { // full of wanted
+								if (mode > 0) { // CD/RP mode, sell all
 									values[7+n] = n_amount[n];
-									$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
+									$('input[name="typedrugs"]:eq(0)').prop('checked', true); // sell
 								}
 							}
 						} else { // we go too much, guess it was a good heist
-							for(i=0;i<=6;i++) { //check what we carry
+							for(i=0;i<=6;i++) { // check what we carry
 								if(mode==0 && i == n) {
 									values[i+7] = 0;
 								} else {
 									values[i+7] = n_amount[i];
-									$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
+									$('input[name="typedrugs"]:eq(0)').prop('checked', true); // sell
 								}
 							}
 						}
@@ -1705,53 +1705,53 @@ if (document.getElementById('game_container') !== null) {
 				if(n == -1 && mode == 4 && !lnarcs) {
 					for (i=0; i<=6; i++) {
 						values[i+7] = n_amount[i];
-						$('input[name="typedrugs"]:eq(0)').prop('checked', true); //sell
+						$('input[name="typedrugs"]:eq(0)').prop('checked', true); // sell
 					}
 				}
 
-				//check for scenario: failed selling narcs in high
+				// check for scenario: failed selling narcs in high
 				selling_n = 0;
 				for (i=0; i<=6; i++) {
 					selling_n += values[i+7];
 				}
 				fail_n = (carry_b == 0 && carry_n == narcs && mode == 0 && selling_n > 0) ? 1 : 0;
 
-				if (b > -1 && !fail_n && !lbooze && mode != 3) { //do we want booze? Or are we still selling narcs in high?
+				if (b > -1 && !fail_n && !lbooze && mode != 3) { // do we want booze? Or are we still selling narcs in high?
 					if (carry_b == 0) {
-						values[b] = booze; //nothing in pocket, fill it all
-						$('input[name="typebooze"]:eq(1)').prop('checked', true); //buy
+						values[b] = booze; // nothing in pocket, fill it all
+						$('input[name="typebooze"]:eq(1)').prop('checked', true); // buy
 					} else {
 						if (carry_b < booze) { // we got space for more
-							if (b_amount[b] < booze) { //not full of wanted
-								if (b_amount[b] != carry_b) { //there is unwanted stuff
+							if (b_amount[b] < booze) { // not full of wanted
+								if (b_amount[b] != carry_b) { // there is unwanted stuff
 									for (i=0; i<=6; i++) {
-										if ( (i != b || true) || mode == 1) { //only sell what we don't want or in CD mode
+										if ( (i != b || true) || mode == 1) { // only sell what we don't want or in CD mode
 											values[i] = b_amount[i];
 										}
 									}
-									$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
-								} else { //only carrying wanted narcs
+									$('input[name="typebooze"]:eq(0)').prop('checked', true); // sell
+								} else { // only carrying wanted narcs
 									if(mode = 2) {
-										values[b] = carry_b; //if any, fill missing amount
-										$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+										values[b] = carry_b; // if any, fill missing amount
+										$('input[name="typebooze"]:eq(0)').prop('checked', true); // sell
 									} else {
-										values[b] = booze - carry_b; //if any, fill missing amount
-										$('input[name="typebooze"]:eq(1)').prop('checked', true); //buy
+										values[b] = booze - carry_b; // if any, fill missing amount
+										$('input[name="typebooze"]:eq(1)').prop('checked', true); // buy
 									}
 								}
-							} else { //full of wanted
-								if (mode > 0) { //CD/RP mode, sell all
+							} else { // full of wanted
+								if (mode > 0) { // CD/RP mode, sell all
 									values[b] = b_amount[b];
-									$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+									$('input[name="typebooze"]:eq(0)').prop('checked', true); // sell
 								}
 							}
 						} else { // we go too much, guess it was a good heist
-							for(i=0;i<=6;i++) { //check what we carry
+							for(i=0;i<=6;i++) { // check what we carry
 								if(mode==0 && i == b) {
 									values[i] = 0;
 								} else {
 									values[i] = b_amount[i];
-									$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+									$('input[name="typebooze"]:eq(0)').prop('checked', true); // sell
 								}
 							}
 						}
@@ -1760,11 +1760,11 @@ if (document.getElementById('game_container') !== null) {
 				if(b == -1 && mode == 4 && !lbooze) {
 					for (i=0; i<=6; i++) {
 						values[i] = b_amount[i];
-						$('input[name="typebooze"]:eq(0)').prop('checked', true); //sell
+						$('input[name="typebooze"]:eq(0)').prop('checked', true); // sell
 					}
 				}
 
-				//fill in the fields with the calculated values
+				// fill in the fields with the calculated values
 				var sorts = ['wine', 'cognac', 'whiskey', 'amaretto', 'beer', 'port', 'rum', 'morphine', 'heroin', 'opium', 'cocaine', 'marihuana', 'tabacco', 'glue'];
 				var start = (lbooze)?7:0;
 				var end = (lnarcs)?6:13;
@@ -1773,7 +1773,7 @@ if (document.getElementById('game_container') !== null) {
 					box.val(values[i]);
 				}
 
-				//focus
+				// focus
 				$('input#ver').focus();
 			}
 
@@ -1804,10 +1804,10 @@ if (document.getElementById('game_container') !== null) {
 					lex = 1 + 0.01*lex;
 					for (nCityprofit = [], bCityprofit = [], i = 0; i <= 7; i++) { // get profit per single unit of b/n
 						for (nCityprofit[i] = [], bCityprofit[i] = [], j = 0; j <= 6; j++) { // price there - price here
-							nCityprofit[i].push(Math.round(BN[0][j][(i + 2)]*lex) - Math.round(BN[0][j][(city - 4 + 2)])); //-4 correction for city ID,
-							bCityprofit[i].push(Math.round(BN[1][j][(i + 2)]*lex) - Math.round(BN[1][j][(city - 4 + 2)])); //+2 correction for min/max @ [0]+[1] in BN array
+							nCityprofit[i].push(Math.round(BN[0][j][(i + 2)]*lex) - Math.round(BN[0][j][(city - 4 + 2)])); // -4 correction for city ID,
+							bCityprofit[i].push(Math.round(BN[1][j][(i + 2)]*lex) - Math.round(BN[1][j][(city - 4 + 2)])); // +2 correction for min/max @ [0]+[1] in BN array
 						}
-						nCityprofit[i].unshift(Math.max.apply(null, nCityprofit[i])); //most profit per unit in this city
+						nCityprofit[i].unshift(Math.max.apply(null, nCityprofit[i])); // most profit per unit in this city
 						bCityprofit[i].unshift(Math.max.apply(null, bCityprofit[i]));
 					}
 					// create BRC table
@@ -1850,37 +1850,37 @@ if (document.getElementById('game_container') !== null) {
 							tr.append(td);
 							allProfits.push(0);
 							bestBN.push([0, 0]);
-						} else { //Nothing wrong, clear to go
-							bestNarc = nCityprofit[i][0] < 0 ? 0 : nCityprofit[i].lastIndexOf(nCityprofit[i][0]); //best, if any, narc?
-							profitNarc = (bestNarc == 0) ? 0 : nCityprofit[i][bestNarc]; //profit per unit
+						} else { // Nothing wrong, clear to go
+							bestNarc = nCityprofit[i][0] < 0 ? 0 : nCityprofit[i].lastIndexOf(nCityprofit[i][0]); // best, if any, narc?
+							profitNarc = (bestNarc == 0) ? 0 : nCityprofit[i][bestNarc]; // profit per unit
 							profitNarc = profitNarc * narc;
 
-							bestBooze = bCityprofit[i][0] < 0 ? 0 : bCityprofit[i].lastIndexOf(bCityprofit[i][0]); //best, if any, booze?
-							profitBooze = (bestBooze == 0) ? 0 : bCityprofit[i][bestBooze]; //profit per unit
+							bestBooze = bCityprofit[i][0] < 0 ? 0 : bCityprofit[i].lastIndexOf(bCityprofit[i][0]); // best, if any, booze?
+							profitBooze = (bestBooze == 0) ? 0 : bCityprofit[i][bestBooze]; // profit per unit
 							profitBooze = profitBooze * booze;
 
-							//calc travel cost
-							travelPrices = [ //travel costs from A to B
-								[    0,   600, 10350, 1575,  3600, 1350,  1050, 10800], //det
-								[  600,     0, 11025, 2025,  3000, 1725,  1425, 11400], //chi
-								[10350, 11025,     0, 9075, 14025, 9450,  9750,  1875], //pal
-								[ 1575,  2025,  9075,    0,  5025,  375,   675,  9375], //ny
-								[ 3600,  3000, 14025, 5025,     0, 4650,  4350, 14400], //lv
-								[ 1350,  1725,  9450,  375,  4650,    0,   300,  9750], //phi
-								[ 1050,  1425,  9750,  675,  4350,  300,     0, 10050], //bal
-								[10800, 11400,  1875, 9375, 14400, 9750, 10050,     0]  //cor
-							];  //det   chi    pal    ny    lv     phi   bal    cor
+							// calc travel cost
+							travelPrices = [ // travel costs from A to B
+								[    0,   600, 10350, 1575,  3600, 1350,  1050, 10800], // det
+								[  600,     0, 11025, 2025,  3000, 1725,  1425, 11400], // chi
+								[10350, 11025,     0, 9075, 14025, 9450,  9750,  1875], // pal
+								[ 1575,  2025,  9075,    0,  5025,  375,   675,  9375], // ny
+								[ 3600,  3000, 14025, 5025,     0, 4650,  4350, 14400], // lv
+								[ 1350,  1725,  9450,  375,  4650,    0,   300,  9750], // phi
+								[ 1050,  1425,  9750,  675,  4350,  300,     0, 10050], // bal
+								[10800, 11400,  1875, 9375, 14400, 9750, 10050,     0]  // cor
+							];  // det   chi    pal    ny    lv     phi   bal    cor
 							travelCost = travelPrices[i][(city - 4)];
-							if (plane == 0) { //no plane => half travel cost
+							if (plane == 0) { // no plane => half travel cost
 								travelCost /= 2;
 							}
 
-							//Our total profit in this city
+							// Our total profit in this city
 							totalProfit = (profitNarc + profitBooze) - Math.round(travelCost);
 
-							//save all profits in array for later
+							// save all profits in array for later
 							if (totalProfit < 0) {
-								bestBN.push([0, 0]); //push dummy to complete array
+								bestBN.push([0, 0]); // push dummy to complete array
 							}
 							bestBN.push([bestNarc, bestBooze]);
 							var wnarc = (bestNarc == 0)?0:bestNarc-1;
@@ -1891,12 +1891,12 @@ if (document.getElementById('game_container') !== null) {
 							totalProfit = totalProfit - pay;
 							allProfits.push(totalProfit);
 
-							//What's the result
-							if (totalProfit < 0) { //no profit :(
+							// What's the result
+							if (totalProfit < 0) { // no profit :(
 								td.css('text-align', 'center');
 								td.html('<i>You won\'t make any profit in '+cities[i]+'</i>');
 								tr.append(td);
-							} else { //profit \o/
+							} else { // profit \o/
 								td.html('&nbsp;'+cities[i])
 								td.attr('colspan', '1');
 								tr.append(td);
@@ -1906,8 +1906,8 @@ if (document.getElementById('game_container') !== null) {
 									$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp; $'+commafy(totalProfit))
 								)
 
-								if (on_page('smuggling.php') && nn == 'center') { //we need JS links @ smuggling and don't want to waste clicks
-									key = [0, 4, 6, 1, 2, 3, 5]; //convert b/n - bot prices order to smuggling order
+								if (on_page('smuggling.php') && nn == 'center') { // we need JS links @ smuggling and don't want to waste clicks
+									key = [0, 4, 6, 1, 2, 3, 5]; // convert b/n - bot prices order to smuggling order
 									n1 = key[bestNarc-1];
 									b1 = key[bestBooze-1];
 
@@ -1918,7 +1918,7 @@ if (document.getElementById('game_container') !== null) {
 											})
 										)
 									)
-								} else { //we need to GET to smuggling too
+								} else { // we need to GET to smuggling too
 									tr.append(
 										$('<td>').css({'border-left': '1px solid #000','border-bottom': '1px solid #000'}).html('&nbsp;').append(
 											$('<a>').attr({id: 'go'+i, href: 'http://www.barafranca.com/smuggling.php?n=' + (bestNarc - 1) + '&b=' + (bestBooze - 1)}).css({'font-weight': 'inherit', 'text-align': 'center', 'cursor': 'pointer'}).text('Go!')
@@ -1962,20 +1962,20 @@ if (document.getElementById('game_container') !== null) {
 						function AF(sel,Xn,Xb) {
 							n = -1;
 							b = -1;
-							//assemble info for AF
+							// assemble info for AF
 							inputs = $('input');
 							bn_xp = 'form > table > tbody > tr:eq(0) > td';
 							bn_text = $(bn_xp).html().split('|');
 
 							cash = parseInt(bn_text[0].replace(/[^0-9.]/g, ''), 10);
-							booze = parseInt(bn_text[1].replace(/[^0-9.]/g, ''), 10); //max amount user can carry
+							booze = parseInt(bn_text[1].replace(/[^0-9.]/g, ''), 10); // max amount user can carry
 							narcs = parseInt(bn_text[2].replace(/[^0-9.]/g, ''), 10);
 
 							b_amount = [0, 0, 0, 0, 0, 0, 0];
-							n_amount = [0, 0, 0, 0, 0, 0, 0]; //what is user carrying
+							n_amount = [0, 0, 0, 0, 0, 0, 0]; // what is user carrying
 							var xpb = 'table.thinline > tbody > tr:eq(';
 							var xpn = 'table.thinline:eq(1) > tbody > tr:eq(';
-							for (i = 0; i <= 13; i++) { //define how much of this item is being carried
+							for (i = 0; i <= 13; i++) { // define how much of this item is being carried
 								if (i < 7 && !lbooze) {
 									b_amount[i] = parseInt($(xpb + (i + 3) + ') > td:eq(2)').text(), 10);
 								}
@@ -1984,14 +1984,14 @@ if (document.getElementById('game_container') !== null) {
 								}
 							}
 							carry_n = array_sum(n_amount);
-							carry_b = array_sum(b_amount); //how much is the user carrying already
-							//which item do we want?
+							carry_b = array_sum(b_amount); // how much is the user carrying already
+							// which item do we want?
 							key = [0, 4, 6, 1, 2, 3, 5];
-							if (sel == 0) { //Calc for Best Run
-								n = key[(bestBN[bestRun][0] - 1)]; //this trick works, even I'm amazed
+							if (sel == 0) { // Calc for Best Run
+								n = key[(bestBN[bestRun][0] - 1)]; // this trick works, even I'm amazed
 								b = key[(bestBN[bestRun][1] - 1)];
 							}
-							if (sel == 1) { //CD Run
+							if (sel == 1) { // CD Run
 								for (i = 0; i <= 6; i++) {
 									nItem = parseInt(BN[0][i][(city - 4 + 2)], 10);
 									highNarc = ((i == 0) ? nItem : ((highNarc > nItem) ? highNarc : nItem));
@@ -2007,7 +2007,7 @@ if (document.getElementById('game_container') !== null) {
 								n = key[n];
 								b = key[b];
 							}
-							if (sel == 2) { //RP Run
+							if (sel == 2) { // RP Run
 								for (i = 0; i <= 6; i++) {
 									nItem = parseInt(BN[0][i][(city - 4 + 2)], 10);
 									lowNarc = ((i == 0) ? nItem : ((lowNarc < nItem) ? lowNarc : nItem));
@@ -2024,7 +2024,7 @@ if (document.getElementById('game_container') !== null) {
 								n = key[n];
 								b = key[b];
 
-								//don't fill in if we can't earn RP and AF would want to buy
+								// don't fill in if we can't earn RP and AF would want to buy
 								if(!lbooze) {
 									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match('NOW') && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
 										b = -1;
@@ -2036,19 +2036,19 @@ if (document.getElementById('game_container') !== null) {
 									}
 								}
 							}
-							if (sel == 3) { //None
+							if (sel == 3) { // None
 								n = b = -1;
 							}
-							if (document.location.search != '') { //user manual override using external Go! link
+							if (document.location.search != '') { // user manual override using external Go! link
 								n = key[(GetParam('n'))];
 								b = key[(GetParam('b'))];
 							}
 
-							//overrule with hotkeys [ ] =
+							// overrule with hotkeys [ ] =
 							if(Xn) { var n = -1; }
 							if(Xb) { var b = -1; }
 
-							//we know our n and b => fill it in!
+							// we know our n and b => fill it in!
 							fillBRC(n, b, sel);
 						}
 						AF(getInfo[5]);
@@ -2141,8 +2141,8 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 			}
-			if (getV('bninfo', -1) > 0) { //do we have info data?
-				//create info div to transfer data to XHR function
+			if (getV('bninfo', -1) > 0) { // do we have info data?
+				// create info div to transfer data to XHR function
 				narc = getPow('bninfo', 0, -1);
 				booze = getPow('bninfo', 1, -1);
 				city = getPow('bninfo', 2, -1);
@@ -2155,15 +2155,15 @@ if (document.getElementById('game_container') !== null) {
 					)
 				}
 
-				//get all prices
-				if (on_page('prices.php') && nn == 'center') { //prices are on the page
-					for (BN = [], i = 0; i <= 1; i++) { //B/N
-						for (BN[i] = [], j = 0; j <= 6; j++) { //type
-							for (BN[i][j] = [], k = 0; k <= 7; k++) { //city
+				// get all prices
+				if (on_page('prices.php') && nn == 'center') { // prices are on the page
+					for (BN = [], i = 0; i <= 1; i++) { // B/N
+						for (BN[i] = [], j = 0; j <= 6; j++) { // type
+							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
 								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, ''), 10));
 							}
-							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); //get min
-							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); //get max
+							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); // get min
+							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); // get max
 						}
 					}
 					appBRC(BN);
@@ -2172,16 +2172,16 @@ if (document.getElementById('game_container') !== null) {
 						parser = new DOMParser();
 						dom = parser.parseFromString(resp, 'application/xml');
 
-						for (BN = [], i = 0; i <= 1; i++) { //B/N
-							for (BN[i] = [], j = 0; j <= 6; j++) { //type
+						for (BN = [], i = 0; i <= 1; i++) { // B/N
+							for (BN[i] = [], j = 0; j <= 6; j++) { // type
 								for (BN[i][j] = [], k = 0; k <= 7; k++) {
-									BN[i][j].push(parseInt(dom.getElementsByTagName((i == 0 ? (narcnames[(j + 1)]).replace('abacco', 'obacco') : boozenames[(j + 1)]).toLowerCase())[k].textContent, 10)); //city
+									BN[i][j].push(parseInt(dom.getElementsByTagName((i == 0 ? (narcnames[(j + 1)]).replace('abacco', 'obacco') : boozenames[(j + 1)]).toLowerCase())[k].textContent, 10)); // city
 								}
-								BN[i][j].unshift(Math.min.apply(null, BN[i][j])); //get min
-								BN[i][j].unshift(Math.max.apply(null, BN[i][j])); //get max
+								BN[i][j].unshift(Math.min.apply(null, BN[i][j])); // get min
+								BN[i][j].unshift(Math.max.apply(null, BN[i][j])); // get max
 							}
 						}
-						appBRC(BN); //send prices to BRC function
+						appBRC(BN); // send prices to BRC function
 					}
 					function grabHTML(url, func) {
 						var r = 0;
@@ -2203,23 +2203,23 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			if (on_page('prices.php') && nn == 'center') {
-				noBRC = false; //assume working BRC table
-				if (typeof BN == 'undefined') { //see if prices are grabbed already
-					noBRC = true; //no BRC mean no need to try and HL 'em
+				noBRC = false; // assume working BRC table
+				if (typeof BN == 'undefined') { // see if prices are grabbed already
+					noBRC = true; // no BRC mean no need to try and HL 'em
 					for (BN = [], i = 0; i <= 1; i++) { // B/N
 						for (BN[i] = [], j = 0; j <= 6; j++) { // type
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
 								BN[i][j].push(parseInt($('center:eq('+i+') > table > tbody > tr:eq('+(3+k)+') > td:eq('+(1+j)+')').text().replace(/[^0-9]/g, ''), 10));
 							}
-							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); //get min
-							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); //get max
+							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); // get min
+							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); // get max
 						}
 					}
 				}
 				for (i = 0; i <= 1; i++) {
 					for (j = 0; j <= 6; j++) {
 						for (k = 2; k <= 9; k++) {
-							if (j == 0) { //add mouseover effects
+							if (j == 0) { // add mouseover effects
 								row = $('center:eq('+i+') > table > tbody > tr:eq('+(k+1)+')');
 								row.attr('id', i+'row'+k);
 								row.css('borderTop', '1px solid #000');
@@ -2234,18 +2234,18 @@ if (document.getElementById('game_container') !== null) {
 
 							item = $('center:eq('+i+') > table > tbody > tr:eq('+(k+1)+') > td:eq('+(j+1)+')');
 							item.css({'borderTop': '1px solid #000', 'text-align': 'center', 'width': '12%'});
-							if (!(j % 2)) { //add colors to rows
+							if (!(j % 2)) { // add colors to rows
 								item.css('backgroundColor', '#B0B0B0');
 							}
-							if (BN[i][j][k] == BN[i][j][0]) { //HL max
+							if (BN[i][j][k] == BN[i][j][0]) { // HL max
 								item.css('fontWeight', 'bold');
 								item.css('color', '#FF0000');
 							}
-							if (BN[i][j][k] == BN[i][j][1]) { //HL min
+							if (BN[i][j][k] == BN[i][j][1]) { // HL min
 								item.css('fontWeight', 'bold');
 								item.css('color', '#16E54A');
 							}
-							if (j == 5 && i == 0) { //bold-ify cocaine
+							if (j == 5 && i == 0) { // bold-ify cocaine
 								item.css('fontWeight', 'bold');
 							}
 						}
@@ -2257,7 +2257,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('smuggling.php') && nn == 'center') {
 			var lbooze = 0, lnarcs = 0, lboth = 0, lex = 0;
 
-			//check if lackeys on
+			// check if lackeys on
 			if ($('#game_container').html().match('/orourke.jpg') != null && $('#game_container').html().match('/freekowski.jpg') != null) {
 				lboth = 1;
 			}
@@ -2268,13 +2268,13 @@ if (document.getElementById('game_container') !== null) {
 				lnarcs = 1;
 			}
 
-			//get input fields
+			// get input fields
 			inputs = $('input');
 			bn_xp = 'form > table > tbody > tr:eq(0) > td';
 			bn_text = $(bn_xp).html().split('<br>');
 
 			var cash = parseInt(bn_text[3].replace(/[^0-9.]/g, ''), 10);
-			var booze = parseInt(bn_text[4].match(/\d+/), 10); //max amount user can carry
+			var booze = parseInt(bn_text[4].match(/\d+/), 10); // max amount user can carry
 			var narcs = parseInt(bn_text[5].match(/\d+/), 10);
 			d = new Date();
 			lexDay = d.getDay();
@@ -2290,24 +2290,24 @@ if (document.getElementById('game_container') !== null) {
 				setV('lexDay', lexDay);
 			}
 
-			b_amount = [0, 0, 0, 0, 0, 0]; //what is user carrying
+			b_amount = [0, 0, 0, 0, 0, 0]; // what is user carrying
 			n_amount = [0, 0, 0, 0, 0, 0];
 
 			var xpb = 'table.thinline > tbody > tr:eq(';
 			var xpn = 'table.thinline:eq(1) > tbody > tr:eq(';
 
 			if(!lboth) {
-				for (var i = 0; i <= 13; i++) { //add click to fill stuff and hotkeys
-					if (i < 7 && !lbooze) { //booze
+				for (var i = 0; i <= 13; i++) { // add click to fill stuff and hotkeys
+					if (i < 7 && !lbooze) { // booze
 						var x = i + 3;
 						var bname = $(xpb + x + ') > td:eq(0)').text()
-						b_amount[i] = parseInt($(xpb + x + ') > td:eq(2)').html(), 10); //define how much of this item is being carried
+						b_amount[i] = parseInt($(xpb + x + ') > td:eq(2)').html(), 10); // define how much of this item is being carried
 						$(xpb + x + ') > td:eq(0)').empty()
 						$(xpb + x + ') > td:eq(0)').append(
 							$('<span>').attr({id: 'bh'+i, index: i, acceskey: (i + 1), title: 'Fill in this booze (Hotkey: '+(i+1)+')'}).css('cursor', 'pointer').text((i + 1)+' '+bname).click(function() {
 								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]')
-								for(var j=0;j<=6;j++) {//reset form
+								for(var j=0;j<=6;j++) {// reset form
 									if (j!=i) {
 										inpt[j+1].value = 0;
 									}
@@ -2358,16 +2358,16 @@ if (document.getElementById('game_container') !== null) {
 							})
 						)
 					}
-					if (i > 6 && !lnarcs) { //narcs
+					if (i > 6 && !lnarcs) { // narcs
 						var x = i - 4;
 						var nname = $(xpn + x + ') > td:eq(0)').text()
-						n_amount[(i - 7)] = parseInt($(xpn + x + ') > td:eq(2)').html(), 10); //define how much of this item is being carried
+						n_amount[(i - 7)] = parseInt($(xpn + x + ') > td:eq(2)').html(), 10); // define how much of this item is being carried
 						$(xpn + x + ') > td:eq(0)').empty()
 						$(xpn + x + ') > td:eq(0)').append(
 							$('<span>').attr({id: 'nh'+i, index: i, title: 'Fill in this narc'}).css('cursor', 'pointer').text(nname).click(function() {
 								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]');
-								for(var j=0;j<=6;j++) {//reset form
+								for(var j=0;j<=6;j++) {// reset form
 									if (j!=i-7) {
 										if(lbooze) {
 											inpt[j+1].value = 0;
@@ -2468,7 +2468,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 
-			//visual fix
+			// visual fix
 			if(lnarcs) {
 				$('form > table > tbody > tr:eq(1) > td:eq(1)').prepend(
 					$('<br />'),
@@ -2488,14 +2488,14 @@ if (document.getElementById('game_container') !== null) {
 				)
 			}
 
-			//create more efficient info text
+			// create more efficient info text
 			var str = $('<span>').text('Pocket: $ '+commafy(cash)+' | Booze: '+booze+' | Narcs: '+narcs+' | Lex: '+lex);
 			$(bn_xp).html(str).append(
 				$('<br />'),
 				$('<a>').attr({href: 'prices.php', target: 'main'}).text('Current Booze/Narcotics Prices')
 			)
 			if(!lboth) {
-				$('input#ver').focus(); //focus captcha field
+				$('input#ver').focus(); // focus captcha field
 			}
 		}
 //---------------- Crimes ----------------
@@ -2507,9 +2507,9 @@ if (document.getElementById('game_container') !== null) {
 //---------------- Obay ----------------
 		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
 			$('table.thinline:eq(2) > tbody > tr').each(function() {
-				if(['one','two','three'].indexOf($(this).attr('class')) > -1) { //this row has an object
-					var sort_b = (on_page('type=11'))?1:0; //are we sorting on bullets?
-					//add price per bullets
+				if(['one','two','three'].indexOf($(this).attr('class')) > -1) { // this row has an object
+					var sort_b = (on_page('type=11'))?1:0; // are we sorting on bullets?
+					// add price per bullets
 					if($(this).text().indexOf('bullets') != -1) {
 						var bullets = parseInt($(this).find('td:eq('+(2-sort_b)+')').text().replace(/[^0-9.]/g, ''), 10);
 						var money = parseInt($(this).find('td:eq('+(3-sort_b)+')').text().replace(/[^0-9.]/g, ''), 10);
@@ -2528,11 +2528,11 @@ if (document.getElementById('game_container') !== null) {
 			var rows = $('table.thinline > tbody > tr').length;
 			var totVal = 0;
 			var types = [['h', 8, 9, 13, 15, 16, 17, 18, 19, 21, 22, 27, 32, 34, 35, 40, 43], ['oc', 23, 25, 26, 28, 29, 30, 31, 33, 39, 41, 42], ['moc', 45, 47, 48], ['tr', 23, 47, 54]];
-			$('tr.thinline').each(function() { //loop rows
+			$('tr.thinline').each(function() { // loop rows
 				var carType = '';
 				var carid = $(this).find('td:eq(0)').text();
 				var car = $(this).find('td:eq(1)').find('a').attr('href').match(/\d*$/);
-				var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); //get value
+				var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); // get value
 				totVal += carVal;
 				$(this).click(function() {
 					var check = $(this).find('input[value="'+carid+'"]');
@@ -2550,7 +2550,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				})
 			})
-			//add amount of bullets
+			// add amount of bullets
 			var head = $('h2');
 			var cars = head.text().match(/\d+/g)[2];
 			if(cars>0){
@@ -2558,7 +2558,7 @@ if (document.getElementById('game_container') !== null) {
 					$('<span>').text(' | Potential Bullets: '+cars*12)
 				)
 			}
-			//add amount of money
+			// add amount of money
 			if(totVal>0){
 				head.append(
 					$('<span>').text(' | Total car value of this page: $'+commafy(totVal))
@@ -2595,9 +2595,9 @@ if (document.getElementById('game_container') !== null) {
 					if($('#selval').val() != '' && $('#selsort').val()!= '-----') {
 						var sort = $('#selsort').val();
 						var val = $('#selval').val();
-						$('tr.thinline').each(function() { //loop rows
+						$('tr.thinline').each(function() { // loop rows
 							var carid = $(this).find('td:eq(0)').text();
-							var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); //get value
+							var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); // get value
 							var check = $(this).find('input[value="'+carid+'"]');
 							if(check.prop('checked') === true) {
 								check.prop('checked', false)
@@ -2610,7 +2610,7 @@ if (document.getElementById('game_container') !== null) {
 				})
 			)
 		}
-//---------------- Killpage ----------------
+//---------------- Kill page ----------------
 		if (on_page('module=Detectives') && nn == 'div') {
 			if(nid=='wrappertest') {
 				if(GetParam('search')) {
@@ -2635,8 +2635,8 @@ if (document.getElementById('game_container') !== null) {
 			var input = GetParam('nick');
 			var str = (v=='nl'?'Deze speler bestaat niet':'This user does not exist');
 			if($('#game_container:contains('+str+')').length && input != false){
-				setTimeout(function () { //needed because $.get only works on same domain
-					GM_xmlhttpRequest({ //grab data from xml
+				setTimeout(function () { // needed because $.get only works on same domain
+					GM_xmlhttpRequest({ // grab data from xml
 						method: 'GET',
 						url: 'http://rix.omertabeyond.com/obxml/quicklookup.xml.php?v='+v+'&input='+input,
 						onload: function(resp){
@@ -2820,10 +2820,10 @@ $('#omerta_bar').one('DOMNodeInserted', function() {
 $('#game_menu').one('DOMNodeInserted', function() {
 	// We're too fast, 1 sec delay
 	setTimeout(function() {
-		//change all users link
+		// change all users link
 		$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
 
-		//add beyond menu
+		// add beyond menu
 		var a = $('<a>').addClass('link').attr({'href': '#', 'data-box': 'true'}).append(
 			$('<span>').addClass('title').css('background', 'url("https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png") no-repeat scroll left center transparent').text('Beyond'),
 			$('<span>').addClass('menu_open')
@@ -2863,8 +2863,8 @@ $('#game_menu').one('DOMNodeInserted', function() {
 						$('#Authmsg').text('You need Firefox 22.0 or Chrome to use this feature, update/change your browser!');
 					} else {
 						Notification.requestPermission(function(perm) {
-							$('#Authmsg').text('Authorization for notication is: '+perm);
-						})
+							$('#Authmsg').text('Authorization for notification is: '+perm);
+						});
 					}
 				}),
 				$('<br>'),
@@ -2923,7 +2923,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 					}
 				})
 			)
-		); //here we can build prefs page
+		); // here we can build prefs page
 	}, 1000);
 });
 
@@ -2931,7 +2931,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 * Info grabber
 */
 
-var d = new Date();//check once every hour for new info
+var d = new Date(); // check once every hour for new info
 if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != d.getHours()) {
 	$.get('/information.php', function(data) {
 		var a = data.split('<tbody');
@@ -2939,14 +2939,14 @@ if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != 
 			$('#game_wrapper').append(
 				$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
 			)
-			bnUpdate(0);//call update function
+			bnUpdate(0); // call update function
 			$.get('/user.php?nick='+getV('nick', ''), function(data) {
 				var a = data.split('<script');
 				$('#game_wrapper').append(
 					$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
 				)
 				if($('#xhr').length) {
-					var role = 1;//default is in a family
+					var role = 1; // default is in a family
 					var pos = $('span#position').attr('value');
 					var fam = ($('span#family > a').length?$('span#family > a').text():$('span#family').text());
 					var hascapo = ($('span#capo').length)?1:0;
@@ -2964,9 +2964,9 @@ if(getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != 
 						}
 					}
 					setV('family',fam);
-					setPow('bninfo',4,role);//save
+					setPow('bninfo',4,role); // save
 				}
-				var d = new Date();//set check date
+				var d = new Date(); // set check date
 				setV('brcDate', d.getHours());
 			});
 		}
