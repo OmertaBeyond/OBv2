@@ -2909,7 +2909,10 @@ $('#game_menu').one('DOMNodeInserted', function() {
 			),
 			$('<div>').attr('id', 'oldPrefs').css('display', 'block').append(
 				$('<h3>').text('Clear old preferences'),
-				$('<span>').text('You have old preferences stored. Click the button to clear those'),
+				$('<span>').text('You have old preferences stored.'),
+				$('<br>'),
+				$('<span>').text('Click the button to clear those'),
+				$('<br>'),
 				$('<button>').text('Clear').click(function() {
 					if(confirm('Are you sure?')) {
 						localStorage.removeItem("jailHL_def_"+v);
