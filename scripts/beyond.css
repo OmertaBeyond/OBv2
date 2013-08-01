@@ -82,6 +82,10 @@
 	cursor: move;
 }
 
+.BRCinfo > span > a {
+	color: #FFFFFF !important;
+}
+
 .reset {
 	border: 2px solid #BEBEBE;
 }
