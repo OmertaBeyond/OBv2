@@ -25,6 +25,7 @@
 // @resource    css     https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo    https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
+// @resource    logo-old https://raw.github.com/OmertaBeyond/OBv2/master/images/logo-old.png
 // @resource    prev    https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
 // @resource    next    https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png
 // @resource    reply   https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
@@ -2991,5 +2992,6 @@ $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href
 
 // Replace Omerta's logo
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
+$('img[src*="omerta-game-logo.gif"]').attr('src', GM_getResourceURL('logo-old'));
 
 GM_addStyle(GM_getResourceText('css'));
