@@ -2991,8 +2991,15 @@ $('input[name="email"]').focus();
 // Replace Omerta's favicon
 $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', GM_getResourceURL('favicon'));
 
-// Replace Omerta's logo
+/*
+* Logos replacing
+*/
+
+// Main logo in the game
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
+// Logo on homepage
 $('img[src*="omerta-game-logo.gif"]').attr('src', GM_getResourceURL('logo-old'));
+// Logo on /servers.php
+$('img[src*="logo0.gif"]').attr('src', GM_getResourceURL('logo-old'));
 
 GM_addStyle(GM_getResourceText('css'));
