@@ -69,6 +69,7 @@ const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 const OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
+const OB_VERSION = '2.0.6';
 const cur_v = '4.1';
 
 /*
@@ -2853,6 +2854,10 @@ $('#game_menu').one('DOMNodeInserted', function() {
 		var block = (getV('bmsgNews', -1) != -1?'block':'none');
 
 		var prefs_page = $('<div>').attr({id: 'prefsDiv'}).append(
+			$('<div>').attr('class', 'obv').append(
+				$('<h2>').text('OmertaBeyond :: ' + OB_VERSION)
+			),
+
 			$('<div>').attr({id: 'bmsgDiv'}).append(
 				$('<h3>').text('Notifications'),
 				$('<div>').attr('id', 'Authmsg'),
