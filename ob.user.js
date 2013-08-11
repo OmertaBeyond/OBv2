@@ -2886,30 +2886,30 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				$('<label>').attr('for', 'news').text('News')
 			),
 			$('<div>').attr({id: 'jailDiv'}).append(
-				$('<h3>').text('Jailsettings'),
+				$('<h3>').text('Jail settings'),
 				$('<span>').text('Bust Priorities:').attr('id', 'OBHeaderPrefs'),
 				$('<br>'),
-				$('<span>').text('jailHL default'),
+				$('<span>').text('Default'),
 				$('<input>').attr({id: 'jailHL_def', type: 'text', value: jailHL_def}).blur(function() {
 					setA('sets', 'jailHL_def', $('#jailHL_def').val());
 				}),
 				$('<br>'),
-				$('<span>').text('jailHL Friends and Family'),
+				$('<span>').text('Friends and Family'),
 				$('<input>').attr({id: 'jailHL_friends', type: 'text', value: jailHL_friends}).blur(function() {
 					setA('sets', 'jailHL_friends', $('#jailHL_friends').val());
 				}),
 				$('<br>'),
-				$('<span>').text('jailHL own lackeys'),
+				$('<span>').text('Own lackeys'),
 				$('<input>').attr({id: 'jailHL_own_lackey', type: 'text', value: jailHL_own_lackey}).blur(function() {
 					setA('sets', 'jailHL_own_lackey', $('#jailHL_own_lackey').val());
 				}),
 				$('<br>'),
-				$('<span>').text('jailHL Friend/Family lackeys'),
+				$('<span>').text('Friend/Family lackeys'),
 				$('<input>').attr({id: 'jailHL_fr_lackey', type: 'text', value: jailHL_fr_lackey}).blur(function() {
 					setA('sets', 'jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
 				}),
 				$('<br>'),
-				$('<span>').text('jailHL Other lackeys'),
+				$('<span>').text('Other lackeys'),
 				$('<input>').attr({id: 'jailHL_other_lackey', type: 'text', value: jailHL_other_lackey}).blur(function() {
 					setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
 				})
