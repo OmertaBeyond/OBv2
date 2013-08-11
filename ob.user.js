@@ -79,6 +79,7 @@ const cur_v = '4.1';
 function array_sum(array) {
 	return array.reduce(function (a, b) { return a + b; })
 }
+
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
@@ -86,15 +87,19 @@ function on_page(str) {
 		return false;
 	}
 }
+
 function getV(name, standard) {
 	return localStorage[name+'_'+v] || standard;
 }
+
 function setV(name, value) {
 	return localStorage[name+'_'+v] = value;
 }
+
 function getA(name) {
 	return JSON.parse(localStorage[name+'_'+v]);
 }
+
 function setA(name, pref, value) {
 	if(name === 'prefs') {
 		prefs[pref] = value;
@@ -105,13 +110,16 @@ function setA(name, pref, value) {
 		return localStorage[name+'_'+v] = JSON.stringify(sets);
 	}
 }
+
 function time() {
 	return Math.floor(parseInt(new Date().getTime(), 10) / 1000);
 }
+
 function GetParam(name) {
 	var results = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href);
 	return results[1] || 0;
 }
+
 function isVisible(node) {
 	var win = $(window);
 	var viewport = {
@@ -127,6 +135,7 @@ function isVisible(node) {
 
 	return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
 }
+
 function voteNow(save) {
 	$('a[name="forticket"]').each(function() {
 		window.open(this);
@@ -135,6 +144,7 @@ function voteNow(save) {
 		setV('lastvote', time());
 	}
 }
+
 function delMsg(what, name) {
 	$('tr[class*="color"]').each(function() {
 		var tr = $(this);
@@ -160,12 +170,14 @@ function delMsg(what, name) {
 		}
 	});
 }
+
 function commafy(num) {
 	var str = (num + '').split('.'),
 		dec = str[1] || '',
 		num = str[0].replace(/(\d)(?=(\d{3})+\b)/g, '$1,');
 	return (dec) ? num + '.' + dec : num;
 }
+
 function getPow(name, i, def) {
 	var info = getV(name, '' + def);
 	if (name == 'bninfo') {
@@ -175,6 +187,7 @@ function getPow(name, i, def) {
 	}
 	return (1 * info.substr((i * w), w)); // return int version of bucket
 }
+
 function setPow(name, i, value) {
 	var info = getV(name, '0');
 	if (name == 'bninfo') {
@@ -198,6 +211,7 @@ function setPow(name, i, value) {
 	}
 	setV(name, info); // store string
 }
+
 function bnUpdate(current){
 	var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
 
@@ -242,6 +256,7 @@ function bnUpdate(current){
 	}
 	setPow('bninfo', 3, plane); // save
 }
+
 function CheckBmsg() {
 	setTimeout(function() {
 		var lastbmsg = getV('lastbmsg', 0);
@@ -331,6 +346,7 @@ var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shopli
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
 var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
+
 if(localStorage['prefs_'+v]) {
 	var prefs = getA('prefs');
 } else {
