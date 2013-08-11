@@ -329,24 +329,24 @@ function CheckBmsg() {
 
 function whatV(hostname) {
 	switch (hostname || window.location.hostname) {
-	case 'www.omerta3.com':
-	case 'omerta3.com':
-	case 'www.barafranca.com':
-	case 'barafranca.com':
-	case 'www.barafranca.us':
-	case 'barafranca.us':
-		return 'com';
-	case 'deathmatch.barafranca.com':
-	case 'dm.barafranca.com':
-		return 'dm';
-	case 'www.barafranca.nl':
-	case 'barafranca.nl':
-		return 'nl';
-	case 'www.barafranca.gen.tr':
-	case 'barafranca.gen.tr':
-		return 'tr';
-	default:
-		return undefined;
+		case 'www.omerta3.com':
+		case 'omerta3.com':
+		case 'www.barafranca.com':
+		case 'barafranca.com':
+		case 'www.barafranca.us':
+		case 'barafranca.us':
+			return 'com';
+		case 'deathmatch.barafranca.com':
+		case 'dm.barafranca.com':
+			return 'dm';
+		case 'www.barafranca.nl':
+		case 'barafranca.nl':
+			return 'nl';
+		case 'www.barafranca.gen.tr':
+		case 'barafranca.gen.tr':
+			return 'tr';
+		default:
+			return undefined;
 	}
 }
 
@@ -2154,15 +2154,15 @@ if (document.getElementById('game_container') !== null) {
 
 							// calc travel cost
 							travelPrices = [ // travel costs from A to B
-								[0, 600, 10350, 1575, 3600, 1350, 1050, 10800], // det
-								[600, 0, 11025, 2025, 3000, 1725, 1425, 11400], // chi
-								[10350, 11025, 0, 9075, 14025, 9450, 9750, 1875], // pal
-								[1575, 2025, 9075, 0, 5025, 375, 675, 9375], // ny
-								[3600, 3000, 14025, 5025, 0, 4650, 4350, 14400], // lv
-								[1350, 1725, 9450, 375, 4650, 0, 300, 9750], // phi
-								[1050, 1425, 9750, 675, 4350, 300, 0, 10050], // bal
-								[10800, 11400, 1875, 9375, 14400, 9750, 10050, 0] // cor
-							]; // det   chi    pal    ny    lv     phi   bal    cor
+								[    0,   600, 10350, 1575,  3600, 1350,  1050, 10800], // det
+								[  600,     0, 11025, 2025,  3000, 1725,  1425, 11400], // chi
+								[10350, 11025,     0, 9075, 14025, 9450,  9750, 1875], // pal
+								[ 1575,  2025,  9075,    0,  5025,  375,   675, 9375], // ny
+								[ 3600,  3000, 14025, 5025,     0, 4650,  4350, 14400], // lv
+								[ 1350,  1725,  9450,  375,  4650,    0,   300, 9750], // phi
+								[ 1050,  1425,  9750,  675,  4350,  300,     0, 10050], // bal
+								[10800, 11400,  1875, 9375, 14400, 9750, 10050, 0] // cor
+							];  // det   chi    pal    ny    lv     phi   bal    cor
 							travelCost = travelPrices[i][(city - 4)];
 							if (plane == 0) { // no plane => half travel cost
 								travelCost /= 2;
