@@ -2859,7 +2859,7 @@ $('#game_menu').one('DOMNodeInserted', function() {
 				$('<button>').text('Authorize for notifications').click(function() {
 					var rex = new RegExp(/Firefox\/([0-9]+)\.|Opera|Chrome/);
 					var r = navigator.userAgent.match(rex);
-					if(r[1] && r[1] !== '22') {
+					if(r[1] && r[1] < '22') {
 						$('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
 					} else if(r[0]==='Opera') {
 						$('#Authmsg').text('You need Firefox 22.0 or Chrome to use this feature, update/change your browser!');
