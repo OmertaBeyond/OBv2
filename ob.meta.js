@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.7
-// @date                     11-08-2013
+// @version                  2.0.8
+// @date                     13-08-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
