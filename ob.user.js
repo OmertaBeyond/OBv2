@@ -693,7 +693,7 @@ if (document.getElementById('game_container') !== null) {
 			// Loop inmates again for selection
 			var prior = 10;
 			for (i = rows - 1; i >= 0; i--) {
-				priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'));
+				priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 				if (priority <= prior) {
 					prior = priority; // changes highest priority
 					$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html());
