@@ -64,13 +64,13 @@
  * Define constants for our website
  */
 
-const OB_WEBSITE = 'http://www.omertabeyond.com';
-const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
-const OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
-const OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
-const OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-const OB_VERSION = '2.0.7';
-const cur_v = '4.1';
+var OB_WEBSITE = 'http://www.omertabeyond.com';
+var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
+var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
+var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
+var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
+var OB_VERSION = '2.0.7';
+var cur_v = '4.1';
 
 /*
  * Helper functions
