@@ -61,8 +61,8 @@
  */
 
 /*
-* Define constants for our website
-*/
+ * Define constants for our website
+ */
 
 const OB_WEBSITE = 'http://www.omertabeyond.com';
 const OB_API_WEBSITE = 'http://gm.omertabeyond.com';
@@ -1882,8 +1882,8 @@ if (document.getElementById('game_container') !== null) {
 					}
 					++x;
 				});
-				// Hide useless entries
 
+				// Hide useless entries
 				function hideLaughing(hide) {
 					setA('sets', 'sluggsHideLaughing', hide);
 					sluggsHideLaughing = hide;
@@ -2933,10 +2933,10 @@ if (document.getElementById('game_container') !== null) {
 			var rows = $('table.thinline > tbody > tr').length;
 			var totVal = 0;
 			var types = [
-				['h', 8, 9, 13, 15, 16, 17, 18, 19, 21, 22, 27, 32, 34, 35, 40, 43],
-				['oc', 23, 25, 26, 28, 29, 30, 31, 33, 39, 41, 42],
+				['h',    8,  9, 13, 15, 16, 17, 18, 19, 21, 22, 27, 32, 34, 35, 40, 43],
+				['oc',  23, 25, 26, 28, 29, 30, 31, 33, 39, 41, 42],
 				['moc', 45, 47, 48],
-				['tr', 23, 47, 54]
+				['tr',  23, 47, 54]
 			];
 			$('tr.thinline').each(function () { // loop rows
 				var carType = '';
