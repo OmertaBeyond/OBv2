@@ -265,14 +265,14 @@ function CheckBmsg() {
 		var lastbmsg = getV('lastbmsg', 0);
 		GM_xmlhttpRequest({
 			method: 'GET',
-			url: 'http://gm.omertabeyond.com/index.php?p=bmsg&v=' + v + '&last=' + lastbmsg,
+			url: OB_API_WEBSITE + '/?p=bmsg&v=' + v + '&last=' + lastbmsg,
 			onload: function (xhr) {
 				var response = JSON.parse(xhr.responseText);
 				var deaths = response["deaths"].length;
 				var news = response["news"].length;
 				if (news == 1) {
 					if (prefs['bmsgNews']) {
-						var text = 'A new article is posted http://news.omertabeyond.com\n\n';
+						var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
 						var title = response['news'][0]['title'];
 						var type = response['news'][0]['type'];
 						text += response['news'][0]['preview'];
@@ -288,7 +288,7 @@ function CheckBmsg() {
 							setTimeout(CheckBmsg(), 60000);
 						};
 						notification.onclick = function () {
-							window.open('http://news.omertabeyond.com/' + response['news'][0]['id']);
+							window.open(OB_NEWS_WEBSITE + response['news'][0]['id']);
 						};
 						setV('lastbmsg', response["news"][0]["ts"]);
 					}
@@ -3072,7 +3072,7 @@ if (document.getElementById('game_container') !== null) {
 				setTimeout(function () { // needed because $.get only works on same domain
 					GM_xmlhttpRequest({ // grab data from xml
 						method: 'GET',
-						url: 'http://rix.omertabeyond.com/obxml/quicklookup.xml.php?v=' + v + '&input=' + input,
+						url: OB_RIX_WEBSITE + '/obxml/quicklookup.xml.php?v=' + v + '&input=' + input,
 						onload: function (resp) {
 							var parser = new DOMParser();
 							var xml = parser.parseFromString(resp.responseText, 'application/xml');
@@ -3246,7 +3246,7 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 
 					span.append(
 						$('<a>').attr({
-							href: 'http://gm.omertabeyond.com/prices.php?v=' + v,
+							href: OB_API_WEBSITE + '/prices.php?v=' + v,
 							target: 'main'
 						}).text('All Prices').css({
 							color: '#FFF',
