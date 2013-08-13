@@ -1607,7 +1607,7 @@ if (document.getElementById('game_container') !== null) {
 			var btmode = parseInt(getV('btmode', 1), 10);
 			if ($('#game_container:contains(Success, you bought)').length) {
 				var rex = new RegExp('Success you bought (\\d+) bullets for \\$ (\\d+)');
-				var str = $('#game_container').text().split('Bulletfactory')[0].replace(/,/g, '');;
+				var str = $('#game_container').text().split('Bulletfactory')[0].replace(/,/g, '');
 				var r = str.match(rex);
 				btbullets += parseInt(r[1], 10);
 				bttoday += parseInt(r[1], 10);
