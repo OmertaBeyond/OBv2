@@ -464,7 +464,8 @@ if (document.getElementById('game_container') !== null) {
 			$('a[href*="user.php"]').each(function () {
 				var n = $(this).text(); // nick
 				var color = 'blue'; // default online color
-				var vip = tPos = '';
+				var vip, tPos;
+				vip = tPos = '';
 				if (n == don) {
 					$(this).html('<u>' + n + '</u><small><sup>[D]</sup></small>');
 					color = 'red';
