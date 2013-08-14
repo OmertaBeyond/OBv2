@@ -31,6 +31,8 @@
 // @resource    reply        https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
 // @resource    delete       https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
 // @resource    log          https://raw.github.com/OmertaBeyond/OBv2/master/images/changelog.png
+// @resource    rip          https://raw.github.com/OmertaBeyond/OBv2/master/images/rip.png
+// @resource    red-star     https://raw.github.com/OmertaBeyond/OBv2/master/images/red-star.png
 // @include                  http://*.omerta3.com/*
 // @include                  http://omerta3.com/*
 // @include                  http://*.barafranca.com/*
