@@ -284,7 +284,7 @@ function CheckBmsg() {
 							lang: "",
 							body: text,
 							tag: "news",
-							icon: "https://si0.twimg.com/profile_images/652064165/red-star.png",
+							icon: GM_getResourceURL('red-star'),
 						});
 						notification.onclose = function () {
 							setTimeout(CheckBmsg(), 60000);
@@ -312,7 +312,7 @@ function CheckBmsg() {
 								lang: "",
 								body: text,
 								tag: "deaths",
-								icon: "http://icongal.com/gallery/image/263615/rest_peace_rip.png",
+								icon: GM_getResourceURL('rip'),
 							});
 							notification.onclose = function () {
 								setTimeout(CheckBmsg(), 60000);
