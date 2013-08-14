@@ -270,8 +270,8 @@ function CheckBmsg() {
 			url: OB_API_WEBSITE + '/?p=bmsg&v=' + v + '&last=' + lastbmsg,
 			onload: function (xhr) {
 				var response = JSON.parse(xhr.responseText);
-				var deaths = response["deaths"].length;
-				var news = response["news"].length;
+				var deaths = response['deaths'].length;
+				var news = response['news'].length;
 				if (news == 1) {
 					if (prefs['bmsgNews']) {
 						var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
@@ -280,10 +280,10 @@ function CheckBmsg() {
 						text += response['news'][0]['preview'];
 
 						var notification = new Notification(title, {
-							dir: "auto",
-							lang: "",
+							dir: 'auto',
+							lang: '',
 							body: text,
-							tag: "news",
+							tag: 'news',
 							icon: GM_getResourceURL('red-star'),
 						});
 						notification.onclose = function () {
@@ -292,13 +292,13 @@ function CheckBmsg() {
 						notification.onclick = function () {
 							window.open(OB_NEWS_WEBSITE + response['news'][0]['id'])
 						}
-						setV('lastbmsg', response["news"][0]["ts"]);
+						setV('lastbmsg', response['news'][0]['ts']);
 					}
 				} else {
 					if (prefs['bmsgNews']) {
 						if (deaths >= 1) {
-							var text = response["deaths"].length + ' people died:\n\n';
-							var am = (response["deaths"].length < 10 ? response["deaths"].length : 10);
+							var text = response['deaths'].length + ' people died:\n\n';
+							var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
 							for (var i = 0; i < am; i++) {
 								var d = new Date(response['deaths'][i]['ts'] * 1000);
 								var time = (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' + (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
@@ -308,16 +308,16 @@ function CheckBmsg() {
 							}
 
 							var notification = new Notification('Deaths!', {
-								dir: "auto",
-								lang: "",
+								dir: 'auto',
+								lang: '',
 								body: text,
-								tag: "deaths",
+								tag: 'deaths',
 								icon: GM_getResourceURL('rip'),
 							});
 							notification.onclose = function () {
 								setTimeout(CheckBmsg(), 60000);
 							}
-							setV('lastbmsg', response["deaths"][0]["ts"]);
+							setV('lastbmsg', response['deaths'][0]['ts']);
 						}
 					}
 					setTimeout(function () {
@@ -672,11 +672,11 @@ if (document.getElementById('game_container') !== null) {
 			$('tr[bgcolor]').each(function () {
 				// Set default priority
 				$(this).attr('priority', jailHL_def); // Default
-				if ($(this).attr('bgcolor') != "") {
+				if ($(this).attr('bgcolor') != '') {
 					$(this).attr('priority', jailHL_friends);
 				}
 				if ($(this).find('td:eq(0)>font>span').text() != '') {
-					if ($(this).attr('bgcolor') == "") {
+					if ($(this).attr('bgcolor') == '') {
 						$(this).attr('priority', jailHL_other_lackey); // other lackeys
 					} else {
 						if ($(this).find('td:eq(0) > font > a').text() == getV('nick', '')) {
@@ -1383,7 +1383,7 @@ if (document.getElementById('game_container') !== null) {
 				var S1 = $('img[src*="slotmachine"]:eq(0)').attr('src').replace(/">/g, '').split('/');
 				var S2 = $('img[src*="slotmachine"]:eq(1)').attr('src').replace(/">/g, '').split('/');
 				var S3 = $('img[src*="slotmachine"]:eq(2)').attr('src').replace(/">/g, '').split('/');
-				if (S1[6] == "a.gif" && S2[6] == "a.gif" && S3[6] == "a.gif") { // Jackpot
+				if (S1[6] == 'a.gif' && S2[6] == 'a.gif' && S3[6] == 'a.gif') { // Jackpot
 					var rexjp = new RegExp('You Win \\$(\\d+)');
 					var jpm = str.match(rexjp); // get money
 					jpmwon += parseInt(jpm[1], 10); // jp money won;
@@ -1393,7 +1393,7 @@ if (document.getElementById('game_container') !== null) {
 					slotjp += 1; // jackpot +1;
 					setV('slotjp', slotjp);
 				}
-				if (S1[6] == "b.gif" && S2[6] == "b.gif" && S3[6] == "b.gif") { // Triple Bar
+				if (S1[6] == 'b.gif' && S2[6] == 'b.gif' && S3[6] == 'b.gif') { // Triple Bar
 					slotbar += 1; // triple bar +1;
 					setV('slotbar', slotbar);
 				}
@@ -1469,7 +1469,7 @@ if (document.getElementById('game_container') !== null) {
 				);
 			}
 			$('#SlTracker').mouseup(function () {
-				var divOffset = $("#SlTracker").offset();
+				var divOffset = $('#SlTracker').offset();
 				var left = divOffset.left;
 				var top = divOffset.top;
 				setV('SlTleft', left);
@@ -1589,7 +1589,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			$('#STracker').mouseup(function () {
 				//alert('Set the x and y values using GM_getValue.');
-				var divOffset = $("#STracker").offset();
+				var divOffset = $('#STracker').offset();
 				var left = divOffset.left;
 				var top = divOffset.top;
 				setV('STleft', left);
@@ -1669,7 +1669,7 @@ if (document.getElementById('game_container') !== null) {
 				);
 			}
 			$('#BTracker').mouseup(function () {
-				var divOffset = $("#BTracker").offset();
+				var divOffset = $('#BTracker').offset();
 				var left = divOffset.left;
 				var top = divOffset.top;
 				setV('BTleft', left);
@@ -1692,7 +1692,7 @@ if (document.getElementById('game_container') !== null) {
 					status += akill;
 				}
 				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + unick, function (data) {
-					if (data["DiedAt"] === null) {
+					if (data['DiedAt'] === null) {
 						$('span#status').text(status + ' | Death date is not known');
 					} else {
 						$('span#status').html(status + ' | ' + rankings + ' | Died at ' + data['Date'] + ' OT (' + data['Agod'] + 'd ' + data['Agoh'] + 'h ' + data['Agom'] + 'm ago)');
@@ -2479,7 +2479,7 @@ if (document.getElementById('game_container') !== null) {
 						});
 						$('#AF').mouseup(function () {
 							//alert('Set the x and y values using GM_getValue.');
-							var divOffset = $("#AF").offset();
+							var divOffset = $('#AF').offset();
 							var left = divOffset.left;
 							var top = divOffset.top;
 							setV('AFleft', left);
@@ -3447,14 +3447,14 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				$('<br>'),
 				$('<button>').text('Clear').click(function () {
 					if (confirm('Are you sure?')) {
-						localStorage.removeItem("jailHL_def_" + v);
-						localStorage.removeItem("jailHL_friends_" + v);
-						localStorage.removeItem("jailHL_own_lackey_" + v);
-						localStorage.removeItem("jailHL_fr_lackey_" + v);
-						localStorage.removeItem("jailHL_other_lackey_" + v);
-						localStorage.removeItem("bmsgNews_" + v);
-						localStorage.removeItem("bmsgDeaths_" + v);
-						localStorage.removeItem("sluggsHideLaughing_" + v);
+						localStorage.removeItem('jailHL_def_' + v);
+						localStorage.removeItem('jailHL_friends_' + v);
+						localStorage.removeItem('jailHL_own_lackey_' + v);
+						localStorage.removeItem('jailHL_fr_lackey_' + v);
+						localStorage.removeItem('jailHL_other_lackey_' + v);
+						localStorage.removeItem('bmsgNews_' + v);
+						localStorage.removeItem('bmsgDeaths_' + v);
+						localStorage.removeItem('sluggsHideLaughing_' + v);
 					}
 				})
 			)
