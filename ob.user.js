@@ -3439,7 +3439,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
 				})
 			),
-			$('<div>').attr('id', 'oldPrefs').css('display', 'block').append(
+			$('<div>').attr('id', 'oldPrefs').css('display', block).append(
 				$('<h3>').text('Clear old preferences'),
 				$('<span>').text('You have old preferences stored.'),
 				$('<br>'),
