@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.9
-// @date                     13-08-2013
+// @version                  2.0.10
+// @date                     17-09-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.9';
+var OB_VERSION = '2.0.10';
 var cur_v = '4.1';
 
 /*
@@ -715,7 +715,15 @@ if (document.getElementById('game_container') !== null) {
 				$('<br />'),
 				$('<span>').text('Bustouts: ' + bos)
 			)
+			// Focus on code field
 			$('input[name="ver"]').focus()
+		}
+		if (on_page('/jail.php') && nn == 'table') {
+			var bo_hotkey = sets['bo_hotkey'] || '/';
+			// Add buyout hotkey
+			if ($('#game_container:contains("cops are all over you")').length) {
+				$('input[name="buymeout"]').attr('accesskey', bo_hotkey);
+			}
 		}
 		//---------------- 1-click voter ----------------
 		if (on_page('/vfo.php') && nn == 'center') {
@@ -3342,6 +3350,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 8;
 		var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 9;
 		var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
+		var bo_hotkey = sets['bo_hotkey'] || '/';
 		var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
 
 		var prefs_page = $('<div>').attr({
@@ -3437,9 +3446,18 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					value: jailHL_other_lackey
 				}).blur(function () {
 					setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
+				}),
+				$('<br>'),
+				$('<span>').text('Buyout hotkey'),
+				$('<input>').attr({
+					id: 'bo_hotkey',
+					type: 'text',
+					value: bo_hotkey
+				}).blur(function () {
+					setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
 				})
 			),
-			$('<div>').attr('id', 'oldPrefs').css('display', block).append(
+			$('<div>').attr({id: 'oldPrefs'}).css('display', block).append(
 				$('<h3>').text('Clear old preferences'),
 				$('<span>').text('You have old preferences stored.'),
 				$('<br>'),
