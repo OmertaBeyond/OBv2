@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.10
+// @version                  2.0.11
 // @date                     17-09-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
@@ -71,8 +71,8 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.10';
-var cur_v = '4.1';
+var OB_VERSION = '2.0.11';
+var cur_v = '4.4';
 
 /*
  * Helper functions
@@ -718,11 +718,20 @@ if (document.getElementById('game_container') !== null) {
 			// Focus on code field
 			$('input[name="ver"]').focus()
 		}
+		// Shit we're busted!
 		if (on_page('/jail.php') && nn == 'table') {
 			var bo_hotkey = sets['bo_hotkey'] || '/';
 			// Add buyout hotkey
 			if ($('#game_container:contains("cops are all over you")').length) {
 				$('input[name="buymeout"]').attr('accesskey', bo_hotkey);
+			}
+			// Go back to jail when time is over
+			if ($('#game_container span').attr('data-timeleft')) {
+				$('#game_container span').on('DOMSubtreeModified', function() {
+					if($('#game_container span').attr('data-timeleft') == -1) {
+						window.location.reload();
+					}
+				})
 			}
 		}
 		//---------------- 1-click voter ----------------
