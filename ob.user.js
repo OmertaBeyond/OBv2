@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.11
-// @date                     17-09-2013
+// @version                  2.0.12
+// @date                     25-09-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.11';
+var OB_VERSION = '2.0.12';
 var cur_v = '4.4';
 
 /*
@@ -664,6 +664,7 @@ if (document.getElementById('game_container') !== null) {
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form') {
 			var bos = parseInt(getV('bustouts', 0), 10);
+			var jailHL_sel = sets['jailHL_sel'];
 			var jailHL_def = parseInt(sets['jailHL_def'] || 10, 10);
 			var jailHL_friends = parseInt(sets['jailHL_friends'] || 5, 10);
 			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 8, 10);
@@ -698,15 +699,26 @@ if (document.getElementById('game_container') !== null) {
 				$('input[name="ver"]').focus()
 			});
 			// Loop inmates again for selection
-			var prior = 10;
+			var prior = jailHL_def;
 			for (i = rows - 1; i >= 0; i--) {
 				priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-				if (priority <= prior) {
+				if (priority < prior) {
 					prior = priority; // changes highest priority
 					$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
 					$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
 					$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
 				}
+			}
+			// No priorities found, select random!
+			if (prior == jailHL_def && jailHL_sel) {
+				if((rows-1)>1) {
+					i = rand(0, (rows-1));
+				} else {
+					i = 0;
+				}
+				$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
+				$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
+				$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
 			}
 			// Add successful BO to total
 			if ($('#game_container:contains(You busted this person out of jail)').length) {
@@ -3358,6 +3370,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
+		var jailHL_sel = (sets['jailHL_sel'] ? true: false);
 		var jailHL_def = sets['jailHL_def'] || 10;
 		var jailHL_friends = sets['jailHL_friends'] || 5;
 		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 8;
@@ -3468,7 +3481,19 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					value: bo_hotkey
 				}).blur(function () {
 					setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
-				})
+				}),
+				$('<br>'),
+				$('<span>').append(
+					$('<label>').attr('for', 'jailHL_sel').text('Random selection')
+				),
+				$('<input>').attr({
+					id: 'jailHL_sel',
+					type: 'checkbox',
+					checked: jailHL_sel
+				}).click(function () {
+					setA('sets', 'jailHL_sel', $('#jailHL_sel:checked').length);
+				}),
+				$('<span>').text('(when no priorities)')
 			),
 			$('<div>').attr({id: 'oldPrefs'}).css('display', block).append(
 				$('<h3>').text('Clear old preferences'),

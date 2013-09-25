@@ -145,3 +145,7 @@ div.Bmsg table tr td {
 .obv {
 	text-align: center;
 }
+
+span label {
+	font-size: 100%;
+}
