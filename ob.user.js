@@ -78,6 +78,10 @@ var cur_v = '4.4';
  * Helper functions
  */
 
+function rand(min, max) {
+	return Math.floor(((max - min) + 1) * Math.random()) + min;
+}
+
 function array_sum(array) {
 	return array.reduce(function (a, b) {
 		return a + b;
