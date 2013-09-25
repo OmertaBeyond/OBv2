@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.12
+// @version                  2.0.13
 // @date                     25-09-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.12';
+var OB_VERSION = '2.0.13';
 var cur_v = '4.4';
 
 /*
@@ -665,6 +665,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('/jail.php') && nn == 'form') {
 			var bos = parseInt(getV('bustouts', 0), 10);
 			var jailHL_sel = sets['jailHL_sel'];
+			var jailHL_lowest = sets['jailHL_lowest'];
 			var jailHL_def = parseInt(sets['jailHL_def'] || 10, 10);
 			var jailHL_friends = parseInt(sets['jailHL_friends'] || 5, 10);
 			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 8, 10);
@@ -700,13 +701,25 @@ if (document.getElementById('game_container') !== null) {
 			});
 			// Loop inmates again for selection
 			var prior = jailHL_def;
-			for (i = rows - 1; i >= 0; i--) {
-				priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-				if (priority < prior) {
-					prior = priority; // changes highest priority
-					$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
-					$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
-					$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
+			if(jailHL_lowest) {
+				for (i = rows - 1; i >= 0; i--) {
+					priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					if (priority < prior) {
+						prior = priority; // changes highest priority
+						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
+						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
+						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
+					}
+				}
+			} else {
+				for (i = 0; i <+ rows - 1; i++) {
+					priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					if (priority < prior) {
+						prior = priority; // changes highest priority
+						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
+						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
+						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
+					}
 				}
 			}
 			// No priorities found, select random!
@@ -3371,6 +3384,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
 		var jailHL_sel = (sets['jailHL_sel'] ? true: false);
+		var jailHL_lowest = (sets['jailHL_lowest'] ? true: false);
 		var jailHL_def = sets['jailHL_def'] || 10;
 		var jailHL_friends = sets['jailHL_friends'] || 5;
 		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 8;
@@ -3493,7 +3507,19 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				}).click(function () {
 					setA('sets', 'jailHL_sel', $('#jailHL_sel:checked').length);
 				}),
-				$('<span>').text('(when no priorities)')
+				$('<span>').text('(when no priorities)'),
+				$('<br>'),
+				$('<span>').append(
+					$('<label>').attr('for', 'jailHL_lowest').text('Select lowest time')
+				),
+				$('<input>').attr({
+					id: 'jailHL_lowest',
+					type: 'checkbox',
+					checked: jailHL_lowest
+				}).click(function () {
+					setA('sets', 'jailHL_lowest', $('#jailHL_lowest:checked').length);
+				}),
+				$('<span>').text('(highest is default)')
 			),
 			$('<div>').attr({id: 'oldPrefs'}).css('display', block).append(
 				$('<h3>').text('Clear old preferences'),
