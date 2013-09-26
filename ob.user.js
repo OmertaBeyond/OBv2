@@ -712,7 +712,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 			} else {
-				for (i = 0; i <+ rows - 1; i++) {
+				for (i = 0; i <= rows - 1; i++) {
 					priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if (priority < prior) {
 						prior = priority; // changes highest priority
