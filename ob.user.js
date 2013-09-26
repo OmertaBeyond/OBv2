@@ -738,10 +738,6 @@ if (document.getElementById('game_container') !== null) {
 				bos = (bos + 1);
 				setV('bustouts', bos);
 			}
-			// Return when self bo
-			if ($('#game_container:contains(You busted yourself out of jail)').length) {
-				window.location.reload();
-			}
 			// Add amount of inmates and bustouts
 			$('table > tbody > tr > td > h1').parent().append(
 				$('<span>').text('In jail: ' + rows),
@@ -765,6 +761,12 @@ if (document.getElementById('game_container') !== null) {
 						window.location.reload();
 					}
 				})
+			}
+		}
+		// Return when self bo
+		if (on_page('/jail.php')) {
+			if ($('#game_container:contains(You busted yourself out of jail)').length) {
+				window.location.reload();
 			}
 		}
 		//---------------- 1-click voter ----------------
