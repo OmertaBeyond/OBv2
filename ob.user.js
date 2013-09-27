@@ -893,14 +893,25 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('tr[class*="color"]').each(function () {
 					var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
-					$(this).children('td:eq(0)').append(
-						$('<img />').addClass('inboxImg').attr({
-							src: GM_getResourceURL('delete'),
-							title: 'Delete'
-						}).click(function () {
-							delMsg('id', id)
-						})
-					);
+					if($(this).attr('class')=='color2') {
+						$(this).children('td:eq(0)').append(
+							$('<img />').addClass('inboxImg unread').attr({
+								src: GM_getResourceURL('delete'),
+								title: 'Delete'
+							}).click(function () {
+								delMsg('id', id)
+							})
+						);
+					} else {
+						$(this).children('td:eq(0)').append(
+							$('<img />').addClass('inboxImg').attr({
+								src: GM_getResourceURL('delete'),
+								title: 'Delete'
+							}).click(function () {
+								delMsg('id', id)
+							})
+						);
+					}
 					if ($(this).children('td:eq(2)').children('a').length) { // add reply icon
 						$(this).children('td:eq(0)').append(
 							$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=sendMsg&iReply=' + id).html(
