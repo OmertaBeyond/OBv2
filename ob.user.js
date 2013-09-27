@@ -557,11 +557,7 @@ if (document.getElementById('game_container') !== null) {
 						)
 					);
 					if (v === 'com') {
-						$('<div>').css({
-							'float': 'right',
-							'margin-right': '5px',
-							'margin-top': '3px'
-						}).append(
+						$('<div>').addClass('dlContainer').append(
 							$('<a>').attr({
 								'href': OB_NEWS_WEBSITE + '/deathslog/' + cur_v + '/' + famid,
 								'target': '_blank'
@@ -616,11 +612,7 @@ if (document.getElementById('game_container') !== null) {
 						)
 					);
 					if (v === 'com') {
-						$('<div>').css({
-							'float': 'right',
-							'margin-right': '5px',
-							'margin-top': '3px'
-						}).append(
+						$('<div>').addClass('dlContainer').append(
 							$('<a>').attr({
 								'href': OB_NEWS_WEBSITE + '/famlog/' + cur_v + '/' + famid,
 								'target': '_blank'
@@ -775,8 +767,7 @@ if (document.getElementById('game_container') !== null) {
 
 			$('td.tableheader:first').html(
 				$('<span>').addClass('orange').css({
-					'cursor': 'pointer',
-					'color': 'orange'
+					'cursor': 'pointer'
 				}).attr({
 					'id': 'votelink',
 					'title': ''
@@ -3396,12 +3387,11 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
 
 		var prefs_page = $('<div>').attr({
-			id: 'prefsDiv'
+			id: 'prefsContainer'
 		}).append(
 			$('<div>').attr('class', 'obv').append(
 				$('<h2>').text('OmertaBeyond :: ' + OB_VERSION)
 			),
-
 			$('<div>').attr({
 				id: 'bmsgDiv'
 			}).append(

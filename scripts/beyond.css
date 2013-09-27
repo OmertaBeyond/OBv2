@@ -12,6 +12,10 @@
 	color: orange !important;
 }
 
+.grey {
+	color: gray !important;
+}
+
 .blue {
 	color: #00000F !important;
 }
@@ -127,7 +131,7 @@ div.Bmsg table tr td {
 	cursor: move;
 }
 
-#prefsDiv {
+#prefsContainer {
 	margin-left: 10px;
 }
 
@@ -152,4 +156,25 @@ div.Bmsg table tr td {
 
 span label {
 	font-size: 100%;
+}
+
+.menuItem {
+	color: #FFFFFF;
+	display: block;
+	font-size: 11px;
+	margin: 0;
+	padding: 3px 15px;
+	text-decoration: none;
+}
+
+.menuItem:hover {
+	color: #DDDD00;
+	background-color: #960011;
+	cursor: pointer;
+}
+
+.dlContainer {
+	float: right;
+	margin-right: 5px;
+	margin-top: 3px;
 }
