@@ -2240,8 +2240,9 @@ if (document.getElementById('game_container') !== null) {
 							// save all profits in array for later
 							if (totalProfit < 0) {
 								bestBN.push([0, 0]); // push dummy to complete array
+							} else {
+								bestBN.push([bestNarc, bestBooze]);
 							}
-							bestBN.push([bestNarc, bestBooze]);
 							var wnarc = (bestNarc == 0) ? 0 : bestNarc - 1;
 							var wbooze = (bestBooze == 0) ? 0 : bestBooze - 1;
 							var narcsell = (BN[0][wnarc][0] * narc) * lex;
