@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.13
-// @date                     25-09-2013
+// @version                  2.0.14
+// @date                     27-09-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.13';
+var OB_VERSION = '2.0.14';
 var cur_v = '4.4';
 
 /*
@@ -758,7 +758,7 @@ if (document.getElementById('game_container') !== null) {
 			if ($('#game_container span').attr('data-timeleft')) {
 				$('#game_container span').on('DOMSubtreeModified', function() {
 					if($('#game_container span').attr('data-timeleft') == -1) {
-						window.location.reload();
+						unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 					}
 				})
 			}
@@ -766,7 +766,7 @@ if (document.getElementById('game_container') !== null) {
 		// Return when self bo
 		if (on_page('/jail.php')) {
 			if ($('#game_container:contains(You busted yourself out of jail)').length) {
-				window.location.reload();
+				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
 		}
 		//---------------- 1-click voter ----------------
@@ -1112,7 +1112,7 @@ if (document.getElementById('game_container') !== null) {
 			// auto reload after transfer
 			if ($('center').html().search('<table') == -1) {
 				setTimeout(function () {
-					window.location.reload();
+					unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 				}, 1000);
 			}
 			// Add amount of interest next to %
