@@ -3371,27 +3371,11 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			$('<span>').addClass('menu_open')
 		);
 		var div = $('<div>').addClass('menu').append(
-			$('<span>').css({
-				'color': 'rgb(255, 255, 255)',
-				'display': 'block',
-				'font-size': '11px',
-				'margin': '0px',
-				'padding': '3px 15px',
-				'text-decoration': 'none',
-				'cursor': 'pointer'
-			}).text('Preferences').click(function () {
+			$('<span>').addClass('menuItem').text('Preferences').click(function () {
 				$('#game_container').empty();
 				$('#game_container').append(prefs_page);
 			}),
-			$('<span>').css({
-				'color': 'rgb(255, 255, 255)',
-				'display': 'block',
-				'font-size': '11px',
-				'margin': '0px',
-				'padding': '3px 15px',
-				'text-decoration': 'none',
-				'cursor': 'pointer'
-			}).text('Live Famstats').click(function () {
+			$('<span>').addClass('menuItem').text('Live Famstats').click(function () {
 				window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
 			})
 		);
