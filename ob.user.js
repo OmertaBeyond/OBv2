@@ -88,6 +88,14 @@ function array_sum(array) {
 	});
 }
 
+function iMax(array) {
+	return array.indexOf(Math.max.apply({}, array));
+};
+
+function iMin(array) {
+	return array.indexOf(Math.min.apply({}, array));
+};
+
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
@@ -3170,6 +3178,60 @@ if (document.getElementById('game_container') !== null) {
 					});
 				}, 100);
 			}
+		}
+		//---------------- Blood AF ----------------
+		if (on_page('module=Bloodbank') && nn == 'table') {
+			var table, tr, A, B, t, m, type, types;
+			type = getV('bloodType');
+
+			function bloodAF(t) {
+				//setup costs row
+				table = $('table.thinline:eq(1)');
+				tr = $('<tr>').html('<td><font size="2"><b> &nbsp;Total Costs </b></font></td><td align="center"><font size="2" id="A"></font></td><td align="center"><font size="2" id="B"></font></td><td align="center"><font size="2" id="AB"></font></td><td align="center"><font size="2" id="O"></font></td>');
+				table.append(tr);
+
+				function getType(num) {
+					return parseInt($('table.thinline:eq(1) > tbody > tr:eq(2) > td:eq('+num+')').text().replace('$ ', ''), 10);
+				}
+
+				function setType(num) {
+					return $('select').get(0).selectedIndex = num;
+				}
+
+				function calc(a, b, ab, o) { //see if user can buy bloodtype and then calc total price
+					$('font#A').text(a ? '$ ' + m * $('td[align="center"]:eq(9)').text().replace('$ ', '') : 'X');
+					$('font#B').text(b ? '$ ' + m * $('td[align="center"]:eq(10)').text().replace('$ ', '') : 'X');
+					$('font#AB').text(ab ? '$ ' + m * $('td[align="center"]:eq(11)').text().replace('$ ', '') : 'X');
+					$('font#O').text(o ? '$ ' + m * $('td[align="center"]:eq(12)').text().replace('$ ', '') : 'X');
+				}
+				if ($('input[name="UnitsToBuy"]').length) {
+					m = parseInt($('input[name="UnitsToBuy"]').val(), 10);
+					types = [getType('1'), getType('2'), getType('3'), getType('4')];
+					A = [types[0], types[3]];
+					B = [types[1], types[3]];
+
+					if (t == 'A') {
+						calc(1, 0, 0, 1);
+						setType(iMin(A));
+					}
+					if (t == 'B') {
+						calc(0, 1, 0, 1);
+						setType(iMin(B));
+					}
+					if (t == 'AB') {
+						calc(1, 1, 1, 1);
+						setType(iMin(types));
+					}
+					if (t == 'O') {
+						calc(0, 0, 0, 1);
+						setType(0);
+					}
+					$('input[name="Buy"]').focus();
+				} else {
+					calc(0, 0, 0, 0);
+				}
+			}
+			bloodAF(type);
 		}
 		//---------------- END OF MAIN GAME CONTAINER ----------------
 	}, true);
