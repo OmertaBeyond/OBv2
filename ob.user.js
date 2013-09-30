@@ -299,7 +299,7 @@ function CheckBmsg() {
 							icon: GM_getResourceURL('red-star'),
 						});
 						notification.onclose = function () {
-							setTimeout(CheckBmsg(), 60000);
+							setTimeout(CheckBmsg, 60000);
 						}
 						notification.onclick = function () {
 							window.open(OB_NEWS_WEBSITE + response['news'][0]['id'])
@@ -327,13 +327,13 @@ function CheckBmsg() {
 								icon: GM_getResourceURL('rip'),
 							});
 							notification.onclose = function () {
-								setTimeout(CheckBmsg(), 60000);
+								setTimeout(CheckBmsg, 60000);
 							}
 							setV('lastbmsg', response['deaths'][0]['ts']);
 						}
 					}
 					setTimeout(function () {
-						CheckBmsg();
+						CheckBmsg;
 					}, 60000);
 				}
 			}
