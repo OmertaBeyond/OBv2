@@ -702,9 +702,9 @@ if (document.getElementById('game_container') !== null) {
 			// Loop inmates again for selection
 			var prior = jailHL_def;
 			if(jailHL_lowest) {
-				for (i = rows - 1; i >= 0; i--) {
+				for (i = 0; i <= rows - 1; i++) {
 					priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if (priority < prior) {
+					if (priority <= prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
 						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
@@ -712,9 +712,10 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 			} else {
+				for (i = rows - 1; i >= 0; i--) {
 				for (i = 0; i <= rows - 1; i++) {
 					priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if (priority < prior) {
+					if (priority <= prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
 						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
