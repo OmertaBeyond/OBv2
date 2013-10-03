@@ -1836,7 +1836,7 @@ if (document.getElementById('game_container') !== null) {
 
 			// Race form
 			var rf = $('#raceform').attr('value')
-			var driver = ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion'];
+			var driver = (v == 'nl' ? ['Brokkenpiloot', 'Wegpiraat', 'Nieuwkomer', 'Waaghals', 'Beginner', 'Taxirijder', 'Talent', 'Professional', 'Coureur', 'Racemonster', 'Wereldkampioen'] : ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion']);
 			var a = driver.indexOf(rf);
 			$('#raceform').text((a + 1) + ' - ' + rf);
 
@@ -1844,7 +1844,7 @@ if (document.getElementById('game_container') !== null) {
 			var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value') // until span id is changed
 			var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
 				i = 1;
-			var brank = ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert'];
+			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s assistent', 'Gevorderd', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
 			var a = brank.indexOf(bustrank);
 			$('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1)').text(bustrank + amount[a]) // until span id is changed
 
