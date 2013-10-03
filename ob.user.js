@@ -703,7 +703,7 @@ if (document.getElementById('game_container') !== null) {
 			var prior = jailHL_def;
 			if(jailHL_lowest) {
 				for (i = 0; i <= rows - 1; i++) {
-					priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if (priority <= prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
@@ -713,8 +713,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			} else {
 				for (i = rows - 1; i >= 0; i--) {
-				for (i = 0; i <= rows - 1; i++) {
-					priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if (priority <= prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
@@ -768,6 +767,28 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('/jail.php')) {
 			if ($('#game_container:contains(You busted yourself out of jail)').length) {
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+			}
+		}
+		// Save omerta jail settings
+		if (on_page('/jail_settings.php') && nn == 'form') {
+			// check if already saved
+			if($('form[name="jailcolours"]').attr('saving')!= 'done') {
+				// save omerta defaults
+				setV('friends_colour', $('select[name="friends_colour_select"]').val())
+				setV('fam_colour', $('select[name="fam_colour_select"]').val())
+				// cycle custom groups
+				var i = 1;
+				var custom_groups = '';
+				$('#game_container form center div').not('#creategroup').each(function() {
+					var group_name = $(this).attr('id');
+					var group_colour = $(this).find('select[name="editgroup_colour_select'+i+'"]').find('option:eq(0)').val();
+					custom_groups = custom_groups+group_name+':'+group_colour+'|';
+					i++;
+				})
+				// save custom groups
+				setV('custom_groups', custom_groups);
+
+				$('form[name="jailcolours"]').attr('saving', 'done')
 			}
 		}
 		//---------------- 1-click voter ----------------
