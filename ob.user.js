@@ -228,6 +228,22 @@ function setPow(name, i, value) {
 	setV(name, info); // store string
 }
 
+function grabHTML(url, func) {
+	var r = 0;
+	if (window.XMLHttpRequest) {
+		r = new XMLHttpRequest();
+	}
+	r.onreadystatechange = function () {
+		if (r.readyState == 4) {
+			if (r.status == 200) {
+				func(r.responseText, url);
+			}
+		}
+	};
+	r.open('GET', url, true);
+	r.send(null);
+}
+
 function bnUpdate(current) {
 	var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
 
@@ -2659,21 +2675,6 @@ if (document.getElementById('game_container') !== null) {
 						appBRC(BN); // send prices to BRC function
 					}
 
-					function grabHTML(url, func) {
-						var r = 0;
-						if (window.XMLHttpRequest) {
-							r = new XMLHttpRequest();
-						}
-						r.onreadystatechange = function () {
-							if (r.readyState == 4) {
-								if (r.status == 200) {
-									func(r.responseText, url);
-								}
-							}
-						};
-						r.open('GET', url, true);
-						r.send(null);
-					}
 					grabHTML('http://' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
 				}
 			}
