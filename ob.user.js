@@ -678,7 +678,7 @@ if (document.getElementById('game_container') !== null) {
 			setV('bustouts', bos);
 		}
 		//-------------------- Jail --------------------
-		if (on_page('/jail.php') && nn == 'form') {
+		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
 			var bos = parseInt(getV('bustouts', 0), 10);
 			var jailHL_sel = sets['jailHL_sel'];
 			var jailHL_lowest = sets['jailHL_lowest'];
@@ -2674,7 +2674,6 @@ if (document.getElementById('game_container') !== null) {
 						}
 						appBRC(BN); // send prices to BRC function
 					}
-
 					grabHTML('http://' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
 				}
 			}
@@ -3461,6 +3460,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
+		var jailHL = (prefs['jailHL'] ? true: false);
 		var jailHL_sel = (sets['jailHL_sel'] ? true: false);
 		var jailHL_lowest = (sets['jailHL_lowest'] ? true: false);
 		var jailHL_def = sets['jailHL_def'] || 10;
@@ -3513,6 +3513,21 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					setA('prefs', 'bmsgNews', $('#news:checked').length);
 				}),
 				$('<label>').attr('for', 'news').text('News')
+			),
+			$('<div>').attr({
+				id: 'prefsDiv'
+			}).append(
+				$('<h3>').text('Preferences'),
+				$('<input>').attr({
+					id: 'jailHL',
+					type: 'checkbox',
+					checked: jailHL
+				}).click(function () {
+					setA('prefs', 'jailHL', $('#jailHL:checked').length);
+				}),
+				$('<label>').attr('for', 'jailHL').text('Jail HL'),
+				$('<br>')
+
 			),
 			$('<div>').attr({
 				id: 'jailDiv'
