@@ -55,7 +55,7 @@
 	padding-left: 27px;
 }
 
-.tracker, .NRinfo, .BRCinfo {
+.tracker, .NRinfo, .BRCinfo, .NR {
 	color: #FFFFFF;
 	box-shadow: 2px 2px 2px 2px #1B1B1B;
 	background-image: -moz-linear-gradient(center top, #3F505F, #1B1B1B);
@@ -68,6 +68,13 @@
 .tracker {
 	position: fixed;
 	width: 200px;
+	border: 2px double gray;
+	padding: 5px;
+}
+
+.NR {
+	position: absolute;
+	width: 250px;
 	border: 2px double gray;
 	padding: 5px;
 }
@@ -135,12 +142,42 @@ div.Bmsg table tr td {
 	margin-left: 10px;
 }
 
-#jailDiv > span {
+#jailDivleft {
+	float: left;
+	width: 50%;
+}
+
+#jailDivleft > span {
 	display: inline-block;
 	width: 180px;
 }
 
-#jailDiv > input {
+#jailDivleft > input {
+	width: 60px;
+	text-align: center;
+}
+
+#jailDivright {
+	float: left;
+	width: 50%;
+}
+
+#jailDivright > span {
+	display: inline-block;
+	width: 180px;
+}
+
+#jailDivright > input {
+	width: 60px;
+	text-align: center;
+}
+
+#custom_groups > span {
+	display: inline-block;
+	width: 180px;
+}
+
+#custom_groups > input {
 	width: 60px;
 	text-align: center;
 }
