@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.16
-// @date                     03-10-2013
+// @version                  2.0.17
+// @date                     09-10-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.16';
+var OB_VERSION = '2.0.17';
 var cur_v = '4.4';
 
 /*
@@ -687,19 +687,49 @@ if (document.getElementById('game_container') !== null) {
 			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 8, 10);
 			var jailHL_fr_lackey = parseInt(sets['jailHL_fr_lackey'] || 9, 10);
 			var jailHL_other_lackey = parseInt(sets['jailHL_other_lackey'] || 11, 10);
+			var nobust = getV('nobust').split(',');
 			var rows = $('tr[bgcolor]').length;
 			// Build new row on top
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
 			// Loop inmates
 			$('tr[bgcolor]').each(function () {
 				// Set default priority
+				var fam = $(this).find('td:eq(1) > font').text();
+				if($.inArray(fam, nobust) != -1) {
+					return;
+				}
 				$(this).attr('priority', jailHL_def); // Default
 				if ($(this).attr('bgcolor') != '') {
-					$(this).attr('priority', jailHL_friends);
+					if($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
+						$(this).attr('priority', jailHL_friends);
+					}
+					if(getV('custom_groups').indexOf($(this).attr('bgcolor')) > 0) {
+						// get custom groups
+						var cg = getV('custom_groups').split('|')
+						cg.pop()
+						for(var i = 0;i<cg.length;i++) {
+							var g = cg[i].split(':');
+							if(g[1] == $(this).attr('bgcolor')) {
+								var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
+								$(this).attr('priority', cg_prio);
+							}
+						}
+					}
 				}
 				if ($(this).find('td:eq(0)>font>span').text() != '') {
 					if ($(this).attr('bgcolor') == '') {
 						$(this).attr('priority', jailHL_other_lackey); // other lackeys
+					} else if (getV('custom_groups').indexOf($(this).attr('bgcolor')) > 0) {
+						// get custom groups
+						var cg = getV('custom_groups').split('|')
+						cg.pop()
+						for(var i = 0;i<cg.length;i++) {
+							var g = cg[i].split(':');
+							if(g[1] == $(this).attr('bgcolor')) {
+								var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
+								$(this).attr('priority', cg_prio);
+							}
+						}
 					} else {
 						if ($(this).find('td:eq(0) > font > a').text() == getV('nick', '')) {
 							$(this).attr('priority', jailHL_own_lackey); // friend/fam lackeys
@@ -720,6 +750,9 @@ if (document.getElementById('game_container') !== null) {
 			if(jailHL_lowest) {
 				for (i = 0; i <= rows - 1; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					if(isNaN(priority)) {
+						continue;
+					}
 					if (priority <= prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
@@ -727,9 +760,24 @@ if (document.getElementById('game_container') !== null) {
 						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
 					}
 				}
+			} else if(jailHL_sel) {
+				for (i = rows - 1; i >= 0; i--) {
+					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					if (priority <= prior) {
+						prior = priority;
+					}
+				}
+				var priolen = $('tr[priority="'+prior+'"]').length
+				var priowho = rand(0, (priolen))
+				$('#HLrow').html($('tr[priority="'+prior+'"]:eq('+priowho+')').html())
+				$('#HLrow').css('background-color', $('tr[priority="'+prior+'"]:eq('+priowho+')').attr('bgcolor'))
+				$('tr[priority="'+prior+'"]:eq('+priowho+')').find('input[name="bust"]').attr('checked', true)
 			} else {
 				for (i = rows - 1; i >= 0; i--) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					if(isNaN(priority)) {
+						continue;
+					}
 					if (priority <= prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
@@ -3461,8 +3509,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
-		var jailHL_sel = (sets['jailHL_sel'] ? true: false);
-		var jailHL_lowest = (sets['jailHL_lowest'] ? true: false);
+		var jailHL_sel = sets['jailHL_sel'] || 'highest';
 		var jailHL_def = sets['jailHL_def'] || 10;
 		var jailHL_friends = sets['jailHL_friends'] || 5;
 		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 8;
@@ -3470,6 +3517,61 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
 		var bo_hotkey = sets['bo_hotkey'] || '/';
 		var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
+		var custom_groups = getV('custom_groups', '');
+		custom_groups = custom_groups.split('|');
+		custom_groups.pop()
+		var nobust = getV('nobust', '').split(',');
+		setA('prefs', 'NR', 1);
+
+		// Build custom groups prio settings
+		var c_group_div = $('<div>').attr('id', 'custom_groups')
+		for (var i=0;i<custom_groups.length;i++) {
+			var group_name = custom_groups[i].split(':')[0]
+			var group_prio = sets['jailHL_'+group_name] || (i+12);
+			c_group_div.append(
+				$('<br>'),
+				$('<span>').text(group_name),
+				$('<input>').attr({
+					id: 'jailHL_'+group_name,
+					type: 'text',
+					value: group_prio
+				}).blur(function () {
+					setA('sets', $(this).attr('id'), $(this).val());
+				})
+			)
+		}
+
+		// Build no bust list
+		var nobust_div = $('<div>').attr('id', 'nobust')
+		for (var i=0;i<nobust.length;i++) {
+			nobust_div.append(
+				$('<span>').attr({id: nobust[i]}).text(nobust[i]),
+				$('<img />').addClass('inboxImg').attr({
+					src: GM_getResourceURL('delete'),
+					title: 'Delete'
+				}).click(function() {
+					var index = nobust.indexOf(nobust[i]);
+					nobust.splice(index, 1);
+					setV('nobust', nobust);
+				}),
+				$('<br>')
+			)
+		}
+		nobust_div.append(
+			$('<input>').attr({
+				id: 'new_nobust',
+				type: 'text'
+			}).blur(function () {
+				$('<span>').attr({id: $(this).val()}).text($(this).val()).insertBefore($('#new_nobust')),
+				$('<img />').addClass('inboxImg').attr({
+					src: GM_getResourceURL('delete'),
+					title: 'Delete'
+				}).insertBefore($('#new_nobust')),
+				$('<br>').insertBefore($('#new_nobust'))
+				setV('nobust', nobust+','+$(this).val());
+				$('#new_nobust').val('')
+			})
+		)
 
 		var prefs_page = $('<div>').attr({
 			id: 'prefsContainer'
@@ -3533,85 +3635,107 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				id: 'jailDiv'
 			}).append(
 				$('<h3>').text('Jail settings'),
-				$('<span>').text('Bust Priorities:').attr('id', 'OBHeaderPrefs'),
-				$('<br>'),
-				$('<span>').text('Default'),
-				$('<input>').attr({
-					id: 'jailHL_def',
-					type: 'text',
-					value: jailHL_def
-				}).blur(function () {
-					setA('sets', 'jailHL_def', $('#jailHL_def').val());
-				}),
-				$('<br>'),
-				$('<span>').text('Friends and Family'),
-				$('<input>').attr({
-					id: 'jailHL_friends',
-					type: 'text',
-					value: jailHL_friends
-				}).blur(function () {
-					setA('sets', 'jailHL_friends', $('#jailHL_friends').val());
-				}),
-				$('<br>'),
-				$('<span>').text('Own lackeys'),
-				$('<input>').attr({
-					id: 'jailHL_own_lackey',
-					type: 'text',
-					value: jailHL_own_lackey
-				}).blur(function () {
-					setA('sets', 'jailHL_own_lackey', $('#jailHL_own_lackey').val());
-				}),
-				$('<br>'),
-				$('<span>').text('Friend/Family lackeys'),
-				$('<input>').attr({
-					id: 'jailHL_fr_lackey',
-					type: 'text',
-					value: jailHL_fr_lackey
-				}).blur(function () {
-					setA('sets', 'jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
-				}),
-				$('<br>'),
-				$('<span>').text('Other lackeys'),
-				$('<input>').attr({
-					id: 'jailHL_other_lackey',
-					type: 'text',
-					value: jailHL_other_lackey
-				}).blur(function () {
-					setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
-				}),
-				$('<br>'),
-				$('<span>').text('Buyout hotkey'),
-				$('<input>').attr({
-					id: 'bo_hotkey',
-					type: 'text',
-					value: bo_hotkey
-				}).blur(function () {
-					setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
-				}),
-				$('<br>'),
-				$('<span>').append(
-					$('<label>').attr('for', 'jailHL_sel').text('Random selection')
+				$('<div>').attr({id: 'jailDivleft'}).append(
+					$('<span>').text('Bust Priorities:').attr('id', 'OBHeaderPrefs'),
+					$('<br>'),
+					$('<span>').text('Default'),
+					$('<input>').attr({
+						id: 'jailHL_def',
+						type: 'text',
+						value: jailHL_def
+					}).blur(function () {
+						setA('sets', 'jailHL_def', $('#jailHL_def').val());
+					}),
+					$('<br>'),
+					$('<span>').text('Friends and Family'),
+					$('<input>').attr({
+						id: 'jailHL_friends',
+						type: 'text',
+						value: jailHL_friends
+					}).blur(function () {
+						setA('sets', 'jailHL_friends', $('#jailHL_friends').val());
+					}),
+					$('<br>'),
+					$('<span>').text('Own lackeys'),
+					$('<input>').attr({
+						id: 'jailHL_own_lackey',
+						type: 'text',
+						value: jailHL_own_lackey
+					}).blur(function () {
+						setA('sets', 'jailHL_own_lackey', $('#jailHL_own_lackey').val());
+					}),
+					$('<br>'),
+					$('<span>').text('Friend/Family lackeys'),
+					$('<input>').attr({
+						id: 'jailHL_fr_lackey',
+						type: 'text',
+						value: jailHL_fr_lackey
+					}).blur(function () {
+						setA('sets', 'jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
+					}),
+					$('<br>'),
+					$('<span>').text('Other lackeys'),
+					$('<input>').attr({
+						id: 'jailHL_other_lackey',
+						type: 'text',
+						value: jailHL_other_lackey
+					}).blur(function () {
+						setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
+					}),
+					c_group_div,
+					$('<br>'),
+					$('<span>').text('Buyout hotkey'),
+					$('<input>').attr({
+						id: 'bo_hotkey',
+						type: 'text',
+						value: bo_hotkey
+					}).blur(function () {
+						setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
+					}),
+					$('<br>'),
+					$('<span>').text('Selection'),
+					$('<br>'),
+					$('<input>').attr({
+						name: 'jailHL_sel',
+						id: 'jailHL_high',
+						type: 'radio',
+						checked: (jailHL_sel=='highest'?true:false)
+					}).click(function () {
+						setA('sets', 'jailHL_sel', 'highest');
+					}),
+					$('<span>').append(
+						$('<label>').attr('for', 'jailHL_high').text('highest')
+					),
+					$('<br>'),
+					$('<input>').attr({
+						name: 'jailHL_sel',
+						id: 'jailHL_low',
+						type: 'radio',
+						checked: (jailHL_sel=='lowest'?true:false)
+					}).click(function () {
+						setA('sets', 'jailHL_sel', 'lowest');
+					}),
+					$('<span>').append(
+						$('<label>').attr('for', 'jailHL_low').text('lowest')
+					),
+					$('<br>'),
+					$('<input>').attr({
+						name: 'jailHL_sel',
+						id: 'jailHL_rand',
+						type: 'radio',
+						checked: (jailHL_sel=='random'?true:false)
+					}).click(function () {
+						setA('sets', 'jailHL_sel', 'random');
+					}),
+					$('<span>').append(
+						$('<label>').attr('for', 'jailHL_rand').text('random')
+					)
 				),
-				$('<input>').attr({
-					id: 'jailHL_sel',
-					type: 'checkbox',
-					checked: jailHL_sel
-				}).click(function () {
-					setA('sets', 'jailHL_sel', $('#jailHL_sel:checked').length);
-				}),
-				$('<span>').text('(when no priorities)'),
-				$('<br>'),
-				$('<span>').append(
-					$('<label>').attr('for', 'jailHL_lowest').text('Select lowest time')
-				),
-				$('<input>').attr({
-					id: 'jailHL_lowest',
-					type: 'checkbox',
-					checked: jailHL_lowest
-				}).click(function () {
-					setA('sets', 'jailHL_lowest', $('#jailHL_lowest:checked').length);
-				}),
-				$('<span>').text('(highest is default)')
+				$('<div>').attr({id: 'jailDivright'}).append(
+					$('<span>').text('Scumbags, no bust!').attr('id', 'OBHeaderPrefs'),
+					$('<br>'),
+					nobust_div
+				)
 			),
 			$('<div>').attr({id: 'oldPrefs'}).css('display', block).append(
 				$('<h3>').text('Clear old preferences'),
