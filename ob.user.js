@@ -318,7 +318,7 @@ function CheckBmsg() {
 							setTimeout(CheckBmsg, 60000);
 						}
 						notification.onclick = function () {
-							window.open(OB_NEWS_WEBSITE + response['news'][0]['id'])
+							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id'])
 						}
 						setV('lastbmsg', response['news'][0]['ts']);
 					}
