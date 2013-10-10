@@ -680,12 +680,11 @@ if (document.getElementById('game_container') !== null) {
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
 			var bos = parseInt(getV('bustouts', 0), 10);
-			var jailHL_sel = sets['jailHL_sel'];
-			var jailHL_lowest = sets['jailHL_lowest'];
-			var jailHL_def = parseInt(sets['jailHL_def'] || 10, 10);
+			var jailHL_sel = sets['jailHL_sel'] || 'highest';
+			var jailHL_other = parseInt(sets['jailHL_def'] || 9, 10);
 			var jailHL_friends = parseInt(sets['jailHL_friends'] || 5, 10);
-			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 8, 10);
-			var jailHL_fr_lackey = parseInt(sets['jailHL_fr_lackey'] || 9, 10);
+			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 7, 10);
+			var jailHL_fr_lackey = parseInt(sets['jailHL_fr_lackey'] || 8, 10);
 			var jailHL_other_lackey = parseInt(sets['jailHL_other_lackey'] || 11, 10);
 			var nobust = getV('nobust').split(',');
 			var rows = $('tr[bgcolor]').length;
@@ -698,7 +697,9 @@ if (document.getElementById('game_container') !== null) {
 				if($.inArray(fam, nobust) != -1) {
 					return;
 				}
-				$(this).attr('priority', jailHL_def); // Default
+				// Set default priority
+				$(this).attr('priority', '10');
+				// Friends, Family or custom group
 				if ($(this).attr('bgcolor') != '') {
 					if($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
 						$(this).attr('priority', jailHL_friends);
@@ -716,6 +717,7 @@ if (document.getElementById('game_container') !== null) {
 						}
 					}
 				}
+				// Lackeys
 				if ($(this).find('td:eq(0)>font>span').text() != '') {
 					if ($(this).attr('bgcolor') == '') {
 						$(this).attr('priority', jailHL_other_lackey); // other lackeys
@@ -737,6 +739,8 @@ if (document.getElementById('game_container') !== null) {
 							$(this).attr('priority', jailHL_fr_lackey); // friend/fam lackeys
 						}
 					}
+				} else {
+					$(this).attr('priority', jailHL_other); // other lackeys
 				}
 			}).click(function () {
 				// Add selected on top
@@ -746,8 +750,8 @@ if (document.getElementById('game_container') !== null) {
 				$('input[name="ver"]').focus()
 			});
 			// Loop inmates again for selection
-			var prior = jailHL_def;
-			if(jailHL_lowest) {
+			var prior = 10;
+			if(jailHL_sel == 'lowest') {
 				for (i = 0; i <= rows - 1; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if(isNaN(priority)) {
@@ -760,18 +764,23 @@ if (document.getElementById('game_container') !== null) {
 						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
 					}
 				}
-			} else if(jailHL_sel) {
-				for (i = rows - 1; i >= 0; i--) {
+			} else if(jailHL_sel == 'random') {
+				for (i = 0; i < rows - 1; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
+					if(isNaN(priority)) {
+						continue;
+					}
 					if (priority <= prior) {
 						prior = priority;
 					}
 				}
 				var priolen = $('tr[priority="'+prior+'"]').length
-				var priowho = rand(0, (priolen))
-				$('#HLrow').html($('tr[priority="'+prior+'"]:eq('+priowho+')').html())
-				$('#HLrow').css('background-color', $('tr[priority="'+prior+'"]:eq('+priowho+')').attr('bgcolor'))
-				$('tr[priority="'+prior+'"]:eq('+priowho+')').find('input[name="bust"]').attr('checked', true)
+				if(priolen>0) {
+					var priowho = rand(0, (priolen-1))
+					$('#HLrow').html($('tr[priority="'+prior+'"]:eq('+priowho+')').html())
+					$('#HLrow').css('background-color', $('tr[priority="'+prior+'"]:eq('+priowho+')').attr('bgcolor'))
+					$('tr[priority="'+prior+'"]:eq('+priowho+')').find('input[name="bust"]').attr('checked', true)
+				}
 			} else {
 				for (i = rows - 1; i >= 0; i--) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
@@ -785,17 +794,6 @@ if (document.getElementById('game_container') !== null) {
 						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
 					}
 				}
-			}
-			// No priorities found, select random!
-			if (prior == jailHL_def && jailHL_sel) {
-				if((rows-1)>1) {
-					i = rand(0, (rows-1));
-				} else {
-					i = 0;
-				}
-				$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
-				$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
-				$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
 			}
 			// Add successful BO to total
 			if ($('#game_container:contains(You busted this person out of jail)').length) {
@@ -3510,10 +3508,10 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
 		var jailHL_sel = sets['jailHL_sel'] || 'highest';
-		var jailHL_def = sets['jailHL_def'] || 10;
+		var jailHL_other = sets['jailHL_other'] || 9;
 		var jailHL_friends = sets['jailHL_friends'] || 5;
-		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 8;
-		var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 9;
+		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 7;
+		var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 8;
 		var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
 		var bo_hotkey = sets['bo_hotkey'] || '/';
 		var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
@@ -3638,13 +3636,13 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				$('<div>').attr({id: 'jailDivleft'}).append(
 					$('<span>').text('Bust Priorities:').attr('id', 'OBHeaderPrefs'),
 					$('<br>'),
-					$('<span>').text('Default'),
+					$('<span>').text('Other'),
 					$('<input>').attr({
-						id: 'jailHL_def',
+						id: 'jailHL_other',
 						type: 'text',
-						value: jailHL_def
+						value: jailHL_other
 					}).blur(function () {
-						setA('sets', 'jailHL_def', $('#jailHL_def').val());
+						setA('sets', 'jailHL_other', $('#jailHL_other').val());
 					}),
 					$('<br>'),
 					$('<span>').text('Friends and Family'),
