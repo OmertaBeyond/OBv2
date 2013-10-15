@@ -679,6 +679,9 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
+			if(getV('fam_colour', '')=='' || getV('friends_colour', '')=='') {
+				unsafeWindow.omerta.GUI.container.loadPage('/jail_settings.php');
+			}
 			var bos = parseInt(getV('bustouts', 0), 10);
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
 			var jailHL_other = parseInt(sets['jailHL_def'] || 9, 10);
