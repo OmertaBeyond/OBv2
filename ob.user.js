@@ -689,17 +689,20 @@ if (document.getElementById('game_container') !== null) {
 			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 7, 10);
 			var jailHL_fr_lackey = parseInt(sets['jailHL_fr_lackey'] || 8, 10);
 			var jailHL_other_lackey = parseInt(sets['jailHL_other_lackey'] || 11, 10);
-			var nobust = getV('nobust', '');
-			nobust = (nobust!=''?nobust.split(','):[]);
+
 			var rows = $('tr[bgcolor]').length;
 			// Build new row on top
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
 			// Loop inmates
 			$('tr[bgcolor]').each(function () {
 				// Set default priority
-				var fam = $(this).find('td:eq(1) > font').text();
-				if($.inArray(fam, nobust) != -1) {
-					return;
+				if(getV('nobust', 0)) {
+					var nobust = getV('nobust').split(',');
+					nobust.pop()
+					var fam = $(this).find('td:eq(1) > font').text();
+					if($.inArray(fam, nobust) != -1) {
+						return;
+					}
 				}
 				// Set default priority
 				$(this).attr('priority', '10');
@@ -3543,10 +3546,10 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
 		var bo_hotkey = sets['bo_hotkey'] || '/';
 		var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
-		var custom_groups = getV('custom_groups', '');
-		custom_groups = custom_groups.split('|');
+		var custom_groups = getV('custom_groups', '').split('|');
 		custom_groups.pop()
 		var nobust = getV('nobust', '').split(',');
+		nobust.pop()
 		setA('prefs', 'NR', 1);
 
 		// Build custom groups prio settings
@@ -3578,6 +3581,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				}).click(function() {
 					var index = nobust.indexOf(nobust[i]);
 					nobust.splice(index, 1);
+					$(this).hide();
 					setV('nobust', nobust);
 				}),
 				$('<br>')
@@ -3594,7 +3598,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					title: 'Delete'
 				}).insertBefore($('#new_nobust')),
 				$('<br>').insertBefore($('#new_nobust'))
-				setV('nobust', nobust+','+$(this).val());
+				setV('nobust', nobust+$(this).val()+',');
 				$('#new_nobust').val('')
 			})
 		)
