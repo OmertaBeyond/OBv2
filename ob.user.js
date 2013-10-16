@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.17
-// @date                     09-10-2013
+// @version                  2.0.18
+// @date                     16-10-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.17';
+var OB_VERSION = '2.0.18';
 var cur_v = '4.4';
 
 /*
@@ -698,7 +698,6 @@ if (document.getElementById('game_container') !== null) {
 				// Set default priority
 				if(getV('nobust', 0)) {
 					var nobust = getV('nobust').split(',');
-					nobust.pop()
 					var fam = $(this).find('td:eq(1) > font').text();
 					if($.inArray(fam, nobust) != -1) {
 						return;
@@ -826,6 +825,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 			}
+			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false)
 			// Add successful BO to total
 			if ($('#game_container:contains(You busted this person out of jail)').length) {
 				bos = (bos + 1);
@@ -3549,7 +3549,6 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var custom_groups = getV('custom_groups', '').split('|');
 		custom_groups.pop()
 		var nobust = getV('nobust', '').split(',');
-		nobust.pop()
 		setA('prefs', 'NR', 1);
 
 		// Build custom groups prio settings
@@ -3598,7 +3597,8 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					title: 'Delete'
 				}).insertBefore($('#new_nobust')),
 				$('<br>').insertBefore($('#new_nobust'))
-				setV('nobust', nobust+$(this).val()+',');
+				nobust.push($(this).val())
+				setV('nobust', nobust);
 				$('#new_nobust').val('')
 			})
 		)
