@@ -716,16 +716,19 @@ if (document.getElementById('game_container') !== null) {
 				if(getV('nobust', 0)) {
 					var nobust = getV('nobust').split(',');
 					var fam = $(this).find('td:eq(1) > font').text();
-					if($.inArray(fam, nobust) != -1) {
-						if($(this).attr('bgcolor') != getV('fam_colour') || $(this).attr('bgcolor') != getV('friends_colour')) {
+					if($.inArray(fam, nobust) != -1 ) {
+						if($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
 							$(this).find('td').css('text-decoration', 'line-through')
 							return;
 						}
 					}
-					var name = $(this).find('td:eq(1) > font > a > font').text();
+					var name = $(this).find('td:eq(0) > font > a > font').text();
 					if($.inArray(name, nobust) != -1) {
-						$(this).css('text-decoration', 'line-through')
-						return;
+						console.log(2)
+						if($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
+							$(this).find('td').css('text-decoration', 'line-through')
+							return;
+						}
 					}
 				}
 				// Set default priority
