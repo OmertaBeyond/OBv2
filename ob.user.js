@@ -671,11 +671,26 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//---------------- My account ----------------
 		if (on_page('/information.php') && nn == 'table') {
+			var interest = parseInt(getV('interest', 0), 10);
+			var banktleft = parseInt(getV('banktleft', 0), 10);
 			// Update info
 			bnUpdate(1);
 			// Grab busts for Jail page
 			var bos = $('.thinline:eq(5)>tbody>tr:eq(2)>td:last').text().replace(/,/g, '');
 			setV('bustouts', bos);
+			// Interest reminder
+			if(!$('#interestRow').length) {
+				var inbank = $('.thinline:eq(4)>tbody>tr:eq(3)>td:last>a').html().replace(/\D/g, '');
+				if (inbank > 0 && interest > 0) {
+					var timestamp = Math.round(parseInt(new Date().getTime(), 10) / 1000);
+					var left = (banktleft - timestamp);
+					var tr = $('<tr>').attr({id: 'interestRow'}).append(
+						$('<td>').html('<b>Interest</b>'),
+						$('<td>').html('<a href="/bank.php">$ '+commafy(interest)+'</a> (<span data-timeleft="'+left+'">Now!</span>)')
+					)
+					$('.thinline:eq(4)').append(tr)
+				}
+			}
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
