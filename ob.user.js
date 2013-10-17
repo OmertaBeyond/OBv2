@@ -1251,10 +1251,7 @@ if (document.getElementById('game_container') !== null) {
 				}, 0);
 
 				// Interest reminder
-				var seconds = 0;
-				seconds = (seconds + (parseInt($('span:eq(14)').html().split(' hours')[0], 10) * 3600));
-				seconds = (seconds + (parseInt($('span:eq(14)').html().split(' hours')[1].split(' minutes')[0], 10) * 60));
-				seconds = (seconds + parseInt($('span:eq(14)').html().split(' minutes')[1].split(' seconds')[0], 10));
+				var seconds = parseInt($('table.thinline:eq(1) tbody span').attr('data-timeleft'),10)
 				setTimeout(function () {
 					setV('banktleft', (time() + seconds))
 				}, 0);
