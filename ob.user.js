@@ -719,6 +719,11 @@ if (document.getElementById('game_container') !== null) {
 					if($.inArray(fam, nobust) != -1) {
 						return;
 					}
+					var name = $(this).find('td:eq(1) > font > a > font').text();
+					if($.inArray(name, nobust) != -1) {
+						$(this).css('text-decoration', 'line-through')
+						return;
+					}
 				}
 				// Set default priority
 				$(this).attr('priority', '10');
