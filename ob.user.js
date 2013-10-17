@@ -782,7 +782,7 @@ if (document.getElementById('game_container') !== null) {
 			// Loop inmates again for selection
 			var prior = 10;
 			if(jailHL_sel == 'lowest') {
-				for (i = 0; i <= rows - 1; i++) {
+				for (i = 0; i <= rows; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if(isNaN(priority)) {
 						continue;
@@ -795,7 +795,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 			} else if(jailHL_sel == 'random') {
-				for (i = 0; i < rows - 1; i++) {
+				for (i = 0; i < rows; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if(isNaN(priority)) {
 						continue;
@@ -812,7 +812,7 @@ if (document.getElementById('game_container') !== null) {
 					$('tr[priority="'+prior+'"]:eq('+priowho+')').find('input[name="bust"]').attr('checked', true)
 				}
 			} else {
-				for (i = rows - 1; i >= 0; i--) {
+				for (i = rows; i >= 0; i--) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if(isNaN(priority)) {
 						continue;
