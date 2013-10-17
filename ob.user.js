@@ -691,6 +691,8 @@ if (document.getElementById('game_container') !== null) {
 					$('.thinline:eq(4)').append(tr)
 				}
 			}
+			// Visual improvement
+			$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>')
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
