@@ -877,12 +877,6 @@ if (document.getElementById('game_container') !== null) {
 				})
 			}
 		}
-		// Return when self bo
-		if (on_page('/jail.php')) {
-			if ($('#game_container:contains(You busted yourself out of jail)').length) {
-				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-			}
-		}
 		// Save omerta jail settings
 		if (on_page('/jail_settings.php') && nn == 'form') {
 			// check if already saved
