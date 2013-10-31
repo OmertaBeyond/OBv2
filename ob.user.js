@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.18
-// @date                     16-10-2013
+// @version                  2.0.19
+// @date                     31-10-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.18';
+var OB_VERSION = '2.0.19';
 var cur_v = '4.4';
 
 /*
@@ -712,19 +712,12 @@ if (document.getElementById('game_container') !== null) {
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
 			// Loop inmates
 			$('tr[bgcolor]').each(function () {
-				// Set default priority
+				// Skip nobust
 				if(getV('nobust', 0)) {
 					var nobust = getV('nobust').split(',');
 					var fam = $(this).find('td:eq(1) > font').text();
-					if($.inArray(fam, nobust) != -1 ) {
-						if($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
-							$(this).find('td').css('text-decoration', 'line-through')
-							return;
-						}
-					}
 					var name = $(this).find('td:eq(0) > font > a > font').text();
-					if($.inArray(name, nobust) != -1) {
-						console.log(2)
+					if($.inArray(fam, nobust) != -1 || $.inArray(name, nobust) != -1) {
 						if($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
 							$(this).find('td').css('text-decoration', 'line-through')
 							return;
@@ -3360,6 +3353,31 @@ if (document.getElementById('game_container') !== null) {
 		//---------------- END OF MAIN GAME CONTAINER ----------------
 	}, true);
 }
+
+/*
+ * Pages without only text nodes
+ */
+
+$('#game_container').on("DOMNodeInserted",function(event){
+	// Return when self bo
+	if ($('#game_container:contains(You busted yourself out of jail)').length) {
+		if(!$('#bo_fired').length) {
+			var bos = parseInt(getV('bustouts', 0), 10);
+			bos = (bos + 1);
+			setV('bustouts', bos);
+			$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+			unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+		}
+	}
+	// Return when busted
+	if ($('#game_container:contains(You are not in jail!)').length) {
+		unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+	}
+	// Return when bought out
+	if ($('#game_container:contains(You bought yourself out)').length) {
+		unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+	}
+});
 
 /*
  * Notifications trigger
