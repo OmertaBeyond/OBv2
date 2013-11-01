@@ -2050,8 +2050,24 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=Lackeys') && nn == 'div') {
 			// General
 			var logpath = 'table[data-info="log"] > tbody > tr';
+			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
 			var credits = $('td[data-info="credits"]').text();
 			var money = $('td[data-info="money"]').text().replace(/,/g, '');
+			// Noodles
+			if (on_page('type=2') && nn == 'div') {
+				// Loop cars
+				var x = 0;
+				var totalCarval = 0;
+				$(itemspath).each(function () {
+					// grab value
+					var carVal = parseInt($(itemspath + ':eq(' + x + ') > td:eq(4)').text().replace(',', '').replace('$', ''), 10);
+					totalCarval += carVal;
+					++x;
+				});
+				$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
+					$('<span>').text('total value: $'+commafy(totalCarval))
+				)
+			}
 			// Sluggs
 			if (on_page('type=6') && nn == 'div') {
 				var sluggsHideLaughing = sets['sluggsHideLaughing'] || 'true';
