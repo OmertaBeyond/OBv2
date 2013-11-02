@@ -3102,6 +3102,22 @@ if (document.getElementById('game_container') !== null) {
 				$('input.option:last').prop('checked', true);
 			}, 100);
 		}
+		//---------------- Cars ----------------
+		if (on_page('module=Cars') && nn == 'div') {
+			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
+			// Loop cars
+			var x = 0;
+			var totalCarval = 0;
+			$(itemspath).each(function () {
+				// grab value
+				var carVal = parseInt($(itemspath + ':eq(' + x + ') > td:eq(4)').text().replace(',', '').replace('$', ''), 10);
+				totalCarval += carVal;
+				++x;
+			});
+			$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
+				$('<span>').text('total value: $'+commafy(totalCarval))
+			)
+		}
 		//---------------- Obay ----------------
 		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
 			$('table.thinline:eq(2) > tbody > tr').each(function () {
