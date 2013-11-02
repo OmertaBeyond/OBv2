@@ -3397,11 +3397,17 @@ $('#game_container').on("DOMNodeInserted",function(event){
 	}
 	// Return when busted
 	if ($('#game_container:contains(You are not in jail!)').length) {
-		unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+		if(!$('#bo_fired').length) {
+			$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+			unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+		}
 	}
 	// Return when bought out
 	if ($('#game_container:contains(You bought yourself out)').length) {
-		unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+		if(!$('#bo_fired').length) {
+			$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+			unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+		}
 	}
 });
 
