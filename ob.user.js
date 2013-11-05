@@ -3385,28 +3385,30 @@ if (document.getElementById('game_container') !== null) {
  */
 
 $('#game_container').on("DOMNodeInserted",function(event){
-	// Return when self bo
-	if ($('#game_container:contains(You busted yourself out of jail)').length) {
-		if(!$('#bo_fired').length) {
-			var bos = parseInt(getV('bustouts', 0), 10);
-			bos = (bos + 1);
-			setV('bustouts', bos);
-			$('#game_container').append($('<span>').attr('id', 'bo_fired'))
-			unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+	if(on_page('jail.php')) {
+		// Return when self bo
+		if ($('#game_container:contains(You busted yourself out of jail)').length) {
+			if(!$('#bo_fired').length) {
+				var bos = parseInt(getV('bustouts', 0), 10);
+				bos = (bos + 1);
+				setV('bustouts', bos);
+				$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+			}
 		}
-	}
-	// Return when busted
-	if ($('#game_container:contains(You are not in jail!)').length) {
-		if(!$('#bo_fired').length) {
-			$('#game_container').append($('<span>').attr('id', 'bo_fired'))
-			unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+		// Return when busted
+		if ($('#game_container:contains(You are not in jail!)').length) {
+			if(!$('#bo_fired').length) {
+				$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+			}
 		}
-	}
-	// Return when bought out
-	if ($('#game_container:contains(You bought yourself out)').length) {
-		if(!$('#bo_fired').length) {
-			$('#game_container').append($('<span>').attr('id', 'bo_fired'))
-			unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+		// Return when bought out
+		if ($('#game_container:contains(You bought yourself out)').length) {
+			if(!$('#bo_fired').length) {
+				$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+			}
 		}
 	}
 });
