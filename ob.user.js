@@ -3844,6 +3844,16 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					nobust_div
 				)
 			),
+			$('<div>').attr({id: 'AFlocation'}).append(
+				$('<h3>').text('BRC AF location'),
+				$('<span>').text('If its gone, click the button to reset its position.'),
+				$('<button>').text('Clear').click(function () {
+					if (confirm('Are you sure?')) {
+						setV('AFtop', '225');
+						setV('AFleft', '300');
+					}
+				})
+			),
 			$('<div>').attr({id: 'oldPrefs'}).css('display', block).append(
 				$('<h3>').text('Clear old preferences'),
 				$('<span>').text('You have old preferences stored.'),
