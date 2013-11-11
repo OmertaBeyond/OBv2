@@ -701,7 +701,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			var bos = parseInt(getV('bustouts', 0), 10);
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
-			var jailHL_other = parseInt(sets['jailHL_def'] || 9, 10);
+			var jailHL_other = parseInt(sets['jailHL_other'] || 9, 10);
 			var jailHL_friends = parseInt(sets['jailHL_friends'] || 5, 10);
 			var jailHL_own_lackey = parseInt(sets['jailHL_own_lackey'] || 7, 10);
 			var jailHL_fr_lackey = parseInt(sets['jailHL_fr_lackey'] || 8, 10);
