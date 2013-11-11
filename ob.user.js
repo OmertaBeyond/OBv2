@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.19
-// @date                     31-10-2013
+// @version                  2.0.20
+// @date                     11-11-2013
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -71,7 +71,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.19';
+var OB_VERSION = '2.0.20';
 var cur_v = '4.4';
 
 /*
@@ -849,6 +849,9 @@ if (document.getElementById('game_container') !== null) {
 			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false)
 			// Add successful BO to total
 			if ($('#game_container:contains(You busted this person out of jail)').length) {
+				if($('#game_container:contains(cellmate out of jail)').length) {
+					bos = (bos + 1);
+				}
 				bos = (bos + 1);
 				setV('bustouts', bos);
 			}
