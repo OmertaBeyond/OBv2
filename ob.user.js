@@ -3379,6 +3379,11 @@ if (document.getElementById('game_container') !== null) {
 			}
 			bloodAF(type);
 		}
+		//---------------- Bodyguards ----------------
+		if (on_page('module=Bodyguards') && nn == 'div') {
+			// Hide bio
+			$('div[id$="BoughtBG"]').css('display', 'none')
+		}
 		//---------------- END OF MAIN GAME CONTAINER ----------------
 	}, true);
 }
