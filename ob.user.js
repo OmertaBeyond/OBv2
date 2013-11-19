@@ -731,9 +731,9 @@ if (document.getElementById('game_container') !== null) {
 					if($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
 						$(this).attr('priority', jailHL_friends);
 					}
-					if(getV('custom_groups').indexOf($(this).attr('bgcolor')) > 0) {
+					if(getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
 						// get custom groups
-						var cg = getV('custom_groups').split('|')
+						var cg = getV('custom_groups', '').split('|')
 						cg.pop()
 						for(var i = 0;i<cg.length;i++) {
 							var g = cg[i].split(':');
@@ -747,9 +747,9 @@ if (document.getElementById('game_container') !== null) {
 					if ($(this).find('td:eq(0)>font>span').text() != '') {
 						if ($(this).attr('bgcolor') == '') {
 							$(this).attr('priority', jailHL_other_lackey); // other lackeys
-						} else if (getV('custom_groups').indexOf($(this).attr('bgcolor')) > 0) {
+						} else if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
 							// get custom groups
-							var cg = getV('custom_groups').split('|')
+							var cg = getV('custom_groups', '').split('|')
 							cg.pop()
 							for(var i = 0;i<cg.length;i++) {
 								var g = cg[i].split(':');
@@ -771,9 +771,9 @@ if (document.getElementById('game_container') !== null) {
 					if ($(this).find('td:eq(0)>font>span').text() != '') {
 						if ($(this).attr('bgcolor') == '') {
 							$(this).attr('priority', jailHL_other_lackey); // other lackeys
-						} else if (getV('custom_groups').indexOf($(this).attr('bgcolor')) > 0) {
+						} else if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
 							// get custom groups
-							var cg = getV('custom_groups').split('|')
+							var cg = getV('custom_groups', '').split('|')
 							cg.pop()
 							for(var i = 0;i<cg.length;i++) {
 								var g = cg[i].split(':');
