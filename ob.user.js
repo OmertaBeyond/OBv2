@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.22
-// @date                     15-12-2013
+// @version                  2.0.23
+// @date                     08-01-2014
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -45,7 +45,7 @@
 
 
 /*
- * Copyright (c) 2007-2013 OmertaBeyond Dev Team
+ * Copyright (c) 2007-2014 OmertaBeyond Dev Team
  *
  * OmertaBeyond is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,8 +71,8 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
-var OB_VERSION = '2.0.22';
-var cur_v = '4.4.1';
+var OB_VERSION = '2.0.23';
+var cur_v = '4.5';
 
 /*
  * Helper functions
