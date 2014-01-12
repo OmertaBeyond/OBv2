@@ -32,7 +32,7 @@ At the moment OB is compatible with:
 
 Many thanks to everyone who supported development without having write access.
 
-[OmertaBeyond](http://www.omertabeyond.com/) © 2007-2013 (info@omertabeyond.com)
+[OmertaBeyond](http://www.omertabeyond.com/) © 2007-2014 (info@omertabeyond.com)
 
 
 ## Info
