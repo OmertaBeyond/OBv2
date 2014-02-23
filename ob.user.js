@@ -399,19 +399,45 @@ if (localStorage['sets_' + v]) {
  */
 
 if (document.getElementById('game_container') !== null) {
-	document.getElementById('game_container').addEventListener('DOMNodeInserted', function (event) {
-		if (event.target.nodeType != 1) {
-			return false;
-		}
-		if ($(event.target).attr('data-beyond-fired') !== undefined) {
-			return false;
-		}
+	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
-		$(event.target).attr('data-beyond-fired', 'true');
+	if (MutationObserver) {
+		var observer = new MutationObserver(function(mutations) {
+			mutations.forEach(function(mutation) {
+				for (var i = 0; i < mutation.addedNodes.length; i++) {
+					var node = mutation.addedNodes[i];
+					if (node.nodeType == 1 && !node.hasAttribute('data-beyond-fired')) {
+						node.setAttribute('data-beyond-fired', true);
+						gameContainerChanged(node.tagName.toLowerCase(), node.getAttribute('id'));
+					}
+				}
+			})
+		});
 
+		observer.observe(document.getElementById('game_container'), {
+			attributes: false,
+			childList: true,
+			characterData: false
+		});
+	} else {
+		//jeez, get a new browser ;(
+		//falling back to DOMNodeInserted event
+		document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
+			if (event.target.nodeType != 1) {
+				return false;
+			}
+
+			if ($(event.target).attr('data-beyond-fired') !== undefined) {
+				return false;
+			}
+
+			$(event.target).attr('data-beyond-fired', 'true');
+			gameContainerChanged(event.target.tagName.toLowerCase(), event.target.getAttribute('id'));
+		}, true);
+	}
+
+	function gameContainerChanged(nn, nid) {
 		var wlh = window.location.hash;
-		var nn = event.target.tagName.toLowerCase();
-		var nid = event.target.getAttribute('id');
 
 		// unbind events
 		if (!on_page('garage.php')) {
@@ -3382,7 +3408,7 @@ if (document.getElementById('game_container') !== null) {
 			$('div[id$="BoughtBG"]').css('display', 'none')
 		}
 		//---------------- END OF MAIN GAME CONTAINER ----------------
-	}, true);
+	}
 }
 
 /*
