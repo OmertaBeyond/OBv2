@@ -408,7 +408,7 @@ if (document.getElementById('game_container') !== null) {
 					var node = mutation.addedNodes[i];
 					if (node.nodeType == 1 && !node.hasAttribute('data-beyond-fired')) {
 						node.setAttribute('data-beyond-fired', true);
-						gameContainerChanged(node.tagName.toLowerCase(), node.getAttribute('id'));
+						gameContainerChanged(node);
 					}
 				}
 			})
@@ -432,11 +432,13 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			$(event.target).attr('data-beyond-fired', 'true');
-			gameContainerChanged(event.target.tagName.toLowerCase(), event.target.getAttribute('id'));
+			gameContainerChanged(event.target);
 		}, true);
 	}
 
-	function gameContainerChanged(nn, nid) {
+	function gameContainerChanged(node) {
+		var nn = node.tagName.toLowerCase();
+		var nid = node.getAttribute('id');
 		var wlh = window.location.hash;
 
 		// unbind events
@@ -716,6 +718,23 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// Visual improvement
 			$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>')
+			//add a tooltip on every cooldown timer showing when it'll end (in OT)
+			//let's make sure we don't break OB in case tipsy gets dropped
+			if (unsafeWindow.$.fn.tipsy) {
+				$(node).find("[data-timeleft]").each(function() {
+					var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000);
+					//formating dates in js is fun. #not
+					var tooltipTitle = ("0" + cooldownEnd.getUTCHours()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCMinutes()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCSeconds()).slice(-2);
+					if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
+						tooltipTitle += " " + ("0" + cooldownEnd.getUTCDate()).slice(-2) + "/" + ("0" + (cooldownEnd.getUTCMonth() + 1)).slice(-2);
+					}
+					tooltipTitle += " OT";
+					this.setAttribute('title', tooltipTitle);
+					unsafeWindow.$(this).tipsy({
+						gravity: 's'
+					});
+				});
+			}
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
