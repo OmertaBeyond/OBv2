@@ -756,10 +756,10 @@ if (document.getElementById('game_container') !== null) {
 			$('tr[bgcolor]').each(function () {
 				// Skip nobust
 				if(getV('nobust', 0)) {
-					var nobust = getV('nobust').split(',');
-					var fam = $(this).find('td:eq(1) > font').text();
-					var name = $(this).find('td:eq(0) > font > a > font').text();
-					if($.inArray(fam, nobust) != -1 || $.inArray(name, nobust) != -1) {
+					var nobust = getV('nobust').toLowerCase().split(',');
+					var fam = $(this).find('td:eq(1) > font').text().toLowerCase();
+					var name = $(this).find('td:eq(0) > font > a > font').text().toLowerCase();
+					if((fam.length > 0 && $.inArray(fam, nobust) != -1) || $.inArray(name, nobust) != -1) {
 						if($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
 							$(this).find('td').css('text-decoration', 'line-through')
 							return;
@@ -843,14 +843,14 @@ if (document.getElementById('game_container') !== null) {
 				$('input[name="ver"]').focus()
 			});
 			// Loop inmates again for selection
-			var prior = 10;
+			var prior = null;
 			if(jailHL_sel == 'lowest') {
 				for (i = 0; i <= rows; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
 					if(isNaN(priority)) {
 						continue;
 					}
-					if (priority <= prior) {
+					if (priority <= prior || !prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
 						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
@@ -863,7 +863,7 @@ if (document.getElementById('game_container') !== null) {
 					if(isNaN(priority)) {
 						continue;
 					}
-					if (priority <= prior) {
+					if (priority <= prior || !prior) {
 						prior = priority;
 					}
 				}
@@ -880,7 +880,7 @@ if (document.getElementById('game_container') !== null) {
 					if(isNaN(priority)) {
 						continue;
 					}
-					if (priority <= prior) {
+					if (priority <= prior || !prior) {
 						prior = priority; // changes highest priority
 						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
 						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
@@ -3696,37 +3696,46 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			)
 		}
 
+		function deleteNoBustEntry() {
+			var entrySpan = $(this).prev();
+			var index = nobust.indexOf(entrySpan.attr('id'));
+			nobust.splice(index, 1);
+			entrySpan.hide();
+			$(this).hide();
+			setV('nobust', nobust);
+		}
 		// Build no bust list
 		var nobust_div = $('<div>').attr('id', 'nobust')
 		for (var i=0;i<nobust.length;i++) {
-			nobust_div.append(
-				$('<span>').attr({id: nobust[i]}).text(nobust[i]),
-				$('<img />').addClass('inboxImg').attr({
-					src: GM_getResourceURL('delete'),
-					title: 'Delete'
-				}).click(function() {
-					var index = nobust.indexOf(nobust[i]);
-					nobust.splice(index, 1);
-					$(this).hide();
-					setV('nobust', nobust);
-				}),
-				$('<br>')
-			)
+			if (nobust[i].length > 0) {
+				nobust_div.append(
+					$('<span>').attr({id: nobust[i]}).text(nobust[i]),
+					$('<img />').addClass('inboxImg').attr({
+						src: GM_getResourceURL('delete'),
+						title: 'Delete'
+					}).click(deleteNoBustEntry),
+					$('<br>')
+				)
+			}
 		}
 		nobust_div.append(
 			$('<input>').attr({
 				id: 'new_nobust',
 				type: 'text'
 			}).blur(function () {
-				$('<span>').attr({id: $(this).val()}).text($(this).val()).insertBefore($('#new_nobust')),
-				$('<img />').addClass('inboxImg').attr({
-					src: GM_getResourceURL('delete'),
-					title: 'Delete'
-				}).insertBefore($('#new_nobust')),
-				$('<br>').insertBefore($('#new_nobust'))
-				nobust.push($(this).val())
-				setV('nobust', nobust);
-				$('#new_nobust').val('')
+				//let's not add empty entries
+				if ($(this).val().length > 0) {
+					$('<span>').attr({id: $(this).val()}).text($(this).val()).insertBefore($('#new_nobust')),
+					$('<img />').addClass('inboxImg').attr({
+						src: GM_getResourceURL('delete'),
+						title: 'Delete'
+					}).click(deleteNoBustEntry).insertBefore($('#new_nobust')),
+					$('<br>').insertBefore($('#new_nobust'))
+					nobust.push($(this).val())
+					setV('nobust', nobust);
+					$('#new_nobust').val('')
+				}
+
 			})
 		)
 
