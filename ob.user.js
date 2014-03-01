@@ -2605,13 +2605,16 @@ if (document.getElementById('game_container') !== null) {
 								b = key[b];
 
 								// don't fill in if we can't earn RP and AF would want to buy
+								//Omerta sometimes won't display "NOW" when rp can be earned for b/n actions.
+								//it just displays "The next time you can earn rankpoints from buying [booze|narcs] is<end>"
+								//we'll handle that case too.
 								if (!lbooze) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match('NOW') && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
+									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
 										b = -1;
 									}
 								}
 								if (!lnarcs) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().match('NOW') && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
+									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().match(/NOW|NU|narcotics is(\s+)$|kopen over(\s+)$/m) && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
 										n = -1;
 									}
 								}
