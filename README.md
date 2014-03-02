@@ -29,8 +29,9 @@ At the moment OB is compatible with:
 * [Rix](https://github.com/Gwildor) - Admin, Developer
 * [MrWhite](https://github.com/Ivdbroek85) - Admin, Developer
 * [sbanks](https://github.com/susanbanks) - Admin, Website
+* [MurderInc](https://github.com/baelor) - Developer
 
-Many thanks to everyone who supported development without having write access.
+Many thanks to everyone who supported development without having direct push access.
 
 [OmertaBeyond](http://www.omertabeyond.com/) © 2007-2014 (info@omertabeyond.com)
 
