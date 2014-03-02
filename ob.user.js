@@ -3972,6 +3972,24 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				})
 			)
 		); // here we can build prefs page
+
+		//replace omerta.GUI.container.loadPageCB with our own implementation that stops
+		//the scrolling animation when detecting user-initiated scrolling (feels less sluggish).
+		//save the original implementation (we'll still need it)
+		unsafeWindow.omerta.GUI.container._origloadPageCB = unsafeWindow.omerta.GUI.container.loadPageCB;
+		unsafeWindow.omerta.GUI.container.loadPageCB = function(_response) {
+			//when user starts scrolling, stop animation
+			$('html, body').on('DOMMouseScroll mousewheel', function() {
+				//have to use unsafeWindow.$ because that's the jQuery object starting the animation
+				unsafeWindow.$('html, body').stop();
+			});
+			//forward to original implementation
+			unsafeWindow.omerta.GUI.container._origloadPageCB(_response);
+			//remove the scroll event listener for performance reasons
+			setTimeout(function() {
+				$('html, body').off('DOMMouseScroll mousewheel');
+			}, 1000); //we're guessing the animation will finish in <= 1000ms
+		}
 	}, 1000);
 });
 
