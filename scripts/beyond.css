@@ -61,6 +61,7 @@
 	background-image: -moz-linear-gradient(center top, #3F505F, #1B1B1B);
 	background-image: -webkit-linear-gradient(center top ,#3F505F, #1B1B1B);
 	background-image: -o-linear-gradient(top, #3F505F, #1B1B1B);
+	background: linear-gradient(to bottom, #3F505F, #1B1B1B);
 	opacity: 0.90;
 	border-radius: 5px;
 }
@@ -145,6 +146,8 @@ div.Bmsg table tr td {
 #jailDivleft {
 	float: left;
 	width: 50%;
+	/* hack to make it harder for #jailDivright to wrap into next line */
+	height: 500px;
 }
 
 #jailDivleft > span {

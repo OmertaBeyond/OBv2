@@ -2643,107 +2643,121 @@ if (document.getElementById('game_container') !== null) {
 						var AFtop = parseInt(getV('AFtop', '225'), 10);
 						var AFleft = parseInt(getV('AFleft', '300'), 10);
 						if (!$('#AF').length) {
-							$('#game_container').append(
-								$('<div>').addClass('BRCinfo').attr({
-									id: 'AF'
-								}).css({
-									top: AFtop,
-									left: AFleft
-								}).append(
-									$('<center>').text('Auto-Fill').css('font-weight', 'bold'),
-									$('<hr>').css({
-										'color': 'gray'
+							if ((sets['af_position'] || 'floating') == 'floating') {
+								$('#game_container').append(
+									$('<div>').addClass('BRCinfo').attr({
+										id: 'AF'
+									}).css({
+										top: AFtop,
+										left: AFleft
+									})
+								);
+							} else {
+								$("#city").after(
+									$('<div>').attr({
+										id: 'AF'
+									})
+								);
+							}
+
+							$("#AF").append(
+								$('<center>').text('Auto-Fill').css('font-weight', 'bold'),
+								$('<hr>').css({
+									'color': 'gray'
+								}),
+								$('<span>').append(
+									$('<input>').attr({
+										id: 'brc0',
+										type: 'radio',
+										name: 'brc'
+									}).click(function () {
+										AF(0);
+										try {
+											setV('brcAF', 0);
+										} catch (e) {}
 									}),
-									$('<span>').append(
-										$('<input>').attr({
-											id: 'brc0',
-											type: 'radio',
-											name: 'brc'
-										}).click(function () {
-											AF(0);
-											try {
-												setV('brcAF', 0);
-											} catch (e) {}
-										}),
-										$('<a>').attr({
-											id: 'a1',
-											acceskey: '8',
-											title: 'Fill in the most profitable b/n (Hotkey: 8 )'
-										}).text('Best: (8)')
-									),
-									$('<span>').append(
-										$('<br />'),
-										$('<input>').attr({
-											id: 'brc1',
-											type: 'radio',
-											name: 'brc'
-										}).click(function () {
-											AF(1);
-											try {
-												setV('brcAF', 1);
-											} catch (e) {}
-										}),
-										$('<a>').attr({
-											id: 'a2',
-											acceskey: '9',
-											title: 'Fill in the most expensive b/n (Hotkey: 9 )'
-										}).text('CD: (9)')
-									),
-									$('<span>').append(
-										$('<br />'),
-										$('<input>').attr({
-											id: 'brc2',
-											type: 'radio',
-											name: 'brc'
-										}).click(function () {
-											AF(2);
-											try {
-												setV('brcAF', 2);
-											} catch (e) {}
-										}),
-										$('<a>').attr({
-											id: 'a3',
-											acceskey: '0',
-											title: 'Fill in the cheapest b/n (Hotkey: 0 )'
-										}).text('RP: (0)')
-									),
-									$('<span>').append(
-										$('<br />'),
-										$('<input>').attr({
-											id: 'brc3',
-											type: 'radio',
-											name: 'brc'
-										}).click(function () {
-											AF(3);
-											try {
-												setV('brcAF', 3);
-											} catch (e) {}
-										}),
-										$('<a>').attr({
-											id: 'a4',
-											acceskey: '-',
-											title: 'Don\'t fill anything (Hotkey: - )'
-										}).text('None: (-)')
-									)
+									$('<label>').attr({
+										id: 'a1',
+										for: 'brc0',
+										acceskey: '8',
+										title: 'Fill in the most profitable b/n (Hotkey: 8 )'
+									}).text('Best: (8)')
+								),
+								$('<span>').append(
+									$('<br />'),
+									$('<input>').attr({
+										id: 'brc1',
+										type: 'radio',
+										name: 'brc'
+									}).click(function () {
+										AF(1);
+										try {
+											setV('brcAF', 1);
+										} catch (e) {}
+									}),
+									$('<label>').attr({
+										id: 'a2',
+										for: 'brc1',
+										acceskey: '9',
+										title: 'Fill in the most expensive b/n (Hotkey: 9 )'
+									}).text('CD: (9)')
+								),
+								$('<span>').append(
+									$('<br />'),
+									$('<input>').attr({
+										id: 'brc2',
+										type: 'radio',
+										name: 'brc'
+									}).click(function () {
+										AF(2);
+										try {
+											setV('brcAF', 2);
+										} catch (e) {}
+									}),
+									$('<label>').attr({
+										id: 'a3',
+										for: 'brc2',
+										acceskey: '0',
+										title: 'Fill in the cheapest b/n (Hotkey: 0 )'
+									}).text('RP: (0)')
+								),
+								$('<span>').append(
+									$('<br />'),
+									$('<input>').attr({
+										id: 'brc3',
+										type: 'radio',
+										name: 'brc'
+									}).click(function () {
+										AF(3);
+										try {
+											setV('brcAF', 3);
+										} catch (e) {}
+									}),
+									$('<label>').attr({
+										id: 'a4',
+										for: 'brc3',
+										acceskey: '-',
+										title: 'Don\'t fill anything (Hotkey: - )'
+									}).text('None: (-)')
 								)
 							)
 						}
-						$(function () {
-							$('#AF').draggable();
-						});
-						$('#AF').mouseup(function () {
-							//alert('Set the x and y values using GM_getValue.');
-							var divOffset = $('#AF').offset();
-							var left = divOffset.left;
-							var top = divOffset.top;
-							setV('AFleft', left);
-							setV('AFtop', top);
-						});
-
-						$('a#a1').attr('href', 'javascript:document.getElementById("brc0").click();');
-						$('a#a2').attr('href', 'javascript:document.getElementById("brc1").click();');
-						$('a#a3').attr('href', 'javascript:document.getElementById("brc2").click();');
-						$('a#a4').attr('href', 'javascript:document.getElementById("brc3").click();');
+						if ((sets['af_position'] || 'floating') == 'floating') {
+							$(function () {
+								$('#AF').draggable();
+							});
+							$('#AF').mouseup(function () {
+								//alert('Set the x and y values using GM_getValue.');
+								var divOffset = $('#AF').offset();
+								var left = divOffset.left;
+								var top = divOffset.top;
+								setV('AFleft', left);
+								setV('AFtop', top);
+							});
+						} else {
+							//show static AF settings in one row
+							$("#AF hr, #AF br").remove();
+						}
 
 						var mode = getV('brcAF', 0);
 
@@ -3679,6 +3693,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var custom_groups = getV('custom_groups', '').split('|');
 		custom_groups.pop()
 		var nobust = getV('nobust', '').split(',');
+		var af_position = sets['af_position'] || 'floating';
 		setA('prefs', 'NR', 1);
 
 		// Build custom groups prio settings
@@ -3914,7 +3929,28 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						setV('AFtop', '225');
 						setV('AFleft', '300');
 					}
-				})
+				}),
+				$('<h3>').text('BRC AF Style'),
+				$('<p>').text('You can choose between a movable window or showing the options on top of your Smuggling page.'),
+				$("<input>").attr({
+					type: 'radio',
+					id: 'AF_Floating',
+					name: 'AF_Position',
+					checked: af_position == 'floating'
+				}).click(function() {
+					setA('sets', 'af_position', 'floating');
+				}),
+				$('<label>').attr({ for: 'AF_Floating' }).text("Show Autofiller settings in movable window"),
+				$('<br>'),
+				$("<input>").attr({
+					type: 'radio',
+					id: 'AF_Static',
+					name: 'AF_Position',
+					checked: af_position == 'static'
+				}).click(function() {
+					setA('sets', 'af_position', 'static');
+				}),
+				$('<label>').attr({ for: 'AF_Static' }).text("Show Autofiller settings on top of Smuggling page")
 			),
 			$('<div>').attr({id: 'oldPrefs'}).css('display', block).append(
 				$('<h3>').text('Clear old preferences'),
