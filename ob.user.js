@@ -3205,7 +3205,7 @@ if (document.getElementById('game_container') !== null) {
 			})
 		}
 		if (on_page('obay.php?specific=') && nn == 'center') {
-			$('input#anon:first').prop('checked', 'checked');
+			$('input[name="anon"][value="0"]').prop('checked', 'checked');
 			$('input[type="submit"]').focus()
 		}
 		//---------------- Garage ----------------
