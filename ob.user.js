@@ -3606,7 +3606,7 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 					}
 
 					var span = $('<span>').append(
-						$('<span>').text(time + ' : ')
+						$('<span>').text(time + ': ').css('font-size', '10px')
 					)
 
 					i = 0;
