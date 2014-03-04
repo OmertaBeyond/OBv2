@@ -395,6 +395,28 @@ if (localStorage['sets_' + v]) {
 	var sets = {};
 }
 
+function addEndTimeTooltip(node) {
+	//add a tooltip on every cooldown timer showing when it'll end (in OT)
+	//let's make sure we don't break OB in case tipsy gets dropped
+	if (unsafeWindow.$.fn.tipsy) {
+		//.addBack is needed in case the element containing data-timeleft is the one being added to DOM tree
+		//(which is the case on bullet waiting page, safehouse message, and probably others)
+		$(node).find("[data-timeleft]").addBack('[data-timeleft]').each(function() {
+			var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000);
+			//formating dates in js is fun. #not
+			var tooltipTitle = ("0" + cooldownEnd.getUTCHours()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCMinutes()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCSeconds()).slice(-2);
+			if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
+				tooltipTitle += " " + ("0" + cooldownEnd.getUTCDate()).slice(-2) + "/" + ("0" + (cooldownEnd.getUTCMonth() + 1)).slice(-2);
+			}
+			tooltipTitle += " OT";
+			this.setAttribute('title', tooltipTitle);
+			unsafeWindow.$(this).tipsy({
+				gravity: 's'
+			});
+		});
+	}
+}
+
 /*
  * Main game listener
  */
@@ -449,6 +471,9 @@ if (document.getElementById('game_container') !== null) {
 		if (!on_page('action=showMsg')) {
 			$(window).unbind('keydown');
 		}
+
+		//add end time tooltip to every countdown
+		addEndTimeTooltip(node);
 
 		//---------------- FAMILY PAGE ----------------
 		if (on_page('family.php') && nn == 'center') {
@@ -719,23 +744,6 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// Visual improvement
 			$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>')
-			//add a tooltip on every cooldown timer showing when it'll end (in OT)
-			//let's make sure we don't break OB in case tipsy gets dropped
-			if (unsafeWindow.$.fn.tipsy) {
-				$(node).find("[data-timeleft]").each(function() {
-					var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000);
-					//formating dates in js is fun. #not
-					var tooltipTitle = ("0" + cooldownEnd.getUTCHours()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCMinutes()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCSeconds()).slice(-2);
-					if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
-						tooltipTitle += " " + ("0" + cooldownEnd.getUTCDate()).slice(-2) + "/" + ("0" + (cooldownEnd.getUTCMonth() + 1)).slice(-2);
-					}
-					tooltipTitle += " OT";
-					this.setAttribute('title', tooltipTitle);
-					unsafeWindow.$(this).tipsy({
-						gravity: 's'
-					});
-				});
-			}
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
