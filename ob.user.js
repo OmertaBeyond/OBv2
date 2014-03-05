@@ -131,7 +131,7 @@ function time() {
 
 function GetParam(name) {
 	var results = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href);
-	return results[1] || 0;
+	return results == null ? 0 : (results[1] || 0);
 }
 
 function isVisible(node) {
@@ -415,6 +415,10 @@ function addEndTimeTooltip(node) {
 			});
 		});
 	}
+}
+
+function calcRaidResult(profit, protection) {
+	return profit * (110 - protection) / 1000;
 }
 
 /*
@@ -3451,6 +3455,77 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=Bodyguards') && nn == 'div') {
 			// Hide bio
 			$('div[id$="BoughtBG"]').css('display', 'none')
+		}
+		//---------------- Raid Result @ Statistics and Spots ----------------
+		if (on_page('global_stats') || on_page('module=Spots')) {
+			var isSpots = on_page('module=Spots');
+			//add possible raid profit in a new column for all objects
+			$("td:contains('Profit'), td:contains('Winst')").closest('table').find('tr').each(function() {
+				if (isSpots) {
+					var tableHeader = $(this).find('td[colspan="7"]');
+				} else {
+					var tableHeader = $(this).find('td.tableheader, td[bgcolor="black"]');
+				}
+				if (tableHeader.length > 0) {
+					//increase colspan of table header
+					tableHeader.each(function() {
+						$(this).attr('colspan', parseInt($(this).attr('colspan')) + 1);
+					});
+					return;
+				}
+				if (isSpots && $(this).find('td:first').hasClass('tableheader')) {
+					$(this).find('td.tableheader:eq(4)').after($('<td class="tableheader"><b class="raid_profit_tooltip" title="Best Possible Raid Result per Player">Result</b></td>'));
+					return;
+				} else {
+					var firstRowText = $(this).find('td:first').text();
+					if (firstRowText == 'City:' || firstRowText == 'Stad:') {
+						//add table header
+						$(this).append($('<td><b class="raid_profit_tooltip" title="Best Possible Raid Result per Player">Raid Result:</b></td>'));
+						return;
+					}
+				}
+				if (isSpots && $(this).find('td[colspan="3"]').length > 0) {
+					//make Bankrupt/OOB columns wider
+					$(this).find('td[colspan="3"]').attr('colspan', '4');
+					return;
+				}
+				if (!isSpots) {
+					//make city column a bit smaller
+					$(this).find('td:first').attr('width', '130');
+				}
+				if (isSpots) {
+					var profit = parseInt($(this).find('td[style="color:green;"]').text().replace(/,|\$/g, ''));
+				} else {
+					if ($(this).find('.profit').length > 0) {
+						var profit = parseInt($(this).find('.profit').text().replace(/,|\$/g, ''));
+					} else {
+						var profit = 0;
+					}
+				}
+				if (profit > 0) {
+					//row with running + profitable object
+					var protection = parseInt($(this).find('.percent').text().replace('%', ''));
+					var raidResult = calcRaidResult(profit, protection);
+					if (isSpots) {
+						$(this).find('td:eq(4)').after('<td>$ ' + commafy(Math.floor(raidResult)) + '</td>');
+					} else {
+						$(this).append('<td>$ ' + commafy(Math.floor(raidResult)) + '</td>');
+					}
+				} else if (isSpots || $(this).find('.loss').length > 0 || $(this).text().indexOf('None') !== -1 || $(this).text().indexOf('Geen') !== -1) {
+					//append empty column for spots with losses or no profit
+					//border will be gone otherwise
+					if (isSpots) {
+						$(this).find('td:eq(4)').after('<td></td>');
+					} else {
+						$(this).append('<td></td>');
+					}
+				}
+			});
+			if (unsafeWindow.$.fn.tipsy) {
+				unsafeWindow.$(".raid_profit_tooltip").tipsy({
+					gravity: 's'
+				});
+			}
 		}
 		//---------------- END OF MAIN GAME CONTAINER ----------------
 	}
