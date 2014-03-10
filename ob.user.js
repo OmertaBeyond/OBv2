@@ -2185,6 +2185,34 @@ if (document.getElementById('game_container') !== null) {
 					hideLaughing(true);
 				}
 			}
+			$('input[data-action="addCredits"]').closest('td').css('width', '99%').after(
+				$('<td>').attr('align', 'right').append(
+					$('<input id="ob_fire_all" type="button" value="Fire all lackeys">').click(function() {
+						if (confirm('Are you sure you want to fire ALL lackeys?')) {
+							$('#ob_fire_all').val('Firing lackeys ...').prop('disabled', true);
+							var jailWarn = false;
+							function fireLackey(lackeyIndex) {
+								$.post('BeO/webroot/?module=Lackeys&action=fire', { lackey: lackeyIndex }).done(function(data) {
+									if (data.indexOf('jail') !== -1) {
+										jailWarn = true;
+									}
+									if (lackeyIndex < 6) {
+										fireLackey(lackeyIndex + 1);
+									} else {
+										if (jailWarn) {
+											alert('At least one of your lackeys is in jail and cannot be fired!');
+											$('#ob_fire_all').val('Fire all lackeys').prop('disabled', false);
+										} else {
+											$('#ob_fire_all').val('Lackeys fired!');
+										}
+									}
+								});
+							}
+							fireLackey(1);
+						}
+					})
+				)
+			);
 		}
 		//---------------- BRC ----------------
 		if ((on_page('prices.php') && nn == 'center') || (on_page('smuggling.php') && nn == 'center')) {
