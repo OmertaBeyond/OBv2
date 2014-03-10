@@ -58,6 +58,8 @@
 // @include                  http://barafranca.nl/*
 // @include                  http://*.barafranca.us/*
 // @include                  http://barafranca.us/*
+// @include                  http://*.barafranca.gen.tr/*
+// @include                  http://barafranca.gen.tr/*
 // ==/UserScript==
 
 /*
@@ -587,142 +589,144 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 
-			$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=' + v + '&' + url, function (data) {
-				// Family position and worth
-				$('td.subtableheader').first().closest('tr').after(
-					$('<tr>').append(
-						$('<td>').addClass('subtableheader').text('Position:'),
-						$('<td>').addClass('profilerow').text('#' + data['pos'] + ' - Worth: ' + data['worth'] + '')
-					)
-				);
-
-				// add HR
-				$('table.thinline').first().find('tbody').append(
-					$('<tr>').append(
-						$('<td>').addClass('subtableheader').text('Ranks:'),
-						$('<td>').addClass('profilerow').append(
-							$('<table>').attr('width', '100%').append(
-								$('<tr>').append($('<td>').text('Godfather/First Lady:'), $('<td>').addClass('bold').text(data['hr']['gf'])),
-								$('<tr>').append($('<td>').text('Capodecina:'), $('<td>').addClass('bold').text(data['hr']['cd'])),
-								$('<tr>').append($('<td>').text('Bruglione:'), $('<td>').addClass('bold').text(data['hr']['brug'])),
-								$('<tr>').append($('<td>').text('Chief:'), $('<td>').addClass('bold').text(data['hr']['chief'])),
-								$('<tr>').append($('<td>').text('Local Chief:'), $('<td>').addClass('bold').text(data['hr']['lc'])),
-								$('<tr>').append($('<td>').text('Assassin:'), $('<td>').addClass('bold').text(data['hr']['assa'])),
-								$('<tr>').append($('<td>').text('Swindler:'), $('<td>').addClass('bold').text(data['hr']['swin'])),
-								$('<tr>').append($('<td>').attr('colspan', '2').append($('<hr />'))),
-								$('<tr>').append($('<td>').text('Total points:'), $('<td>').addClass('bold').text(data['hr']['pts']))
-							)
+			if (v == 'com' || v == 'nl') {
+				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=' + v + '&' + url, function (data) {
+					// Family position and worth
+					$('td.subtableheader').first().closest('tr').after(
+						$('<tr>').append(
+							$('<td>').addClass('subtableheader').text('Position:'),
+							$('<td>').addClass('profilerow').text('#' + data['pos'] + ' - Worth: ' + data['worth'] + '')
 						)
-					)
-				);
+					);
 
-				setTimeout(function () {
-					// Family deaths
-					$('table.thinline:eq(1)').closest('td').append(
-						$('<br />'),
-						$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
-							$('<tr>').append(
-								$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family deaths')
-							),
-							$('<tr>').append(
-								$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
-							),
-							$('<tr>').append(
-								$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Name'),
-								$('<td>').addClass('bold').attr('align', 'center').text('Rank'),
-								$('<td>').addClass('bold').attr('align', 'center').text('Date'),
-								$('<td>').addClass('bold').css('text-align', 'right').text('Ago')
+					// add HR
+					$('table.thinline').first().find('tbody').append(
+						$('<tr>').append(
+							$('<td>').addClass('subtableheader').text('Ranks:'),
+							$('<td>').addClass('profilerow').append(
+								$('<table>').attr('width', '100%').append(
+									$('<tr>').append($('<td>').text('Godfather/First Lady:'), $('<td>').addClass('bold').text(data['hr']['gf'])),
+									$('<tr>').append($('<td>').text('Capodecina:'), $('<td>').addClass('bold').text(data['hr']['cd'])),
+									$('<tr>').append($('<td>').text('Bruglione:'), $('<td>').addClass('bold').text(data['hr']['brug'])),
+									$('<tr>').append($('<td>').text('Chief:'), $('<td>').addClass('bold').text(data['hr']['chief'])),
+									$('<tr>').append($('<td>').text('Local Chief:'), $('<td>').addClass('bold').text(data['hr']['lc'])),
+									$('<tr>').append($('<td>').text('Assassin:'), $('<td>').addClass('bold').text(data['hr']['assa'])),
+									$('<tr>').append($('<td>').text('Swindler:'), $('<td>').addClass('bold').text(data['hr']['swin'])),
+									$('<tr>').append($('<td>').attr('colspan', '2').append($('<hr />'))),
+									$('<tr>').append($('<td>').text('Total points:'), $('<td>').addClass('bold').text(data['hr']['pts']))
+								)
 							)
 						)
 					);
-					if (v === 'com') {
-						$('<div>').addClass('dlContainer').append(
-							$('<a>').attr({
-								'href': OB_NEWS_WEBSITE + '/deathslog/' + cur_v + '/' + famid,
-								'target': '_blank'
-							}).append(
-								$('<img>').addClass('brcImg').attr({
-									src: GM_getResourceURL('log'),
-									title: 'View full deathslog'
-								})
-							)
-						).appendTo($('table.thinline:eq(2)>tbody>tr:eq(0)>td'))
-					}
 
-					var deaths_body = $('table.thinline:eq(2)').find('tbody');
-					if (data['deaths']) {
-						$.each(data['deaths'], function (k, v) {
-							var extra = (v['Akill'] == 1) ? '(<b>A</b>) ' : (v['BF'] == 1) ? '(<b>BF</b>) ' : '';
+					setTimeout(function () {
+						// Family deaths
+						$('table.thinline:eq(1)').closest('td').append(
+							$('<br />'),
+							$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
+								$('<tr>').append(
+									$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family deaths')
+								),
+								$('<tr>').append(
+									$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
+								),
+								$('<tr>').append(
+									$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Name'),
+									$('<td>').addClass('bold').attr('align', 'center').text('Rank'),
+									$('<td>').addClass('bold').attr('align', 'center').text('Date'),
+									$('<td>').addClass('bold').css('text-align', 'right').text('Ago')
+								)
+							)
+						);
+						if (v === 'com') {
+							$('<div>').addClass('dlContainer').append(
+								$('<a>').attr({
+									'href': OB_NEWS_WEBSITE + '/deathslog/' + cur_v + '/' + famid,
+									'target': '_blank'
+								}).append(
+									$('<img>').addClass('brcImg').attr({
+										src: GM_getResourceURL('log'),
+										title: 'View full deathslog'
+									})
+								)
+							).appendTo($('table.thinline:eq(2)>tbody>tr:eq(0)>td'))
+						}
+
+						var deaths_body = $('table.thinline:eq(2)').find('tbody');
+						if (data['deaths']) {
+							$.each(data['deaths'], function (k, v) {
+								var extra = (v['Akill'] == 1) ? '(<b>A</b>) ' : (v['BF'] == 1) ? '(<b>BF</b>) ' : '';
+								deaths_body.append(
+									$('<tr>').append(
+										$('<td>').html(extra).append(
+											$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
+										),
+										$('<td>').attr('align', 'center').append(
+											$('<a>').attr('href', OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + v['Name']).text(v['Rank'])
+										),
+										$('<td>').attr('align', 'center').text(v['Date']),
+										$('<td>').css('text-align', 'right').text(v['Agod'] + 'd ' + v['Agoh'] + 'h ' + v['Agom'] + 'm')
+									)
+								);
+							});
+						} else {
 							deaths_body.append(
 								$('<tr>').append(
-									$('<td>').html(extra).append(
-										$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
-									),
-									$('<td>').attr('align', 'center').append(
-										$('<a>').attr('href', OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + v['Name']).text(v['Rank'])
-									),
-									$('<td>').attr('align', 'center').text(v['Date']),
-									$('<td>').css('text-align', 'right').text(v['Agod'] + 'd ' + v['Agoh'] + 'h ' + v['Agom'] + 'm')
+									$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '4').text('There are no deaths yet!')
 								)
 							);
-						});
-					} else {
-						deaths_body.append(
-							$('<tr>').append(
-								$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '4').text('There are no deaths yet!')
+						}
+
+						// add Famlog
+						$('table.thinline:eq(1)').closest('td').append(
+							$('<br />'),
+							$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
+								$('<tr>').append(
+									$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family changes')
+								),
+								$('<tr>').append(
+									$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
+								),
+								$('<tr>').append(
+									$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Date'),
+									$('<td>').addClass('bold').attr('align', 'left').text('Change')
+								)
 							)
 						);
-					}
+						if (v === 'com') {
+							$('<div>').addClass('dlContainer').append(
+								$('<a>').attr({
+									'href': OB_NEWS_WEBSITE + '/famlog/' + cur_v + '/' + famid,
+									'target': '_blank'
+								}).append(
+									$('<img>').addClass('brcImg').attr({
+										src: GM_getResourceURL('log'),
+										title: 'View full changelog'
+									})
+								)
+							).appendTo($('table.thinline:eq(3)>tbody>tr:eq(0)>td'))
+						}
 
-					// add Famlog
-					$('table.thinline:eq(1)').closest('td').append(
-						$('<br />'),
-						$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
-							$('<tr>').append(
-								$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family changes')
-							),
-							$('<tr>').append(
-								$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
-							),
-							$('<tr>').append(
-								$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Date'),
-								$('<td>').addClass('bold').attr('align', 'left').text('Change')
-							)
-						)
-					);
-					if (v === 'com') {
-						$('<div>').addClass('dlContainer').append(
-							$('<a>').attr({
-								'href': OB_NEWS_WEBSITE + '/famlog/' + cur_v + '/' + famid,
-								'target': '_blank'
-							}).append(
-								$('<img>').addClass('brcImg').attr({
-									src: GM_getResourceURL('log'),
-									title: 'View full changelog'
-								})
-							)
-						).appendTo($('table.thinline:eq(3)>tbody>tr:eq(0)>td'))
-					}
-
-					var changes_body = $('table.thinline:eq(3)').find('tbody');
-					if (data['changes']) {
-						$.each(data['changes'], function (k, v) {
+						var changes_body = $('table.thinline:eq(3)').find('tbody');
+						if (data['changes']) {
+							$.each(data['changes'], function (k, v) {
+								changes_body.append(
+									$('<tr>').append(
+										$('<td>').css('width', '28%').attr('align', 'left').attr('valign', 'top').text(v['date']),
+										$('<td>').attr('align', 'left').text(v['text'])
+									)
+								);
+							});
+						} else {
 							changes_body.append(
 								$('<tr>').append(
-									$('<td>').css('width', '28%').attr('align', 'left').attr('valign', 'top').text(v['date']),
-									$('<td>').attr('align', 'left').text(v['text'])
+									$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '2').text('There are no changes yet!')
 								)
 							);
-						});
-					} else {
-						changes_body.append(
-							$('<tr>').append(
-								$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '2').text('There are no changes yet!')
-							)
-						);
-					}
-				}, 0);
-			});
+						}
+					}, 0);
+				});
+			}
 		}
 		//---------------- My account ----------------
 		if (on_page('/information.php') && nn == 'table') {
@@ -2006,15 +2010,19 @@ if (document.getElementById('game_container') !== null) {
 					}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver=' + unick + '">Heist</a> | <a href="http://www.barafranca.com/BeO/webroot/index.php?module=Spots&driver=' + unick + '">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives?search=' + unick + '">Hire Detectives</a>')
 				)
 			)
+			var historyLink = null;
+			if (v == 'com' || v == 'nl') {
+				historyLink = $('<span>').text('View History').css('cursor', 'pointer').click(function () {
+					$.get(OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + unick, function (data) {
+						$('#game_container').empty();
+						$('#game_container').html(data);
+					});
+				});
+			}
 			if (!self && alive) {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<span>').text('View History').css('cursor', 'pointer').click(function () {
-						$.get(OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + unick, function (data) {
-							$('#game_container').empty();
-							$('#game_container').html(data);
-						});
-					}),
+					historyLink,
 					$('<span>').text(' | '),
 					$('<span>').text('Actions').css('cursor', 'pointer').click(function () {
 						$('#actions').toggle()
@@ -2023,12 +2031,7 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
-					$('<span>').text('View History').css('cursor', 'pointer').click(function () {
-						$.get(OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + unick, function (data) {
-							$('#game_container').empty();
-							$('#game_container').html(data);
-						});
-					})
+					historyLink
 				)
 			}
 			if (parseInt(getPow('bninfo', 4, -1), 10) === 3 && inFam === 'None') {
@@ -3488,7 +3491,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('global_stats') || on_page('module=Spots')) {
 			var isSpots = on_page('module=Spots');
 			//add possible raid profit in a new column for all objects
-			$("td:contains('Profit'), td:contains('Winst')").closest('table').find('tr').each(function() {
+			$("td:contains('Profit'), td:contains('Winst'), td:contains('Kazanc')").closest('table').find('tr').each(function() {
 				if (isSpots) {
 					var tableHeader = $(this).find('td[colspan="7"]');
 				} else {
@@ -3597,9 +3600,11 @@ $('#game_container').on("DOMNodeInserted",function(event){
  */
 
 $('#game_container').one('DOMNodeInserted', function () {
-	setTimeout(function () {
-		CheckBmsg();
-	}, 1000);
+	if (v == 'com' || v == 'nl') {
+		setTimeout(function () {
+			CheckBmsg();
+		}, 1000);
+	}
 });
 
 /*

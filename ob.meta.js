@@ -40,4 +40,6 @@
 // @include                  http://barafranca.nl/*
 // @include                  http://*.barafranca.us/*
 // @include                  http://barafranca.us/*
+// @include                  http://*.barafranca.gen.tr/*
+// @include                  http://barafranca.gen.tr/*
 // ==/UserScript==
