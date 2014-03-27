@@ -53,13 +53,21 @@
 // @resource    rip          https://raw.github.com/OmertaBeyond/OBv2/master/images/rip.png
 // @resource    red-star     https://raw.github.com/OmertaBeyond/OBv2/master/images/red-star.png
 // @include                  http://*.barafranca.com/*
+// @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
+// @include                  https://barafranca.com/*
 // @include                  http://*.barafranca.nl/*
+// @include                  https://*.barafranca.nl/*
 // @include                  http://barafranca.nl/*
+// @include                  https://barafranca.nl/*
 // @include                  http://*.barafranca.us/*
+// @include                  https://*.barafranca.us/*
 // @include                  http://barafranca.us/*
+// @include                  https://barafranca.us/*
 // @include                  http://*.barafranca.gen.tr/*
+// @include                  https://*.barafranca.gen.tr/*
 // @include                  http://barafranca.gen.tr/*
+// @include                  https://barafranca.gen.tr/*
 // ==/UserScript==
 
 /*
@@ -169,7 +177,7 @@ function delMsg(what, name) {
 		name = name.replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 		if (what == 'id') {
 			if (name == thismsgid) {
-				$.get('http://' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
+				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
 					$('font[color="red"]').text('Message deleted.');
 				});
 				tr.hide();
@@ -177,7 +185,7 @@ function delMsg(what, name) {
 			}
 		} else if (what == 'name') {
 			if (name == title) {
-				$.get('http://' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
+				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
 					$('font[color="red"]').text('Message deleted.');
 				});
 				tr.hide();
@@ -1283,17 +1291,18 @@ if (document.getElementById('game_container') !== null) {
 			// Add arrow hotkeys
 			$(window).keydown(function (event) {
 				var key = event.which;
+				var proto = document.location.protocol;
 				if (key == 39) { // right, reply
-					window.location.href = 'http://' + document.location.hostname + '/game.php#http://' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=sendMsg&iReply=' + id;
+					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=sendMsg&iReply=' + id;
 				}
 				if (key == 38 && id != ids[0]) { // up, select previous
-					window.location.href = 'http://' + document.location.hostname + '/game.php#http://' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + next;
+					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + next;
 				}
 				if (key == 40 && id != ids[ids.length - 1]) { // down, select next
-					window.location.href = 'http://' + document.location.hostname + '/game.php#http://' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + prev;
+					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + prev;
 				}
 				if (key == 37) { // left, delete
-					window.location.href = 'http://' + document.location.hostname + '/game.php#http://' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=2';
+					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=2';
 				}
 			});
 		}
@@ -2007,7 +2016,7 @@ if (document.getElementById('game_container') !== null) {
 						'id': 'actions',
 						'colspan': '2',
 						'align': 'center'
-					}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver=' + unick + '">Heist</a> | <a href="http://www.barafranca.com/BeO/webroot/index.php?module=Spots&driver=' + unick + '">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives?search=' + unick + '">Hire Detectives</a>')
+					}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver=' + unick + '">Heist</a> | <a href="' + document.location.protocol + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Spots&driver=' + unick + '">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives?search=' + unick + '">Hire Detectives</a>')
 				)
 			)
 			var historyLink = null;
@@ -2537,7 +2546,7 @@ if (document.getElementById('game_container') !== null) {
 										}).html('&nbsp;').append(
 											$('<a>').attr({
 												id: 'go' + i,
-												href: 'http://www.barafranca.com/smuggling.php?n=' + (bestNarc - 1) + '&b=' + (bestBooze - 1)
+												href: document.location.protocol + '//' + document.location.hostname + '/smuggling.php?n=' + (bestNarc - 1) + '&b=' + (bestBooze - 1)
 											}).css({
 												'font-weight': 'inherit',
 												'text-align': 'center',
@@ -2885,7 +2894,7 @@ if (document.getElementById('game_container') !== null) {
 						}
 						appBRC(BN); // send prices to BRC function
 					}
-					grabHTML('http://' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
+					grabHTML('//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
 				}
 			}
 
@@ -3616,7 +3625,7 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 		setTimeout(function () {
 			GM_xmlhttpRequest({
 				method: 'GET',
-				url: 'http://www.barafranca.com/BeO/webroot/index.php?module=API&action=smuggling_prices',
+				url: '//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices',
 				onload: function (resp) {
 					var parser = new DOMParser();
 					var dom = parser.parseFromString(resp.responseText, 'application/xml');
