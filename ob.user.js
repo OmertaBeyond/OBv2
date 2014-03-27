@@ -68,6 +68,8 @@
 // @include                  https://*.barafranca.gen.tr/*
 // @include                  http://barafranca.gen.tr/*
 // @include                  https://barafranca.gen.tr/*
+// @exclude                  http://*/game-register.php*
+// @exclude                  https://*/game-register.php*
 // ==/UserScript==
 
 /*
