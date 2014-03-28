@@ -35,11 +35,21 @@
 // @resource    rip          https://raw.github.com/OmertaBeyond/OBv2/master/images/rip.png
 // @resource    red-star     https://raw.github.com/OmertaBeyond/OBv2/master/images/red-star.png
 // @include                  http://*.barafranca.com/*
+// @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
+// @include                  https://barafranca.com/*
 // @include                  http://*.barafranca.nl/*
+// @include                  https://*.barafranca.nl/*
 // @include                  http://barafranca.nl/*
+// @include                  https://barafranca.nl/*
 // @include                  http://*.barafranca.us/*
+// @include                  https://*.barafranca.us/*
 // @include                  http://barafranca.us/*
+// @include                  https://barafranca.us/*
 // @include                  http://*.barafranca.gen.tr/*
+// @include                  https://*.barafranca.gen.tr/*
 // @include                  http://barafranca.gen.tr/*
+// @include                  https://barafranca.gen.tr/*
+// @exclude                  http://*/game-register.php*
+// @exclude                  https://*/game-register.php*
 // ==/UserScript==
