@@ -3,7 +3,7 @@
 # top-most EditorConfig file
 root = true
 
-[*]
+[*.{js,css}]
 end_of_line = crlf
 insert_final_newline = true
 trim_trailing_whitespace = true
