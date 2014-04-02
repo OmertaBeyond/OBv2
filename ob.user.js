@@ -917,7 +917,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false)
 			// Add successful BO to total
-			if ($('#game_container:contains(You busted this person out of jail)').length) {
+			if ($('#game_container:contains(You busted this person)').length) {
 				if($('#game_container:contains(cellmate out of jail)').length) {
 					bos = (bos + 1);
 				}
@@ -937,7 +937,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('/jail.php') && nn == 'table') {
 			var bo_hotkey = sets['bo_hotkey'] || '/';
 			// Add buyout hotkey
-			if ($('#game_container:contains("cops are all over you")').length) {
+			if ($('input[name="buymeout"]').length) {
 				$('input[name="buymeout"]').attr('accesskey', bo_hotkey);
 			}
 			// Go back to jail when time is over
@@ -3578,6 +3578,7 @@ if (document.getElementById('game_container') !== null) {
  */
 
 $('#game_container').on("DOMNodeInserted",function(event){
+	var nn = event.target.tagName.toLowerCase();
 	if(on_page('jail.php')) {
 		// Return when self bo
 		if ($('#game_container:contains(You busted yourself out of jail)').length) {
@@ -4051,10 +4052,12 @@ $('#game_menu').one('DOMNodeInserted', function () {
 										value: bo_hotkey
 									}).blur(function () {
 										setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
+										$(".ob_hotkey_pref").text($('#bo_hotkey').val());
 									})
 								)
 							)
 						),
+						$('<p>').html('Depending on browser and operating system, you can use either Alt + Shift + <span class="ob_hotkey_pref">' + bo_hotkey + '</span>, Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> or Ctrl + Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> to buy yourself out.'),
 						$('<span>').text('Do you want to choose players with highest/lowest remaining jailtime first, or pick one randomly?'),
 						$('<br>'),
 						$('<input>').attr({
