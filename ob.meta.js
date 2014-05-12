@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.29
-// @date                     28-03-2014
+// @version                  2.0.30
+// @date                     12-05-2014
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
-// @updateURL                https://raw.github.com/OmertaBeyond/OBv2/master/ob.meta.js
+// @updateURL                https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/ob.meta.js
 // @supportURL               https://github.com/OmertaBeyond/OBv2/issues
-// @icon                     https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.small.png
-// @screenshot               https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.small.png
+// @icon                     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.small.png
+// @screenshot               https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.small.png
 // @author                   OBDev Team <info@omertabeyond.com>
 // @author                   vBm <vbm@omertabeyond.com>
 // @author                   Dopedog <dopedog@omertabeyond.com>
@@ -23,17 +23,17 @@
 // @priority                 1
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
-// @resource    css          https://raw.github.com/OmertaBeyond/OBv2/master/scripts/beyond.css
-// @resource    favicon      https://raw.github.com/OmertaBeyond/OBv2/master/images/favicon.png
-// @resource    logo         https://raw.github.com/OmertaBeyond/OBv2/master/images/logo.png
-// @resource    logo-old     https://raw.github.com/OmertaBeyond/OBv2/master/images/logo-old.png
-// @resource    prev         https://raw.github.com/OmertaBeyond/OBv2/master/images/prev.png
-// @resource    next         https://raw.github.com/OmertaBeyond/OBv2/master/images/next.png
-// @resource    reply        https://raw.github.com/OmertaBeyond/OBv2/master/images/reply.png
-// @resource    delete       https://raw.github.com/OmertaBeyond/OBv2/master/images/delete.png
-// @resource    log          https://raw.github.com/OmertaBeyond/OBv2/master/images/changelog.png
-// @resource    rip          https://raw.github.com/OmertaBeyond/OBv2/master/images/rip.png
-// @resource    red-star     https://raw.github.com/OmertaBeyond/OBv2/master/images/red-star.png
+// @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
+// @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
+// @resource    logo         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
+// @resource    logo-old     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo-old.png
+// @resource    prev         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/prev.png
+// @resource    next         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/next.png
+// @resource    reply        https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/reply.png
+// @resource    delete       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/delete.png
+// @resource    log          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/changelog.png
+// @resource    rip          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/rip.png
+// @resource    red-star     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
