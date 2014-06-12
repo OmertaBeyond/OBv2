@@ -100,11 +100,11 @@ function array_sum(array) {
 
 function iMax(array) {
 	return array.indexOf(Math.max.apply({}, array));
-};
+}
 
 function iMin(array) {
 	return array.indexOf(Math.min.apply({}, array));
-};
+}
 
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
