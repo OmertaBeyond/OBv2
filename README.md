@@ -19,6 +19,10 @@ At the moment OB is compatible with:
  * [TamperMonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 * Opera 12 (semi working)
  * [ViolentMonkey](https://addons.opera.com/en/extensions/details/violent-monkey/)
+* Safari (semi working)
+ * [NinjaKit](https://github.com/os0x/NinjaKit)
+ 
+Note: if you have time/knowledge, help us to make it fully working/compatible.
 
 
 ## Dev Team
