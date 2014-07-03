@@ -336,10 +336,10 @@ function CheckBmsg() {
 						});
 						notification.onclose = function () {
 							setTimeout(CheckBmsg, 60000);
-						}
+						};
 						notification.onclick = function () {
-							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id'])
-						}
+							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
+						};
 						setV('lastbmsg', response['news'][0]['ts']);
 					}
 				} else {
@@ -364,7 +364,7 @@ function CheckBmsg() {
 							});
 							notification.onclose = function () {
 								setTimeout(CheckBmsg, 60000);
-							}
+							};
 							setV('lastbmsg', response['deaths'][0]['ts']);
 						}
 					}
@@ -460,7 +460,7 @@ if (document.getElementById('game_container') !== null) {
 						gameContainerChanged(node);
 					}
 				}
-			})
+			});
 		});
 
 		observer.observe(document.getElementById('game_container'), {
@@ -515,28 +515,28 @@ if (document.getElementById('game_container') !== null) {
 			tr = $('table.thinline:eq(0) > tbody > tr').length;
 
 			// add HQ space to members
-			var hq = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 3) + ') > td:last').text()
-			var members = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 5) + ') > td:last').text()
+			var hq = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 3) + ') > td:last').text();
+			var members = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 5) + ') > td:last').text();
 			$('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 5) + ') > td:last').text(members + '/' + hq);
 
 			// add color to HQ space
 			var hqperc = ((members / hq) * 100);
 			$('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 5) + ') > td:last').css({
 				'background-image': '-moz-linear-gradient(left, #CCCCCC ' + hqperc + '%, #F0F0F0 ' + hqperc + '%)'
-			})
+			});
 
 			// add color to donating %
 			var doperc = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 4) + ') > td:last').text().split(' (')[0];
 			$('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 4) + ') > td:last').css({
 				'background-image': '-moz-linear-gradient(left, #CCCCCC ' + doperc + ', #F0F0F0 ' + doperc + ')'
-			})
+			});
 
 			// add color to rank progress
 			if (famname == ownfam.toLowerCase()) {
 				var rankperc = $('table.thinline:eq(0) > tbody > tr:last > td:last').text().split(' (')[1].replace(')', '');
 				$('table.thinline:eq(0) > tbody > tr:last > td:last').css({
 					'background-image': '-moz-linear-gradient(left, #CCCCCC ' + rankperc + ', #F0F0F0 ' + rankperc + ')'
-				})
+				});
 			}
 
 			// get tops
@@ -670,7 +670,7 @@ if (document.getElementById('game_container') !== null) {
 										title: 'View full deathslog'
 									})
 								)
-							).appendTo($('table.thinline:eq(2)>tbody>tr:eq(0)>td'))
+							).appendTo($('table.thinline:eq(2)>tbody>tr:eq(0)>td'));
 						}
 
 						var deaths_body = $('table.thinline:eq(2)').find('tbody');
@@ -725,7 +725,7 @@ if (document.getElementById('game_container') !== null) {
 										title: 'View full changelog'
 									})
 								)
-							).appendTo($('table.thinline:eq(3)>tbody>tr:eq(0)>td'))
+							).appendTo($('table.thinline:eq(3)>tbody>tr:eq(0)>td'));
 						}
 
 						var changes_body = $('table.thinline:eq(3)').find('tbody');
@@ -767,12 +767,12 @@ if (document.getElementById('game_container') !== null) {
 					var tr = $('<tr>').attr({id: 'interestRow'}).append(
 						$('<td>').html('<b>Interest</b>'),
 						$('<td>').html('<a href="/bank.php">$ '+commafy(interest)+'</a> (<span data-timeleft="'+left+'">Now!</span>)')
-					)
-					$('.thinline:eq(4)').append(tr)
+					);
+					$('.thinline:eq(4)').append(tr);
 				}
 			}
 			// Visual improvement
-			$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>')
+			$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
@@ -789,7 +789,7 @@ if (document.getElementById('game_container') !== null) {
 
 			var rows = $('tr[bgcolor]').length;
 			// Build new row on top
-			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'))
+			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'));
 			// Loop inmates
 			$('tr[bgcolor]').each(function () {
 				// Skip nobust
@@ -799,7 +799,7 @@ if (document.getElementById('game_container') !== null) {
 					var name = $(this).find('td:eq(0) > font > a > font').text().toLowerCase();
 					if((fam.length > 0 && $.inArray(fam, nobust) != -1) || $.inArray(name, nobust) != -1) {
 						if($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
-							$(this).find('td').css('text-decoration', 'line-through')
+							$(this).find('td').css('text-decoration', 'line-through');
 							return;
 						}
 					}
@@ -813,8 +813,8 @@ if (document.getElementById('game_container') !== null) {
 					}
 					if(getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
 						// get custom groups
-						var cg = getV('custom_groups', '').split('|')
-						cg.pop()
+						var cg = getV('custom_groups', '').split('|');
+						cg.pop();
 						for(var i = 0;i<cg.length;i++) {
 							var g = cg[i].split(':');
 							if(g[1] == $(this).attr('bgcolor')) {
@@ -829,8 +829,8 @@ if (document.getElementById('game_container') !== null) {
 							$(this).attr('priority', jailHL_other_lackey); // other lackeys
 						} else if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
 							// get custom groups
-							var cg = getV('custom_groups', '').split('|')
-							cg.pop()
+							var cg = getV('custom_groups', '').split('|');
+							cg.pop();
 							for(var i = 0;i<cg.length;i++) {
 								var g = cg[i].split(':');
 								if(g[1] == $(this).attr('bgcolor')) {
@@ -853,8 +853,8 @@ if (document.getElementById('game_container') !== null) {
 							$(this).attr('priority', jailHL_other_lackey); // other lackeys
 						} else if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
 							// get custom groups
-							var cg = getV('custom_groups', '').split('|')
-							cg.pop()
+							var cg = getV('custom_groups', '').split('|');
+							cg.pop();
 							for(var i = 0;i<cg.length;i++) {
 								var g = cg[i].split(':');
 								if(g[1] == $(this).attr('bgcolor')) {
@@ -875,10 +875,10 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}).click(function () {
 				// Add selected on top
-				$('#HLrow').html($(this).html())
-				$('#HLrow').css('background-color', $(this).attr('bgcolor'))
-				$(this).find('input[name="bust"]').attr('checked', true)
-				$('input[name="ver"]').focus()
+				$('#HLrow').html($(this).html());
+				$('#HLrow').css('background-color', $(this).attr('bgcolor'));
+				$(this).find('input[name="bust"]').attr('checked', true);
+				$('input[name="ver"]').focus();
 			});
 			// Loop inmates again for selection
 			var prior = null;
@@ -890,9 +890,9 @@ if (document.getElementById('game_container') !== null) {
 					}
 					if (priority <= prior || !prior) {
 						prior = priority; // changes highest priority
-						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
-						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
-						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
+						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html());
+						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'));
+						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true);
 					}
 				}
 			} else if(jailHL_sel == 'random') {
@@ -905,12 +905,12 @@ if (document.getElementById('game_container') !== null) {
 						prior = priority;
 					}
 				}
-				var priolen = $('tr[priority="'+prior+'"]').length
+				var priolen = $('tr[priority="'+prior+'"]').length;
 				if(priolen>0) {
-					var priowho = rand(0, (priolen-1))
-					$('#HLrow').html($('tr[priority="'+prior+'"]:eq('+priowho+')').html())
-					$('#HLrow').css('background-color', $('tr[priority="'+prior+'"]:eq('+priowho+')').attr('bgcolor'))
-					$('tr[priority="'+prior+'"]:eq('+priowho+')').find('input[name="bust"]').attr('checked', true)
+					var priowho = rand(0, (priolen-1));
+					$('#HLrow').html($('tr[priority="'+prior+'"]:eq('+priowho+')').html());
+					$('#HLrow').css('background-color', $('tr[priority="'+prior+'"]:eq('+priowho+')').attr('bgcolor'));
+					$('tr[priority="'+prior+'"]:eq('+priowho+')').find('input[name="bust"]').attr('checked', true);
 				}
 			} else {
 				for (i = rows; i >= 0; i--) {
@@ -920,13 +920,13 @@ if (document.getElementById('game_container') !== null) {
 					}
 					if (priority <= prior || !prior) {
 						prior = priority; // changes highest priority
-						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html())
-						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'))
-						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true)
+						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html());
+						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'));
+						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true);
 					}
 				}
 			}
-			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false)
+			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false);
 			// Add successful BO to total
 			if ($('#game_container:contains(You busted this person)').length) {
 				if($('#game_container:contains(cellmate out of jail)').length) {
@@ -940,9 +940,9 @@ if (document.getElementById('game_container') !== null) {
 				$('<span>').text('In jail: ' + rows),
 				$('<br />'),
 				$('<span>').text('Bustouts: ' + bos)
-			)
+			);
 			// Focus on code field
-			$('input[name="ver"]').focus()
+			$('input[name="ver"]').focus();
 		}
 		// Shit we're busted!
 		if (on_page('/jail.php') && nn == 'table') {
@@ -957,7 +957,7 @@ if (document.getElementById('game_container') !== null) {
 					if($('#game_container span').attr('data-timeleft') == -1) {
 						unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 					}
-				})
+				});
 			}
 		}
 		// Save omerta jail settings
@@ -965,8 +965,8 @@ if (document.getElementById('game_container') !== null) {
 			// check if already saved
 			if($('form[name="jailcolours"]').attr('saving')!= 'done') {
 				// save omerta defaults
-				setV('friends_colour', $('select[name="friends_colour_select"]').val())
-				setV('fam_colour', $('select[name="fam_colour_select"]').val())
+				setV('friends_colour', $('select[name="friends_colour_select"]').val());
+				setV('fam_colour', $('select[name="fam_colour_select"]').val());
 				// cycle custom groups
 				var i = 1;
 				var custom_groups = '';
@@ -975,11 +975,11 @@ if (document.getElementById('game_container') !== null) {
 					var group_colour = $(this).find('select[name="editgroup_colour_select'+i+'"]').find('option:eq(0)').val();
 					custom_groups = custom_groups+group_name+':'+group_colour+'|';
 					i++;
-				})
+				});
 				// save custom groups
 				setV('custom_groups', custom_groups);
 
-				$('form[name="jailcolours"]').attr('saving', 'done')
+				$('form[name="jailcolours"]').attr('saving', 'done');
 			}
 		}
 		//---------------- 1-click voter ----------------
@@ -1042,7 +1042,7 @@ if (document.getElementById('game_container') !== null) {
 			$('select[name="gun"]').val('real');
 			if (GetParam('driver')) {
 				var dr = GetParam('driver');
-				$('input[name="driver"]').val(dr)
+				$('input[name="driver"]').val(dr);
 				$('input[type="submit"]').focus();
 			} else {
 				$('input[name="driver"]').focus();
@@ -1079,7 +1079,7 @@ if (document.getElementById('game_container') !== null) {
 			$('input[name="bullets"]').val('200');
 			if (GetParam('driver')) {
 				var dr = GetParam('driver');
-				$('input[name="driver"]').val(dr)
+				$('input[name="driver"]').val(dr);
 			} else {
 				$('input[name="driver"]').focus;
 			}
@@ -1111,7 +1111,7 @@ if (document.getElementById('game_container') !== null) {
 								src: GM_getResourceURL('delete'),
 								title: 'Delete'
 							}).click(function () {
-								delMsg('id', id)
+								delMsg('id', id);
 							})
 						);
 					} else {
@@ -1120,7 +1120,7 @@ if (document.getElementById('game_container') !== null) {
 								src: GM_getResourceURL('delete'),
 								title: 'Delete'
 							}).click(function () {
-								delMsg('id', id)
+								delMsg('id', id);
 							})
 						);
 					}
@@ -1350,9 +1350,9 @@ if (document.getElementById('game_container') !== null) {
 				}, 0);
 
 				// Interest reminder
-				var seconds = parseInt($('table.thinline:eq(1) tbody span').attr('data-timeleft'),10)
+				var seconds = parseInt($('table.thinline:eq(1) tbody span').attr('data-timeleft'),10);
 				setTimeout(function () {
-					setV('banktleft', (time() + seconds))
+					setV('banktleft', (time() + seconds));
 				}, 0);
 			}
 			// Calculators
@@ -1789,7 +1789,7 @@ if (document.getElementById('game_container') !== null) {
 						mils += 1;
 						setV('mils', mils);
 					}
-					$('input[name="scratch"]').focus()
+					$('input[name="scratch"]').focus();
 				}
 			}
 			if ($('#game_container:contains(Start scratching)').length) { // grab scratching event
@@ -1802,9 +1802,9 @@ if (document.getElementById('game_container') !== null) {
 				}
 			} else {
 				if ($('input[name="codescratch"]').length) { // focus on unclaimed prices
-					$('input[type="submit"]:eq(1)').focus()
+					$('input[type="submit"]:eq(1)').focus();
 				} else { // focus on scratch
-					$('input[name="scratch"]').focus()
+					$('input[name="scratch"]').focus();
 				}
 			}
 
@@ -1999,41 +1999,41 @@ if (document.getElementById('game_container') !== null) {
 				tr--;
 			}
 
-			var wlth = $('#wealth').attr('value')
+			var wlth = $('#wealth').attr('value');
 
 			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'],
 				i = 1;
 			var wealth = (v == 'nl' ? ['Sloeber', 'Arm', 'Modaal', 'Erg rijk', 'Te rijk om waar te zijn', 'Rijker dan God', 'Rijk'] : ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich']);
 			var a = wealth.indexOf(wlth);
 
-			$('#wealth').text(wlth + kind[a])
+			$('#wealth').text(wlth + kind[a]);
 
 			// Race form
-			var rf = $('#raceform').attr('value')
+			var rf = $('#raceform').attr('value');
 			var driver = (v == 'nl' ? ['Brokkenpiloot', 'Wegpiraat', 'Nieuwkomer', 'Waaghals', 'Beginner', 'Taxirijder', 'Talent', 'Professional', 'Coureur', 'Racemonster', 'Wereldkampioen'] : ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion']);
 			var a = driver.indexOf(rf);
 			$('#raceform').text((a + 1) + ' - ' + rf);
 
 			// Bust ranks
-			var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').attr('value') // until span id is changed
-			
-			// Hack for people that have disabled any fields on their profile, the variable returns 'undefined' if people disable certain fields		
+			var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').attr('value'); // until span id is changed
+
+			// Hack for people that have disabled any fields on their profile, the variable returns 'undefined' if people disable certain fields
 			if (typeof bustrank === "undefined") {
-				var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value') // until span id is changed
+				var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value'); // until span id is changed
 				var var_undefined = 1;
 			}
-			
+
 			var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
 			i = 1;
 			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s assistent', 'Gevorderde', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
-		
+
 			var a = brank.indexOf(bustrank);
 
 			if (typeof(var_undefined) != "undefined" && var_undefined !== null){
-				$('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').text(bustrank + amount[a]) // until span id is changed
-			} 
+				$('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').text(bustrank + amount[a]); // until span id is changed
+			}
 			else {
-				$('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').text(bustrank + amount[a]) // until span id is changed
+				$('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').text(bustrank + amount[a]); // until span id is changed
 			}
 
 			// Actions
@@ -2046,7 +2046,7 @@ if (document.getElementById('game_container') !== null) {
 						'align': 'center'
 					}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver=' + unick + '">Heist</a> | <a href="' + document.location.protocol + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Spots&driver=' + unick + '">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives?search=' + unick + '">Hire Detectives</a>')
 				)
-			)
+			);
 			var historyLink = null;
 			if (v == 'com' || v == 'nl') {
 				historyLink = $('<span>').text('View History').css('cursor', 'pointer').click(function () {
@@ -2062,14 +2062,14 @@ if (document.getElementById('game_container') !== null) {
 					historyLink,
 					$('<span>').text(' | '),
 					$('<span>').text('Actions').css('cursor', 'pointer').click(function () {
-						$('#actions').toggle()
+						$('#actions').toggle();
 					})
-				)
+				);
 			} else {
 				$('td.tableheader').append(
 					$('<span>').text(' | '),
 					historyLink
-				)
+				);
 			}
 			if (parseInt(getPow('bninfo', 4, -1), 10) === 3 && inFam === 'None') {
 				$('#actions').html($('#actions').html() + ' | <a href="/BeO/webroot/index.php?module=Family&who=' + unick + '">Invite to Family</a>');
@@ -2164,7 +2164,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 				$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
 					$('<span>').text('total value: $'+commafy(totalCarval))
-				)
+				);
 			}
 			// Sluggs
 			if (on_page('type=6') && nn == 'div') {
@@ -2182,15 +2182,15 @@ if (document.getElementById('game_container') !== null) {
 				$(logpath).each(function () {
 					// show price per bullet when Sluggs bought
 					 // Let's see if we can put the regexes in a variable, makes it easier to edit/match them
-					
+
 					var sluggs_bought_match_nl = /Sluggs kocht (\d+) kogels voor \$(\d+)/;
 					var sluggs_bought_match_com = /Sluggs bought (\d+) bullets for \$(\d+)/;
-					
-					if (v == 'nl'){ 
+
+					if (v == 'nl'){
 						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl) && x != logpath.length) {
 							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl);
 							var ppb = Math.round(r[2] / r[1]);
-							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)')
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)');
 						}
 						++x;
 					}
@@ -2198,7 +2198,7 @@ if (document.getElementById('game_container') !== null) {
 						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_com) && x != logpath.length) {
 							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_com);
 							var ppb = Math.round(r[2] / r[1]);
-							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)')
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)');
 						}
 						++x;
 					}
@@ -2210,10 +2210,10 @@ if (document.getElementById('game_container') !== null) {
 					sluggsHideLaughing = hide;
 					x = 0;
 					$(logpath).each(function () {
-						
+
 						var sluggs_laughs_match_nl = /Sluggs lacht om je lage limiet/;
 						var sluggs_laughs_match_com = /Sluggs is laughing at your measly limit/;
-						
+
 						if (v == 'nl'){
 							if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().match(sluggs_laughs_match_nl) && x != logpath.length) {
 								if (hide) {
@@ -2251,7 +2251,7 @@ if (document.getElementById('game_container') !== null) {
 						}),
 						$('<label />').attr('for', 'cb').text(hide_text)
 					)
-				)
+				);
 				if (sluggsHideLaughing === 'true') {
 					$('#cb').prop('checked', true);
 					hideLaughing(true);
@@ -2481,7 +2481,7 @@ if (document.getElementById('game_container') !== null) {
 							$('<td>').html('&nbsp; Profit'),
 							$('<td>').html('&nbsp;')
 						)
-					)
+					);
 					// add city rows with individual profits
 					for (allProfits = [], bestBN = [], i = 0; i <= 7; i++) {
 						var tr = $('<tr>').attr('id', '2row' + (i + 2));
@@ -2489,7 +2489,7 @@ if (document.getElementById('game_container') !== null) {
 							$(this).css('backgroundColor', '#888');
 						}, function (event) {
 							$(this).css('backgroundColor', '#F0F0F0');
-						})
+						});
 
 						var td = $('<td>').attr('colspan', '5').css({
 							'border-bottom': '1px solid #000',
@@ -2499,13 +2499,13 @@ if (document.getElementById('game_container') !== null) {
 						//--Calc profits
 						if (i == city - 4) { // This is the current city
 							td.css('text-align', 'center');
-							td.html('<i>You are in ' + cities[i] + '</i>')
+							td.html('<i>You are in ' + cities[i] + '</i>');
 							tr.append(td);
 							allProfits.push(0);
 							bestBN.push([0, 0]);
 						} else if (plane == 0 && (((city == 6 || city == 11) && (i + 4) != 6 && (i + 4) != 11) || ((city != 6 && city != 11) && ((i + 4) == 6 || (i + 4) == 11)))) { // No plane to travel there
 							td.css('text-align', 'center');
-							td.html('<i>You can\'t fly to ' + cities[i] + '</i>')
+							td.html('<i>You can\'t fly to ' + cities[i] + '</i>');
 							tr.append(td);
 							allProfits.push(0);
 							bestBN.push([0, 0]);
@@ -2557,7 +2557,7 @@ if (document.getElementById('game_container') !== null) {
 								td.html('<i>You won\'t make any profit in ' + cities[i] + '</i>');
 								tr.append(td);
 							} else { // profit \o/
-								td.html('&nbsp;' + cities[i])
+								td.html('&nbsp;' + cities[i]);
 								td.attr('colspan', '1');
 								tr.append(td);
 								tr.append(
@@ -2573,7 +2573,7 @@ if (document.getElementById('game_container') !== null) {
 										'border-left': '1px solid #000',
 										'border-bottom': '1px solid #000'
 									}).html('&nbsp; $' + commafy(totalProfit))
-								)
+								);
 
 								if (on_page('smuggling.php') && nn == 'center') { // we need JS links @ smuggling and don't want to waste clicks
 									key = [0, 4, 6, 1, 2, 3, 5]; // convert b/n - bot prices order to smuggling order
@@ -2594,10 +2594,10 @@ if (document.getElementById('game_container') !== null) {
 												'text-align': 'center',
 												'cursor': 'pointer'
 											}).text('Go!').click(function () {
-												fillBRC(parseInt($(this).attr('n'), 10), parseInt($(this).attr('b'), 10), 0)
+												fillBRC(parseInt($(this).attr('n'), 10), parseInt($(this).attr('b'), 10), 0);
 											})
 										)
-									)
+									);
 								} else { // we need to GET to smuggling too
 									tr.append(
 										$('<td>').css({
@@ -2613,7 +2613,7 @@ if (document.getElementById('game_container') !== null) {
 												'cursor': 'pointer'
 											}).text('Go!')
 										)
-									)
+									);
 								}
 							}
 						}
@@ -2629,7 +2629,7 @@ if (document.getElementById('game_container') !== null) {
 									'font-size': '10px'
 								}).text('Lex Level: ' + parseInt((lex - 1) * 100, 10) + ' - Seen ' + ((d.getDay() != lexDay) ? '1 Day ago' : d.getHours() - lexHour + ' Hours ago'))
 							)
-						)
+						);
 					}
 					// add table to page
 					if (on_page('prices.php') && nn == 'center') {
@@ -2637,14 +2637,14 @@ if (document.getElementById('game_container') !== null) {
 							$('#game_container').append(
 								$('<br />'),
 								table
-							)
+							);
 						}
 					} else {
 						if ($('#brc').length == 0) {
 							$('#game_container').append(
 								$('<br />'),
 								table
-							)
+							);
 						}
 					}
 					// bold-ify Best Run
@@ -2853,7 +2853,7 @@ if (document.getElementById('game_container') !== null) {
 										title: 'Don\'t fill anything (Hotkey: - )'
 									}).text('None: (-)')
 								)
-							)
+							);
 						}
 						if ((sets['af_position'] || 'floating') == 'floating') {
 							$(function () {
@@ -2896,7 +2896,7 @@ if (document.getElementById('game_container') !== null) {
 									acceskey: '='
 								}).css('cursor', 'pointer').text('Sell All'),
 								$('<br />')
-							)
+							);
 						}
 						$('#do_n').click(function () {
 							AF(getV('brcAF', 0), 0, 1);
@@ -2923,7 +2923,7 @@ if (document.getElementById('game_container') !== null) {
 				if ($('#info').length == 0) {
 					$('#game_container').append(
 						$('<div>').attr('id', 'info').css('display', 'none').text(narc + '*' + booze + '*' + city + '*' + plane + '*' + fam + '*' + getV('brcAF', 0) + '*' + lex + '*' + lexHour + '*' + lexDay)
-					)
+					);
 				}
 
 				// get all prices
@@ -2985,7 +2985,7 @@ if (document.getElementById('game_container') !== null) {
 								}, function (event) {
 									$(this).css('backgroundColor', '#F0F0F0');
 									$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', '#F0F0F0');
-								})
+								});
 							}
 
 							item = $('center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ') > td:eq(' + (j + 1) + ')');
@@ -3061,9 +3061,9 @@ if (document.getElementById('game_container') !== null) {
 				for (var i = 0; i <= 13; i++) { // add click to fill stuff and hotkeys
 					if (i < 7 && !lbooze) { // booze
 						var x = i + 3;
-						var bname = $(xpb + x + ') > td:eq(0)').text()
+						var bname = $(xpb + x + ') > td:eq(0)').text();
 						b_amount[i] = parseInt($(xpb + x + ') > td:eq(2)').html(), 10); // define how much of this item is being carried
-						$(xpb + x + ') > td:eq(0)').empty()
+						$(xpb + x + ') > td:eq(0)').empty();
 						$(xpb + x + ') > td:eq(0)').append(
 							$('<span>').attr({
 								id: 'bh' + i,
@@ -3072,7 +3072,7 @@ if (document.getElementById('game_container') !== null) {
 								title: 'Fill in this booze (Hotkey: ' + (i + 1) + ')'
 							}).css('cursor', 'pointer').text((i + 1) + ' ' + bname).click(function () {
 								var i = parseInt($(this).attr('index'), 10);
-								var inpt = $('input[type="text"]')
+								var inpt = $('input[type="text"]');
 								for (var j = 0; j <= 6; j++) { // reset form
 									if (j != i) {
 										inpt[j + 1].value = 0;
@@ -3091,44 +3091,44 @@ if (document.getElementById('game_container') !== null) {
 								} else if (b_amount[i] == booze) {
 									if (value == 0) {
 										inpt[(i + 1)].value = booze;
-										$('input[type="radio"]:eq(0)').prop('checked', true)
+										$('input[type="radio"]:eq(0)').prop('checked', true);
 									} else {
 										inpt[(i + 1)].value = 0;
 									}
 								} else if (b_amount[i] < booze && total < booze) {
 									if (value == 0) {
 										inpt[(i + 1)].value = missing;
-										$('input[type="radio"]:eq(1)').prop('checked', true)
+										$('input[type="radio"]:eq(1)').prop('checked', true);
 									} else if (value == missing) {
 										inpt[(i + 1)].value = b_amount[i];
-										$('input[type="radio"]:eq(0)').prop('checked', true)
+										$('input[type="radio"]:eq(0)').prop('checked', true);
 									} else {
 										inpt[(i + 1)].value = 0;
 									}
 								} else if (n_amount[i - 9] > booze) {
 									if (value == 0) {
 										inpt[(i + 1)].value = b_amount[i];
-										$('input[type="radio"]:eq(0)').prop('checked', true)
+										$('input[type="radio"]:eq(0)').prop('checked', true);
 									} else {
 										inpt[(i + 1)].value = 0;
 									}
 								} else if (b_amount[i] < booze && total > booze) {
 									if (value == 0) {
 										inpt[(i + 1)].value = b_amount[i];
-										$('input[type="radio"]:eq(0)').prop('checked', true)
+										$('input[type="radio"]:eq(0)').prop('checked', true);
 									} else {
 										inpt[(i + 1)].value = 0;
 									}
 								}
 								$('input#ver').focus();
 							})
-						)
+						);
 					}
 					if (i > 6 && !lnarcs) { // narcs
 						var x = i - 4;
-						var nname = $(xpn + x + ') > td:eq(0)').text()
+						var nname = $(xpn + x + ') > td:eq(0)').text();
 						n_amount[(i - 7)] = parseInt($(xpn + x + ') > td:eq(2)').html(), 10); // define how much of this item is being carried
-						$(xpn + x + ') > td:eq(0)').empty()
+						$(xpn + x + ') > td:eq(0)').empty();
 						$(xpn + x + ') > td:eq(0)').append(
 							$('<span>').attr({
 								id: 'nh' + i,
@@ -3156,11 +3156,11 @@ if (document.getElementById('game_container') !== null) {
 								if (n_amount[i - 7] == 0 && total < narcs) {
 									if (value == 0) {
 										if (lbooze) {
-											inpt[i - 6].value = narcs
+											inpt[i - 6].value = narcs;
 											$('input[type="radio"]:eq(1)').prop('checked', true);
 										} else {
 											inpt[(i + 1)].value = narcs;
-											$('input[type="radio"]:eq(3)').prop('checked', true)
+											$('input[type="radio"]:eq(3)').prop('checked', true);
 										}
 									} else {
 										inpt[(i + 1)].value = 0;
@@ -3169,10 +3169,10 @@ if (document.getElementById('game_container') !== null) {
 									if (value == 0) {
 										if (lbooze) {
 											inpt[i - 6].value = narcs;
-											$('input[type="radio"]:eq(0)').prop('checked', true)
+											$('input[type="radio"]:eq(0)').prop('checked', true);
 										} else {
 											inpt[(i + 1)].value = narcs;
-											$('input[type="radio"]:eq(2)').prop('checked', true)
+											$('input[type="radio"]:eq(2)').prop('checked', true);
 										}
 									} else {
 										inpt[(i + 1)].value = 0;
@@ -3181,18 +3181,18 @@ if (document.getElementById('game_container') !== null) {
 									if (value == 0) {
 										if (lbooze) {
 											inpt[i - 6].value = missing;
-											$('input[type="radio"]:eq(1)').prop('checked', true)
+											$('input[type="radio"]:eq(1)').prop('checked', true);
 										} else {
 											inpt[(i + 1)].value = missing;
-											$('input[type="radio"]:eq(3)').prop('checked', true)
+											$('input[type="radio"]:eq(3)').prop('checked', true);
 										}
 									} else if (value == missing) {
 										if (lbooze) {
 											inpt[i - 6].value = n_amount[i - 7];
-											$('input[type="radio"]:eq(0)').prop('checked', true)
+											$('input[type="radio"]:eq(0)').prop('checked', true);
 										} else {
 											inpt[(i + 1)].value = n_amount[i - 7];
-											$('input[type="radio"]:eq(3)').prop('checked', true)
+											$('input[type="radio"]:eq(3)').prop('checked', true);
 										}
 									} else {
 										inpt[(i + 1)].value = 0;
@@ -3201,10 +3201,10 @@ if (document.getElementById('game_container') !== null) {
 									if (value == 0) {
 										if (lbooze) {
 											inpt[i - 6].value = n_amount[i - 7];
-											$('input[type="radio"]:eq(0)').prop('checked', true)
+											$('input[type="radio"]:eq(0)').prop('checked', true);
 										} else {
 											inpt[(i + 1)].value = n_amount[i - 7];
-											$('input[type="radio"]:eq(3)').prop('checked', true)
+											$('input[type="radio"]:eq(3)').prop('checked', true);
 										}
 									} else {
 										inpt[(i + 1)].value = 0;
@@ -3213,10 +3213,10 @@ if (document.getElementById('game_container') !== null) {
 									if (value == 0) {
 										if (lbooze) {
 											inpt[i - 6].value = n_amount[i - 7];
-											$('input[type="radio"]:eq(0)').prop('checked', true)
+											$('input[type="radio"]:eq(0)').prop('checked', true);
 										} else {
 											inpt[(i + 1)].value = n_amount[i - 7];
-											$('input[type="radio"]:eq(2)').prop('checked', true)
+											$('input[type="radio"]:eq(2)').prop('checked', true);
 										}
 									} else {
 										inpt[(i + 1)].value = 0;
@@ -3224,7 +3224,7 @@ if (document.getElementById('game_container') !== null) {
 								}
 								$('input#ver').focus();
 							})
-						)
+						);
 					}
 				}
 			}
@@ -3243,19 +3243,19 @@ if (document.getElementById('game_container') !== null) {
 				$('form > table > tbody > tr:eq(1) > td:eq(1)').prepend(
 					$('<br />'),
 					$('<br />')
-				)
+				);
 				$('table.thinline:eq(1)').append(
 					$('<br />')
-				)
+				);
 			}
 			if (lbooze) {
 				$('form > table > tbody > tr:eq(1) > td:eq(0)').prepend(
 					$('<br />'),
 					$('<br />')
-				)
+				);
 				$('table.thinline:eq(0)').append(
 					$('<br />')
-				)
+				);
 			}
 
 			// create more efficient info text
@@ -3266,7 +3266,7 @@ if (document.getElementById('game_container') !== null) {
 					href: 'prices.php',
 					target: 'main'
 				}).text('Current Booze/Narcotics Prices')
-			)
+			);
 			if (!lboth) {
 				$('input#ver').focus(); // focus captcha field
 			}
@@ -3291,7 +3291,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 			$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
 				$('<span>').text('total value: $'+commafy(totalCarval))
-			)
+			);
 		}
 		//---------------- Obay ----------------
 		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
@@ -3303,14 +3303,14 @@ if (document.getElementById('game_container') !== null) {
 						var bullets = parseInt($(this).find('td:eq(' + (2 - sort_b) + ')').text().replace(/[^0-9.]/g, ''), 10);
 						var money = parseInt($(this).find('td:eq(' + (3 - sort_b) + ')').text().replace(/[^0-9.]/g, ''), 10);
 						var ppb = parseInt(money / bullets, 10);
-						$(this).find('td:eq(' + (2 - sort_b) + ')').text($(this).find('td:eq(' + (2 - sort_b) + ')').text() + ' ($' + commafy(ppb) + ')')
+						$(this).find('td:eq(' + (2 - sort_b) + ')').text($(this).find('td:eq(' + (2 - sort_b) + ')').text() + ' ($' + commafy(ppb) + ')');
 					}
 				}
-			})
+			});
 		}
 		if (on_page('obay.php?specific=') && nn == 'center') {
 			$('input[name="anon"][value="0"]').prop('checked', 'checked');
-			$('input[type="submit"]').focus()
+			$('input[type="submit"]').focus();
 		}
 		//---------------- Garage ----------------
 		if (on_page('garage.php') && nn == 'h2') {
@@ -3331,32 +3331,32 @@ if (document.getElementById('game_container') !== null) {
 				$(this).click(function () {
 					var check = $(this).find('input[value="' + carid + '"]');
 					if (check.prop('checked') === false) {
-						check.prop('checked', true)
+						check.prop('checked', true);
 					} else {
-						check.prop('checked', false)
+						check.prop('checked', false);
 					}
-				})
+				});
 				$(this).find('input[value="' + carid + '"]').click(function () {
 					if ($(this).prop('checked') === false) {
-						$(this).prop('checked', true)
+						$(this).prop('checked', true);
 					} else {
-						$(this).prop('checked', false)
+						$(this).prop('checked', false);
 					}
-				})
-			})
+				});
+			});
 			// add amount of bullets
 			var head = $('h2');
 			var cars = head.text().match(/\d+/g)[2];
 			if (cars > 0) {
 				head.append(
 					$('<span>').text(' | Potential Bullets: ' + cars * 12)
-				)
+				);
 			}
 			// add amount of money
 			if (totVal > 0) {
 				head.append(
 					$('<span>').text(' | Total car value of this page: $' + commafy(totVal))
-				)
+				);
 			}
 			// scrolldown link
 			$('<div>').css({
@@ -3368,7 +3368,7 @@ if (document.getElementById('game_container') !== null) {
 						scrollTop: $('#game_wrapper_master').height()
 					}, 1000);
 				})
-			).insertBefore('table.thinline')
+			).insertBefore('table.thinline');
 			// show footer div only when last tr is not visible
 			$(window).scroll(function () {
 				if (isVisible($('tr:has(input[name="shipcity"])'))) {
@@ -3390,7 +3390,7 @@ if (document.getElementById('game_container') !== null) {
 						'width': '70%',
 						'color': '#000'
 					}).html($('tr:has(input[name="shipcity"])').html())
-				)
+				);
 			}
 			$('tr:has(input[name="shipcity"])>td').append(
 				$('<select>').attr({
@@ -3419,19 +3419,19 @@ if (document.getElementById('game_container') !== null) {
 							var check = $(this).find('input[value="' + carid + '"]');
 							var comment = $(this).find('td:eq(6)').text().trim();
 							if (check.prop('checked') === true) {
-								check.prop('checked', false)
+								check.prop('checked', false);
 							}
 							if ((carVal > val && sort == 1) || (carVal < val && sort == 2)) {
 								if (comment.indexOf('IN SAFEHOUSE') !== -1){
 									check.prop('checked', false);
 								} else {
-									check.prop('checked', true)
+									check.prop('checked', true);
 								}
 							}
-						})
+						});
 					}
 				})
-			)
+			);
 		}
 		//---------------- Kill page ----------------
 		if (on_page('module=Detectives') && nn == 'div') {
@@ -3559,7 +3559,7 @@ if (document.getElementById('game_container') !== null) {
 		//---------------- Bodyguards ----------------
 		if (on_page('module=Bodyguards') && nn == 'div') {
 			// Hide bio
-			$('div[id$="BoughtBG"]').css('display', 'none')
+			$('div[id$="BoughtBG"]').css('display', 'none');
 		}
 		//---------------- Raid Result @ Statistics and Spots ----------------
 		if (on_page('global_stats') || on_page('module=Spots')) {
@@ -3644,21 +3644,21 @@ $('#game_container').on("DOMNodeInserted",function(event){
 				var bos = parseInt(getV('bustouts', 0), 10);
 				bos = (bos + 1);
 				setV('bustouts', bos);
-				$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
 		}
 		// Return when busted
 		if ($('#game_container:contains(You are not in jail!)').length) {
 			if(!$('#bo_fired').length) {
-				$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
 		}
 		// Return when bought out
 		if ($('#game_container:contains(You bought yourself out)').length) {
 			if(!$('#bo_fired').length && nn != 'b') {
-				$('#game_container').append($('<span>').attr('id', 'bo_fired'))
+				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
 		}
@@ -3739,7 +3739,7 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 						$('#hiddenbox').css({
 							display: 'inline',
 							left: x
-						}).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city))
+						}).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city));
 					}
 
 					function flytolink(city, priceStr, priceToFly, cityId) {
@@ -3761,22 +3761,22 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 						if (city == 5 || city == 6 || city == 7) {
 							link.mouseover(function (event) {
 								hovermenu(city, event.clientX - 560);
-								$(this).css('textDecoration', 'underline')
+								$(this).css('textDecoration', 'underline');
 							});
 						} else if (city == 0 || city == 1 || city == 2) {
 							link.mouseover(function (event) {
 								hovermenu(city, event.clientX + 25);
-								$(this).css('textDecoration', 'underline')
+								$(this).css('textDecoration', 'underline');
 							});
 						} else {
 							link.mouseover(function (event) {
 								hovermenu(city, event.clientX - 200);
-								$(this).css('textDecoration', 'underline')
+								$(this).css('textDecoration', 'underline');
 							});
 						}
 						link.mouseout(function (event) {
 							$('#hiddenbox').css('display', 'none');
-							$(this).css('textDecoration', 'none')
+							$(this).css('textDecoration', 'none');
 						});
 						link.html(priceStr);
 
@@ -3785,12 +3785,12 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 
 					var span = $('<span>').append(
 						$('<span>').text(time + ': ').css('font-size', '10px')
-					)
+					);
 
 					i = 0;
 					p.forEach(function ($n) {
-						span.css('color', '#FFF')
-						span.append(flytolink(i, cities[i] + ':' + q[i], 500, i), $('<span>').text(' | '))
+						span.css('color', '#FFF');
+						span.append(flytolink(i, cities[i] + ':' + q[i], 500, i), $('<span>').text(' | '));
 						i++;
 					});
 
@@ -3802,13 +3802,13 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 							color: '#FFF',
 							fontSize: '10px'
 						}).hover(function () {
-							$(this).css('textDecoration', 'underline')
+							$(this).css('textDecoration', 'underline');
 						}, function () {
-							$(this).css('textDecoration', 'none')
+							$(this).css('textDecoration', 'none');
 						})
-					)
+					);
 
-					$('#marquee').html(span)
+					$('#marquee').html(span);
 					setTimeout(buildMarquee, refreshMarquee(new Date().getHours(), new Date().getMinutes()));
 				}
 			});
@@ -3824,14 +3824,14 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 			}),
 			$('<div>').attr('id', 'hiddenbox').addClass('marqueebox')
 		)
-	)
+	);
 
 	buildMarquee();
 
 	city = getPow('bninfo', 2, -1);
 	if (city > 0) {
 		city = cities[city - 4];
-		$('#' + city).css('font-style', 'italic')
+		$('#' + city).css('font-style', 'italic');
 	}
 });
 
@@ -3863,8 +3863,8 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			})
 		);
 
-		$('a.link:eq(2)').before(a)
-		$('a.link:eq(3)').before(div)
+		$('a.link:eq(2)').before(a);
+		$('a.link:eq(3)').before(div);
 
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
@@ -3878,7 +3878,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var bo_hotkey = sets['bo_hotkey'] || '/';
 		var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
 		var custom_groups = getV('custom_groups', '').split('|');
-		custom_groups.pop()
+		custom_groups.pop();
 		var nobust = getV('nobust', '').split(',');
 		var af_position = sets['af_position'] || 'floating';
 		setA('prefs', 'NR', 1);
@@ -3886,7 +3886,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		// Build custom groups prio settings
 		var c_group_div = null;
 		for (var i=0;i<custom_groups.length;i++) {
-			var group_name = custom_groups[i].split(':')[0]
+			var group_name = custom_groups[i].split(':')[0];
 			var group_prio = sets['jailHL_'+group_name] || (i+12);
 			var tr = $('<tr>').append(
 				$('<td>').text(group_name),
@@ -3916,7 +3916,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			setV('nobust', nobust);
 		}
 		// Build no bust list
-		var nobust_div = $('<div>').attr('id', 'nobust')
+		var nobust_div = $('<div>').attr('id', 'nobust');
 		for (var i=0;i<nobust.length;i++) {
 			if (nobust[i].length > 0) {
 				nobust_div.append(
@@ -3926,7 +3926,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						title: 'Delete'
 					}).click(deleteNoBustEntry),
 					$('<br>')
-				)
+				);
 			}
 		}
 		nobust_div.append(
@@ -3936,20 +3936,20 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			}),
 			$('<button>').text('Add').click(function() {
 				//let's not add empty entries
-				var newVal = $('#new_nobust').val()
+				var newVal = $('#new_nobust').val();
 				if (newVal.length > 0) {
 					$('<span>').attr({id: newVal}).text(newVal).insertBefore($('#new_nobust')),
 					$('<img />').addClass('inboxImg').attr({
 						src: GM_getResourceURL('delete'),
 						title: 'Delete'
 					}).click(deleteNoBustEntry).insertBefore($('#new_nobust')),
-					$('<br>').insertBefore($('#new_nobust'))
-					nobust.push(newVal)
+					$('<br>').insertBefore($('#new_nobust'));
+					nobust.push(newVal);
 					setV('nobust', nobust);
-					$('#new_nobust').val('')
+					$('#new_nobust').val('');
 				}
 			})
-		)
+		);
 
 		var prefs_page = $('<center>').attr({
 			id: 'prefsContainer'
@@ -4291,13 +4291,13 @@ if (getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !=
 		if (a[2]) { // fails on click limit or other error
 			$('#game_wrapper').append(
 				$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
-			)
+			);
 			bnUpdate(0); // call update function
 			$.get('/user.php?nick=' + getV('nick', ''), function (data) {
 				var a = data.split('<script');
 				$('#game_wrapper').append(
 					$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
-				)
+				);
 				if ($('#xhr').length) {
 					var role = 1; // default is in a family
 					var pos = $('span#position').attr('value');
@@ -4329,7 +4329,7 @@ if (getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !=
 // Reset on death
 if (window.location.search.indexOf('action=omertician') != -1) {
 	if (confirm('Do you want to reset all OB data?')) {
-		localStorage.clear()
+		localStorage.clear();
 	}
 }
 
