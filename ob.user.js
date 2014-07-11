@@ -8,73 +8,73 @@
  *
  * OmertaBeyond is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OmertaBeyond.  If not, see <http://www.gnu.org/licenses/>.
+ * along with OmertaBeyond.	 If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 // ==UserScript==
-// @name                     Omerta Beyond
-// @id                       Omerta Beyond
-// @version                  2.0.33
-// @date                     02-07-2014
-// @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
-// @homepageURL              http://www.omertabeyond.com/
-// @namespace                v4.omertabeyond.com
-// @updateURL                https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/ob.meta.js
-// @supportURL               https://github.com/OmertaBeyond/OBv2/issues
-// @icon                     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.small.png
-// @screenshot               https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.small.png
-// @author                   OBDev Team <info@omertabeyond.com>
-// @author                   vBm <vbm@omertabeyond.com>
-// @author                   Dopedog <dopedog@omertabeyond.com>
-// @author                   Rix <rix@omertabeyond.com>
-// @author                   MrWhite <mrwhite@omertabeyond.com>
-// @author                   MurderInc <murderinc@omertabeyond.com>
-// @oujs:author              vBm
-// @oujs:collaborator        Dopedog
-// @oujs:collaborator        Rix
-// @oujs:collaborator        MrWhite
-// @oujs:collaborator        MurderInc
-// @license                  GNU General Public License v3
-// @contributionURL          https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=sbanks%40omertabeyond%2ecom&lc=GB&item_name=Omerta%20Beyond&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
-// @contributionAmount       €3.00
-// @encoding                 UTF-8
-// @priority                 1
-// @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-// @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
-// @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
-// @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
-// @resource    logo         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
-// @resource    logo-old     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo-old.png
-// @resource    prev         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/prev.png
-// @resource    next         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/next.png
-// @resource    reply        https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/reply.png
-// @resource    delete       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/delete.png
-// @resource    log          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/changelog.png
-// @resource    rip          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/rip.png
-// @resource    red-star     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
-// @include                  http://*.barafranca.com/*
-// @include                  https://*.barafranca.com/*
-// @include                  http://barafranca.com/*
-// @include                  https://barafranca.com/*
-// @include                  http://*.barafranca.nl/*
-// @include                  https://*.barafranca.nl/*
-// @include                  http://barafranca.nl/*
-// @include                  https://barafranca.nl/*
-// @include                  http://*.barafranca.us/*
-// @include                  https://*.barafranca.us/*
-// @include                  http://barafranca.us/*
-// @include                  https://barafranca.us/*
-// @include                  http://*.barafranca.gen.tr/*
-// @include                  https://*.barafranca.gen.tr/*
-// @include                  http://barafranca.gen.tr/*
-// @include                  https://barafranca.gen.tr/*
-// @exclude                  http://*/game-register.php*
-// @exclude                  https://*/game-register.php*
+// @name					 Omerta Beyond
+// @id						 Omerta Beyond
+// @version					 2.0.33
+// @date					 02-07-2014
+// @description				 Omerta Beyond 2.0 (We're back to reclaim the throne ;))
+// @homepageURL				 http://www.omertabeyond.com/
+// @namespace				 v4.omertabeyond.com
+// @updateURL				 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/ob.meta.js
+// @supportURL				 https://github.com/OmertaBeyond/OBv2/issues
+// @icon					 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.small.png
+// @screenshot				 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.small.png
+// @author					 OBDev Team <info@omertabeyond.com>
+// @author					 vBm <vbm@omertabeyond.com>
+// @author					 Dopedog <dopedog@omertabeyond.com>
+// @author					 Rix <rix@omertabeyond.com>
+// @author					 MrWhite <mrwhite@omertabeyond.com>
+// @author					 MurderInc <murderinc@omertabeyond.com>
+// @oujs:author				 vBm
+// @oujs:collaborator		 Dopedog
+// @oujs:collaborator		 Rix
+// @oujs:collaborator		 MrWhite
+// @oujs:collaborator		 MurderInc
+// @license					 GNU General Public License v3
+// @contributionURL			 https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=sbanks%40omertabeyond%2ecom&lc=GB&item_name=Omerta%20Beyond&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
+// @contributionAmount		 €3.00
+// @encoding				 UTF-8
+// @priority				 1
+// @require					 https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+// @require					 https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
+// @resource	css			 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
+// @resource	favicon		 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
+// @resource	logo		 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
+// @resource	logo-old	 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo-old.png
+// @resource	prev		 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/prev.png
+// @resource	next		 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/next.png
+// @resource	reply		 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/reply.png
+// @resource	delete		 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/delete.png
+// @resource	log			 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/changelog.png
+// @resource	rip			 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/rip.png
+// @resource	red-star	 https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
+// @include					 http://*.barafranca.com/*
+// @include					 https://*.barafranca.com/*
+// @include					 http://barafranca.com/*
+// @include					 https://barafranca.com/*
+// @include					 http://*.barafranca.nl/*
+// @include					 https://*.barafranca.nl/*
+// @include					 http://barafranca.nl/*
+// @include					 https://barafranca.nl/*
+// @include					 http://*.barafranca.us/*
+// @include					 https://*.barafranca.us/*
+// @include					 http://barafranca.us/*
+// @include					 https://barafranca.us/*
+// @include					 http://*.barafranca.gen.tr/*
+// @include					 https://*.barafranca.gen.tr/*
+// @include					 http://barafranca.gen.tr/*
+// @include					 https://barafranca.gen.tr/*
+// @exclude					 http://*/game-register.php*
+// @exclude					 https://*/game-register.php*
 // ==/UserScript==
 
 /*
@@ -274,7 +274,7 @@ function bnUpdate(current) {
 
 	// define max b/n judging by rank
 	var maxBooze = [1, 2, 2, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 70, 70];
-	var maxNarcs = [0, 0, 0, 1, 2,  4,  5,  7,  8, 10, 11, 13, 14, 16, 17, 20, 20, 20];
+	var maxNarcs = [0, 0, 0, 1, 2,	4,	5,	7,	8, 10, 11, 13, 14, 16, 17, 20, 20, 20];
 	for (booze = 0, narc = 0, i = 0; i <= 17; i++) {
 		if (ranks[i] == rank) {
 			booze = maxBooze[i];
@@ -2006,28 +2006,28 @@ if (document.getElementById('game_container') !== null) {
 			var driver = (v == 'nl' ? ['Brokkenpiloot', 'Wegpiraat', 'Nieuwkomer', 'Waaghals', 'Beginner', 'Taxirijder', 'Talent', 'Professional', 'Coureur', 'Racemonster', 'Wereldkampioen'] : ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion']);
 			var a = driver.indexOf(rf);
 			$('#raceform').text((a + 1) + ' - ' + rf);
-
-			// Bust ranks
-            var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').attr('value') // until span id is changed
-            
-            // Hack for people that have disabled any fields on their profile, the variable returns 'undefined' if people disable certain fields		
-            if (typeof bustrank === "undefined") {
-                var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value') // until span id is changed
-                var var_undefined = 1;
-            }
 			
-            var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
+			// Bust ranks
+			var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').attr('value') // until span id is changed
+			
+			// Hack for people that have disabled any fields on their profile, the variable returns 'undefined' if people disable certain fields		
+			if (typeof bustrank === "undefined") {
+				var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value') // until span id is changed
+				var var_undefined = 1;
+			}
+			
+			var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
 			i = 1;
 			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s assistent', 'Gevorderde', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
 		
-            var a = brank.indexOf(bustrank);
+			var a = brank.indexOf(bustrank);
 
-            if (typeof(var_undefined) != "undefined" && var_undefined !== null){
-                $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').text(bustrank + amount[a]) // until span id is changed
-            } 
-            else {
+			if (typeof(var_undefined) != "undefined" && var_undefined !== null){
+				$('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').text(bustrank + amount[a]) // until span id is changed
+			} 
+			else {
 				$('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').text(bustrank + amount[a]) // until span id is changed
-            }
+			}
 
 			// Actions
 			var self = ($('table.thinline > tbody > tr:eq(2) > td:eq(1) > a > span').text() == getV('nick', ''));
@@ -2273,10 +2273,10 @@ if (document.getElementById('game_container') !== null) {
 
 			function fillBRC(n, b, mode) { // actually filling the forms
 				values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // set defaults
-				// booze    - narcs    == maximum user can buy
-				// carry_b  - carry_n  == total user is carrying
+				// booze	- narcs	   == maximum user can buy
+				// carry_b	- carry_n  == total user is carrying
 				// b_amount - n_amount == amount per item user is carrying
-				// b        - n        == item we want
+				// b		- n		   == item we want
 				if (n > -1 && !lnarcs && mode != 3) { // do we want narcs?
 					if (carry_n == 0) { // nothing in pocket, fill it all
 						values[7 + n] = narcs;
@@ -2481,15 +2481,15 @@ if (document.getElementById('game_container') !== null) {
 
 							// calc travel cost
 							travelPrices = [ // travel costs from A to B
-								[    0,   600, 10350, 1575,  3600, 1350,  1050, 10800], // det
-								[  600,     0, 11025, 2025,  3000, 1725,  1425, 11400], // chi
-								[10350, 11025,     0, 9075, 14025, 9450,  9750, 1875],  // pal
-								[ 1575,  2025,  9075,    0,  5025,  375,   675, 9375],  // ny
-								[ 3600,  3000, 14025, 5025,     0, 4650,  4350, 14400], // lv
-								[ 1350,  1725,  9450,  375,  4650,    0,   300, 9750],  // phi
-								[ 1050,  1425,  9750,  675,  4350,  300,     0, 10050], // bal
-								[10800, 11400,  1875, 9375, 14400, 9750, 10050, 0]      // cor
-							];  // det   chi    pal    ny    lv     phi   bal    cor
+								[	 0,	  600, 10350, 1575,	 3600, 1350,  1050, 10800], // det
+								[  600,		0, 11025, 2025,	 3000, 1725,  1425, 11400], // chi
+								[10350, 11025,	   0, 9075, 14025, 9450,  9750, 1875],	// pal
+								[ 1575,	 2025,	9075,	 0,	 5025,	375,   675, 9375],	// ny
+								[ 3600,	 3000, 14025, 5025,		0, 4650,  4350, 14400], // lv
+								[ 1350,	 1725,	9450,  375,	 4650,	  0,   300, 9750],	// phi
+								[ 1050,	 1425,	9750,  675,	 4350,	300,	 0, 10050], // bal
+								[10800, 11400,	1875, 9375, 14400, 9750, 10050, 0]		// cor
+							];	// det	 chi	pal	   ny	 lv		phi	  bal	 cor
 							travelCost = travelPrices[i][(city - 4)];
 							if (plane == 0) { // no plane => half travel cost
 								travelCost /= 2;
@@ -3278,10 +3278,10 @@ if (document.getElementById('game_container') !== null) {
 			var rows = $('table.thinline > tbody > tr').length;
 			var totVal = 0;
 			var types = [
-				['h',    8,  9, 13, 15, 16, 17, 18, 19, 21, 22, 27, 32, 34, 35, 40, 43],
-				['oc',  23, 25, 26, 28, 29, 30, 31, 33, 39, 41, 42],
+				['h',	 8,	 9, 13, 15, 16, 17, 18, 19, 21, 22, 27, 32, 34, 35, 40, 43],
+				['oc',	23, 25, 26, 28, 29, 30, 31, 33, 39, 41, 42],
 				['moc', 45, 47, 48],
-				['tr',  23, 47, 54]
+				['tr',	23, 47, 54]
 			];
 			$('tr.thinline').each(function () { // loop rows
 				var carType = '';
