@@ -2013,7 +2013,7 @@ if (document.getElementById('game_container') !== null) {
 				i = 1;
 			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s assistent', 'Gevorderd', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
 			var a = brank.indexOf(bustrank);
-			$('table.thinline > tbody > tr:eq(' + (tr + 3 + ') > td:eq(2)').text(bustrank + amount[a]) // until span id is changed
+			$('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(2)').text(bustrank + amount[a]) // until span id is changed
 
 			// Actions
 			var self = ($('table.thinline > tbody > tr:eq(2) > td:eq(1) > a > span').text() == getV('nick', ''));
