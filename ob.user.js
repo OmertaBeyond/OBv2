@@ -2008,12 +2008,26 @@ if (document.getElementById('game_container') !== null) {
 			$('#raceform').text((a + 1) + ' - ' + rf);
 
 			// Bust ranks
-			var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value') // until span id is changed
-			var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
-				i = 1;
-			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s assistent', 'Gevorderd', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
-			var a = brank.indexOf(bustrank);
-			$('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1)').text(bustrank + amount[a]) // until span id is changed
+            var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').attr('value') // until span id is changed
+            
+            // Hack for people that have disabled any fields on their profile, the variable returns 'undefined' if people disable certain fields		
+            if (typeof bustrank === "undefined") {
+                var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value') // until span id is changed
+                var var_undefined = 1;
+            }
+			
+            var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
+			i = 1;
+			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s assistent', 'Gevorderde', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
+		
+            var a = brank.indexOf(bustrank);
+
+            if (typeof(var_undefined) != "undefined" && var_undefined !== null){
+                $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').text(bustrank + amount[a]) // until span id is changed
+            } 
+            else {
+				$('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').text(bustrank + amount[a]) // until span id is changed
+            }
 
 			// Actions
 			var self = ($('table.thinline > tbody > tr:eq(2) > td:eq(1) > a > span').text() == getV('nick', ''));
