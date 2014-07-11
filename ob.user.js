@@ -1997,8 +1997,9 @@ if (document.getElementById('game_container') !== null) {
 
 			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'],
 				i = 1;
-			var wealth = (v == 'nl' ? ['Sloeber', 'Arm', 'Modaal', 'Erg rijk', 'Te rijk om waar te zijn', 'Rijker dan God ', 'Rijk'] : ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich']);
+			var wealth = (v == 'nl' ? ['Sloeber', 'Arm', 'Modaal', 'Erg rijk', 'Te rijk om waar te zijn', 'Rijker dan God', 'Rijk'] : ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich']);
 			var a = wealth.indexOf(wlth);
+
 			$('#wealth').text(wlth + kind[a])
 
 			// Race form
