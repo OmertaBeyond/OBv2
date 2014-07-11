@@ -1996,7 +1996,7 @@ if (document.getElementById('game_container') !== null) {
 			var wlth = $('#wealth').attr('value')
 
 			var kind = [' ($0 - $50.000)', ' ($50.001 - $100.000)', ' ($100.001 - $500.000)', ' ($1.000.001 - $5.000.000)', ' ($5.000.001 - $15.000.000)', ' ( > $15.000.001)', ' ($500.001 - $1.000.000)'],
-				i = 1;
+			i = 1;
 			var wealth = (v == 'nl' ? ['Sloeber', 'Arm', 'Modaal', 'Erg rijk', 'Te rijk om waar te zijn', 'Rijker dan God ', 'Rijk'] : ['Straydog', 'Poor', 'Nouveau Riche', 'Very rich', 'Too rich to be true', 'Richer than God', 'Rich']);
 			var a = wealth.indexOf(wlth);
 			$('#wealth').text(wlth + kind[a])
@@ -2006,7 +2006,7 @@ if (document.getElementById('game_container') !== null) {
 			var driver = (v == 'nl' ? ['Brokkenpiloot', 'Wegpiraat', 'Nieuwkomer', 'Waaghals', 'Beginner', 'Taxirijder', 'Talent', 'Professional', 'Coureur', 'Racemonster', 'Wereldkampioen'] : ['Rookie', 'Co-Driver', 'Driver', 'Advanced Driver', 'Master Driver', 'Chauffeur', 'Advanced Chauffeur', 'Master Chauffeur', 'Racing Driver', 'Race Supremo', 'Champion']);
 			var a = driver.indexOf(rf);
 			$('#raceform').text((a + 1) + ' - ' + rf);
-			
+
 			// Bust ranks
 			var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').attr('value') // until span id is changed
 			
@@ -2174,12 +2174,28 @@ if (document.getElementById('game_container') !== null) {
 				var x = 0;
 				$(logpath).each(function () {
 					// show price per bullet when Sluggs bought
-					if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(/Sluggs bought (\d+) bullets for \$(\d+)/) && x != logpath.length) {
-						var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(/Sluggs bought (\d+) bullets for \$(\d+)/);
-						var ppb = Math.round(r[2] / r[1]);
-						$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)')
+					
+					// Let's see if we can put the regexes in a variable, makes it easier to edit/match them
+					
+					var sluggs_bought_match_nl = /Sluggs kocht (\d+) kogels voor \$(\d+)/;
+					var sluggs_bought_match_com = /Sluggs bought (\d+) bullets for \$(\d+)/;
+					
+					if (v == 'nl'){ 
+						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl) && x != logpath.length) {
+							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl);
+							var ppb = Math.round(r[2] / r[1]);
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)')
+						}
+						++x;
 					}
-					++x;
+					else {
+						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_com) && x != logpath.length) {
+							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_com);
+							var ppb = Math.round(r[2] / r[1]);
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)')
+						}
+						++x;
+					}
 				});
 
 				// Hide useless entries
@@ -2188,16 +2204,33 @@ if (document.getElementById('game_container') !== null) {
 					sluggsHideLaughing = hide;
 					x = 0;
 					$(logpath).each(function () {
-						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().match(/Sluggs is laughing at your measly limit/) && x != logpath.length) {
-							if (hide) {
-								$(this).hide();
-							} else {
-								$(this).show();
+						
+						var sluggs_laughs_match_nl = /Sluggs lacht om je lage limiet/;
+						var sluggs_laughs_match_com = /Sluggs is laughing at your measly limit/;
+						
+						if (v == 'nl'){
+							if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().match(sluggs_laughs_match_nl) && x != logpath.length) {
+								if (hide) {
+									$(this).hide();
+								} else {
+									$(this).show();
+								}
 							}
+							++x;
 						}
-						++x;
+						else {
+							if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().match(sluggs_laughs_match_com) && x != logpath.length) {
+								if (hide) {
+									$(this).hide();
+								} else {
+									$(this).show();
+								}
+							}
+							++x;
+						}
 					});
 				}
+				var hide_text = (v == 'nl' ? 'Verberg "Sluggs lacht om" meldingen' : 'Hide "Sluggs is laughing" entries');
 				$('div.oheader:last').append(
 					$('<span>').append(
 						$('<input>').attr({
@@ -2210,7 +2243,7 @@ if (document.getElementById('game_container') !== null) {
 								hideLaughing(true);
 							}
 						}),
-						$('<label />').attr('for', 'cb').text('Hide "Sluggs is laughing" entries')
+						$('<label />').attr('for', 'cb').text(hide_text)
 					)
 				)
 				if (sluggsHideLaughing === 'true') {
