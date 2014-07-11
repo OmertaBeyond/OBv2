@@ -19,8 +19,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.33
-// @date                     02-07-2014
+// @version                  2.0.34
+// @date                     11-07-2014
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -75,6 +75,11 @@
 // @include                  https://barafranca.gen.tr/*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
+// @grant                    GM_getResourceText
+// @grant                    GM_getResourceURL
+// @grant                    GM_addStyle
+// @grant                    GM_xmlhttpRequest
+// @grant                    unsafeWindow
 // ==/UserScript==
 
 /*
@@ -494,7 +499,8 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		//add end time tooltip to every countdown
-		addEndTimeTooltip(node);
+		//causes issues with Greasemonkey 2+, disabling till issue is fixed
+		//addEndTimeTooltip(node);
 
 		//---------------- FAMILY PAGE ----------------
 		if (on_page('family.php') && nn == 'center') {
@@ -3615,11 +3621,6 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 			});
-			if (unsafeWindow.$.fn.tipsy) {
-				unsafeWindow.$(".raid_profit_tooltip").tipsy({
-					gravity: 's'
-				});
-			}
 		}
 		//---------------- END OF MAIN GAME CONTAINER ----------------
 	}
@@ -4251,20 +4252,26 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		//replace omerta.GUI.container.loadPageCB with our own implementation that stops
 		//the scrolling animation when detecting user-initiated scrolling (feels less sluggish).
 		//save the original implementation (we'll still need it)
-		unsafeWindow.omerta.GUI.container._origloadPageCB = unsafeWindow.omerta.GUI.container.loadPageCB;
-		unsafeWindow.omerta.GUI.container.loadPageCB = function(_response) {
+		omerta.GUI.container._origloadPageCB = unsafeWindow.omerta.GUI.container.loadPageCB;
+		if (typeof(cloneInto) == 'undefined') {
+			//provide cloneInto for browsers with no native support
+			function cloneInto(cloneObject, cloneInto) {
+				return cloneObject;
+			}
+		}
+		unsafeWindow.omerta.GUI.container.loadPageCB = cloneInto(function(_response) {
 			//when user starts scrolling, stop animation
 			$('html, body').on('DOMMouseScroll mousewheel', function() {
 				//have to use unsafeWindow.$ because that's the jQuery object starting the animation
 				unsafeWindow.$('html, body').stop();
 			});
 			//forward to original implementation
-			unsafeWindow.omerta.GUI.container._origloadPageCB(_response);
+			omerta.GUI.container._origloadPageCB(_response);
 			//remove the scroll event listener for performance reasons
 			setTimeout(function() {
 				$('html, body').off('DOMMouseScroll mousewheel');
 			}, 1000); //we're guessing the animation will finish in <= 1000ms
-		}
+		}, unsafeWindow);
 	}, 1000);
 });
 

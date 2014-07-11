@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.33
-// @date                     02-07-2014
+// @version                  2.0.34
+// @date                     11-07-2014
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -57,4 +57,9 @@
 // @include                  https://barafranca.gen.tr/*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
+// @grant                    GM_getResourceText
+// @grant                    GM_getResourceURL
+// @grant                    GM_addStyle
+// @grant                    GM_xmlhttpRequest
+// @grant                    unsafeWindow
 // ==/UserScript==
