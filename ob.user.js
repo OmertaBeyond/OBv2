@@ -423,14 +423,14 @@ function addEndTimeTooltip(node) {
 	if (unsafeWindow.$.fn.tipsy) {
 		//.addBack is needed in case the element containing data-timeleft is the one being added to DOM tree
 		//(which is the case on bullet waiting page, safehouse message, and probably others)
-		$(node).find("[data-timeleft]").addBack('[data-timeleft]').each(function() {
+		$(node).find('[data-timeleft]').addBack('[data-timeleft]').each(function() {
 			var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000);
 			//formating dates in js is fun. #not
-			var tooltipTitle = ("0" + cooldownEnd.getUTCHours()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCMinutes()).slice(-2) + ":" + ("0" + cooldownEnd.getUTCSeconds()).slice(-2);
+			var tooltipTitle = ('0' + cooldownEnd.getUTCHours()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCMinutes()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCSeconds()).slice(-2);
 			if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
-				tooltipTitle += " " + ("0" + cooldownEnd.getUTCDate()).slice(-2) + "/" + ("0" + (cooldownEnd.getUTCMonth() + 1)).slice(-2);
+				tooltipTitle += ' ' + ('0' + cooldownEnd.getUTCDate()).slice(-2) + '/' + ('0' + (cooldownEnd.getUTCMonth() + 1)).slice(-2);
 			}
-			tooltipTitle += " OT";
+			tooltipTitle += ' OT';
 			this.setAttribute('title', tooltipTitle);
 			unsafeWindow.$(this).tipsy({
 				gravity: 's'
@@ -2018,7 +2018,7 @@ if (document.getElementById('game_container') !== null) {
 			var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 3) + ') > td:eq(1) > span').attr('value'); // until span id is changed
 
 			// Hack for people that have disabled any fields on their profile, the variable returns 'undefined' if people disable certain fields
-			if (typeof bustrank === "undefined") {
+			if (typeof bustrank === 'undefined') {
 				var bustrank = $('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').attr('value'); // until span id is changed
 				var var_undefined = 1;
 			}
@@ -2029,7 +2029,7 @@ if (document.getElementById('game_container') !== null) {
 
 			var a = brank.indexOf(bustrank);
 
-			if (typeof(var_undefined) != "undefined" && var_undefined !== null){
+			if (typeof(var_undefined) != 'undefined' && var_undefined !== null){
 				$('table.thinline > tbody > tr:eq(' + (tr + 2) + ') > td:eq(1) > span').text(bustrank + amount[a]); // until span id is changed
 			}
 			else {
@@ -2766,14 +2766,14 @@ if (document.getElementById('game_container') !== null) {
 									})
 								);
 							} else {
-								$("#city").after(
+								$('#city').after(
 									$('<div>').attr({
 										id: 'AF'
 									})
 								);
 							}
 
-							$("#AF").append(
+							$('#AF').append(
 								$('<center>').text('Auto-Fill').css('font-weight', 'bold'),
 								$('<hr>').css({
 									'color': 'gray'
@@ -2869,7 +2869,7 @@ if (document.getElementById('game_container') !== null) {
 							});
 						} else {
 							//show static AF settings in one row
-							$("#AF hr, #AF br").remove();
+							$('#AF hr, #AF br').remove();
 						}
 
 						var mode = getV('brcAF', 0);
@@ -3565,7 +3565,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('global_stats') || on_page('module=Spots')) {
 			var isSpots = on_page('module=Spots');
 			//add possible raid profit in a new column for all objects
-			$("td:contains('Profit'), td:contains('Winst'), td:contains('Kazanc')").closest('table').find('tr').each(function() {
+			$('td:contains("Profit"), td:contains("Winst"), td:contains("Kazanc")').closest('table').find('tr').each(function() {
 				if (isSpots) {
 					var tableHeader = $(this).find('td[colspan="7"]');
 				} else {
@@ -3635,7 +3635,7 @@ if (document.getElementById('game_container') !== null) {
  * Pages without only text nodes
  */
 
-$('#game_container').on("DOMNodeInserted",function(event){
+$('#game_container').on('DOMNodeInserted', function(event){
 	var nn = event.target.tagName.toLowerCase();
 	if(on_page('jail.php')) {
 		// Return when self bo
@@ -4110,7 +4110,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 										value: bo_hotkey
 									}).blur(function () {
 										setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
-										$(".ob_hotkey_pref").text($('#bo_hotkey').val());
+										$('.ob_hotkey_pref').text($('#bo_hotkey').val());
 									})
 								)
 							)
@@ -4190,7 +4190,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						$('<br>'),
 						$('<span>').text('You can choose between a movable window or showing the options on top of the page.'),
 						$('<br>'),
-						$("<input>").attr({
+						$('<input>').attr({
 							type: 'radio',
 							id: 'AF_Floating',
 							name: 'AF_Position',
@@ -4198,9 +4198,9 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						}).click(function() {
 							setA('sets', 'af_position', 'floating');
 						}),
-						$('<label>').attr({ for: 'AF_Floating' }).text("Show settings in movable window"),
+						$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
 						$('<br>'),
-						$("<input>").attr({
+						$('<input>').attr({
 							type: 'radio',
 							id: 'AF_Static',
 							name: 'AF_Position',
@@ -4208,7 +4208,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						}).click(function() {
 							setA('sets', 'af_position', 'static');
 						}),
-						$('<label>').attr({ for: 'AF_Static' }).text("Show settings on top of the page"),
+						$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page'),
 						$('<br>'),
 						$('<br>'),
 						$('<span>').text('If the movable window is gone, click here to reset its position.'),
