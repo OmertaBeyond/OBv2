@@ -104,7 +104,7 @@ function rand(min, max) {
 
 function array_sum(array) {
 	return array.reduce(function (a, b) {
-		return a + b;
+		return (a + b);
 	});
 }
 
@@ -125,25 +125,25 @@ function on_page(str) {
 }
 
 function getV(name, standard) {
-	return localStorage[name + '_' + v] || standard;
+	return (localStorage[name + '_' + v] || standard);
 }
 
 function setV(name, value) {
-	return localStorage[name + '_' + v] = value;
+	return (localStorage[name + '_' + v] = value);
 }
 
 function getA(name) {
-	return JSON.parse(localStorage[name + '_' + v]);
+	return (JSON.parse(localStorage[name + '_' + v]));
 }
 
 function setA(name, pref, value) {
 	if (name === 'prefs') {
 		prefs[pref] = value;
-		return localStorage[name + '_' + v] = JSON.stringify(prefs);
+		return (localStorage[name + '_' + v] = JSON.stringify(prefs));
 	}
 	if (name === 'sets') {
 		sets[pref] = value;
-		return localStorage[name + '_' + v] = JSON.stringify(sets);
+		return (localStorage[name + '_' + v] = JSON.stringify(sets));
 	}
 }
 
@@ -2085,7 +2085,7 @@ if (document.getElementById('game_container') !== null) {
 			var linkify = ['Route 66 heist', 'Organised Crime', 'Mega Organized Crime', 'Target not found', 'Carrace invite', 'Target found', 'Kill success', 'Witness statement', 'Condolences', 'found', 'Ticket update', 'Crashed Message', 'Invitation', 'Raid Notification', 'Married', 'Wedding Gift', 'Wedding', 'Wedding Invitation', 'shot!'];
 
 			function setArr(num) {
-				return arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>';
+				return (arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>');
 			}
 
 			var WitnessMsg = new RegExp(linkify[7]); // Witness statement
@@ -3518,7 +3518,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 
 				function setType(num) {
-					return $('select').get(0).selectedIndex = num;
+					return ($('select').get(0).selectedIndex = num);
 				}
 
 				function calc(a, b, ab, o) { //see if user can buy bloodtype and then calc total price
