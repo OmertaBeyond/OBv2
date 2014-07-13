@@ -3417,11 +3417,16 @@ if (document.getElementById('game_container') !== null) {
 							var carid = $(this).find('td:eq(0)').text();
 							var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); // get value
 							var check = $(this).find('input[value="' + carid + '"]');
+							var comment = $(this).find('td:eq(6)').text().trim();
 							if (check.prop('checked') === true) {
 								check.prop('checked', false)
 							}
 							if ((carVal > val && sort == 1) || (carVal < val && sort == 2)) {
-								check.prop('checked', true)
+								if (comment == "IN SAFEHOUSE"){
+									check.prop('checked', false);
+								} else {
+									check.prop('checked', true)
+								}
 							}
 						})
 					}
