@@ -2168,7 +2168,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// Sluggs
 			if (on_page('type=6') && nn == 'div') {
-				var sluggsHideLaughing = sets['sluggsHideLaughing'] || 'true';
+				var sluggsHideLaughing = sets['sluggsHideLaughing'] === undefined ? true : sets['sluggsHideLaughing'];
 				var price = $('input#setting_bullets_max_price_price_6').val();
 
 				// commafy and alert money
@@ -2243,16 +2243,12 @@ if (document.getElementById('game_container') !== null) {
 							id: 'cb',
 							type: 'checkbox'
 						}).click(function () {
-							if (sluggsHideLaughing === true) {
-								hideLaughing(false);
-							} else {
-								hideLaughing(true);
-							}
+							hideLaughing($("#cb").is(':checked'));
 						}),
 						$('<label />').attr('for', 'cb').text(hide_text)
 					)
 				);
-				if (sluggsHideLaughing === 'true') {
+				if (sluggsHideLaughing === true) {
 					$('#cb').prop('checked', true);
 					hideLaughing(true);
 				}
