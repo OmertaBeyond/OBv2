@@ -3422,7 +3422,7 @@ if (document.getElementById('game_container') !== null) {
 								check.prop('checked', false)
 							}
 							if ((carVal > val && sort == 1) || (carVal < val && sort == 2)) {
-								if (comment == "IN SAFEHOUSE"){
+								if (comment.indexOf('IN SAFEHOUSE') !== -1){
 									check.prop('checked', false);
 								} else {
 									check.prop('checked', true)
