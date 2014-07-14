@@ -756,11 +756,19 @@ if (document.getElementById('game_container') !== null) {
 			// Update info
 			bnUpdate(1);
 			// Grab busts for Jail page
-			var bos = $('.thinline:eq(5)>tbody>tr:eq(2)>td:last').text().replace(/,/g, '');
+			if (v == 'com' || v == 'nl') {
+				var bos = $('.thinline:eq(5)>tbody>tr:eq(2)>td:last').text().replace(/,/g, '');
+			} else {
+				var bos = $('.thinline:eq(5)>tbody>tr:eq(1)>td:last').text().replace(/,/g, '');
+			}
 			setV('bustouts', bos);
 			// Interest reminder
 			if(!$('#interestRow').length) {
-				var inbank = $('.thinline:eq(4)>tbody>tr:eq(3)>td:last>a').html().replace(/\D/g, '');
+				if (v == 'com' || v == 'nl') {
+					var inbank = $('.thinline:eq(4)>tbody>tr:eq(3)>td:last>a').html().replace(/\D/g, '');
+				} else {
+					var inbank = $('.thinline:eq(4)>tbody>tr:eq(2)>td:last>a').html().replace(/\D/g, '');
+				}
 				if (inbank > 0 && interest > 0) {
 					var timestamp = Math.round(parseInt(new Date().getTime(), 10) / 1000);
 					var left = (banktleft - timestamp);
@@ -772,7 +780,11 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 			// Visual improvement
-			$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
+			if (v == 'com' || v == 'nl') {
+				$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
+			} else {
+				$('.thinline:eq(4)>tbody>tr:eq(2)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
+			}
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
