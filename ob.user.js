@@ -69,6 +69,10 @@
 // @include                  https://*.barafranca.gen.tr/*
 // @include                  http://barafranca.gen.tr/*
 // @include                  https://barafranca.gen.tr/*
+// @include                  http://*.omerta.dm/*
+// @include                  https://*.omerta.dm/*
+// @include                  http://omerta.dm/*
+// @include                  https://omerta.dm/*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
 // @grant                    GM_getResourceText
@@ -382,8 +386,8 @@ function whatV(hostname) {
 		case 'www.barafranca.us':
 		case 'barafranca.us':
 			return 'com';
-		case 'deathmatch.barafranca.com':
-		case 'dm.barafranca.com':
+		case 'omerta.dm':
+		case 'www.omerta.dm':
 			return 'dm';
 		case 'www.barafranca.nl':
 		case 'barafranca.nl':
