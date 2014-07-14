@@ -266,13 +266,12 @@ function grabHTML(url, func) {
 
 function bnUpdate(current) {
 	var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
-
-	var nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(2) > td:eq(1) > a').text();
-	var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(7) > td:eq(1)').text();
-	var type = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(9) > td:eq(1) > a').text();
-	var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(10) > td:eq(1) > a').text();
-	var health = 100 - parseInt($(xpath + ' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq(3) > td:eq(1) > a > table > tbody > tr > td').attr('width'), 10);
-	var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(2) > td:eq(1)').text();
+	var nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?2:1)+') > td:eq(1) > a').text();
+	var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?7:6)+') > td:eq(1)').text();
+	var type = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?9:8)+') > td:eq(1) > a').text();
+	var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?10:9)+') > td:eq(1) > a').text();
+	var health = 100 - parseInt($(xpath + ' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?3:2)+') > td:eq(1) > a > table > tbody > tr > td').attr('width'), 10);
+	var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq('+(v == 'com' || v == 'nl'?2:1)+') > td:eq(1)').text();
 
 	setV('bloodType', type);
 	setV('nick', nick);
@@ -4722,15 +4721,27 @@ if (getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !=
 	$.get('/information.php', function (data) {
 		var a = data.split('<tbody');
 		if (a[2]) { // fails on click limit or other error
-			$('#game_wrapper').append(
-				$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
-			);
+            if(v == 'com' || v == 'nl') {
+                $('#game_wrapper').append(
+                    $('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
+                )
+            } else {
+                $('.Grid').append(
+                    $('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
+                )
+            }
 			bnUpdate(0); // call update function
 			$.get('/user.php?nick=' + getV('nick', ''), function (data) {
 				var a = data.split('<script');
-				$('#game_wrapper').append(
-					$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
-				);
+            	if(v == 'com' || v == 'nl') {
+					$('#game_wrapper').append(
+						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
+					)
+            	} else {
+					$('.Grid').append(
+						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
+					)
+            	}
 				if ($('#xhr').length) {
 					var role = 1; // default is in a family
 					var pos = $('span#position').attr('value');
