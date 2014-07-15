@@ -3637,41 +3637,41 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//---------------- END OF MAIN GAME CONTAINER ----------------
 		if (v === 'dm') {
-            // prefs circle
-            var prefs_div = $('<div>').addClass('sm-circle-bg').css({
-                'left': '111px',
-                'top': '12px'
-            }).append(
-                $('<span>').addClass('sm-circle sm-health').append(
-                    $('<img>').attr('src', 'https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png').css({
-                        'position': 'absolute',
-                        'top': '6px',
-                        'left': '6px'
-                    })
-                )
-            ).click(function () {
-                    $('#game_container').empty();
-                    $('#game_container').append(new_prefs_page);
-                $(this).addClass('selected')
-            });
-            // live famstats circle (needs new icon!)
-            var lf_div = $('<div>').addClass('sm-circle-bg').css({
-                'left': '85px',
-                'top': '-10px'
-            }).append(
-                $('<span>').addClass('sm-circle sm-health').append(
-                    $('<img>').attr('src', 'https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png').css({
-                        'position': 'absolute',
-                        'top': '6px',
-                        'left': '6px'
-                    })
-                )
-            ).click(function () {
-                    window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
-            });
+			// prefs circle
+			var prefs_div = $('<div>').addClass('sm-circle-bg').css({
+				'left': '111px',
+				'top': '12px'
+			}).append(
+				$('<span>').addClass('sm-circle sm-health').append(
+					$('<img>').attr('src', 'https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png').css({
+						'position': 'absolute',
+						'top': '6px',
+						'left': '6px'
+					})
+				)
+			).click(function () {
+					$('#game_container').empty();
+					$('#game_container').append(new_prefs_page);
+				$(this).addClass('selected')
+			});
+			// live famstats circle (needs new icon!)
+			var lf_div = $('<div>').addClass('sm-circle-bg').css({
+				'left': '85px',
+				'top': '-10px'
+			}).append(
+				$('<span>').addClass('sm-circle sm-health').append(
+					$('<img>').attr('src', 'https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png').css({
+						'position': 'absolute',
+						'top': '6px',
+						'left': '6px'
+					})
+				)
+			).click(function () {
+					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
+			});
 
-            $('div.omerta-widget-avatar-body').append(prefs_div)
-            $('div.omerta-widget-avatar-body').append(lf_div)
+			$('div.omerta-widget-avatar-body').append(prefs_div)
+			$('div.omerta-widget-avatar-body').append(lf_div)
 
 			var getnews = (prefs['bmsgNews'] ? true : false);
 			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
@@ -4060,7 +4060,7 @@ if (document.getElementById('game_container') !== null) {
 					)
 				)
 			);
-        }
+		}
 	}
 }
 
@@ -4722,27 +4722,27 @@ if (getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !=
 	$.get('/information.php', function (data) {
 		var a = data.split('<tbody');
 		if (a[2]) { // fails on click limit or other error
-            if(v == 'com' || v == 'nl') {
-                $('#game_wrapper').append(
-                    $('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
-                )
-            } else {
-                $('.Grid').append(
-                    $('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
-                )
-            }
+			if(v == 'com' || v == 'nl') {
+				$('#game_wrapper').append(
+					$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
+				)
+			} else {
+				$('.Grid').append(
+					$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
+				)
+			}
 			bnUpdate(0); // call update function
 			$.get('/user.php?nick=' + getV('nick', ''), function (data) {
 				var a = data.split('<script');
-            	if(v == 'com' || v == 'nl') {
+				if(v == 'com' || v == 'nl') {
 					$('#game_wrapper').append(
 						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
 					)
-            	} else {
+				} else {
 					$('.Grid').append(
 						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
 					)
-            	}
+				}
 				if ($('#xhr').length) {
 					var role = 1; // default is in a family
 					var pos = $('span#position').attr('value');
