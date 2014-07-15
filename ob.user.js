@@ -3652,7 +3652,7 @@ if (document.getElementById('game_container') !== null) {
 			).click(function () {
 					$('#game_container').empty();
 					$('#game_container').append(new_prefs_page);
-				$(this).addClass('selected')
+				$(this).addClass('selected');
 			});
 			// live famstats circle (needs new icon!)
 			var lf_div = $('<div>').addClass('sm-circle-bg').css({
@@ -3670,8 +3670,8 @@ if (document.getElementById('game_container') !== null) {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
 			});
 
-			$('div.omerta-widget-avatar-body').append(prefs_div)
-			$('div.omerta-widget-avatar-body').append(lf_div)
+			$('div.omerta-widget-avatar-body').append(prefs_div);
+			$('div.omerta-widget-avatar-body').append(lf_div);
 
 			var getnews = (prefs['bmsgNews'] ? true : false);
 			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
@@ -4725,11 +4725,11 @@ if (getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !=
 			if(v == 'com' || v == 'nl') {
 				$('#game_wrapper').append(
 					$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
-				)
+				);
 			} else {
 				$('.Grid').append(
 					$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
-				)
+				);
 			}
 			bnUpdate(0); // call update function
 			$.get('/user.php?nick=' + getV('nick', ''), function (data) {
@@ -4737,11 +4737,11 @@ if (getV('nick', '') == '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !=
 				if(v == 'com' || v == 'nl') {
 					$('#game_wrapper').append(
 						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
-					)
+					);
 				} else {
 					$('.Grid').append(
 						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
-					)
+					);
 				}
 				if ($('#xhr').length) {
 					var role = 1; // default is in a family
