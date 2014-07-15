@@ -1703,8 +1703,11 @@ if (document.getElementById('game_container') !== null) {
 
 			var slotprofit = slotmwon - slotspent;
 			if (slotspent >= 0) {
-				if (slotprofit >= 0) slotprofit = '$' + commafy(slotprofit);
-				else slotprofit = '-$' + commafy(slotspent - slotmwon);
+				if (slotprofit >= 0) {
+					slotprofit = '$' + commafy(slotprofit);
+				} else {
+					slotprofit = '-$' + commafy(slotspent - slotmwon);
+				}
 			}
 			var sgamesWon = Math.round((slotgwon / slotgames) * 100);
 			var sgamesWon2 = isNaN(sgamesWon) ? 0 : sgamesWon;
