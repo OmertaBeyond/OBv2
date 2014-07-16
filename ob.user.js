@@ -343,7 +343,7 @@ function CheckBmsg() {
 						setV('lastbmsg', response['news'][0]['ts']);
 					}
 				} else {
-					if (prefs['bmsgNews']) {
+					if (prefs['bmsgDeaths']) {
 						if (deaths >= 1) {
 							var text = response['deaths'].length + ' people died:\n\n';
 							var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
