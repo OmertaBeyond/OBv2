@@ -310,6 +310,55 @@ function bnUpdate(current) {
 	setPow('bninfo', 3, plane); // save
 }
 
+var crimeTimer = false;
+var gtaTimer = false;
+function CheckCooldown() {
+    setTimeout(function() {
+
+        if(prefs['notifie_gta']) {
+
+            var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'));
+            if(timer > 0 && !gtaTimer) {
+                gtaTimer = true;
+            } else if(timer <= 0 && gtaTimer) {
+                gtaTimer = false;
+                var text = 'You can nick a car';
+                var title = 'Nick a car';
+                var notification = new Notification(title, {
+                    dir: 'auto',
+                    lang: '',
+                    body: text,
+                    tag: 'car',
+                    icon: GM_getResourceURL('red-star')
+                });
+            }
+        }
+
+        if(prefs['notifie_crime']) {
+
+            var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'));
+            if(timer > 0 && !crimeTimer) {
+                crimeTimer = true;
+            } else if(timer <= 1 && crimeTimer) {
+                crimeTimer = false;
+                var text = 'You can do a crime';
+                var title = 'Crime';
+                var notification = new Notification(title, {
+                    dir: 'auto',
+                    lang: '',
+                    body: text,
+                    tag: 'crime',
+                    icon: GM_getResourceURL('red-star')
+                });
+            }
+        }
+
+        setTimeout(function () {
+            CheckCooldown();
+        }, 1000);
+    }, 0);
+}
+
 function CheckBmsg() {
 	setTimeout(function () {
 		var lastbmsg = getV('lastbmsg', 0);
@@ -332,7 +381,7 @@ function CheckBmsg() {
 							lang: '',
 							body: text,
 							tag: 'news',
-							icon: GM_getResourceURL('red-star'),
+							icon: GM_getResourceURL('red-star')
 						});
 						notification.onclose = function () {
 							setTimeout(CheckBmsg(), 60000);
@@ -360,7 +409,7 @@ function CheckBmsg() {
 								lang: '',
 								body: text,
 								tag: 'deaths',
-								icon: GM_getResourceURL('rip'),
+								icon: GM_getResourceURL('rip')
 							});
 							notification.onclose = function () {
 								setTimeout(CheckBmsg(), 60000);
@@ -3665,6 +3714,8 @@ if (document.getElementById('game_container') !== null) {
 
 			var getnews = (prefs['bmsgNews'] ? true : false);
 			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
+            var notifie_crime = (prefs['notifie_crime'] ? true : false);
+            var notifie_gta = (prefs['notifie_gta'] ? true : false);
 			var jailHL = (prefs['jailHL'] ? true: false);
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
 			var jailHL_other = sets['jailHL_other'] || 9;
@@ -3806,7 +3857,26 @@ if (document.getElementById('game_container') !== null) {
 							}).click(function () {
 								setA('prefs', 'bmsgNews', $('#news:checked').length);
 							}),
-							$('<label>').attr('for', 'news').text('News')
+							$('<label>').attr('for', 'news').text('News'),
+                            $('<br>'),
+                            $('<input>').attr({
+                                id: 'notifie_crime',
+                                type: 'checkbox',
+                                checked: notifie_crime
+                            }).click(function () {
+                                setA('prefs', 'notifie_crime', $('#notifie_crime:checked').length);
+                            }),
+                            $('<label>').attr('for', 'notifie_crime').text('Crime'),
+                            $('<br>'),
+                            $('<input>').attr({
+                                id: 'notifie_gta',
+                                type: 'checkbox',
+                                checked: notifie_gta
+                            }).click(function () {
+                                setA('prefs', 'notifie_gta', $('#notifie_gta:checked').length);
+                            }),
+                            $('<label>').attr('for', 'notifie_gta').text('Nick a car')
+
 						)
 					),
 					$('<tr>').append(
@@ -4098,6 +4168,13 @@ $('#game_container').one('DOMNodeInserted', function () {
 			CheckBmsg();
 		}, 1000);
 	}
+
+    if(v == 'dm' || v == 'com') {
+        setTimeout(function() {
+            CheckCooldown();
+        }, 1000);
+
+    }
 });
 
 /*
@@ -4291,6 +4368,8 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
+        var notifie_crime = (prefs['notifie_crime'] ? true : false);
+        var notifie_gta = (prefs['notifie_gta'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
 		var jailHL_sel = sets['jailHL_sel'] || 'highest';
 		var jailHL_other = sets['jailHL_other'] || 9;
@@ -4432,7 +4511,25 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						}).click(function () {
 							setA('prefs', 'bmsgNews', $('#news:checked').length);
 						}),
-						$('<label>').attr('for', 'news').text('News')
+						$('<label>').attr('for', 'news').text('News'),
+                        $('<br>'),
+                        $('<input>').attr({
+                            id: 'notifie_crime',
+                            type: 'checkbox',
+                            checked: notifie_crime
+                        }).click(function () {
+                            setA('prefs', 'notifie_crime', $('#notifie_crime:checked').length);
+                        }),
+                        $('<label>').attr('for', 'notifie_crime').text('Crime'),
+                        $('<br>'),
+                        $('<input>').attr({
+                            id: 'notifie_gta',
+                            type: 'checkbox',
+                            checked: notifie_gta
+                        }).click(function () {
+                            setA('prefs', 'notifie_gta', $('#notifie_gta:checked').length);
+                        }),
+                        $('<label>').attr('for', 'notifie_gta').text('Nick a car')
 					)
 				),
 				$('<tr>').append(
