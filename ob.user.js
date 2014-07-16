@@ -3646,7 +3646,7 @@ if (document.getElementById('game_container') !== null) {
 				'top': '12px'
 			}).append(
 				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr('src', 'https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png').css({
+					$('<img>').attr('src', GM_getResourceURL('favicon')).css({
 						'position': 'absolute',
 						'top': '6px',
 						'left': '6px'
@@ -3663,7 +3663,7 @@ if (document.getElementById('game_container') !== null) {
 				'top': '-10px'
 			}).append(
 				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr('src', 'https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png').css({
+					$('<img>').attr('src', GM_getResourceURL('favicon')).css({
 						'position': 'absolute',
 						'top': '6px',
 						'left': '6px'
@@ -4286,7 +4286,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			'href': '#',
 			'data-box': 'true'
 		}).append(
-			$('<span>').addClass('title').css('background', 'url("https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png") no-repeat scroll left center transparent').text('Beyond'),
+			$('<span>').addClass('title').css('background', 'url("'+GM_getResourceURL('favicon')+'") no-repeat scroll left center transparent').text('Beyond'),
 			$('<span>').addClass('menu_open')
 		);
 		var div = $('<div>').addClass('menu').append(
