@@ -312,50 +312,50 @@ function bnUpdate(current) {
 var crimeTimer = false;
 var gtaTimer = false;
 function CheckCooldown() {
-    setTimeout(function() {
+	setTimeout(function() {
 
-        if(prefs['notifie_gta']) {
+		if(prefs['notifie_gta']) {
 
-            var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'));
-            if(timer > 0 && !gtaTimer) {
-                gtaTimer = true;
-            } else if(timer <= 0 && gtaTimer) {
-                gtaTimer = false;
-                var text = 'You can nick a car';
-                var title = 'Nick a car';
-                var notification = new Notification(title, {
-                    dir: 'auto',
-                    lang: '',
-                    body: text,
-                    tag: 'car',
-                    icon: GM_getResourceURL('red-star')
-                });
-            }
-        }
+			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'));
+			if(timer > 0 && !gtaTimer) {
+				gtaTimer = true;
+			} else if(timer <= 0 && gtaTimer) {
+				gtaTimer = false;
+				var text = 'You can nick a car';
+				var title = 'Nick a car';
+				var notification = new Notification(title, {
+					dir: 'auto',
+					lang: '',
+					body: text,
+					tag: 'car',
+					icon: GM_getResourceURL('red-star')
+				});
+			}
+		}
 
-        if(prefs['notifie_crime']) {
+		if(prefs['notifie_crime']) {
 
-            var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'));
-            if(timer > 0 && !crimeTimer) {
+			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'));
+			if(timer > 0 && !crimeTimer) {
                 crimeTimer = true;
-            } else if(timer <= 1 && crimeTimer) {
-                crimeTimer = false;
-                var text = 'You can do a crime';
-                var title = 'Crime';
-                var notification = new Notification(title, {
-                    dir: 'auto',
-                    lang: '',
-                    body: text,
-                    tag: 'crime',
-                    icon: GM_getResourceURL('red-star')
-                });
-            }
-        }
+			} else if(timer <= 1 && crimeTimer) {
+				crimeTimer = false;
+				var text = 'You can do a crime';
+				var title = 'Crime';
+				var notification = new Notification(title, {
+					dir: 'auto',
+					lang: '',
+					body: text,
+					tag: 'crime',
+					icon: GM_getResourceURL('red-star')
+				});
+			}
+		}
 
-        setTimeout(function () {
-            CheckCooldown();
-        }, 1000);
-    }, 0);
+		setTimeout(function () {
+			CheckCooldown();
+		}, 1000);
+	}, 0);
 }
 
 
@@ -3827,7 +3827,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
 							$('<br>'),
 							$('<div>').attr('id', 'Authmsg'),
-							$('<button>').text('Authorize for notifications').click(function () {
+							$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
                                 if ('Notification' in window) {
                                     Notification.requestPermission(function (perm) {
                                         $('#Authmsg').text('Authorization for notification is: ' + perm);
@@ -4116,6 +4116,14 @@ if (document.getElementById('game_container') !== null) {
 					)
 				)
 			);
+
+			if (!('Notification' in window)) {
+				$('#Authmsg', new_prefs_page).text("Your browser doesn't support notifications");
+				$('#btnNotification', new_prefs_page).remove();
+			} else if(Notification.permission == "granted") {
+				$('#Authmsg', new_prefs_page).text('Authorization for notification is: granted');
+				$('#btnNotification', new_prefs_page).remove();
+			}
 		}
 	}
 }
