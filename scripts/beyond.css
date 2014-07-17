@@ -218,3 +218,21 @@ span label {
 	margin-right: 5px;
 	margin-top: 3px;
 }
+
+.ob-prefs-bg {
+	left: 111px;
+	top: 12px;
+	cursor: pointer;
+}
+
+.ob-lf-bg {
+	left: 85px;
+	top: -10px;
+	cursor: pointer;
+}
+
+.ob-prefs-img {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+}

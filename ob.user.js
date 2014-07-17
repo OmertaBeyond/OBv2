@@ -3639,35 +3639,22 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 		//---------------- END OF MAIN GAME CONTAINER ----------------
+
+		// DM PREFS
 		if (v === 'dm') {
 			// prefs circle
-			var prefs_div = $('<div>').addClass('sm-circle-bg').css({
-				'left': '111px',
-				'top': '12px'
-			}).append(
+			var prefs_div = $('<div>').addClass('sm-circle-bg ob-prefs-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr('src', GM_getResourceURL('favicon')).css({
-						'position': 'absolute',
-						'top': '6px',
-						'left': '6px'
-					})
+					$('<img>').attr('src', GM_getResourceURL('favicon')).addClass('ob-prefs-img')
 				)
 			).click(function () {
 					$('#game_container').empty();
 					$('#game_container').append(new_prefs_page);
-				$(this).addClass('selected');
 			});
 			// live famstats circle (needs new icon!)
-			var lf_div = $('<div>').addClass('sm-circle-bg').css({
-				'left': '85px',
-				'top': '-10px'
-			}).append(
+			var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr('src', GM_getResourceURL('favicon')).css({
-						'position': 'absolute',
-						'top': '6px',
-						'left': '6px'
-					})
+					$('<img>').attr('src', GM_getResourceURL('favicon')).addClass('ob-prefs-img')
 				)
 			).click(function () {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
