@@ -316,7 +316,7 @@ var bulletTimer = false;
 function CheckCooldown() {
 	setTimeout(function() {
 
-		if(prefs['notifie_gta'] && !gtaTimer) {
+		if(prefs['notify_gta'] && !gtaTimer) {
 			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'));
 			if(timer > 0) {
 				gtaTimer = true;
@@ -335,7 +335,7 @@ function CheckCooldown() {
 			}
 		}
 
-		if(prefs['notifie_crime'] && !crimeTimer) {
+		if(prefs['notify_crime'] && !crimeTimer) {
 			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'));
 			if(timer > 0) {
                 crimeTimer = true;
@@ -354,7 +354,7 @@ function CheckCooldown() {
 			}
 		}
 
-		if(prefs['notifie_travel'] && !travelTimer) {
+		if(prefs['notify_travel'] && !travelTimer) {
 			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'));
 			if(timer > 0) {
 				travelTimer = true;
@@ -373,7 +373,7 @@ function CheckCooldown() {
 			}
 		}
 
-		if(prefs['notifie_bullets'] && !bulletTimer) {
+		if(prefs['notify_bullets'] && !bulletTimer) {
 			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'));
 			if(timer > 0) {
 				bulletTimer = true;
@@ -3759,10 +3759,10 @@ if (document.getElementById('game_container') !== null) {
 
 			var getnews = (prefs['bmsgNews'] ? true : false);
 			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
-            var notifie_crime = (prefs['notifie_crime'] ? true : false);
-            var notifie_gta = (prefs['notifie_gta'] ? true : false);
-			var notifie_travel = (prefs['notifie_travel'] ? true : false);
-			var notifie_bullets = (prefs['notifie_bullets'] ? true : false);
+            var notify_crime = (prefs['notify_crime'] ? true : false);
+            var notify_gta = (prefs['notify_gta'] ? true : false);
+			var notify_travel = (prefs['notify_travel'] ? true : false);
+			var notify_bullets = (prefs['notify_bullets'] ? true : false);
 			var jailHL = (prefs['jailHL'] ? true: false);
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
 			var jailHL_other = sets['jailHL_other'] || 9;
@@ -3901,40 +3901,40 @@ if (document.getElementById('game_container') !== null) {
 							$('<label>').attr('for', 'news').text('News'),
                             $('<br>'),
                             $('<input>').attr({
-                                id: 'notifie_crime',
+                                id: 'notify_crime',
                                 type: 'checkbox',
-                                checked: notifie_crime
+                                checked: notify_crime
                             }).click(function () {
-                                setA('prefs', 'notifie_crime', $('#notifie_crime:checked').length);
+                                setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
                             }),
-                            $('<label>').attr('for', 'notifie_crime').text('Crime'),
+                            $('<label>').attr('for', 'notify_crime').text('Crime'),
                             $('<br>'),
                             $('<input>').attr({
-                                id: 'notifie_gta',
+                                id: 'notify_gta',
                                 type: 'checkbox',
-                                checked: notifie_gta
+                                checked: notify_gta
                             }).click(function () {
-                                setA('prefs', 'notifie_gta', $('#notifie_gta:checked').length);
+                                setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
                             }),
-                            $('<label>').attr('for', 'notifie_gta').text('Nick a car'),
+                            $('<label>').attr('for', 'notify_gta').text('Nick a car'),
 							$('<br>'),
 							$('<input>').attr({
-								id: 'notifie_travel',
+								id: 'notify_travel',
 								type: 'checkbox',
-								checked: notifie_travel
+								checked: notify_travel
 							}).click(function () {
-								setA('prefs', 'notifie_travel', $('#notifie_travel:checked').length);
+								setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
 							}),
-							$('<label>').attr('for', 'notifie_travel').text('Travel'),
+							$('<label>').attr('for', 'notify_travel').text('Travel'),
 							$('<br>'),
 							$('<input>').attr({
-								id: 'notifie_bullets',
+								id: 'notify_bullets',
 								type: 'checkbox',
-								checked: notifie_bullets
+								checked: notify_bullets
 							}).click(function () {
-								setA('prefs', 'notifie_bullets', $('#notifie_bullets:checked').length);
+								setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
 							}),
-							$('<label>').attr('for', 'notifie_bullets').text('Buy bullets')
+							$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
 						)
 					),
 					$('<tr>').append(
@@ -4434,10 +4434,10 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
-        var notifie_crime = (prefs['notifie_crime'] ? true : false);
-        var notifie_gta = (prefs['notifie_gta'] ? true : false);
-		var notifie_travel = (prefs['notifie_travel'] ? true : false);
-		var notifie_bullets = (prefs['notifie_bullets'] ? true : false);
+        var notify_crime = (prefs['notify_crime'] ? true : false);
+        var notify_gta = (prefs['notify_gta'] ? true : false);
+		var notify_travel = (prefs['notify_travel'] ? true : false);
+		var notify_bullets = (prefs['notify_bullets'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
 		var jailHL_sel = sets['jailHL_sel'] || 'highest';
 		var jailHL_other = sets['jailHL_other'] || 9;
@@ -4576,40 +4576,40 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						$('<label>').attr('for', 'news').text('News'),
 						$('<br>'),
 						$('<input>').attr({
-							id: 'notifie_crime',
+							id: 'notify_crime',
 							type: 'checkbox',
-							checked: notifie_crime
+							checked: notify_crime
 						}).click(function () {
-							setA('prefs', 'notifie_crime', $('#notifie_crime:checked').length);
+							setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
 						}),
-						$('<label>').attr('for', 'notifie_crime').text('Crime'),
+						$('<label>').attr('for', 'notify_crime').text('Crime'),
 						$('<br>'),
 						$('<input>').attr({
-							id: 'notifie_gta',
+							id: 'notify_gta',
 							type: 'checkbox',
-							checked: notifie_gta
+							checked: notify_gta
 						}).click(function () {
-							setA('prefs', 'notifie_gta', $('#notifie_gta:checked').length);
+							setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
 						}),
-						$('<label>').attr('for', 'notifie_gta').text('Nick a car'),
+						$('<label>').attr('for', 'notify_gta').text('Nick a car'),
 						$('<br>'),
 						$('<input>').attr({
-							id: 'notifie_travel',
+							id: 'notify_travel',
 							type: 'checkbox',
-							checked: notifie_travel
+							checked: notify_travel
 						}).click(function () {
-							setA('prefs', 'notifie_travel', $('#notifie_travel:checked').length);
+							setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
 						}),
-						$('<label>').attr('for', 'notifie_travel').text('Travel'),
+						$('<label>').attr('for', 'notify_travel').text('Travel'),
 						$('<br>'),
 						$('<input>').attr({
-							id: 'notifie_bullets',
+							id: 'notify_bullets',
 							type: 'checkbox',
-							checked: notifie_bullets
+							checked: notify_bullets
 						}).click(function () {
-							setA('prefs', 'notifie_bullets', $('#notifie_gta:checked').length);
+							setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
 						}),
-						$('<label>').attr('for', 'notifie_bullets').text('Buy bullets')
+						$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
 					)
 				),
 				$('<tr>').append(
