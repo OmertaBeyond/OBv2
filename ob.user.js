@@ -3759,8 +3759,8 @@ if (document.getElementById('game_container') !== null) {
 
 			var getnews = (prefs['bmsgNews'] ? true : false);
 			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
-            var notify_crime = (prefs['notify_crime'] ? true : false);
-            var notify_gta = (prefs['notify_gta'] ? true : false);
+			var notify_crime = (prefs['notify_crime'] ? true : false);
+			var notify_gta = (prefs['notify_gta'] ? true : false);
 			var notify_travel = (prefs['notify_travel'] ? true : false);
 			var notify_bullets = (prefs['notify_bullets'] ? true : false);
 			var jailHL = (prefs['jailHL'] ? true: false);
@@ -3875,10 +3875,10 @@ if (document.getElementById('game_container') !== null) {
 							$('<br>'),
 							$('<div>').attr('id', 'Authmsg'),
 							$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
-                                if ('Notification' in window) {
-                                    Notification.requestPermission(function (perm) {
-                                        $('#Authmsg').text('Authorization for notification is: ' + perm);
-                                    });
+								if ('Notification' in window) {
+									Notification.requestPermission(function (perm) {
+										$('#Authmsg').text('Authorization for notification is: ' + perm);
+									});
 								}
 							}),
 							$('<br>'),
@@ -3899,24 +3899,24 @@ if (document.getElementById('game_container') !== null) {
 								setA('prefs', 'bmsgNews', $('#news:checked').length);
 							}),
 							$('<label>').attr('for', 'news').text('News'),
-                            $('<br>'),
-                            $('<input>').attr({
-                                id: 'notify_crime',
-                                type: 'checkbox',
-                                checked: notify_crime
-                            }).click(function () {
-                                setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
-                            }),
-                            $('<label>').attr('for', 'notify_crime').text('Crime'),
-                            $('<br>'),
-                            $('<input>').attr({
-                                id: 'notify_gta',
-                                type: 'checkbox',
-                                checked: notify_gta
-                            }).click(function () {
-                                setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
-                            }),
-                            $('<label>').attr('for', 'notify_gta').text('Nick a car'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_crime',
+								type: 'checkbox',
+								checked: notify_crime
+							}).click(function () {
+								setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_crime').text('Crime'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_gta',
+								type: 'checkbox',
+								checked: notify_gta
+							}).click(function () {
+								setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_gta').text('Nick a car'),
 							$('<br>'),
 							$('<input>').attr({
 								id: 'notify_travel',
@@ -4235,12 +4235,12 @@ $('#game_container').one('DOMNodeInserted', function () {
 		}, 1000);
 	}
 
-    if(v == 'dm' || v == 'com') {
-        setTimeout(function() {
-            CheckCooldown();
-        }, 1000);
+	if(v == 'dm' || v == 'com') {
+		setTimeout(function() {
+			CheckCooldown();
+		}, 1000);
 
-    }
+	}
 });
 
 /*
@@ -4434,8 +4434,8 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
-        var notify_crime = (prefs['notify_crime'] ? true : false);
-        var notify_gta = (prefs['notify_gta'] ? true : false);
+		var notify_crime = (prefs['notify_crime'] ? true : false);
+		var notify_gta = (prefs['notify_gta'] ? true : false);
 		var notify_travel = (prefs['notify_travel'] ? true : false);
 		var notify_bullets = (prefs['notify_bullets'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
