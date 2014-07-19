@@ -3749,8 +3749,13 @@ if (document.getElementById('game_container') !== null) {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
 			});
 
-			$('div.omerta-widget-avatar-body').append(prefs_div);
-			$('div.omerta-widget-avatar-body').append(lf_div);
+			if($('.ob-prefs-bg').length == 0) {
+				$('div.omerta-widget-avatar-body').append(prefs_div);
+			}
+
+			if($('.ob-lf-bg').length == 0) {
+				$('div.omerta-widget-avatar-body').append(lf_div);
+			}
 
 			var getnews = (prefs['bmsgNews'] ? true : false);
 			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
