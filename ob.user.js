@@ -332,6 +332,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Cars');
+    					window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -355,6 +356,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Crimes');
+    					window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -378,6 +380,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Travel');
+    					window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -401,6 +404,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./bullets2.php');
+    					window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -472,6 +476,7 @@ function CheckBmsg() {
 							};
 							notification.onclick = function () {
 								unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
+    							window.focus();
 								notification.close();
 							};
 							setV('lastbmsg', response['deaths'][0]['ts']);
