@@ -339,6 +339,7 @@ function CheckBmsg() {
 						};
 						notification.onclick = function () {
 							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
+							notification.close();
 						};
 						setV('lastbmsg', response['news'][0]['ts']);
 					}
@@ -364,6 +365,10 @@ function CheckBmsg() {
 							});
 							notification.onclose = function () {
 								setTimeout(CheckBmsg(), 60000);
+							};
+							notification.onclick = function () {
+								unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
+								notification.close();
 							};
 							setV('lastbmsg', response['deaths'][0]['ts']);
 						}
