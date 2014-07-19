@@ -4855,11 +4855,11 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		); // here we can build prefs page
 
 		if (!('Notification' in window)) {
-			$('#Authmsg', new_prefs_page).text("Your browser doesn't support notifications");
-			$('#btnNotification', new_prefs_page).remove();
+			$('#Authmsg', prefs_page).text("Your browser doesn't support notifications");
+			$('#btnNotification', prefs_page).remove();
 		} else if(Notification.permission == "granted") {
-			$('#Authmsg', new_prefs_page).text('Authorization for notification is: granted');
-			$('#btnNotification', new_prefs_page).remove();
+			$('#Authmsg', prefs_page).text('Authorization for notification is: granted');
+			$('#btnNotification', prefs_page).remove();
 		}
 
 		//replace omerta.GUI.container.loadPageCB with our own implementation that stops
