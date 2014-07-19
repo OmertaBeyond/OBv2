@@ -369,7 +369,7 @@ function CheckCooldown() {
 				travelTimer = true;
 				setTimeout(function() {
 					travelTimer = false;
-					var text = 'You can travle';
+					var text = 'You can travel';
 					var title = 'Travel (' + v + ')';
 					var notification = new Notification(title, {
 						dir: 'auto',
