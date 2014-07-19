@@ -309,6 +309,95 @@ function bnUpdate(current) {
 	}
 	setPow('bninfo', 3, plane); // save
 }
+var crimeTimer = false;
+var gtaTimer = false;
+var travelTimer = false;
+var bulletTimer = false;
+function CheckCooldown() {
+	setTimeout(function() {
+
+		if(prefs['notify_gta'] && !gtaTimer) {
+			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'));
+			if(timer > 0) {
+				gtaTimer = true;
+				setTimeout(function() {
+					gtaTimer = false;
+					var text = 'You can nick a car';
+					var title = 'Nick a car (' + v + ')';
+					var notification = new Notification(title, {
+						dir: 'auto',
+						lang: '',
+						body: text,
+						tag: 'car',
+						icon: GM_getResourceURL('red-star')
+					});
+				}, timer * 1000);
+			}
+		}
+
+		if(prefs['notify_crime'] && !crimeTimer) {
+			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'));
+			if(timer > 0) {
+                crimeTimer = true;
+				setTimeout(function() {
+					crimeTimer = false;
+					var text = 'You can do a crime';
+					var title = 'Crime (' + v + ')';
+					var notification = new Notification(title, {
+						dir: 'auto',
+						lang: '',
+						body: text,
+						tag: 'crime',
+						icon: GM_getResourceURL('red-star')
+					});
+				}, timer * 1000);
+			}
+		}
+
+		if(prefs['notify_travel'] && !travelTimer) {
+			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'));
+			if(timer > 0) {
+				travelTimer = true;
+				setTimeout(function() {
+					travelTimer = false;
+					var text = 'You can travle';
+					var title = 'Travel (' + v + ')';
+					var notification = new Notification(title, {
+						dir: 'auto',
+						lang: '',
+						body: text,
+						tag: 'Travel',
+						icon: GM_getResourceURL('red-star')
+					});
+				}, timer * 1000);
+			}
+		}
+
+		if(prefs['notify_bullets'] && !bulletTimer) {
+			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'));
+			if(timer > 0) {
+				bulletTimer = true;
+				setTimeout(function() {
+					bulletTimer = false;
+					var text = 'You can buy bullets';
+					var title = 'Bullets (' + v + ')';
+					var notification = new Notification(title, {
+						dir: 'auto',
+						lang: '',
+						body: text,
+						tag: 'Bullets',
+						icon: GM_getResourceURL('red-star')
+					});
+				}, timer * 1000);
+			}
+		}
+
+		setTimeout(function () {
+			CheckCooldown();
+		}, 60000);
+	}, 0);
+}
+
 
 function CheckBmsg() {
 	setTimeout(function () {
@@ -330,9 +419,9 @@ function CheckBmsg() {
 						var notification = new Notification(title, {
 							dir: 'auto',
 							lang: '',
-							body: text,
+				  			body: text,
 							tag: 'news',
-							icon: GM_getResourceURL('red-star'),
+							icon: GM_getResourceURL('red-star')
 						});
 						notification.onclose = function () {
 							setTimeout(CheckBmsg(), 60000);
@@ -361,7 +450,7 @@ function CheckBmsg() {
 								lang: '',
 								body: text,
 								tag: 'deaths',
-								icon: GM_getResourceURL('rip'),
+								icon: GM_getResourceURL('rip')
 							});
 							notification.onclose = function () {
 								setTimeout(CheckBmsg(), 60000);
@@ -3665,11 +3754,20 @@ if (document.getElementById('game_container') !== null) {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
 			});
 
-			$('div.omerta-widget-avatar-body').append(prefs_div);
-			$('div.omerta-widget-avatar-body').append(lf_div);
+			if($('.ob-prefs-bg').length == 0) {
+				$('div.omerta-widget-avatar-body').append(prefs_div);
+			}
+
+			if($('.ob-lf-bg').length == 0) {
+				$('div.omerta-widget-avatar-body').append(lf_div);
+			}
 
 			var getnews = (prefs['bmsgNews'] ? true : false);
 			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
+			var notify_crime = (prefs['notify_crime'] ? true : false);
+			var notify_gta = (prefs['notify_gta'] ? true : false);
+			var notify_travel = (prefs['notify_travel'] ? true : false);
+			var notify_bullets = (prefs['notify_bullets'] ? true : false);
 			var jailHL = (prefs['jailHL'] ? true: false);
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
 			var jailHL_other = sets['jailHL_other'] || 9;
@@ -3781,14 +3879,8 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
 							$('<br>'),
 							$('<div>').attr('id', 'Authmsg'),
-							$('<button>').text('Authorize for notifications').click(function () {
-								var rex = new RegExp(/Firefox\/([0-9]+)\.|Opera|Chrome/);
-								var r = navigator.userAgent.match(rex);
-								if (r[1] && r[1] < '22') {
-									$('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
-								} else if (r[0] === 'Opera') {
-									$('#Authmsg').text('You need Firefox 22.0 or Chrome to use this feature, update/change your browser!');
-								} else {
+							$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
+								if ('Notification' in window) {
 									Notification.requestPermission(function (perm) {
 										$('#Authmsg').text('Authorization for notification is: ' + perm);
 									});
@@ -3811,7 +3903,43 @@ if (document.getElementById('game_container') !== null) {
 							}).click(function () {
 								setA('prefs', 'bmsgNews', $('#news:checked').length);
 							}),
-							$('<label>').attr('for', 'news').text('News')
+							$('<label>').attr('for', 'news').text('News'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_crime',
+								type: 'checkbox',
+								checked: notify_crime
+							}).click(function () {
+								setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_crime').text('Crime'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_gta',
+								type: 'checkbox',
+								checked: notify_gta
+							}).click(function () {
+								setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_gta').text('Nick a car'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_travel',
+								type: 'checkbox',
+								checked: notify_travel
+							}).click(function () {
+								setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_travel').text('Travel'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_bullets',
+								type: 'checkbox',
+								checked: notify_bullets
+							}).click(function () {
+								setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
 						)
 					),
 					$('<tr>').append(
@@ -4055,6 +4183,14 @@ if (document.getElementById('game_container') !== null) {
 					)
 				)
 			);
+
+			if (!('Notification' in window)) {
+				$('#Authmsg', new_prefs_page).text("Your browser doesn't support notifications");
+				$('#btnNotification', new_prefs_page).remove();
+			} else if(Notification.permission == "granted") {
+				$('#Authmsg', new_prefs_page).text('Authorization for notification is: granted');
+				$('#btnNotification', new_prefs_page).remove();
+			}
 		}
 	}
 }
@@ -4102,6 +4238,13 @@ $('#game_container').one('DOMNodeInserted', function () {
 		setTimeout(function () {
 			CheckBmsg();
 		}, 1000);
+	}
+
+	if(v == 'dm' || v == 'com') {
+		setTimeout(function() {
+			CheckCooldown();
+		}, 1000);
+
 	}
 });
 
@@ -4296,6 +4439,10 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
+		var notify_crime = (prefs['notify_crime'] ? true : false);
+		var notify_gta = (prefs['notify_gta'] ? true : false);
+		var notify_travel = (prefs['notify_travel'] ? true : false);
+		var notify_bullets = (prefs['notify_bullets'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
 		var jailHL_sel = sets['jailHL_sel'] || 'highest';
 		var jailHL_other = sets['jailHL_other'] || 9;
@@ -4407,14 +4554,8 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
 						$('<br>'),
 						$('<div>').attr('id', 'Authmsg'),
-						$('<button>').text('Authorize for notifications').click(function () {
-							var rex = new RegExp(/Firefox\/([0-9]+)\.|Opera|Chrome/);
-							var r = navigator.userAgent.match(rex);
-							if (r[1] && r[1] < '22') {
-								$('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
-							} else if (r[0] === 'Opera') {
-								$('#Authmsg').text('You need Firefox 22.0 or Chrome to use this feature, update/change your browser!');
-							} else {
+						$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
+							if ('Notification' in window) {
 								Notification.requestPermission(function (perm) {
 									$('#Authmsg').text('Authorization for notification is: ' + perm);
 								});
@@ -4437,7 +4578,43 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						}).click(function () {
 							setA('prefs', 'bmsgNews', $('#news:checked').length);
 						}),
-						$('<label>').attr('for', 'news').text('News')
+						$('<label>').attr('for', 'news').text('News'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_crime',
+							type: 'checkbox',
+							checked: notify_crime
+						}).click(function () {
+							setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_crime').text('Crime'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_gta',
+							type: 'checkbox',
+							checked: notify_gta
+						}).click(function () {
+							setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_gta').text('Nick a car'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_travel',
+							type: 'checkbox',
+							checked: notify_travel
+						}).click(function () {
+							setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_travel').text('Travel'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_bullets',
+							type: 'checkbox',
+							checked: notify_bullets
+						}).click(function () {
+							setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
 					)
 				),
 				$('<tr>').append(
@@ -4681,6 +4858,14 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				)
 			)
 		); // here we can build prefs page
+
+		if (!('Notification' in window)) {
+			$('#Authmsg', prefs_page).text("Your browser doesn't support notifications");
+			$('#btnNotification', prefs_page).remove();
+		} else if(Notification.permission == "granted") {
+			$('#Authmsg', prefs_page).text('Authorization for notification is: granted');
+			$('#btnNotification', prefs_page).remove();
+		}
 
 		//replace omerta.GUI.container.loadPageCB with our own implementation that stops
 		//the scrolling animation when detecting user-initiated scrolling (feels less sluggish).
