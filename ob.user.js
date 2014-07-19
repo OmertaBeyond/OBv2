@@ -3879,8 +3879,6 @@ if (document.getElementById('game_container') !== null) {
                                     Notification.requestPermission(function (perm) {
                                         $('#Authmsg').text('Authorization for notification is: ' + perm);
                                     });
-								} else {
-                                    $('#Authmsg').text('Your browser does not support notifications!');
 								}
 							}),
 							$('<br>'),
@@ -4551,14 +4549,8 @@ $('#game_menu').one('DOMNodeInserted', function () {
 					$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
 						$('<br>'),
 						$('<div>').attr('id', 'Authmsg'),
-						$('<button>').text('Authorize for notifications').click(function () {
-							var rex = new RegExp(/Firefox\/([0-9]+)\.|Opera|Chrome/);
-							var r = navigator.userAgent.match(rex);
-							if (r[1] && r[1] < '22') {
-								$('#Authmsg').text('You need Firefox 22.0 to use this feature, update your browser!');
-							} else if (r[0] === 'Opera') {
-								$('#Authmsg').text('You need Firefox 22.0 or Chrome to use this feature, update/change your browser!');
-							} else {
+						$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
+							if ('Notification' in window) {
 								Notification.requestPermission(function (perm) {
 									$('#Authmsg').text('Authorization for notification is: ' + perm);
 								});
@@ -4861,6 +4853,14 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				)
 			)
 		); // here we can build prefs page
+
+		if (!('Notification' in window)) {
+			$('#Authmsg', new_prefs_page).text("Your browser doesn't support notifications");
+			$('#btnNotification', new_prefs_page).remove();
+		} else if(Notification.permission == "granted") {
+			$('#Authmsg', new_prefs_page).text('Authorization for notification is: granted');
+			$('#btnNotification', new_prefs_page).remove();
+		}
 
 		//replace omerta.GUI.container.loadPageCB with our own implementation that stops
 		//the scrolling animation when detecting user-initiated scrolling (feels less sluggish).
