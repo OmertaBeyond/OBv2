@@ -315,7 +315,6 @@ var travelTimer = false;
 var bulletTimer = false;
 function CheckCooldown() {
 	setTimeout(function() {
-
 		if(prefs['notify_gta'] && !gtaTimer) {
 			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'));
 			if(timer > 0) {
@@ -331,6 +330,10 @@ function CheckCooldown() {
 						tag: 'car',
 						icon: GM_getResourceURL('red-star')
 					});
+					notification.onclick = function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Cars');
+						notification.close();
+					};
 				}, timer * 1000);
 			}
 		}
@@ -350,6 +353,10 @@ function CheckCooldown() {
 						tag: 'crime',
 						icon: GM_getResourceURL('red-star')
 					});
+					notification.onclick = function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Crimes');
+						notification.close();
+					};
 				}, timer * 1000);
 			}
 		}
@@ -369,6 +376,10 @@ function CheckCooldown() {
 						tag: 'Travel',
 						icon: GM_getResourceURL('red-star')
 					});
+					notification.onclick = function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Travel');
+						notification.close();
+					};
 				}, timer * 1000);
 			}
 		}
@@ -388,6 +399,10 @@ function CheckCooldown() {
 						tag: 'Bullets',
 						icon: GM_getResourceURL('red-star')
 					});
+					notification.onclick = function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./bullets2.php');
+						notification.close();
+					};
 				}, timer * 1000);
 			}
 		}
