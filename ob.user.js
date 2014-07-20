@@ -5004,6 +5004,15 @@ $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href
 
 // Main logo in the game
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
+if (v === 'dm') {
+	$('#omerta_header #logo').css({
+		'background-image': 'url('+GM_getResourceURL('logo')+')',
+		'top': '2px',
+		'left': '0px',
+		'width': '549px',
+		'height': '104px'
+	})
+}
 // Logo on homepage
 $('img[src*="omerta-game-logo.gif"]').attr('src', GM_getResourceURL('logo-old'));
 $('img[src*="pic_bg-logo.png"]').attr('src', GM_getResourceURL('logo-old'));
