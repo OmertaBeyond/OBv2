@@ -3759,7 +3759,14 @@ if (document.getElementById('game_container') !== null) {
 			// prefs circle
 			var prefs_div = $('<div>').addClass('sm-circle-bg ob-prefs-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr('src', GM_getResourceURL('favicon')).addClass('ob-prefs-img')
+					$('<img>').attr({'src': GM_getResourceURL('favicon'), 'title': 'Omerta Beyond Preferences'}).addClass('ob-prefs-img')
+				).hover(
+					function() {
+						$(this).css('background', '#000FF0');
+					},
+					function() {
+						$(this).css('background', '#FFF');
+					}
 				)
 			).click(function () {
 					$('#game_container').empty();
@@ -3768,7 +3775,14 @@ if (document.getElementById('game_container') !== null) {
 			// live famstats circle (needs new icon!)
 			var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr('src', GM_getResourceURL('favicon')).addClass('ob-prefs-img')
+					$('<img>').attr({'src': GM_getResourceURL('favicon'), 'title': 'Omerta Beyond Live Famstats'}).addClass('ob-prefs-img')
+				).hover(
+					function() {
+						$(this).css('background', '#1EB418');
+					},
+					function() {
+						$(this).css('background', '#FFF');
+					}
 				)
 			).click(function () {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
