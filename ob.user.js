@@ -4211,7 +4211,11 @@ if (document.getElementById('game_container') !== null) {
 				$('#Authmsg', new_prefs_page).text("Your browser doesn't support notifications");
 				$('#btnNotification', new_prefs_page).remove();
 			} else if(Notification.permission == "granted") {
-				$('#Authmsg', new_prefs_page).text('Authorization for notification is: granted');
+				$('#Authmsg', new_prefs_page).text('Authorization for notification is: ').append(
+					$('<span>').text('granted').css({
+						'font-weight': 'bold'
+					})
+				);
 				$('#btnNotification', new_prefs_page).remove();
 			}
 		}
@@ -4886,7 +4890,11 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			$('#Authmsg', prefs_page).text("Your browser doesn't support notifications");
 			$('#btnNotification', prefs_page).remove();
 		} else if(Notification.permission == "granted") {
-			$('#Authmsg', prefs_page).text('Authorization for notification is: granted');
+			$('#Authmsg', prefs_page).text('Authorization for notification is: ').append(
+				$('<span>').text('granted').css({
+					'font-weight': 'bold'
+				})
+			);
 			$('#btnNotification', prefs_page).remove();
 		}
 
