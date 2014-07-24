@@ -3910,59 +3910,61 @@ if (document.getElementById('game_container') !== null) {
 								}
 							}),
 							$('<br>'),
-							$('<input>').attr({
-								id: 'deaths',
-								type: 'checkbox',
-								checked: getdeaths
-							}).click(function () {
-								setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
-							}),
-							$('<label>').attr('for', 'deaths').text('Deaths'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'news',
-								type: 'checkbox',
-								checked: getnews
-							}).click(function () {
-								setA('prefs', 'bmsgNews', $('#news:checked').length);
-							}),
-							$('<label>').attr('for', 'news').text('News'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_crime',
-								type: 'checkbox',
-								checked: notify_crime
-							}).click(function () {
-								setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_crime').text('Crime'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_gta',
-								type: 'checkbox',
-								checked: notify_gta
-							}).click(function () {
-								setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_gta').text('Nick a car'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_travel',
-								type: 'checkbox',
-								checked: notify_travel
-							}).click(function () {
-								setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_travel').text('Travel'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_bullets',
-								type: 'checkbox',
-								checked: notify_bullets
-							}).click(function () {
-								setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
+							$('<div>').addClass('notify').append(
+								$('<input>').attr({
+									id: 'deaths',
+									type: 'checkbox',
+									checked: getdeaths
+								}).click(function () {
+									setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
+								}),
+								$('<label>').attr('for', 'deaths').text('Deaths'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'news',
+									type: 'checkbox',
+									checked: getnews
+								}).click(function () {
+									setA('prefs', 'bmsgNews', $('#news:checked').length);
+								}),
+								$('<label>').attr('for', 'news').text('News'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'notify_crime',
+									type: 'checkbox',
+									checked: notify_crime
+								}).click(function () {
+									setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
+								}),
+								$('<label>').attr('for', 'notify_crime').text('Crime'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'notify_gta',
+									type: 'checkbox',
+									checked: notify_gta
+								}).click(function () {
+									setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
+								}),
+								$('<label>').attr('for', 'notify_gta').text('Nick a car'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'notify_travel',
+									type: 'checkbox',
+									checked: notify_travel
+								}).click(function () {
+									setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
+								}),
+								$('<label>').attr('for', 'notify_travel').text('Travel'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'notify_bullets',
+									type: 'checkbox',
+									checked: notify_bullets
+								}).click(function () {
+									setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
+								}),
+								$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
+							)
 						)
 					),
 					$('<tr>').append(
@@ -4071,40 +4073,42 @@ if (document.getElementById('game_container') !== null) {
 							$('<p>').html('Depending on browser and operating system, you can use either Alt + Shift + <span class="ob_hotkey_pref">' + bo_hotkey + '</span>, Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> or Ctrl + Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> to buy yourself out.'),
 							$('<span>').text('Do you want to choose players with highest/lowest remaining jailtime first, or pick one randomly?'),
 							$('<br>'),
-							$('<input>').attr({
-								name: 'jailHL_sel',
-								id: 'jailHL_high',
-								type: 'radio',
-								checked: (jailHL_sel=='highest'?true:false)
-							}).click(function () {
-								setA('sets', 'jailHL_sel', 'highest');
-							}),
-							$('<span>').append(
-								$('<label>').attr('for', 'jailHL_high').text('highest')
-							),
-							$('<br>'),
-							$('<input>').attr({
-								name: 'jailHL_sel',
-								id: 'jailHL_low',
-								type: 'radio',
-								checked: (jailHL_sel=='lowest'?true:false)
-							}).click(function () {
-								setA('sets', 'jailHL_sel', 'lowest');
-							}),
-							$('<span>').append(
-								$('<label>').attr('for', 'jailHL_low').text('lowest')
-							),
-							$('<br>'),
-							$('<input>').attr({
-								name: 'jailHL_sel',
-								id: 'jailHL_rand',
-								type: 'radio',
-								checked: (jailHL_sel=='random'?true:false)
-							}).click(function () {
-								setA('sets', 'jailHL_sel', 'random');
-							}),
-							$('<span>').append(
-								$('<label>').attr('for', 'jailHL_rand').text('random')
+							$('<div>').addClass('notify').append(
+								$('<input>').attr({
+									name: 'jailHL_sel',
+									id: 'jailHL_high',
+									type: 'radio',
+									checked: (jailHL_sel=='highest'?true:false)
+								}).click(function () {
+									setA('sets', 'jailHL_sel', 'highest');
+								}),
+								$('<span>').append(
+									$('<label>').attr('for', 'jailHL_high').text('highest')
+								),
+								$('<br>'),
+								$('<input>').attr({
+									name: 'jailHL_sel',
+									id: 'jailHL_low',
+									type: 'radio',
+									checked: (jailHL_sel=='lowest'?true:false)
+								}).click(function () {
+									setA('sets', 'jailHL_sel', 'lowest');
+								}),
+								$('<span>').append(
+									$('<label>').attr('for', 'jailHL_low').text('lowest')
+								),
+								$('<br>'),
+								$('<input>').attr({
+									name: 'jailHL_sel',
+									id: 'jailHL_rand',
+									type: 'radio',
+									checked: (jailHL_sel=='random'?true:false)
+								}).click(function () {
+									setA('sets', 'jailHL_sel', 'random');
+								}),
+								$('<span>').append(
+									$('<label>').attr('for', 'jailHL_rand').text('random')
+								)
 							)
 						)
 					),
@@ -4143,25 +4147,27 @@ if (document.getElementById('game_container') !== null) {
 							$('<br>'),
 							$('<span>').text('You can choose between a movable window or showing the options on top of the page.'),
 							$('<br>'),
-							$('<input>').attr({
-								type: 'radio',
-								id: 'AF_Floating',
-								name: 'AF_Position',
-								checked: af_position == 'floating'
-							}).click(function() {
-								setA('sets', 'af_position', 'floating');
-							}),
-							$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
-							$('<br>'),
-							$('<input>').attr({
-								type: 'radio',
-								id: 'AF_Static',
-								name: 'AF_Position',
-								checked: af_position == 'static'
-							}).click(function() {
-								setA('sets', 'af_position', 'static');
-							}),
-							$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page'),
+							$('<div>').addClass('notify').append(
+								$('<input>').attr({
+									type: 'radio',
+									id: 'AF_Floating',
+									name: 'AF_Position',
+									checked: af_position == 'floating'
+								}).click(function() {
+									setA('sets', 'af_position', 'floating');
+								}),
+								$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
+								$('<br>'),
+								$('<input>').attr({
+									type: 'radio',
+									id: 'AF_Static',
+									name: 'AF_Position',
+									checked: af_position == 'static'
+								}).click(function() {
+									setA('sets', 'af_position', 'static');
+								}),
+								$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page')
+							),
 							$('<br>'),
 							$('<br>'),
 							$('<span>').text('If the movable window is gone, click here to reset its position.'),
@@ -4589,59 +4595,61 @@ $('#game_menu').one('DOMNodeInserted', function () {
 							}
 						}),
 						$('<br>'),
-						$('<input>').attr({
-							id: 'deaths',
-							type: 'checkbox',
-							checked: getdeaths
-						}).click(function () {
-							setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
-						}),
-						$('<label>').attr('for', 'deaths').text('Deaths'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'news',
-							type: 'checkbox',
-							checked: getnews
-						}).click(function () {
-							setA('prefs', 'bmsgNews', $('#news:checked').length);
-						}),
-						$('<label>').attr('for', 'news').text('News'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_crime',
-							type: 'checkbox',
-							checked: notify_crime
-						}).click(function () {
-							setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_crime').text('Crime'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_gta',
-							type: 'checkbox',
-							checked: notify_gta
-						}).click(function () {
-							setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_gta').text('Nick a car'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_travel',
-							type: 'checkbox',
-							checked: notify_travel
-						}).click(function () {
-							setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_travel').text('Travel'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_bullets',
-							type: 'checkbox',
-							checked: notify_bullets
-						}).click(function () {
-							setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
+						$('<div>').addClass('notify').append(
+							$('<input>').attr({
+								id: 'deaths',
+								type: 'checkbox',
+								checked: getdeaths
+							}).click(function () {
+								setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
+							}),
+							$('<label>').attr('for', 'deaths').text('Deaths'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'news',
+								type: 'checkbox',
+								checked: getnews
+							}).click(function () {
+								setA('prefs', 'bmsgNews', $('#news:checked').length);
+							}),
+							$('<label>').attr('for', 'news').text('News'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_crime',
+								type: 'checkbox',
+								checked: notify_crime
+							}).click(function () {
+								setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_crime').text('Crime'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_gta',
+								type: 'checkbox',
+								checked: notify_gta
+							}).click(function () {
+								setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_gta').text('Nick a car'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_travel',
+								type: 'checkbox',
+								checked: notify_travel
+							}).click(function () {
+								setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_travel').text('Travel'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_bullets',
+								type: 'checkbox',
+								checked: notify_bullets
+							}).click(function () {
+								setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
+						)
 					)
 				),
 				$('<tr>').append(
@@ -4750,40 +4758,42 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						$('<p>').html('Depending on browser and operating system, you can use either Alt + Shift + <span class="ob_hotkey_pref">' + bo_hotkey + '</span>, Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> or Ctrl + Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> to buy yourself out.'),
 						$('<span>').text('Do you want to choose players with highest/lowest remaining jailtime first, or pick one randomly?'),
 						$('<br>'),
-						$('<input>').attr({
-							name: 'jailHL_sel',
-							id: 'jailHL_high',
-							type: 'radio',
-							checked: (jailHL_sel=='highest'?true:false)
-						}).click(function () {
-							setA('sets', 'jailHL_sel', 'highest');
-						}),
-						$('<span>').append(
-							$('<label>').attr('for', 'jailHL_high').text('highest')
-						),
-						$('<br>'),
-						$('<input>').attr({
-							name: 'jailHL_sel',
-							id: 'jailHL_low',
-							type: 'radio',
-							checked: (jailHL_sel=='lowest'?true:false)
-						}).click(function () {
-							setA('sets', 'jailHL_sel', 'lowest');
-						}),
-						$('<span>').append(
-							$('<label>').attr('for', 'jailHL_low').text('lowest')
-						),
-						$('<br>'),
-						$('<input>').attr({
-							name: 'jailHL_sel',
-							id: 'jailHL_rand',
-							type: 'radio',
-							checked: (jailHL_sel=='random'?true:false)
-						}).click(function () {
-							setA('sets', 'jailHL_sel', 'random');
-						}),
-						$('<span>').append(
-							$('<label>').attr('for', 'jailHL_rand').text('random')
+						$('<div>').addClass('notify').append(
+							$('<input>').attr({
+								name: 'jailHL_sel',
+								id: 'jailHL_high',
+								type: 'radio',
+								checked: (jailHL_sel=='highest'?true:false)
+							}).click(function () {
+								setA('sets', 'jailHL_sel', 'highest');
+							}),
+							$('<span>').append(
+								$('<label>').attr('for', 'jailHL_high').text('highest')
+							),
+							$('<br>'),
+							$('<input>').attr({
+								name: 'jailHL_sel',
+								id: 'jailHL_low',
+								type: 'radio',
+								checked: (jailHL_sel=='lowest'?true:false)
+							}).click(function () {
+								setA('sets', 'jailHL_sel', 'lowest');
+							}),
+							$('<span>').append(
+								$('<label>').attr('for', 'jailHL_low').text('lowest')
+							),
+							$('<br>'),
+							$('<input>').attr({
+								name: 'jailHL_sel',
+								id: 'jailHL_rand',
+								type: 'radio',
+								checked: (jailHL_sel=='random'?true:false)
+							}).click(function () {
+								setA('sets', 'jailHL_sel', 'random');
+							}),
+							$('<span>').append(
+								$('<label>').attr('for', 'jailHL_rand').text('random')
+							)
 						)
 					)
 				),
@@ -4822,25 +4832,27 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						$('<br>'),
 						$('<span>').text('You can choose between a movable window or showing the options on top of the page.'),
 						$('<br>'),
-						$('<input>').attr({
-							type: 'radio',
-							id: 'AF_Floating',
-							name: 'AF_Position',
-							checked: af_position == 'floating'
-						}).click(function() {
-							setA('sets', 'af_position', 'floating');
-						}),
-						$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
-						$('<br>'),
-						$('<input>').attr({
-							type: 'radio',
-							id: 'AF_Static',
-							name: 'AF_Position',
-							checked: af_position == 'static'
-						}).click(function() {
-							setA('sets', 'af_position', 'static');
-						}),
-						$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page'),
+						$('<div>').addClass('notify').append(
+							$('<input>').attr({
+								type: 'radio',
+								id: 'AF_Floating',
+								name: 'AF_Position',
+								checked: af_position == 'floating'
+							}).click(function() {
+								setA('sets', 'af_position', 'floating');
+							}),
+							$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
+							$('<br>'),
+							$('<input>').attr({
+								type: 'radio',
+								id: 'AF_Static',
+								name: 'AF_Position',
+								checked: af_position == 'static'
+							}).click(function() {
+								setA('sets', 'af_position', 'static');
+							}),
+							$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page')
+						),
 						$('<br>'),
 						$('<br>'),
 						$('<span>').text('If the movable window is gone, click here to reset its position.'),
@@ -4851,6 +4863,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 								setV('AFleft', '300');
 							}
 						})
+
 					)
 				),
 				$('<tr>').append(

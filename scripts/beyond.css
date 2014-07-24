@@ -236,3 +236,12 @@ span label {
 	top: 6px;
 	left: 6px;
 }
+
+.notify {
+	display: inline-block;
+	text-align: left;
+}
+
+.notify label {
+	padding-left: 2px;
+}
