@@ -464,7 +464,7 @@ function CheckBmsg() {
 								text += extra + ' ' + time + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + fam + '\n';
 							}
 
-							var notification = new Notification('Deaths!', {
+							var notification = new Notification('Deaths! (' + v + ')', {
 								dir: 'auto',
 								lang: '',
 								body: text,
