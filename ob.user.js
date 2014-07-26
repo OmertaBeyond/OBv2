@@ -933,7 +933,22 @@ if (document.getElementById('game_container') !== null) {
 			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
 			var startMonth = startDate.getMonth()+1 >= 10 ? (startDate.getMonth()+1) : '0' + (startDate.getMonth()+1);
 			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr +')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays-1) + ' days old)');
-			
+
+			// crime stats
+			if(!IsNewVersion()) {
+				vTr = 3;
+			} else {
+				vTr = 2;
+			}
+			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text());
+			var successCrimes = parseInt(getV('crimeSuccess', 0));
+			if(successCrimes >= 1) {
+				var successRate = (successCrimes / crimeAttempts) * 100;
+				var earned = getV('crimeMoney', 0);
+				var newText = crimeAttempts + ' ($' + commafy(earned) + ' ' + successRate.toFixed(2) + '%)';
+				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').html(newText);
+			}
+
 			// Visual improvement
 			if (!IsNewVersion()) {
 				$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
@@ -3432,6 +3447,20 @@ if (document.getElementById('game_container') !== null) {
 				$('input.option:last').prop('checked', true);
 			}, 100);
 		}
+
+		if(on_page('module=Crimes') && nn == 'font') {
+			var text = $('#game_container').text().trim();
+			if(text.match(/\$ ([,\d]+)/) != null) {
+				var oldValue = parseInt(getV('crimeMoney', 0));
+				var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+				setV('crimeMoney', (sum + oldValue));
+
+				var totalSuccess = parseInt(getV("crimeSuccess", 0));
+				++totalSuccess;
+				setV('crimeSuccess', totalSuccess);
+			}
+		}
+
 		//---------------- Cars ----------------
 		if (on_page('module=Cars') && nn == 'div') {
 			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
