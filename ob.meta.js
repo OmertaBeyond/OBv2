@@ -16,8 +16,10 @@
 // @author                   Rix <rix@omertabeyond.com>
 // @author                   MrWhite <mrwhite@omertabeyond.com>
 // @author                   MurderInc <murderinc@omertabeyond.com>
+// @author                   Sebbe <sebbe@omertabeyond.com>
 // @oujs:author              vBm
 // @oujs:collaborator        MurderInc
+// @oujs:collaborator        Sebbe
 // @license                  GNU General Public License v3
 // @contributionURL          https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=sbanks%40omertabeyond%2ecom&lc=GB&item_name=Omerta%20Beyond&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 // @contributionAmount       €3.00
