@@ -34,8 +34,10 @@
 // @author                   Rix <rix@omertabeyond.com>
 // @author                   MrWhite <mrwhite@omertabeyond.com>
 // @author                   MurderInc <murderinc@omertabeyond.com>
+// @author                   Sebbe <sebbe@omertabeyond.com>
 // @oujs:author              vBm
 // @oujs:collaborator        MurderInc
+// @oujs:collaborator        Sebbe
 // @license                  GNU General Public License v3
 // @contributionURL          https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=sbanks%40omertabeyond%2ecom&lc=GB&item_name=Omerta%20Beyond&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 // @contributionAmount       €3.00
@@ -557,6 +559,30 @@ function calcRaidResult(profit, protection) {
 	return profit * (110 - protection) / 1000;
 }
 
+// function to parse date string (09-07-2014 09:30:54)
+function datestringParse(dateString) {
+	var dateTime = dateString.split(' ');
+	var date= dateTime[0].split('-');
+	var dd = date[0];
+	var mm = date[1]-1;
+	var yyyy = date[2];
+
+	var time = dateTime[1].split(":");
+	var h = time[0];
+	var m = time[1];
+	var s = parseInt(time[2]); //get rid of that 00.0;
+
+	return new Date(yyyy,mm,dd,h,m,s);
+}
+
+function IsNewVersion() {
+	if(v == 'dm') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 /*
  * Main game listener
  */
@@ -870,7 +896,7 @@ if (document.getElementById('game_container') !== null) {
 			// Update info
 			bnUpdate(1);
 			// Grab busts for Jail page
-			if (v == 'com' || v == 'nl') {
+			if (!IsNewVersion()) {
 				var bos = $('.thinline:eq(5)>tbody>tr:eq(2)>td:last').text().replace(/,/g, '');
 			} else {
 				var bos = $('.thinline:eq(5)>tbody>tr:eq(1)>td:last').text().replace(/,/g, '');
@@ -878,7 +904,7 @@ if (document.getElementById('game_container') !== null) {
 			setV('bustouts', bos);
 			// Interest reminder
 			if(!$('#interestRow').length) {
-				if (v == 'com' || v == 'nl') {
+				if (!IsNewVersion()) {
 					var inbank = $('.thinline:eq(4)>tbody>tr:eq(3)>td:last>a').html().replace(/\D/g, '');
 				} else {
 					var inbank = $('.thinline:eq(4)>tbody>tr:eq(2)>td:last>a').html().replace(/\D/g, '');
@@ -893,8 +919,51 @@ if (document.getElementById('game_container') !== null) {
 					$('.thinline:eq(4)').append(tr);
 				}
 			}
+
+			// Tell how old the acount is
+			var startDate = new Date();
+			var vTr;
+			if(IsNewVersion()) {
+				startDate = datestringParse($('table.thinline:eq(0)>tbody>tr:eq(5)>td:last').text());
+				vTr = 5;
+			} else {
+				startDate = datestringParse($('table.thinline:eq(0)>tbody>tr:eq(6)>td:last').text());
+				vTr = 6;
+			}
+			var diff = Math.abs(Date.now() - startDate.getTime());
+			var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
+			var startMonth = startDate.getMonth()+1 >= 10 ? (startDate.getMonth()+1) : '0' + (startDate.getMonth()+1);
+			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr +')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays-1) + ' days old)');
+
+			// crime stats
+			if(!IsNewVersion()) {
+				vTr = 3;
+			} else {
+				vTr = 2;
+			}
+			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text());
+			var successCrimes = parseInt(getV('crimeSuccess', 0));
+			if(successCrimes >= 1) {
+				var successRate = (successCrimes / crimeAttempts) * 100;
+				var earned = getV('crimeMoney', 0);
+				var newText = crimeAttempts + ' ($' + commafy(earned) + ' ' + successRate.toFixed(2) + '%)';
+				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').html(newText);
+			}
+
+			// car
+			++vTr; // next row
+			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text());
+			var successCars = parseInt(getV('carSuccess', 0));
+			if(successCars >= 1) {
+				var successRate = (successCars / carAttempts) * 100;
+				var earned = getV('carMoney', 0);
+				var newText = crimeAttempts + ' ($' + commafy(earned) + ' ' + successRate.toFixed(2) + '%)';
+				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').html(newText);
+			}
+
 			// Visual improvement
-			if (v == 'com' || v == 'nl') {
+			if (!IsNewVersion()) {
 				$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
 			} else {
 				$('.thinline:eq(4)>tbody>tr:eq(2)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
@@ -3391,7 +3460,22 @@ if (document.getElementById('game_container') !== null) {
 				$('input.option:last').prop('checked', true);
 			}, 100);
 		}
+
+		if(on_page('module=Crimes') && nn == 'font') {
+			var text = $('#game_container').text().trim();
+			if(text.match(/\$ ([,\d]+)/) != null) {
+				var oldValue = parseInt(getV('crimeMoney', 0));
+				var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+				setV('crimeMoney', (sum + oldValue));
+
+				var totalSuccess = parseInt(getV("crimeSuccess", 0));
+				++totalSuccess;
+				setV('crimeSuccess', totalSuccess);
+			}
+		}
+
 		//---------------- Cars ----------------
+		//---------- If Lackeys is on ----------
 		if (on_page('module=Cars') && nn == 'div') {
 			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
 			// Loop cars
@@ -3406,6 +3490,19 @@ if (document.getElementById('game_container') !== null) {
 			$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
 				$('<span>').text('total value: $'+commafy(totalCarval))
 			);
+		}
+
+		//------ Successfull car nick. Does not include lackeys -----
+		if(on_page('module=Cars') && nn == 'center') {
+			var text = $('#game_container').text().trim();
+			if(text.match(/\[\$ ([,\d]+)\]/) != null) {
+				var oldValue = parseInt(getV('carMoney', 0));
+				var sum = text.match(/\[\$ ([,\d]+)\]/)[1].replace(',', '');
+				setV("carMoney", (sum + oldValue));
+				var totalSuccess = parseInt(getV('carSuccess', 0));
+				++totalSuccess;
+				setV('carSuccess', totalSuccess);
+			}
 		}
 		//---------------- Obay ----------------
 		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
