@@ -949,6 +949,17 @@ if (document.getElementById('game_container') !== null) {
 				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').html(newText);
 			}
 
+			// car
+			++vTr; // next row
+			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text());
+			var successCars = parseInt(getV('carSuccess', 0));
+			if(successCars >= 1) {
+				var successRate = (successCars / carAttempts) * 100;
+				var earned = getV('carMoney', 0);
+				var newText = crimeAttempts + ' ($' + commafy(earned) + ' ' + successRate.toFixed(2) + '%)';
+				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').html(newText);
+			}
+
 			// Visual improvement
 			if (!IsNewVersion()) {
 				$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
@@ -3476,6 +3487,19 @@ if (document.getElementById('game_container') !== null) {
 			$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
 				$('<span>').text('total value: $'+commafy(totalCarval))
 			);
+		}
+
+		//------ Successfull car nick. Does not include lackeys -----
+		if(on_page('module=Cars') && nn == 'center') {
+			var text = $('#game_container').text().trim();
+			if(text.match(/\[\$ ([,\d]+)\]/) != null) {
+				var oldValue = parseInt(getV('carMoney', 0));
+				var sum = text.match(/\[\$ ([,\d]+)\]/)[1].replace(',', '');
+				setV("carMoney", (sum + oldValue));
+				var totalSuccess = parseInt(getV('carSuccess', 0));
+				++totalSuccess;
+				setV('carSuccess', totalSuccess);
+			}
 		}
 		//---------------- Obay ----------------
 		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
