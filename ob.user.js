@@ -947,19 +947,20 @@ if (document.getElementById('game_container') !== null) {
 			if(successCrimes >= 1) {
 				var successRate = (successCrimes / crimeAttempts) * 100;
 				var earned = getV('crimeMoney', 0);
-				var newText = crimeAttempts + ' ($' + commafy(earned) + ' ' + successRate.toFixed(2) + '%)';
-				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').html(newText);
+				var newText = '<tr><td><b>Crime success</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
+				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')').after(newText);
 			}
 
 			// car
 			++vTr; // next row
+			++vTr; // next row again because we added a row
 			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text());
 			var successCars = parseInt(getV('carSuccess', 0));
 			if(successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
 				var earned = getV('carMoney', 0);
-				var newText = crimeAttempts + ' ($' + commafy(earned) + ' ' + successRate.toFixed(2) + '%)';
-				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').html(newText);
+				var newText = '<tr><td><b>Car nicking success</b></td><td>' + successCars + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
+				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')').after(newText);
 			}
 
 			// Visual improvement
@@ -3497,7 +3498,7 @@ if (document.getElementById('game_container') !== null) {
 			var text = $('#game_container').text().trim();
 			if(text.match(/\[\$ ([,\d]+)\]/) != null) {
 				var oldValue = parseInt(getV('carMoney', 0));
-				var sum = text.match(/\[\$ ([,\d]+)\]/)[1].replace(',', '');
+				var sum = parseInt(text.match(/\[\$ ([,\d]+)\]/)[1].replace(',', ''));
 				setV("carMoney", (sum + oldValue));
 				var totalSuccess = parseInt(getV('carSuccess', 0));
 				++totalSuccess;
