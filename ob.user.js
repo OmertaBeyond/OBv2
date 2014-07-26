@@ -557,6 +557,22 @@ function calcRaidResult(profit, protection) {
 	return profit * (110 - protection) / 1000;
 }
 
+// function to parse date string (09-07-2014 09:30:54)
+function datestringParse(dateString) {
+	var dateTime = dateString.split(' ');
+	var date= dateTime[0].split('-');
+	var dd = date[0];
+	var mm = date[1]-1;
+	var yyyy = date[2];
+
+	var time = dateTime[1].split(":");
+	var h = time[0];
+	var m = time[1];
+	var s = parseInt(time[2]); //get rid of that 00.0;
+
+	return new Date(yyyy,mm,dd,h,m,s);
+}
+
 /*
  * Main game listener
  */
