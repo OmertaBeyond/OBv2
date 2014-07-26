@@ -573,6 +573,14 @@ function datestringParse(dateString) {
 	return new Date(yyyy,mm,dd,h,m,s);
 }
 
+function IsNewVersion() {
+	if(v == 'dm') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 /*
  * Main game listener
  */
