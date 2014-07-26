@@ -3473,6 +3473,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		//---------------- Cars ----------------
+		//---------- If Lackeys is on ----------
 		if (on_page('module=Cars') && nn == 'div') {
 			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
 			// Loop cars
