@@ -917,6 +917,23 @@ if (document.getElementById('game_container') !== null) {
 					$('.thinline:eq(4)').append(tr);
 				}
 			}
+
+			// Tell how old the acount is
+			var startDate = new Date();
+			var vTr;
+			if(IsNewVersion()) {
+				startDate = datestringParse($('table.thinline:eq(0)>tbody>tr:eq(5)>td:last').text());
+				vTr = 5;
+			} else {
+				startDate = datestringParse($('table.thinline:eq(0)>tbody>tr:eq(6)>td:last').text());
+				vTr = 6;
+			}
+			var diff = Math.abs(Date.now() - startDate.getTime());
+			var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
+			var startMonth = startDate.getMonth()+1 >= 10 ? (startDate.getMonth()+1) : '0' + (startDate.getMonth()+1);
+			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr +')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays-1) + ' days old)');
+			
 			// Visual improvement
 			if (!IsNewVersion()) {
 				$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
