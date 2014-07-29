@@ -315,16 +315,41 @@ var crimeTimer = false;
 var gtaTimer = false;
 var travelTimer = false;
 var bulletTimer = false;
+var bgTimer = false;
+
 function CheckCooldown() {
 	setTimeout(function() {
+		if(prefs['notify_bg'] && !bgTimer) {
+			var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
+			if(timer > 0) {
+				bgTimer = true;
+				setTimeout(function() {
+					bgTimer = false;
+					var text = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
+					var title = 'Train Bodygyuard (' + v + ')';
+					var notification = new Notification(title, {
+						dir: 'bg',
+						lang: '',
+						body: text,
+						tag: 'bg',
+						icon: GM_getResourceURL('red-star')
+					});
+					notification.onclick = function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Bodyguards');
+						window.focus();
+						notification.close();
+					};
+				}, timer * 1000);
+			}
+		}
 		if(prefs['notify_gta'] && !gtaTimer) {
-			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'));
+			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
 			if(timer > 0) {
 				gtaTimer = true;
 				setTimeout(function() {
 					gtaTimer = false;
-					var text = 'You can nick a car';
-					var title = 'Nick a car (' + v + ')';
+					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
+					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')';
 					var notification = new Notification(title, {
 						dir: 'auto',
 						lang: '',
@@ -334,7 +359,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Cars');
-    					window.focus();
+						window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -342,9 +367,9 @@ function CheckCooldown() {
 		}
 
 		if(prefs['notify_crime'] && !crimeTimer) {
-			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'));
+			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
 			if(timer > 0) {
-                crimeTimer = true;
+				crimeTimer = true;
 				setTimeout(function() {
 					crimeTimer = false;
 					var text = 'You can do a crime';
@@ -358,7 +383,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Crimes');
-    					window.focus();
+						window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -366,7 +391,7 @@ function CheckCooldown() {
 		}
 
 		if(prefs['notify_travel'] && !travelTimer) {
-			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'));
+			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
 			if(timer > 0) {
 				travelTimer = true;
 				setTimeout(function() {
@@ -382,7 +407,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Travel');
-    					window.focus();
+						window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -390,7 +415,7 @@ function CheckCooldown() {
 		}
 
 		if(prefs['notify_bullets'] && !bulletTimer) {
-			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'));
+			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
 			if(timer > 0) {
 				bulletTimer = true;
 				setTimeout(function() {
@@ -406,7 +431,7 @@ function CheckCooldown() {
 					});
 					notification.onclick = function () {
 						unsafeWindow.omerta.GUI.container.loadPage('./bullets2.php');
-    					window.focus();
+						window.focus();
 						notification.close();
 					};
 				}, timer * 1000);
@@ -478,7 +503,7 @@ function CheckBmsg() {
 							};
 							notification.onclick = function () {
 								unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
-    							window.focus();
+								window.focus();
 								notification.close();
 							};
 							setV('lastbmsg', response['deaths'][0]['ts']);
@@ -4371,7 +4396,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 		}, 1000);
 	}
 
-	if(v == 'dm' || v == 'com') {
+	if(v == 'dm' || v == 'com' || v == 'nl') {
 		setTimeout(function() {
 			CheckCooldown();
 		}, 1000);
@@ -4574,6 +4599,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var notify_gta = (prefs['notify_gta'] ? true : false);
 		var notify_travel = (prefs['notify_travel'] ? true : false);
 		var notify_bullets = (prefs['notify_bullets'] ? true : false);
+		var notify_bg = (prefs['notify_bg'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
 		var jailHL_sel = sets['jailHL_sel'] || 'highest';
 		var jailHL_other = sets['jailHL_other'] || 9;
@@ -4744,9 +4770,18 @@ $('#game_menu').one('DOMNodeInserted', function () {
 								type: 'checkbox',
 								checked: notify_bullets
 							}).click(function () {
-								setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
+								setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
 							}),
-							$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
+							$('<label>').attr('for', 'notify_bullets').text('Buy bullets'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_bg',
+								type: 'checkbox',
+								checked: notify_bg
+							}).click(function () {
+								setA('prefs', 'notify_bg', $('#notify_bg:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_bg').text('Train BG')
 						)
 					)
 				),
