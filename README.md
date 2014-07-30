@@ -31,6 +31,7 @@ Note: if you have time/knowledge, help us to make it fully working/compatible.
 * [sbanks](https://github.com/susanbanks) - Admin, Website
 * [MurderInc](https://github.com/baelor) - Developer
 * [Brainscrewer](https://github.com/Brainscrewer) - Code contributor
+* [Sebbe](https://github.com/Sebbe) - Code contributor
 
 Many thanks to everyone who supported development without having direct push access.
 
