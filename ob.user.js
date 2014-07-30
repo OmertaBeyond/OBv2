@@ -2682,8 +2682,7 @@ if (document.getElementById('game_container') !== null) {
 							}).css('background-color', '#000')
 						),
 						$('<tr>').css({
-							'border-bottom': '1px solid #000',
-							'background-color': '#F0F0F0'
+							'border-bottom': '1px solid #000'
 						}).append(
 							$('<td>').html('&nbsp; City'),
 							$('<td>').html('&nbsp; Booze'),
@@ -2698,7 +2697,7 @@ if (document.getElementById('game_container') !== null) {
 						tr.hover(function (event) {
 							$(this).css('backgroundColor', '#888');
 						}, function (event) {
-							$(this).css('backgroundColor', '#F0F0F0');
+							$(this).css('backgroundColor', 'transparent');
 						});
 
 						var td = $('<td>').attr('colspan', '5').css({
