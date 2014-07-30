@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.39
-// @date                     26-07-2014
+// @version                  2.0.40
+// @date                     30-07-2014
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -17,6 +17,7 @@
 // @author                   MrWhite <mrwhite@omertabeyond.com>
 // @author                   MurderInc <murderinc@omertabeyond.com>
 // @author                   Sebbe <sebbe@omertabeyond.com>
+// @author                   Brainscrewer <brainscrewer@omertabeyond.com>
 // @oujs:author              vBm
 // @oujs:collaborator        MurderInc
 // @oujs:collaborator        Sebbe
