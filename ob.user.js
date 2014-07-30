@@ -350,7 +350,7 @@ function CheckCooldown() {
 				setTimeout(function() {
 					gtaTimer = false;
 					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
-					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')';
+					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
 					var notification = new Notification(title, {
 						dir: 'auto',
 						lang: '',
