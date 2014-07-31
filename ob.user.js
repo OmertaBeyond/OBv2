@@ -3635,13 +3635,21 @@ if (document.getElementById('game_container') !== null) {
 				}).append(
 					$('<option>').attr('value', '0').text('-----'),
 					$('<option>').attr('value', '1').text('Above'),
-					$('<option>').attr('value', '2').text('Below')
-				),
+					$('<option>').attr('value', '2').text('Below'),
+					$('<option>').attr('value', '3').text('Between')
+				).on('change', function() { 
+					$('#selval2').toggle($(this).val() === '3')) 
+				}),
 				$('<input>').attr({
 					type: 'text',
 					id: 'selval',
 					size: '9'
 				}),
+				$('<input>').attr({
+					type: 'text',
+					id: 'selval2',
+					size: '9'
+				}).css('display', 'none'),
 				$('<input>').attr({
 					type: 'button',
 					id: 'selgo',
@@ -3659,6 +3667,13 @@ if (document.getElementById('game_container') !== null) {
 								check.prop('checked', false);
 							}
 							if ((carVal > val && sort == 1) || (carVal < val && sort == 2)) {
+								if (comment.indexOf('IN SAFEHOUSE') !== -1){
+									check.prop('checked', false);
+								} else {
+									check.prop('checked', true);
+								}
+							}
+							if ((carVal >= val && (carVal <= maxPrice)) && sort == 3){
 								if (comment.indexOf('IN SAFEHOUSE') !== -1){
 									check.prop('checked', false);
 								} else {
