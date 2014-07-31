@@ -593,7 +593,7 @@ function datestringParse(dateString) {
 	var mm = date[1]-1;
 	var yyyy = date[2];
 
-	var time = dateTime[1].split(":");
+	var time = dateTime[1].split(':');
 	var h = time[0];
 	var m = time[1];
 	var s = parseInt(time[2]); //get rid of that 00.0;
@@ -2457,7 +2457,7 @@ if (document.getElementById('game_container') !== null) {
 							id: 'cb',
 							type: 'checkbox'
 						}).click(function () {
-							hideLaughing($("#cb").is(':checked'));
+							hideLaughing($('#cb').is(':checked'));
 						}),
 						$('<label />').attr('for', 'cb').text(hide_text)
 					)
@@ -3494,7 +3494,7 @@ if (document.getElementById('game_container') !== null) {
 				var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
 				setV('crimeMoney', (sum + oldValue));
 
-				var totalSuccess = parseInt(getV("crimeSuccess", 0));
+				var totalSuccess = parseInt(getV('crimeSuccess', 0));
 				++totalSuccess;
 				setV('crimeSuccess', totalSuccess);
 			}
@@ -3524,7 +3524,7 @@ if (document.getElementById('game_container') !== null) {
 			if(text.match(/\[\$ ([,\d]+)\]/) != null) {
 				var oldValue = parseInt(getV('carMoney', 0));
 				var sum = parseInt(text.match(/\[\$ ([,\d]+)\]/)[1].replace(',', ''));
-				setV("carMoney", (sum + oldValue));
+				setV('carMoney', (sum + oldValue));
 				var totalSuccess = parseInt(getV('carSuccess', 0));
 				++totalSuccess;
 				setV('carSuccess', totalSuccess);
@@ -4337,9 +4337,9 @@ if (document.getElementById('game_container') !== null) {
 			);
 
 			if (!('Notification' in window)) {
-				$('#Authmsg', new_prefs_page).text("Your browser doesn't support notifications");
+				$('#Authmsg', new_prefs_page).text('Your browser doesn\'t support notifications');
 				$('#btnNotification', new_prefs_page).remove();
-			} else if(Notification.permission == "granted") {
+			} else if (Notification.permission == 'granted') {
 				$('#Authmsg', new_prefs_page).text('Authorization for notification is: ').append(
 					$('<span>').text('granted').css({
 						'font-weight': 'bold'
@@ -5033,9 +5033,9 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		); // here we can build prefs page
 
 		if (!('Notification' in window)) {
-			$('#Authmsg', prefs_page).text("Your browser doesn't support notifications");
+			$('#Authmsg', prefs_page).text('Your browser doesn\'t support notifications');
 			$('#btnNotification', prefs_page).remove();
-		} else if(Notification.permission == "granted") {
+		} else if (Notification.permission == 'granted') {
 			$('#Authmsg', prefs_page).text('Authorization for notification is: ').append(
 				$('<span>').text('granted').css({
 					'font-weight': 'bold'
