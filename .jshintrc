@@ -46,5 +46,5 @@
     // Relaxing
 
     "sub"           : true,     // true: Tolerate using `[]` notation when it can still be expressed in dot notation
-    "shadow"        : true
+    "shadow"        : true      // true: Tolerate declaring a variable that had been already declared somewhere in the outer scope.
 }
