@@ -19,8 +19,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.40
-// @date                     30-07-2014
+// @version                  2.0.41
+// @date                     01-08-2014
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -3637,7 +3637,7 @@ if (document.getElementById('game_container') !== null) {
 					$('<option>').attr('value', '1').text('Above'),
 					$('<option>').attr('value', '2').text('Below'),
 					$('<option>').attr('value', '3').text('Between')
-				).on('change', function() { 
+				).on('change', function() {
 					$('#selval2').toggle($(this).val() === '3');
 				}),
 				$('<input>').attr({
