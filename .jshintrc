@@ -23,7 +23,8 @@
         "GM_openInTab",
         "GM_xmlhttpRequest",
         "unsafeWindow",
-        "GM_setClipboard"
+        "GM_setClipboard",
+        "Notification"
     ],
 
     // Development.
