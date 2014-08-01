@@ -3638,7 +3638,7 @@ if (document.getElementById('game_container') !== null) {
 					$('<option>').attr('value', '2').text('Below'),
 					$('<option>').attr('value', '3').text('Between')
 				).on('change', function() { 
-					$('#selval2').toggle($(this).val() === '3')) 
+					$('#selval2').toggle($(this).val() === '3');
 				}),
 				$('<input>').attr({
 					type: 'text',
