@@ -1,5 +1,6 @@
 ![OBv2](images/logo.png "Omerta Beyond v2")
 
+[![Build Status](https://travis-ci.org/OmertaBeyond/OBv2.svg?branch=master)](https://travis-ci.org/OmertaBeyond/OBv2)
 
 ## About
 
