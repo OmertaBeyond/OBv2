@@ -616,9 +616,9 @@ function IsNewVersion() {
  */
 
 if (document.getElementById('game_container') !== null) {
-	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+	var mutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
-	if (MutationObserver) {
+	if (mutationObserver) {
 		var observer = new MutationObserver(function(mutations) {
 			mutations.forEach(function(mutation) {
 				for (var i = 0; i < mutation.addedNodes.length; i++) {
@@ -653,7 +653,7 @@ if (document.getElementById('game_container') !== null) {
 		}, true);
 	}
 
-	function gameContainerChanged(node) {
+	var gameContainerChanged = function(node) {
 		var nn = node.tagName.toLowerCase();
 		var nid = node.getAttribute('id');
 		var wlh = window.location.hash;
@@ -2304,9 +2304,9 @@ if (document.getElementById('game_container') !== null) {
 			var arr = $(msgTxt).html().split(' ');
 			var linkify = ['Route 66 heist', 'Organised Crime', 'Mega Organized Crime', 'Target not found', 'Carrace invite', 'Target found', 'Kill success', 'Witness statement', 'Condolences', 'found', 'Ticket update', 'Crashed Message', 'Invitation', 'Raid Notification', 'Married', 'Wedding Gift', 'Wedding', 'Wedding Invitation', 'shot!'];
 
-			function setArr(num) {
+			var setArr = function (num) {
 				return (arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>');
-			}
+			};
 
 			var WitnessMsg = new RegExp(linkify[7]); // Witness statement
 			if (WitnessMsg.test(msgType)) {
@@ -2425,7 +2425,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 
 				// Hide useless entries
-				function hideLaughing(hide) {
+				var hideLaughing = function(hide) {
 					setA('sets', 'sluggsHideLaughing', hide);
 					sluggsHideLaughing = hide;
 					x = 0;
@@ -2455,7 +2455,7 @@ if (document.getElementById('game_container') !== null) {
 							++x;
 						}
 					});
-				}
+				};
 				var hide_text = (v == 'nl' ? 'Verberg "Sluggs lacht om" meldingen' : 'Hide "Sluggs is laughing" entries');
 				$('div.oheader:last').append(
 					$('<span>').append(
@@ -2479,7 +2479,7 @@ if (document.getElementById('game_container') !== null) {
 						if (confirm('Are you sure you want to fire ALL lackeys?')) {
 							$('#ob_fire_all').val('Firing lackeys ...').prop('disabled', true);
 							var jailWarn = false;
-							function fireLackey(lackeyIndex) {
+							var fireLackey = function (lackeyIndex) {
 								$.post('BeO/webroot/?module=Lackeys&action=fire', { lackey: lackeyIndex }).done(function(data) {
 									if (data.indexOf('jail') !== -1) {
 										jailWarn = true;
@@ -2495,7 +2495,7 @@ if (document.getElementById('game_container') !== null) {
 										}
 									}
 								});
-							}
+							};
 							fireLackey(1);
 						}
 					})
@@ -2527,7 +2527,7 @@ if (document.getElementById('game_container') !== null) {
 				lexHour = getV('lexHour', -1);
 			}
 
-			function fillBRC(n, b, mode) { // actually filling the forms
+			var fillBRC = function(n, b, mode) { // actually filling the forms
 				var values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // set defaults
 				// booze    - narcs    == maximum user can buy
 				// carry_b  - carry_n  == total user is carrying
@@ -2642,9 +2642,9 @@ if (document.getElementById('game_container') !== null) {
 
 				// focus
 				$('input#ver').focus();
-			}
+			};
 
-			function appBRC(BN) {
+			var appBRC = function(BN) {
 				if (!lboth) {
 					var getInfo = $('div#info:eq(0)').text();
 					getInfo = getInfo.split('*');
@@ -2869,7 +2869,7 @@ if (document.getElementById('game_container') !== null) {
 					$('#brc > tbody > tr:eq(' + (3 + bestRun) + ')').css('font-weight', 'bold');
 
 					if (on_page('smuggling.php') && nn == 'center') {
-						function AF(sel, Xn, Xb) {
+						var AF = function (sel, Xn, Xb) {
 							var n = -1;
 							var b = -1;
 							// assemble info for AF
@@ -2967,7 +2967,7 @@ if (document.getElementById('game_container') !== null) {
 
 							// we know our n and b => fill it in!
 							fillBRC(n, b, sel);
-						}
+						};
 						AF(getInfo[5]);
 
 						var AFtop = parseInt(getV('AFtop', '225'), 10);
@@ -3128,7 +3128,7 @@ if (document.getElementById('game_container') !== null) {
 						$('input#brc' + mode).prop('checked', true);
 					}
 				}
-			}
+			};
 			if (getV('bninfo', -1) > 0) { // do we have info data?
 				// create info div to transfer data to XHR function
 				var narc = getPow('bninfo', 0, -1);
@@ -3158,7 +3158,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 					appBRC(BN);
 				} else {
-					function parsePrices(resp, url) {
+					var parsePrices = function (resp, url) {
 						var parser = new DOMParser();
 						var dom = parser.parseFromString(resp, 'application/xml');
 
@@ -3172,7 +3172,7 @@ if (document.getElementById('game_container') !== null) {
 							}
 						}
 						appBRC(BN); // send prices to BRC function
-					}
+					};
 					grabHTML('//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
 				}
 			}
@@ -3769,7 +3769,7 @@ if (document.getElementById('game_container') !== null) {
 			var table, tr, A, B, t, m, type, types;
 			type = getV('bloodType');
 
-			function bloodAF(t) {
+			var bloodAF = function (t) {
 				//setup costs row
 				table = $('table.thinline:eq(1)');
 				tr = $('<tr>').html('<td><font size="2"><b> &nbsp;Total Costs </b></font></td><td align="center"><font size="2" id="A"></font></td><td align="center"><font size="2" id="B"></font></td><td align="center"><font size="2" id="AB"></font></td><td align="center"><font size="2" id="O"></font></td>');
@@ -3815,7 +3815,7 @@ if (document.getElementById('game_container') !== null) {
 				} else {
 					calc(0, 0, 0, 0);
 				}
-			}
+			};
 			bloodAF(type);
 		}
 		//---------------- Bodyguards ----------------
@@ -3980,14 +3980,14 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 
-			function deleteNoBustEntry() {
+			var deleteNoBustEntry = function () {
 				var entrySpan = $(this).prev();
 				var index = nobust.indexOf(entrySpan.attr('id'));
 				nobust.splice(index, 1);
 				entrySpan.hide();
 				$(this).hide();
 				setV('nobust', nobust);
-			}
+			};
 			// Build no bust list
 			var nobust_div = $('<div>').attr('id', 'nobust');
 			for (var i=0;i<nobust.length;i++) {
@@ -4375,7 +4375,7 @@ if (document.getElementById('game_container') !== null) {
 				$('#btnNotification', new_prefs_page).remove();
 			}
 		}
-	}
+	};
 }
 
 /*
@@ -5075,11 +5075,12 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		//the scrolling animation when detecting user-initiated scrolling (feels less sluggish).
 		//save the original implementation (we'll still need it)
 		omerta.GUI.container._origloadPageCB = unsafeWindow.omerta.GUI.container.loadPageCB;
+		var cloneInto;
 		if (typeof(cloneInto) == 'undefined') {
 			//provide cloneInto for browsers with no native support
-			function cloneInto(cloneObject, cloneInto) {
+			cloneInto = function (cloneObject, cloneInto) {
 				return cloneObject;
-			}
+			};
 		}
 		unsafeWindow.omerta.GUI.container.loadPageCB = cloneInto(function(_response) {
 			//when user starts scrolling, stop animation
