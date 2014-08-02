@@ -3303,6 +3303,8 @@ if (document.getElementById('game_container') !== null) {
 								index: i,
 								acceskey: (i + 1),
 								title: 'Fill in this booze (Hotkey: ' + (i + 1) + ')'
+							// START of Disable "Don't make functions within a loop." error
+							/*jshint -W083 */
 							}).css('cursor', 'pointer').text((i + 1) + ' ' + bname).click(function () {
 								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]');
@@ -3355,6 +3357,8 @@ if (document.getElementById('game_container') !== null) {
 								}
 								$('input#ver').focus();
 							})
+							/*jshint +W083 */
+							// END of Disable "Don't make functions within a loop." error
 						);
 					}
 					if (i > 6 && !lnarcs) { // narcs
@@ -3367,6 +3371,8 @@ if (document.getElementById('game_container') !== null) {
 								id: 'nh' + i,
 								index: i,
 								title: 'Fill in this narc'
+							// START of Disable "Don't make functions within a loop." error
+							/*jshint -W083 */
 							}).css('cursor', 'pointer').text(nname).click(function () {
 								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]');
@@ -3458,6 +3464,8 @@ if (document.getElementById('game_container') !== null) {
 								}
 								$('input#ver').focus();
 							})
+							/*jshint +W083 */
+							// END of Disable "Don't make functions within a loop." error
 						);
 					}
 				}
