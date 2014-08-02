@@ -2644,6 +2644,18 @@ if (document.getElementById('game_container') !== null) {
 				$('input#ver').focus();
 			};
 
+			var highlightRow = function (event) {
+				$(this).css('backgroundColor', '#888');
+			};
+
+			var removeHighlight = function (event) {
+				$(this).css('backgroundColor', 'transparent');
+			};
+
+			var fillBRCForCity = function () {
+				fillBRC(parseInt($(this).attr('n'), 10), parseInt($(this).attr('b'), 10), 0);
+			};
+
 			var appBRC = function(BN) {
 				if (!lboth) {
 					var getInfo = $('div#info:eq(0)').text();
@@ -2699,14 +2711,11 @@ if (document.getElementById('game_container') !== null) {
 							$('<td>').html('&nbsp;')
 						)
 					);
+
 					// add city rows with individual profits
 					for (var allProfits = [], bestBN = [], i = 0; i <= 7; i++) {
 						var tr = $('<tr>').attr('id', '2row' + (i + 2));
-						tr.hover(function (event) {
-							$(this).css('backgroundColor', '#888');
-						}, function (event) {
-							$(this).css('backgroundColor', 'transparent');
-						});
+						tr.hover(highlightRow, removeHighlight);
 
 						var td = $('<td>').attr('colspan', '5').css({
 							'border-bottom': '1px solid #000',
@@ -2810,9 +2819,7 @@ if (document.getElementById('game_container') !== null) {
 												'font-weight': 'inherit',
 												'text-align': 'center',
 												'cursor': 'pointer'
-											}).text('Go!').click(function () {
-												fillBRC(parseInt($(this).attr('n'), 10), parseInt($(this).attr('b'), 10), 0);
-											})
+											}).text('Go!').click(fillBRCForCity)
 										)
 									);
 								} else { // we need to GET to smuggling too
@@ -3193,6 +3200,17 @@ if (document.getElementById('game_container') !== null) {
 						}
 					}
 				}
+
+				var highlightPriceRow = function (event) {
+					$(this).css('backgroundColor', '#888');
+					$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', '#888');
+				};
+
+				var removeHighlightPriceRow = function (event) {
+					$(this).css('backgroundColor', '#F0F0F0');
+					$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', '#F0F0F0');
+				};
+
 				for (i = 0; i <= 1; i++) {
 					for (j = 0; j <= 6; j++) {
 						for (k = 2; k <= 9; k++) {
@@ -3200,13 +3218,7 @@ if (document.getElementById('game_container') !== null) {
 								var row = $('center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ')');
 								row.attr('id', i + 'row' + k);
 								row.css('borderTop', '1px solid #000');
-								row.hover(function (event) {
-									$(this).css('backgroundColor', '#888');
-									$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', '#888');
-								}, function (event) {
-									$(this).css('backgroundColor', '#F0F0F0');
-									$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', '#F0F0F0');
-								});
+								row.hover(highlightPriceRow, removeHighlightPriceRow);
 							}
 
 							var item = $('center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ') > td:eq(' + (j + 1) + ')');
@@ -3958,6 +3970,9 @@ if (document.getElementById('game_container') !== null) {
 
 			// Build custom groups prio settings
 			var c_group_div = null;
+			var setGroupPriority = function () {
+				setA('sets', $(this).attr('id'), $(this).val());
+			};
 			for (var i=0;i<custom_groups.length;i++) {
 				var group_name = custom_groups[i].split(':')[0];
 				var group_prio = sets['jailHL_'+group_name] || (i+12);
@@ -3968,9 +3983,7 @@ if (document.getElementById('game_container') !== null) {
 							id: 'jailHL_' + group_name,
 							type: 'text',
 							value: group_prio
-						}).blur(function () {
-							setA('sets', $(this).attr('id'), $(this).val());
-						})
+						}).blur(setGroupPriority)
 					)
 				);
 				if (c_group_div === null) {
@@ -4620,6 +4633,10 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		$('a.link:eq(2)').before(a);
 		$('a.link:eq(3)').before(div);
 
+		var setGroupPriority = function () {
+			setA('sets', $(this).attr('id'), $(this).val());
+		};
+
 		var getnews = (prefs['bmsgNews'] ? true : false);
 		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
 		var notify_crime = (prefs['notify_crime'] ? true : false);
@@ -4654,9 +4671,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 						id: 'jailHL_' + group_name,
 						type: 'text',
 						value: group_prio
-					}).blur(function () {
-						setA('sets', $(this).attr('id'), $(this).val());
-					})
+					}).blur(setGroupPriority)
 				)
 			);
 			if (c_group_div === null) {
