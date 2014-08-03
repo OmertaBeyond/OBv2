@@ -5097,8 +5097,9 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		//replace omerta.GUI.container.loadPageCB with our own implementation that stops
 		//the scrolling animation when detecting user-initiated scrolling (feels less sluggish).
 		//save the original implementation (we'll still need it)
-		var omertaGUIcontainer_origloadPageCB = unsafeWindow.omerta.GUI.container.loadPageCB;
-		var cloneInto;
+		var cloneInto, omerta = {GUI: {}};
+		omerta.GUI.container._origloadPageCB = unsafeWindow.omerta.GUI.container.loadPageCB;
+
 		if (typeof(cloneInto) == 'undefined') {
 			//provide cloneInto for browsers with no native support
 			cloneInto = function (cloneObject, cloneInto) {
@@ -5112,7 +5113,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 				unsafeWindow.$('html, body').stop();
 			});
 			//forward to original implementation
-			omertaGUIcontainer_origloadPageCB(_response);
+			omerta.GUI.container._origloadPageCB(_response);
 			//remove the scroll event listener for performance reasons
 			setTimeout(function() {
 				$('html, body').off('DOMMouseScroll mousewheel');
