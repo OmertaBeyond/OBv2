@@ -611,6 +611,23 @@ function IsNewVersion() {
 	}
 }
 
+/**
+ * Checks if the user is alive
+ * @param  {[String]}  user
+ * @return {Boolean}
+ */
+function isUserAlive(user){
+	$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + user, function (data) {
+		if (!data['DiedAt']) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+
+	setV('willTimestamp', new Date($.now()));
+}
+
 /*
  * Main game listener
  */
@@ -925,12 +942,37 @@ if (document.getElementById('game_container') !== null) {
 			bnUpdate(1);
 			// Grab busts for Jail page
 			var bos;
+			// Save Will
+			var will;
+			var willTR;
+			var timestamp = getV('willTimestamp');
+			var now = new Date($.now());
+			var checkTimestamp = new Date(now - 30 * 60000);
+
+			// The logger of .DM is kind of broken right now, so we're not going to make this work on .dm for the moment.
+			if (typeof timestamp == 'undefined' || timestamp <= checkTimestamp && v != 'dm') {
+
+				if (!IsNewVersion()) {
+					will = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last').text().replace(/,/g, '').trim();
+					willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
+
+				} else {
+					will = $('.thinline:eq(0)>tbody>tr:eq(10)>td:last').text().replace(/,/g, '').trim();
+					willTR = $('.thinline:eq(0)>tbody>tr:eq(10)>td:last');
+				}
+
+				if (!isUserAlive(will)) {
+					willTR.append('<span class="red">Dead!</span>');
+				}
+			}
+
 			if (!IsNewVersion()) {
 				bos = $('.thinline:eq(5)>tbody>tr:eq(2)>td:last').text().replace(/,/g, '');
 			} else {
 				bos = $('.thinline:eq(5)>tbody>tr:eq(1)>td:last').text().replace(/,/g, '');
 			}
 			setV('bustouts', bos);
+
 			// Interest reminder
 			if(!$('#interestRow').length) {
 				var inbank;
@@ -3721,6 +3763,7 @@ if (document.getElementById('game_container') !== null) {
 				if (GetParam('search')) {
 					$('input[name="target"]').val(GetParam('search'));
 				}
+
 			}
 		}
 		//---------------- Misc ----------------
