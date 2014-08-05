@@ -625,7 +625,7 @@ function isUserAlive(user){
 		}
 	});
 
-	setV('willTimestamp', new Date($.now()));
+	setV('willTimestamp', $.now());
 }
 
 /*
@@ -943,27 +943,30 @@ if (document.getElementById('game_container') !== null) {
 			// Grab busts for Jail page
 			var bos;
 			// Save Will
-			var will;
+			var willName;
 			var willTR;
 			var timestamp = getV('willTimestamp');
-			var now = new Date($.now());
-			var checkTimestamp = new Date(now - 30 * 60000);
+			var now = $.now(); // creates UNIX timestamp
+			var checkTimestamp = $.now() - (1000 * 30 * 60); //
+
+			// Get the values for the will, since .DM is not supported ill leave those out (for now)
+
+			willName = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last').text().replace(/,/g, '').trim();
+			willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
 
 			// The logger of .DM is kind of broken right now, so we're not going to make this work on .dm for the moment.
 			if (typeof timestamp == 'undefined' || timestamp <= checkTimestamp && v != 'dm') {
 
-				if (!IsNewVersion()) {
-					will = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last').text().replace(/,/g, '').trim();
-					willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
-
-				} else {
-					will = $('.thinline:eq(0)>tbody>tr:eq(10)>td:last').text().replace(/,/g, '').trim();
-					willTR = $('.thinline:eq(0)>tbody>tr:eq(10)>td:last');
+				if (!isUserAlive(willName)) {
+					setV('deadWillName', willName);
 				}
+			}
 
-				if (!isUserAlive(will)) {
-					willTR.append('<span class="red">Dead!</span>');
-				}
+			var deadWillName = getV('deadWillName');
+
+			// If the person in the will has been changed it shouldnt be shown anymore
+			if (deadWillName == willName) {
+				willTR.append('<span class="red"> | Dead!</span>');
 			}
 
 			if (!IsNewVersion()) {
