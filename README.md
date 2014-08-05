@@ -3,14 +3,14 @@
 [![Build Status](https://travis-ci.org/OmertaBeyond/OBv2.svg?branch=master)](https://travis-ci.org/OmertaBeyond/OBv2)
 [![devDependency Status](https://david-dm.org/OmertaBeyond/OBv2/dev-status.svg?theme=shields.io)](https://david-dm.org/OmertaBeyond/OBv2#info=devDependencies)
 
-## About
+# About
 
 Omerta Beyond is, simply, an userscript for the MMORPG [Omerta](http://www.barafranca.com).
 
 This is complete rewrite of our old script [OmertaBeyond v1](https://github.com/OmertaBeyond/OmertaBeyond)
 
 
-## Compatibility
+# Compatibility
 
 At the moment OB is compatible with:
 
@@ -25,7 +25,7 @@ At the moment OB is compatible with:
 Note: if you have time/knowledge, help us to make it fully working/compatible.
 
 
-## Team
+# Team
 * [vBm](https://github.com/vBm) - Founder, Minor code tweaks
 * [Dopedog](https://github.com/TheDopedog) - Admin, Developer
 * [Rix](https://github.com/Gwildor) - Admin, Developer
@@ -40,7 +40,7 @@ Many thanks to everyone who supported development without having direct push acc
 [OmertaBeyond](http://www.omertabeyond.com/) © 2007-2014 (info@omertabeyond.com)
 
 
-## Info
+# Info
 
 You can find us at:
 
@@ -48,3 +48,11 @@ You can find us at:
  * [news.omertabeyond.com](http://news.omertabeyond.com)
  * [Facebook](http://www.facebook.com/OmertaBeyond)
  * [Twitter](http://twitter.com/omertabeyond)
+
+
+# Getting started
+
+* Install [Node.js](http://nodejs.org/download/)
+* Install grunt: `npm install -g grunt-cli`
+* Install the Node.js dependencies via npm: `npm install`
+* Run `grunt` to check source with jshint
