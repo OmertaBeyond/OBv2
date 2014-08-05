@@ -117,10 +117,6 @@
 	text-align: center;
 }
 
-div.Bmsg table tr td {
-	padding: 1px;
-}
-
 .marqueebox {
 	display: none;
 	position: absolute;
