@@ -5097,7 +5097,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		//replace omerta.GUI.container.loadPageCB with our own implementation that stops
 		//the scrolling animation when detecting user-initiated scrolling (feels less sluggish).
 		//save the original implementation (we'll still need it)
-		var cloneInto, omerta = {GUI: {}};
+		var cloneInto, omerta = {GUI: {container: {}}};
 		omerta.GUI.container._origloadPageCB = unsafeWindow.omerta.GUI.container.loadPageCB;
 
 		if (typeof(cloneInto) == 'undefined') {
