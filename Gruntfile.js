@@ -14,6 +14,17 @@ module.exports = function (grunt) {
 				jshintrc: '.jshintrc',
 				reporter: require('jshint-stylish')
 			}
+		},
+		csslint: {
+			options: {
+				'box-model': false,     // true: Using width with padding can sometimes make elements larger than you expect.
+				'gradients': false,     // true: Missing vendor-prefixed CSS gradients for Old Webkit (Safari 4+, Chrome).
+				'ids':       false,     // true: Don't use IDs in selectors. Selectors should not contain IDs.
+				'important': false      // true: Use of !important. Be careful when using !important declaration.
+			},
+			src: [
+				'scripts/beyond.css'
+			]
 		}
 	});
 
@@ -21,5 +32,8 @@ module.exports = function (grunt) {
 	require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 	require('time-grunt')(grunt);
 
-	grunt.registerTask('default', 'jshint');
+	grunt.registerTask('default', [
+		'jshint',
+		'csslint'
+	]);
 };
