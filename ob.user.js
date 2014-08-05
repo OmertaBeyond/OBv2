@@ -2452,7 +2452,7 @@ if (document.getElementById('game_container') !== null) {
 						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl) && x != logpath.length) {
 							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl);
 							var ppb = Math.round(r[2] / r[1]);
-							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/bullet)');
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/kogel)');
 						}
 						++x;
 					}
