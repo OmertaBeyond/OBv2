@@ -863,6 +863,16 @@ if (document.getElementById('omerta_chat_room') !== null && typeof MutationObser
 	addChatResizeImprovements();
 }
 
+/**
+ * Check if a word is in a string
+ * @param  {[String]} s    Haystack
+ * @param  {[String]} word Needle
+ * @return {[Booleon]}
+ */
+function wordInString(s, word) {
+	return new RegExp('\\b' + word + '\\b', 'i').test(s);
+}
+
 /*
  * Main game listener
  */
@@ -4081,6 +4091,47 @@ if (document.getElementById('game_container') !== null) {
 				if (GetParam('search')) {
 					$('input[name="target"]').val(GetParam('search'));
 				}
+			}
+
+			// Fire all Detectives that have failed searching for person X
+			// Translation variables
+			var failedMessage = (v == 'nl' ? 'gefaald' : 'failed');
+			var clickLimitMessage = (v == 'nl' ? 'klik limiet' : 'click limit');
+			var fireDetectivesMessage = (v == 'nl' ? 'Ontsla alle detectives die hebben gefaald' : 'Fire all failed detectives');
+			var clickLimitErrorMessage = (v == 'nl' ? 'Je hebt je kliklimiet bereikt!' : 'You\'ve reached your click limit!');
+
+			$('input[data-action="fireAll"]').closest('td').css('width', 'auto').after(
+				$('<td>').attr('align', 'right').append(
+					$('<input id="ob_fire_all" type="button" value="' + fireDetectivesMessage + '"">').click(function() {
+						$('#ob_fire_all').val('Firing..').prop('disabled', true);
+						var fireDetectives = function () {
+
+							// Loop over each row in the table, except the last row
+							$('.otable > table > tbody > tr:not(:last-child)').each(function() {
+								var detectiveText = $(this).find('td:first').text();
+								var ajaxID = $(this).find('td:nth-child(2) a').attr('data-id');
+
+								// Check if the row contains 'failed', which means the detective hasn't found the person
+								// In case he hasn't, its safe to remove that detective
+
+								if (wordInString(detectiveText, failedMessage)) {
+									$.post('BeO/webroot/?module=Detectives&action=fire', { id: ajaxID }).done(function(data) {
+										$('#ob_fire_all').val('Detectives fired!');
+										$(this).closest('tr').hide();
+									});
+								}
+							});
+						};
+						fireDetectives();
+					})
+				)
+			);
+
+			// Disable the input box if there are no messages of failed detectives
+			if ($('#detectives-hired-div:contains("' + failedMessage + '")').length > 0) {
+				$('#ob_fire_all').prop('disabled', false);
+			} else {
+				$('#ob_fire_all').prop('disabled', true);
 			}
 		}
 		// ---------------- Misc ----------------
