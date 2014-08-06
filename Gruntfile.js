@@ -25,6 +25,22 @@ module.exports = function (grunt) {
 			src: [
 				'scripts/beyond.css'
 			]
+		},
+		lintspaces: {
+			all: {
+				src: [
+					'Gruntfile.js',
+					'.jshintrc',
+					'.travis.yml',
+					'package.json',
+					'scripts/beyond.css',
+					'ob.user.js'
+				],
+				options: {
+					editorconfig: '.editorconfig',
+					ignores: ['js-comments']
+				}
+			}
 		}
 	});
 
@@ -34,6 +50,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default', [
 		'jshint',
-		'csslint'
+		'csslint',
+		'lintspaces'
 	]);
 };

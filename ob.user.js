@@ -468,7 +468,7 @@ function CheckBmsg() {
 						var notification = new Notification(title, {
 							dir: 'auto',
 							lang: '',
-				  			body: text,
+							body: text,
 							tag: 'news',
 							icon: GM_getResourceURL('red-star')
 						});
@@ -2443,7 +2443,7 @@ if (document.getElementById('game_container') !== null) {
 				var x = 0;
 				$(logpath).each(function () {
 					// show price per bullet when Sluggs bought
-					 // Let's see if we can put the regexes in a variable, makes it easier to edit/match them
+					// Let's see if we can put the regexes in a variable, makes it easier to edit/match them
 
 					var sluggs_bought_match_nl = /Sluggs kocht (\d+) kogels voor \$(\d+)/;
 					var sluggs_bought_match_com = /Sluggs bought (\d+) bullets for \$(\d+)/;
