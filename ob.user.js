@@ -3745,7 +3745,7 @@ if (document.getElementById('game_container') !== null) {
 							var carWorthAbove = sort == 1 && carVal > val;
 							var carWorthBelow = sort == 2 && carVal < val;
 							var carWorthBetween = (sort == 3 && carVal >= val && (carVal <= maxPrice));
-							if (carWorthAbove || carWorthBelow || carWorthBetween) {
+							if (carWorthAbove || carWorthBelow || carWorthBetween) {
 								if (comment.indexOf('IN SAFEHOUSE') !== -1){
 									check.prop('checked', false);
 								} else {
