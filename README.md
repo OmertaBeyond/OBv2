@@ -1,7 +1,9 @@
 ![OBv2](images/logo.png "Omerta Beyond v2")
 
+![Repo Size](https://reposs.herokuapp.com/?path=OmertaBeyond/OBv2)
 [![Build Status](https://travis-ci.org/OmertaBeyond/OBv2.svg?branch=master)](https://travis-ci.org/OmertaBeyond/OBv2)
 [![devDependency Status](https://david-dm.org/OmertaBeyond/OBv2/dev-status.svg?theme=shields.io)](https://david-dm.org/OmertaBeyond/OBv2#info=devDependencies)
+[![License](http://img.shields.io/badge/license-GPLv3-blue.svg)](http://opensource.org/licenses/GPL-3.0)
 
 # About
 
@@ -55,4 +57,4 @@ You can find us at:
 * Install [Node.js](http://nodejs.org/download/)
 * Install grunt: `npm install -g grunt-cli`
 * Install the Node.js dependencies via npm: `npm install`
-* Run `grunt` to check source with jshint, csslint and lintspaces
+* Run `grunt` to check source with `jshint`, `csslint` and `lintspaces`
