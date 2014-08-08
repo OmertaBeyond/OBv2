@@ -948,6 +948,7 @@ if (document.getElementById('game_container') !== null) {
 			var timestamp = getV('willTimestamp');
 			var now = $.now(); // creates UNIX timestamp
 			var checkTimestamp = $.now() - (1000 * 30 * 60); //
+			var defaultWillName = (v == 'nl' ? 'Niemand' : 'Nobody');
 
 			// Get the values for the will, since .DM is not supported ill leave those out (for now)
 
@@ -955,7 +956,9 @@ if (document.getElementById('game_container') !== null) {
 			willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
 
 			// The logger of .DM is kind of broken right now, so we're not going to make this work on .dm for the moment.
-			if (typeof timestamp == 'undefined' || timestamp <= checkTimestamp && v != 'dm') {
+			// Let's also skip doing this if the will has not been set.
+
+			if (typeof timestamp == 'undefined' || timestamp <= checkTimestamp && v != 'dm' && willName != defaultWillName ) {
 
 				if (!isUserAlive(willName)) {
 					setV('deadWillName', willName);
