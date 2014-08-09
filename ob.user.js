@@ -4109,7 +4109,7 @@ if (document.getElementById('game_container') !== null) {
 				)
 			).click(function () {
 					$('#game_container').empty();
-					$('#game_container').append(new_prefs_page);
+					$('#game_container').append(GetPrefPage());
 			});
 			// live famstats circle (needs new icon!)
 			var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
@@ -4133,477 +4133,6 @@ if (document.getElementById('game_container') !== null) {
 
 			if($('.ob-lf-bg').length === 0) {
 				$('div.omerta-widget-avatar-body').append(lf_div);
-			}
-
-			var getnews = (prefs['bmsgNews'] ? true : false);
-			var getdeaths = (prefs['bmsgDeaths'] ? true : false);
-			var notify_crime = (prefs['notify_crime'] ? true : false);
-			var notify_gta = (prefs['notify_gta'] ? true : false);
-			var notify_travel = (prefs['notify_travel'] ? true : false);
-			var notify_bullets = (prefs['notify_bullets'] ? true : false);
-			var notify_health = (prefs['notify_health'] ? true : false);
-			var notify_messages = (prefs['notify_messages'] ? true : false);
-			var notify_alerts = (prefs['notify_alerts'] ? true : false);
-			var jailHL = (prefs['jailHL'] ? true: false);
-			var jailHL_sel = sets['jailHL_sel'] || 'highest';
-			var jailHL_other = sets['jailHL_other'] || 9;
-			var jailHL_friends = sets['jailHL_friends'] || 5;
-			var jailHL_own_lackey = sets['jailHL_own_lackey'] || 7;
-			var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 8;
-			var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
-			var bo_hotkey = sets['bo_hotkey'] || '/';
-			var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
-			var custom_groups = getV('custom_groups', '').split('|');
-			custom_groups.pop();
-			var nobust = getV('nobust', '').split(',');
-			var af_position = sets['af_position'] || 'floating';
-			setA('prefs', 'NR', 1);
-
-			// Build custom groups prio settings
-			var c_group_div = null;
-			var setGroupPriority = function () {
-				setA('sets', $(this).attr('id'), $(this).val());
-			};
-			for (var i=0;i<custom_groups.length;i++) {
-				var group_name = custom_groups[i].split(':')[0];
-				var group_prio = sets['jailHL_'+group_name] || (i+12);
-				var tr = $('<tr>').append(
-					$('<td>').text(group_name),
-					$('<td>').append(
-						$('<input>').attr({
-							id: 'jailHL_' + group_name,
-							type: 'text',
-							value: group_prio
-						}).blur(setGroupPriority)
-					)
-				);
-				if (c_group_div === null) {
-					c_group_div = tr;
-				} else {
-					c_group_div.after(tr);
-				}
-			}
-
-			var deleteNoBustEntry = function () {
-				var entrySpan = $(this).prev();
-				var index = nobust.indexOf(entrySpan.attr('id'));
-				nobust.splice(index, 1);
-				entrySpan.hide();
-				$(this).hide();
-				setV('nobust', nobust);
-			};
-			// Build no bust list
-			var nobust_div = $('<div>').attr('id', 'nobust');
-			for (var i=0;i<nobust.length;i++) {
-				if (nobust[i].length > 0) {
-					nobust_div.append(
-						$('<span>').attr({id: nobust[i]}).text(nobust[i]),
-						$('<img />').addClass('inboxImg').attr({
-							src: GM_getResourceURL('delete'),
-							title: 'Delete'
-						}).click(deleteNoBustEntry),
-						$('<br>')
-					);
-				}
-			}
-			nobust_div.append(
-				$('<input>').attr({
-					id: 'new_nobust',
-					type: 'text'
-				}),
-				$('<button>').text('Add').click(function() {
-					//let's not add empty entries
-					var newVal = $('#new_nobust').val();
-					if (newVal.length > 0) {
-						$('<span>').attr({id: newVal}).text(newVal).insertBefore($('#new_nobust'));
-						$('<img />').addClass('inboxImg').attr({
-							src: GM_getResourceURL('delete'),
-							title: 'Delete'
-						}).click(deleteNoBustEntry).insertBefore($('#new_nobust'));
-						$('<br>').insertBefore($('#new_nobust'));
-						nobust.push(newVal);
-						setV('nobust', nobust);
-						$('#new_nobust').val('');
-					}
-				})
-			);
-
-			var new_prefs_page = $('<center>').attr({
-				id: 'prefsContainer'
-			}).append(
-				$('<table>').addClass('thinline').attr({ cellspacing: 0, cellpading: 2, width: '90%' }).append(
-					$('<tr>').append(
-						$('<td>').addClass('tableheader').css('text-align', 'center').append(
-							$('<b>').text('OmertaBeyond Preferences DM')
-						)
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').css('font-weight', 'normal').text('Version ' + OB_VERSION)
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Notifications')
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
-							$('<br>'),
-							$('<div>').attr('id', 'Authmsg'),
-							$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
-								if ('Notification' in window) {
-									Notification.requestPermission(function (perm) {
-										$('#Authmsg').text('Authorization for notification is: ' + perm);
-									});
-								}
-							}),
-							$('<br>'),
-							$('<div>').addClass('notify').append(
-								$('<input>').attr({
-									id: 'deaths',
-									type: 'checkbox',
-									checked: getdeaths
-								}).click(function () {
-									setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
-								}),
-								$('<label>').attr('for', 'deaths').text('Deaths'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'news',
-									type: 'checkbox',
-									checked: getnews
-								}).click(function () {
-									setA('prefs', 'bmsgNews', $('#news:checked').length);
-								}),
-								$('<label>').attr('for', 'news').text('News'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'notify_crime',
-									type: 'checkbox',
-									checked: notify_crime
-								}).click(function () {
-									setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
-								}),
-								$('<label>').attr('for', 'notify_crime').text('Crime'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'notify_gta',
-									type: 'checkbox',
-									checked: notify_gta
-								}).click(function () {
-									setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
-								}),
-								$('<label>').attr('for', 'notify_gta').text('Nick a car'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'notify_travel',
-									type: 'checkbox',
-									checked: notify_travel
-								}).click(function () {
-									setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
-								}),
-								$('<label>').attr('for', 'notify_travel').text('Travel'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'notify_bullets',
-									type: 'checkbox',
-									checked: notify_bullets
-								}).click(function () {
-									setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
-								}),
-								$('<label>').attr('for', 'notify_bullets').text('Buy bullets'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'notify_health',
-									type: 'checkbox',
-									checked: notify_health
-								}).click(function () {
-									setA('prefs', 'notify_health', $('#notify_health:checked').length);
-								}),
-								$('<label>').attr('for', 'notify_health').text('When losing health'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'notify_messages',
-									type: 'checkbox',
-									checked: notify_messages
-								}).click(function () {
-									setA('prefs', 'notify_messages', $('#notify_messages:checked').length);
-								}),
-								$('<label>').attr('for', 'notify_messages').text('Receive new messages'),
-								$('<br>'),
-								$('<input>').attr({
-									id: 'notify_alerts',
-									type: 'checkbox',
-									checked: notify_alerts
-								}).click(function () {
-									setA('prefs', 'notify_alerts', $('#notify_alerts:checked').length);
-								}),
-								$('<label>').attr('for', 'notify_alerts').text('New alerts')
-							)
-						)
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Bust Priorities')
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').attr('align', 'center').css('text-align', 'center').text(
-							'Here you can choose which groups you want to bust before others.'
-						).append(
-							$('<br>'),
-							$('<input>').attr({
-								id: 'jailHL',
-								type: 'checkbox',
-								checked: jailHL
-							}).click(function () {
-								setA('prefs', 'jailHL', $('#jailHL:checked').length);
-							}),
-							$('<label>').attr('for', 'jailHL').text('Enable Bust Priorities'),
-							$('<br>'),
-							$('<span>').css('font-style', 'italic').text('Lower value means higher priority'),
-							$('<table>').css('text-align', 'left').css('margin-left', '30%').append(
-								$('<tr>').append(
-									$('<td>').text('Other'),
-									$('<td>').append(
-										$('<input>').attr({
-											id: 'jailHL_other',
-											type: 'text',
-											value: jailHL_other
-										}).blur(function () {
-											setA('sets', 'jailHL_other', $('#jailHL_other').val());
-										})
-									)
-								),
-								$('<tr>').append(
-									$('<td>').text('Friends and Family'),
-									$('<td>').append(
-										$('<input>').attr({
-											id: 'jailHL_friends',
-											type: 'text',
-											value: jailHL_friends
-										}).blur(function () {
-											setA('sets', 'jailHL_friends', $('#jailHL_friends').val());
-										})
-									)
-								),
-								$('<tr>').append(
-									$('<td>').text('Own lackeys'),
-									$('<td>').append(
-										$('<input>').attr({
-											id: 'jailHL_own_lackey',
-											type: 'text',
-											value: jailHL_own_lackey
-										}).blur(function () {
-											setA('sets', 'jailHL_own_lackey', $('#jailHL_own_lackey').val());
-										})
-									)
-								),
-								$('<tr>').append(
-									$('<td>').text('Friend/Family lackeys'),
-									$('<td>').append(
-										$('<input>').attr({
-											id: 'jailHL_fr_lackey',
-											type: 'text',
-											value: jailHL_fr_lackey
-										}).blur(function () {
-											setA('sets', 'jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
-										})
-									)
-								),
-								$('<tr>').append(
-									$('<td>').text('Other lackeys'),
-									$('<td>').append(
-										$('<input>').attr({
-											id: 'jailHL_other_lackey',
-											type: 'text',
-											value: jailHL_other_lackey
-										}).blur(function () {
-											setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
-										})
-									)
-								),
-								c_group_div,
-								$('<tr>').append(
-									$('<td>')
-								),
-								$('<tr>').append(
-									$('<td>').text('Buyout hotkey'),
-									$('<td>').append(
-										$('<input>').attr({
-											id: 'bo_hotkey',
-											type: 'text',
-											value: bo_hotkey
-										}).blur(function () {
-											setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
-											$('.ob_hotkey_pref').text($('#bo_hotkey').val());
-										})
-									)
-								)
-							),
-							$('<p>').html('Depending on browser and operating system, you can use either Alt + Shift + <span class="ob_hotkey_pref">' + bo_hotkey + '</span>, Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> or Ctrl + Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> to buy yourself out.'),
-							$('<span>').text('Do you want to choose players with highest/lowest remaining jailtime first, or pick one randomly?'),
-							$('<br>'),
-							$('<div>').addClass('notify').append(
-								$('<input>').attr({
-									name: 'jailHL_sel',
-									id: 'jailHL_high',
-									type: 'radio',
-									checked: (jailHL_sel=='highest'?true:false)
-								}).click(function () {
-									setA('sets', 'jailHL_sel', 'highest');
-								}),
-								$('<span>').append(
-									$('<label>').attr('for', 'jailHL_high').text('highest')
-								),
-								$('<br>'),
-								$('<input>').attr({
-									name: 'jailHL_sel',
-									id: 'jailHL_low',
-									type: 'radio',
-									checked: (jailHL_sel=='lowest'?true:false)
-								}).click(function () {
-									setA('sets', 'jailHL_sel', 'lowest');
-								}),
-								$('<span>').append(
-									$('<label>').attr('for', 'jailHL_low').text('lowest')
-								),
-								$('<br>'),
-								$('<input>').attr({
-									name: 'jailHL_sel',
-									id: 'jailHL_rand',
-									type: 'radio',
-									checked: (jailHL_sel=='random'?true:false)
-								}).click(function () {
-									setA('sets', 'jailHL_sel', 'random');
-								}),
-								$('<span>').append(
-									$('<label>').attr('for', 'jailHL_rand').text('random')
-								)
-							)
-						)
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Scumbag List')
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').attr('align', 'center').css('text-align', 'center').text(
-							'There is this one scumbag you wouldn\'t want to bust even if their life depended on it? Just add them here!'
-						).append(
-							$('<br>'),
-							nobust_div,
-							$('<span>').text('You can add family names too, by the way.')
-						)
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Best Run Calculator - Autofiller')
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').attr('align', 'center').css('text-align', 'center').text(
-							'Settings for the Best Run Calculator are visible on the Smuggling page'
-						).append(
-							$('<br>'),
-							$('<br>'),
-							$('<span>').text('You can choose between a movable window or showing the options on top of the page.'),
-							$('<br>'),
-							$('<div>').addClass('notify').append(
-								$('<input>').attr({
-									type: 'radio',
-									id: 'AF_Floating',
-									name: 'AF_Position',
-									checked: af_position == 'floating'
-								}).click(function() {
-									setA('sets', 'af_position', 'floating');
-								}),
-								$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
-								$('<br>'),
-								$('<input>').attr({
-									type: 'radio',
-									id: 'AF_Static',
-									name: 'AF_Position',
-									checked: af_position == 'static'
-								}).click(function() {
-									setA('sets', 'af_position', 'static');
-								}),
-								$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page')
-							),
-							$('<br>'),
-							$('<br>'),
-							$('<span>').text('If the movable window is gone, click here to reset its position.'),
-							$('<br>'),
-							$('<button>').text('Clear').click(function () {
-								if (confirm('Are you sure?')) {
-									setV('AFtop', '225');
-									setV('AFleft', '300');
-								}
-							})
-						)
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Old Preferences')
-					),
-					$('<tr>').append(
-						$('<td>').attr({ height: '1', bgcolor: 'black' })
-					),
-					$('<tr>').append(
-						$('<td>').attr('align', 'center').css('text-align', 'center').text(
-							'You have old preferences stored.'
-						).append(
-							$('<br>'),
-							$('<span>').text('Click the button to clear those'),
-							$('<br>'),
-							$('<button>').text('Clear').click(function () {
-								if (confirm('Are you sure?')) {
-									localStorage.removeItem('jailHL_def_' + v);
-									localStorage.removeItem('jailHL_friends_' + v);
-									localStorage.removeItem('jailHL_own_lackey_' + v);
-									localStorage.removeItem('jailHL_fr_lackey_' + v);
-									localStorage.removeItem('jailHL_other_lackey_' + v);
-									localStorage.removeItem('bmsgNews_' + v);
-									localStorage.removeItem('bmsgDeaths_' + v);
-									localStorage.removeItem('sluggsHideLaughing_' + v);
-								}
-							})
-						)
-					)
-				)
-			);
-
-			if (!('Notification' in window)) {
-				$('#Authmsg', new_prefs_page).text('Your browser doesn\'t support notifications');
-				$('#btnNotification', new_prefs_page).remove();
-			} else if (Notification.permission == 'granted') {
-				$('#Authmsg', new_prefs_page).text('Authorization for notification is: ').append(
-					$('<span>').text('granted').css({
-						'font-weight': 'bold'
-					})
-				);
-				$('#btnNotification', new_prefs_page).remove();
 			}
 		}
 	};
@@ -4842,7 +4371,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var div = $('<div>').addClass('menu').append(
 			$('<span>').addClass('menuItem').text('Preferences').click(function () {
 				$('#game_container').empty();
-				$('#game_container').append(prefs_page);
+				$('#game_container').append(GetPrefPage());
 			}),
 			$('<span>').addClass('menuItem').text('Live Famstats').click(function () {
 				window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
@@ -4852,490 +4381,496 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		$('a.link:eq(2)').before(a);
 		$('a.link:eq(3)').before(div);
 
-		var setGroupPriority = function () {
-			setA('sets', $(this).attr('id'), $(this).val());
-		};
 
-		var getnews = (prefs['bmsgNews'] ? true : false);
-		var getdeaths = (prefs['bmsgDeaths'] ? true : false);
-		var notify_crime = (prefs['notify_crime'] ? true : false);
-		var notify_gta = (prefs['notify_gta'] ? true : false);
-		var notify_travel = (prefs['notify_travel'] ? true : false);
-		var notify_bullets = (prefs['notify_bullets'] ? true : false);
-		var notify_health = (prefs['notify_health'] ? true : false);
-		var notify_messages = (prefs['notify_messages'] ? true : false);
-		var notify_alerts = (prefs['notify_alerts'] ? true : false);
-		var notify_bg = (prefs['notify_bg'] ? true : false);
-		var jailHL = (prefs['jailHL'] ? true: false);
-		var jailHL_sel = sets['jailHL_sel'] || 'highest';
-		var jailHL_other = sets['jailHL_other'] || 9;
-		var jailHL_friends = sets['jailHL_friends'] || 5;
-		var jailHL_own_lackey = sets['jailHL_own_lackey'] || 7;
-		var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 8;
-		var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
-		var bo_hotkey = sets['bo_hotkey'] || '/';
-		var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
-		var custom_groups = getV('custom_groups', '').split('|');
-		custom_groups.pop();
-		var nobust = getV('nobust', '').split(',');
-		var af_position = sets['af_position'] || 'floating';
-		setA('prefs', 'NR', 1);
-
-		// Build custom groups prio settings
-		var c_group_div = null;
-		for (var i=0;i<custom_groups.length;i++) {
-			var group_name = custom_groups[i].split(':')[0];
-			var group_prio = sets['jailHL_'+group_name] || (i+12);
-			var tr = $('<tr>').append(
-				$('<td>').text(group_name),
-				$('<td>').append(
-					$('<input>').attr({
-						id: 'jailHL_' + group_name,
-						type: 'text',
-						value: group_prio
-					}).blur(setGroupPriority)
-				)
-			);
-			if (c_group_div === null) {
-				c_group_div = tr;
-			} else {
-				c_group_div.after(tr);
-			}
-		}
-
-		function deleteNoBustEntry() {
-			var entrySpan = $(this).prev();
-			var index = nobust.indexOf(entrySpan.attr('id'));
-			nobust.splice(index, 1);
-			entrySpan.hide();
-			$(this).hide();
-			setV('nobust', nobust);
-		}
-		// Build no bust list
-		var nobust_div = $('<div>').attr('id', 'nobust');
-		for (var i=0;i<nobust.length;i++) {
-			if (nobust[i].length > 0) {
-				nobust_div.append(
-					$('<span>').attr({id: nobust[i]}).text(nobust[i]),
-					$('<img />').addClass('inboxImg').attr({
-						src: GM_getResourceURL('delete'),
-						title: 'Delete'
-					}).click(deleteNoBustEntry),
-					$('<br>')
-				);
-			}
-		}
-		nobust_div.append(
-			$('<input>').attr({
-				id: 'new_nobust',
-				type: 'text'
-			}),
-			$('<button>').text('Add').click(function() {
-				//let's not add empty entries
-				var newVal = $('#new_nobust').val();
-				if (newVal.length > 0) {
-					$('<span>').attr({id: newVal}).text(newVal).insertBefore($('#new_nobust'));
-					$('<img />').addClass('inboxImg').attr({
-						src: GM_getResourceURL('delete'),
-						title: 'Delete'
-					}).click(deleteNoBustEntry).insertBefore($('#new_nobust'));
-					$('<br>').insertBefore($('#new_nobust'));
-					nobust.push(newVal);
-					setV('nobust', nobust);
-					$('#new_nobust').val('');
-				}
-			})
-		);
-
-		var prefs_page = $('<center>').attr({
-			id: 'prefsContainer'
-		}).append(
-			$('<table>').addClass('thinline').attr({ cellspacing: 0, cellpading: 2, width: '90%' }).append(
-				$('<tr>').append(
-					$('<td>').addClass('tableheader').attr('align', 'center').append(
-						$('<b>').text('OmertaBeyond Preferences')
-					)
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').css('font-weight', 'normal').text('Version ' + OB_VERSION)
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Notifications')
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
-						$('<br>'),
-						$('<div>').attr('id', 'Authmsg'),
-						$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
-							if ('Notification' in window) {
-								Notification.requestPermission(function (perm) {
-									$('#Authmsg').text('Authorization for notification is: ' + perm);
-								});
-							}
-						}),
-						$('<br>'),
-						$('<div>').addClass('notify').append(
-							$('<input>').attr({
-								id: 'deaths',
-								type: 'checkbox',
-								checked: getdeaths
-							}).click(function () {
-								setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
-							}),
-							$('<label>').attr('for', 'deaths').text('Deaths'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'news',
-								type: 'checkbox',
-								checked: getnews
-							}).click(function () {
-								setA('prefs', 'bmsgNews', $('#news:checked').length);
-							}),
-							$('<label>').attr('for', 'news').text('News'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_crime',
-								type: 'checkbox',
-								checked: notify_crime
-							}).click(function () {
-								setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_crime').text('Crime'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_gta',
-								type: 'checkbox',
-								checked: notify_gta
-							}).click(function () {
-								setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_gta').text('Nick a car'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_travel',
-								type: 'checkbox',
-								checked: notify_travel
-							}).click(function () {
-								setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_travel').text('Travel'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_bullets',
-								type: 'checkbox',
-								checked: notify_bullets
-							}).click(function () {
-								setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_bullets').text('Buy bullets'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_health',
-								type: 'checkbox',
-								checked: notify_health
-							}).click(function () {
-								setA('prefs', 'notify_health', $('#notify_health:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_health').text('When losing health'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_messages',
-								type: 'checkbox',
-								checked: notify_messages
-							}).click(function () {
-								setA('prefs', 'notify_messages', $('#notify_messages:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_messages').text('Receive new messages'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_alerts',
-								type: 'checkbox',
-								checked: notify_alerts
-							}).click(function () {
-								setA('prefs', 'notify_alerts', $('#notify_alerts:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_alerts').text('New alerts'),
-							$('<br>'),
-							$('<input>').attr({
-								id: 'notify_bg',
-								type: 'checkbox',
-								checked: notify_bg
-							}).click(function () {
-								setA('prefs', 'notify_bg', $('#notify_bg:checked').length);
-							}),
-							$('<label>').attr('for', 'notify_bg').text('Train BG')
-						)
-					)
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Bust Priorities')
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').attr('align', 'center').css('text-align', 'center').text(
-						'Here you can choose which groups you want to bust before others.'
-					).append(
-						$('<br>'),
-						$('<input>').attr({
-							id: 'jailHL',
-							type: 'checkbox',
-							checked: jailHL
-						}).click(function () {
-							setA('prefs', 'jailHL', $('#jailHL:checked').length);
-						}),
-						$('<label>').attr('for', 'jailHL').text('Enable Bust Priorities'),
-						$('<br>'),
-						$('<span>').css('font-style', 'italic').text('Lower value means higher priority'),
-						$('<table>').css('text-align', 'left').css('margin-left', '30%').append(
-							$('<tr>').append(
-								$('<td>').text('Other'),
-								$('<td>').append(
-									$('<input>').attr({
-										id: 'jailHL_other',
-										type: 'text',
-										value: jailHL_other
-									}).blur(function () {
-										setA('sets', 'jailHL_other', $('#jailHL_other').val());
-									})
-								)
-							),
-							$('<tr>').append(
-								$('<td>').text('Friends and Family'),
-								$('<td>').append(
-									$('<input>').attr({
-										id: 'jailHL_friends',
-										type: 'text',
-										value: jailHL_friends
-									}).blur(function () {
-										setA('sets', 'jailHL_friends', $('#jailHL_friends').val());
-									})
-								)
-							),
-							$('<tr>').append(
-								$('<td>').text('Own lackeys'),
-								$('<td>').append(
-									$('<input>').attr({
-										id: 'jailHL_own_lackey',
-										type: 'text',
-										value: jailHL_own_lackey
-									}).blur(function () {
-										setA('sets', 'jailHL_own_lackey', $('#jailHL_own_lackey').val());
-									})
-								)
-							),
-							$('<tr>').append(
-								$('<td>').text('Friend/Family lackeys'),
-								$('<td>').append(
-									$('<input>').attr({
-										id: 'jailHL_fr_lackey',
-										type: 'text',
-										value: jailHL_fr_lackey
-									}).blur(function () {
-										setA('sets', 'jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
-									})
-								)
-							),
-							$('<tr>').append(
-								$('<td>').text('Other lackeys'),
-								$('<td>').append(
-									$('<input>').attr({
-										id: 'jailHL_other_lackey',
-										type: 'text',
-										value: jailHL_other_lackey
-									}).blur(function () {
-										setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
-									})
-								)
-							),
-							c_group_div,
-							$('<tr>').append(
-								$('<td>')
-							),
-							$('<tr>').append(
-								$('<td>').text('Buyout hotkey'),
-								$('<td>').append(
-									$('<input>').attr({
-										id: 'bo_hotkey',
-										type: 'text',
-										value: bo_hotkey
-									}).blur(function () {
-										setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
-										$('.ob_hotkey_pref').text($('#bo_hotkey').val());
-									})
-								)
-							)
-						),
-						$('<p>').html('Depending on browser and operating system, you can use either Alt + Shift + <span class="ob_hotkey_pref">' + bo_hotkey + '</span>, Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> or Ctrl + Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> to buy yourself out.'),
-						$('<span>').text('Do you want to choose players with highest/lowest remaining jailtime first, or pick one randomly?'),
-						$('<br>'),
-						$('<div>').addClass('notify').append(
-							$('<input>').attr({
-								name: 'jailHL_sel',
-								id: 'jailHL_high',
-								type: 'radio',
-								checked: (jailHL_sel=='highest'?true:false)
-							}).click(function () {
-								setA('sets', 'jailHL_sel', 'highest');
-							}),
-							$('<span>').append(
-								$('<label>').attr('for', 'jailHL_high').text('highest')
-							),
-							$('<br>'),
-							$('<input>').attr({
-								name: 'jailHL_sel',
-								id: 'jailHL_low',
-								type: 'radio',
-								checked: (jailHL_sel=='lowest'?true:false)
-							}).click(function () {
-								setA('sets', 'jailHL_sel', 'lowest');
-							}),
-							$('<span>').append(
-								$('<label>').attr('for', 'jailHL_low').text('lowest')
-							),
-							$('<br>'),
-							$('<input>').attr({
-								name: 'jailHL_sel',
-								id: 'jailHL_rand',
-								type: 'radio',
-								checked: (jailHL_sel=='random'?true:false)
-							}).click(function () {
-								setA('sets', 'jailHL_sel', 'random');
-							}),
-							$('<span>').append(
-								$('<label>').attr('for', 'jailHL_rand').text('random')
-							)
-						)
-					)
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Scumbag List')
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').attr('align', 'center').css('text-align', 'center').text(
-						'There is this one scumbag you wouldn\'t want to bust even if their life depended on it? Just add them here!'
-					).append(
-						$('<br>'),
-						nobust_div,
-						$('<span>').text('You can add family names too, by the way.')
-					)
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Best Run Calculator - Autofiller')
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').attr('align', 'center').css('text-align', 'center').text(
-						'Settings for the Best Run Calculator are visible on the Smuggling page'
-					).append(
-						$('<br>'),
-						$('<br>'),
-						$('<span>').text('You can choose between a movable window or showing the options on top of the page.'),
-						$('<br>'),
-						$('<div>').addClass('notify').append(
-							$('<input>').attr({
-								type: 'radio',
-								id: 'AF_Floating',
-								name: 'AF_Position',
-								checked: af_position == 'floating'
-							}).click(function() {
-								setA('sets', 'af_position', 'floating');
-							}),
-							$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
-							$('<br>'),
-							$('<input>').attr({
-								type: 'radio',
-								id: 'AF_Static',
-								name: 'AF_Position',
-								checked: af_position == 'static'
-							}).click(function() {
-								setA('sets', 'af_position', 'static');
-							}),
-							$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page')
-						),
-						$('<br>'),
-						$('<br>'),
-						$('<span>').text('If the movable window is gone, click here to reset its position.'),
-						$('<br>'),
-						$('<button>').text('Clear').click(function () {
-							if (confirm('Are you sure?')) {
-								setV('AFtop', '225');
-								setV('AFleft', '300');
-							}
-						})
-
-					)
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Old Preferences')
-				),
-				$('<tr>').append(
-					$('<td>').attr({ height: '1', bgcolor: 'black' })
-				),
-				$('<tr>').append(
-					$('<td>').attr('align', 'center').css('text-align', 'center').text(
-						'You have old preferences stored.'
-					).append(
-						$('<br>'),
-						$('<span>').text('Click the button to clear those'),
-						$('<br>'),
-						$('<button>').text('Clear').click(function () {
-							if (confirm('Are you sure?')) {
-								localStorage.removeItem('jailHL_def_' + v);
-								localStorage.removeItem('jailHL_friends_' + v);
-								localStorage.removeItem('jailHL_own_lackey_' + v);
-								localStorage.removeItem('jailHL_fr_lackey_' + v);
-								localStorage.removeItem('jailHL_other_lackey_' + v);
-								localStorage.removeItem('bmsgNews_' + v);
-								localStorage.removeItem('bmsgDeaths_' + v);
-								localStorage.removeItem('sluggsHideLaughing_' + v);
-							}
-						})
-					)
-				)
-			)
-		); // here we can build prefs page
-
-		if (!('Notification' in window)) {
-			$('#Authmsg', prefs_page).text('Your browser doesn\'t support notifications');
-			$('#btnNotification', prefs_page).remove();
-		} else if (Notification.permission == 'granted') {
-			$('#Authmsg', prefs_page).text('Authorization for notification is: ').append(
-				$('<span>').text('granted').css({
-					'font-weight': 'bold'
-				})
-			);
-			$('#btnNotification', prefs_page).remove();
-		}
 	}, 1000);
 });
+
+function GetPrefPage() {
+	var setGroupPriority = function () {
+		setA('sets', $(this).attr('id'), $(this).val());
+	};
+
+	var getnews = (prefs['bmsgNews'] ? true : false);
+	var getdeaths = (prefs['bmsgDeaths'] ? true : false);
+	var notify_crime = (prefs['notify_crime'] ? true : false);
+	var notify_gta = (prefs['notify_gta'] ? true : false);
+	var notify_travel = (prefs['notify_travel'] ? true : false);
+	var notify_bullets = (prefs['notify_bullets'] ? true : false);
+	var notify_health = (prefs['notify_health'] ? true : false);
+	var notify_messages = (prefs['notify_messages'] ? true : false);
+	var notify_alerts = (prefs['notify_alerts'] ? true : false);
+	var notify_bg = (prefs['notify_bg'] ? true : false);
+	var jailHL = (prefs['jailHL'] ? true: false);
+	var jailHL_sel = sets['jailHL_sel'] || 'highest';
+	var jailHL_other = sets['jailHL_other'] || 9;
+	var jailHL_friends = sets['jailHL_friends'] || 5;
+	var jailHL_own_lackey = sets['jailHL_own_lackey'] || 7;
+	var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 8;
+	var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
+	var bo_hotkey = sets['bo_hotkey'] || '/';
+	var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
+	var custom_groups = getV('custom_groups', '').split('|');
+	custom_groups.pop();
+	var nobust = getV('nobust', '').split(',');
+	var af_position = sets['af_position'] || 'floating';
+	setA('prefs', 'NR', 1);
+
+	// Build custom groups prio settings
+	var c_group_div = null;
+	for (var i=0;i<custom_groups.length;i++) {
+		var group_name = custom_groups[i].split(':')[0];
+		var group_prio = sets['jailHL_'+group_name] || (i+12);
+		var tr = $('<tr>').append(
+			$('<td>').text(group_name),
+			$('<td>').append(
+				$('<input>').attr({
+					id: 'jailHL_' + group_name,
+					type: 'text',
+					value: group_prio
+				}).blur(setGroupPriority)
+			)
+		);
+		if (c_group_div === null) {
+			c_group_div = tr;
+		} else {
+			c_group_div.after(tr);
+		}
+	}
+
+	function deleteNoBustEntry() {
+		var entrySpan = $(this).prev();
+		var index = nobust.indexOf(entrySpan.attr('id'));
+		nobust.splice(index, 1);
+		entrySpan.hide();
+		$(this).hide();
+		setV('nobust', nobust);
+	}
+	// Build no bust list
+	var nobust_div = $('<div>').attr('id', 'nobust');
+	for (var i=0;i<nobust.length;i++) {
+		if (nobust[i].length > 0) {
+			nobust_div.append(
+				$('<span>').attr({id: nobust[i]}).text(nobust[i]),
+				$('<img />').addClass('inboxImg').attr({
+					src: GM_getResourceURL('delete'),
+					title: 'Delete'
+				}).click(deleteNoBustEntry),
+				$('<br>')
+			);
+		}
+	}
+	nobust_div.append(
+		$('<input>').attr({
+			id: 'new_nobust',
+			type: 'text'
+		}),
+		$('<button>').text('Add').click(function() {
+			//let's not add empty entries
+			var newVal = $('#new_nobust').val();
+			if (newVal.length > 0) {
+				$('<span>').attr({id: newVal}).text(newVal).insertBefore($('#new_nobust'));
+				$('<img />').addClass('inboxImg').attr({
+					src: GM_getResourceURL('delete'),
+					title: 'Delete'
+				}).click(deleteNoBustEntry).insertBefore($('#new_nobust'));
+				$('<br>').insertBefore($('#new_nobust'));
+				nobust.push(newVal);
+				setV('nobust', nobust);
+				$('#new_nobust').val('');
+			}
+		})
+	);
+
+	var prefs_page = $('<center>').attr({
+		id: 'prefsContainer'
+	}).append(
+		$('<table>').addClass('thinline').attr({ cellspacing: 0, cellpading: 2, width: '90%' }).append(
+			$('<tr>').append(
+				$('<td>').addClass('tableheader').attr('align', 'center').append(
+					$('<b>').text('OmertaBeyond Preferences')
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').css('font-weight', 'normal').text('Version ' + OB_VERSION)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Notifications')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
+					$('<br>'),
+					$('<div>').attr('id', 'Authmsg'),
+					$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
+						if ('Notification' in window) {
+							Notification.requestPermission(function (perm) {
+								$('#Authmsg').text('Authorization for notification is: ' + perm);
+							});
+						}
+					}),
+					$('<br>'),
+					$('<div>').addClass('notify').append(
+						$('<input>').attr({
+							id: 'deaths',
+							type: 'checkbox',
+							checked: getdeaths
+						}).click(function () {
+							setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
+						}),
+						$('<label>').attr('for', 'deaths').text('Deaths'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'news',
+							type: 'checkbox',
+							checked: getnews
+						}).click(function () {
+							setA('prefs', 'bmsgNews', $('#news:checked').length);
+						}),
+						$('<label>').attr('for', 'news').text('News'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_crime',
+							type: 'checkbox',
+							checked: notify_crime
+						}).click(function () {
+							setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_crime').text('Crime'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_gta',
+							type: 'checkbox',
+							checked: notify_gta
+						}).click(function () {
+							setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_gta').text('Nick a car'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_travel',
+							type: 'checkbox',
+							checked: notify_travel
+						}).click(function () {
+							setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_travel').text('Travel'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_bullets',
+							type: 'checkbox',
+							checked: notify_bullets
+						}).click(function () {
+							setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_bullets').text('Buy bullets'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_health',
+							type: 'checkbox',
+							checked: notify_health
+						}).click(function () {
+							setA('prefs', 'notify_health', $('#notify_health:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_health').text('When losing health'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_messages',
+							type: 'checkbox',
+							checked: notify_messages
+						}).click(function () {
+							setA('prefs', 'notify_messages', $('#notify_messages:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_messages').text('Receive new messages'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_alerts',
+							type: 'checkbox',
+							checked: notify_alerts
+						}).click(function () {
+							setA('prefs', 'notify_alerts', $('#notify_alerts:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_alerts').text('New alerts'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_bg',
+							type: 'checkbox',
+							checked: notify_bg
+						}).click(function () {
+							setA('prefs', 'notify_bg', $('#notify_bg:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_bg').text('Train BG')
+					)
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Bust Priorities')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text(
+					'Here you can choose which groups you want to bust before others.'
+				).append(
+					$('<br>'),
+					$('<input>').attr({
+						id: 'jailHL',
+						type: 'checkbox',
+						checked: jailHL
+					}).click(function () {
+						setA('prefs', 'jailHL', $('#jailHL:checked').length);
+					}),
+					$('<label>').attr('for', 'jailHL').text('Enable Bust Priorities'),
+					$('<br>'),
+					$('<span>').css('font-style', 'italic').text('Lower value means higher priority'),
+					$('<table>').css('text-align', 'left').css('margin-left', '30%').append(
+						$('<tr>').append(
+							$('<td>').text('Other'),
+							$('<td>').append(
+								$('<input>').attr({
+									id: 'jailHL_other',
+									type: 'text',
+									value: jailHL_other
+								}).blur(function () {
+									setA('sets', 'jailHL_other', $('#jailHL_other').val());
+								})
+							)
+						),
+						$('<tr>').append(
+							$('<td>').text('Friends and Family'),
+							$('<td>').append(
+								$('<input>').attr({
+									id: 'jailHL_friends',
+									type: 'text',
+									value: jailHL_friends
+								}).blur(function () {
+									setA('sets', 'jailHL_friends', $('#jailHL_friends').val());
+								})
+							)
+						),
+						$('<tr>').append(
+							$('<td>').text('Own lackeys'),
+							$('<td>').append(
+								$('<input>').attr({
+									id: 'jailHL_own_lackey',
+									type: 'text',
+									value: jailHL_own_lackey
+								}).blur(function () {
+									setA('sets', 'jailHL_own_lackey', $('#jailHL_own_lackey').val());
+								})
+							)
+						),
+						$('<tr>').append(
+							$('<td>').text('Friend/Family lackeys'),
+							$('<td>').append(
+								$('<input>').attr({
+									id: 'jailHL_fr_lackey',
+									type: 'text',
+									value: jailHL_fr_lackey
+								}).blur(function () {
+									setA('sets', 'jailHL_fr_lackey', $('#jailHL_fr_lackey').val());
+								})
+							)
+						),
+						$('<tr>').append(
+							$('<td>').text('Other lackeys'),
+							$('<td>').append(
+								$('<input>').attr({
+									id: 'jailHL_other_lackey',
+									type: 'text',
+									value: jailHL_other_lackey
+								}).blur(function () {
+									setA('sets', 'jailHL_other_lackey', $('#jailHL_other_lackey').val());
+								})
+							)
+						),
+						c_group_div,
+						$('<tr>').append(
+							$('<td>')
+						),
+						$('<tr>').append(
+							$('<td>').text('Buyout hotkey'),
+							$('<td>').append(
+								$('<input>').attr({
+									id: 'bo_hotkey',
+									type: 'text',
+									value: bo_hotkey
+								}).blur(function () {
+									setA('sets', 'bo_hotkey', $('#bo_hotkey').val());
+									$('.ob_hotkey_pref').text($('#bo_hotkey').val());
+								})
+							)
+						)
+					),
+					$('<p>').html('Depending on browser and operating system, you can use either Alt + Shift + <span class="ob_hotkey_pref">' + bo_hotkey + '</span>, Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> or Ctrl + Alt + <span class="ob_hotkey_pref">' + bo_hotkey + '</span> to buy yourself out.'),
+					$('<span>').text('Do you want to choose players with highest/lowest remaining jailtime first, or pick one randomly?'),
+					$('<br>'),
+					$('<div>').addClass('notify').append(
+						$('<input>').attr({
+							name: 'jailHL_sel',
+							id: 'jailHL_high',
+							type: 'radio',
+							checked: (jailHL_sel=='highest'?true:false)
+						}).click(function () {
+							setA('sets', 'jailHL_sel', 'highest');
+						}),
+						$('<span>').append(
+							$('<label>').attr('for', 'jailHL_high').text('highest')
+						),
+						$('<br>'),
+						$('<input>').attr({
+							name: 'jailHL_sel',
+							id: 'jailHL_low',
+							type: 'radio',
+							checked: (jailHL_sel=='lowest'?true:false)
+						}).click(function () {
+							setA('sets', 'jailHL_sel', 'lowest');
+						}),
+						$('<span>').append(
+							$('<label>').attr('for', 'jailHL_low').text('lowest')
+						),
+						$('<br>'),
+						$('<input>').attr({
+							name: 'jailHL_sel',
+							id: 'jailHL_rand',
+							type: 'radio',
+							checked: (jailHL_sel=='random'?true:false)
+						}).click(function () {
+							setA('sets', 'jailHL_sel', 'random');
+						}),
+						$('<span>').append(
+							$('<label>').attr('for', 'jailHL_rand').text('random')
+						)
+					)
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Scumbag List')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text(
+					'There is this one scumbag you wouldn\'t want to bust even if their life depended on it? Just add them here!'
+				).append(
+					$('<br>'),
+					nobust_div,
+					$('<span>').text('You can add family names too, by the way.')
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Best Run Calculator - Autofiller')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text(
+					'Settings for the Best Run Calculator are visible on the Smuggling page'
+				).append(
+					$('<br>'),
+					$('<br>'),
+					$('<span>').text('You can choose between a movable window or showing the options on top of the page.'),
+					$('<br>'),
+					$('<div>').addClass('notify').append(
+						$('<input>').attr({
+							type: 'radio',
+							id: 'AF_Floating',
+							name: 'AF_Position',
+							checked: af_position == 'floating'
+						}).click(function() {
+							setA('sets', 'af_position', 'floating');
+						}),
+						$('<label>').attr({ for: 'AF_Floating' }).text('Show settings in movable window'),
+						$('<br>'),
+						$('<input>').attr({
+							type: 'radio',
+							id: 'AF_Static',
+							name: 'AF_Position',
+							checked: af_position == 'static'
+						}).click(function() {
+							setA('sets', 'af_position', 'static');
+						}),
+						$('<label>').attr({ for: 'AF_Static' }).text('Show settings on top of the page')
+					),
+					$('<br>'),
+					$('<br>'),
+					$('<span>').text('If the movable window is gone, click here to reset its position.'),
+					$('<br>'),
+					$('<button>').text('Clear').click(function () {
+						if (confirm('Are you sure?')) {
+							setV('AFtop', '225');
+							setV('AFleft', '300');
+						}
+					})
+
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Old Preferences')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text(
+					'You have old preferences stored.'
+				).append(
+					$('<br>'),
+					$('<span>').text('Click the button to clear those'),
+					$('<br>'),
+					$('<button>').text('Clear').click(function () {
+						if (confirm('Are you sure?')) {
+							localStorage.removeItem('jailHL_def_' + v);
+							localStorage.removeItem('jailHL_friends_' + v);
+							localStorage.removeItem('jailHL_own_lackey_' + v);
+							localStorage.removeItem('jailHL_fr_lackey_' + v);
+							localStorage.removeItem('jailHL_other_lackey_' + v);
+							localStorage.removeItem('bmsgNews_' + v);
+							localStorage.removeItem('bmsgDeaths_' + v);
+							localStorage.removeItem('sluggsHideLaughing_' + v);
+						}
+					})
+				)
+			)
+		)
+	); // here we can build prefs page
+
+	if (!('Notification' in window)) {
+		$('#Authmsg', prefs_page).text('Your browser doesn\'t support notifications');
+		$('#btnNotification', prefs_page).remove();
+	} else if (Notification.permission == 'granted') {
+		$('#Authmsg', prefs_page).text('Authorization for notification is: ').append(
+			$('<span>').text('granted').css({
+				'font-weight': 'bold'
+			})
+		);
+		$('#btnNotification', prefs_page).remove();
+	}
+
+	return prefs_page;
+}
 
 /*
  * Info grabber
