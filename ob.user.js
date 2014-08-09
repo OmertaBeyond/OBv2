@@ -748,16 +748,10 @@ function IsNewVersion() {
  * @param  {[String]}  user
  * @return {Boolean}
  */
-function isUserAlive(user){
+function checkUserAlive(user, callback){
 	$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + user, function (data) {
-		if (!data['DiedAt']) {
-			return true;
-		} else {
-			return false;
-		}
+		callback(!data['DiedAt']);
 	});
-
-	setV('willTimestamp', $.now());
 }
 
 /*
@@ -1087,21 +1081,26 @@ if (document.getElementById('game_container') !== null) {
 			willName = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last').text().replace(/,/g, '').trim();
 			willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
 
-			// The logger of .DM is kind of broken right now, so we're not going to make this work on .dm for the moment.
-			// Let's also skip doing this if the will has not been set.
-
-			if (typeof timestamp == 'undefined' || timestamp <= checkTimestamp && v != 'dm' && willName != defaultWillName ) {
-
-				if (!isUserAlive(willName)) {
-					setV('deadWillName', willName);
-				}
-			}
-
-			var deadWillName = getV('deadWillName');
-
-			// If the person in the will has been changed it shouldnt be shown anymore
-			if (deadWillName == willName) {
+			var appendDead = function() {
 				willTR.append('<span class="red"> | Dead!</span>');
+			};
+			// Let's skip doing this if the will has not been set.
+
+			if (getV('willTimestamp', 0) <= checkTimestamp && willName != defaultWillName) {
+				checkUserAlive(willName, function(isAlive) {
+					setV('willTimestamp', $.now());
+					if (!isAlive) {
+						setV('deadWillName', willName);
+						appendDead();
+					}
+				});
+			} else {
+				var deadWillName = getV('deadWillName');
+
+				// If the person in the will has been changed it shouldnt be shown anymore
+				if (deadWillName == willName) {
+					appendDead();
+				}
 			}
 
 			if (!IsNewVersion()) {
