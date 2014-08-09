@@ -3056,6 +3056,7 @@ if (document.getElementById('game_container') !== null) {
 
 					if (on_page('smuggling.php') && nn == 'center') {
 						var AF = function (sel, Xn, Xb) {
+							sel = parseInt(sel, 10);
 							var n = -1;
 							var b = -1;
 							// assemble info for AF
