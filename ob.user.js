@@ -1334,8 +1334,8 @@ if (document.getElementById('game_container') !== null) {
 			}
 			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false);
 			// Add successful BO to total
-			if ($('#game_container:contains(You busted this person)').length) {
-				if($('#game_container:contains(cellmate out of jail)').length) {
+			if ($('#game_container:contains("You busted this person")').length) {
+				if($('#game_container:contains("cellmate out of jail")').length) {
 					bos = (bos + 1);
 				}
 				bos = (bos + 1);
@@ -2058,7 +2058,7 @@ if (document.getElementById('game_container') !== null) {
 				setV('slotbet', parseInt($(this).val(), 10));
 			});
 
-			if ($('#game_container:contains(Congratulations!)').length > 0 || $('#game_container:contains(YOU WON THE JACKPOT)').length > 0) {
+			if ($('#game_container:contains("Congratulations!")').length > 0 || $('#game_container:contains("YOU WON THE JACKPOT")').length > 0) {
 				var S1 = $('img[src*="slotmachine"]:eq(0)').attr('src').replace(/">/g, '').split('/');
 				var S2 = $('img[src*="slotmachine"]:eq(1)').attr('src').replace(/">/g, '').split('/');
 				var S3 = $('img[src*="slotmachine"]:eq(2)').attr('src').replace(/">/g, '').split('/');
@@ -2088,7 +2088,7 @@ if (document.getElementById('game_container') !== null) {
 				slotspent += parseInt(slotbet, 10); // money spent
 				setV('slotspent', slotspent);
 			}
-			if ($('#game_container:contains(Bummer)').length > 0) { // lost
+			if ($('#game_container:contains("Bummer")').length > 0) { // lost
 				slotgames += 1; // games played +1;
 				setV('slotgames', slotgames);
 				slotspent += parseInt(slotbet, 10); // money spent
@@ -2181,14 +2181,14 @@ if (document.getElementById('game_container') !== null) {
 			var bullets = parseInt(getV('bullets', 0), 10);
 			var scratches = parseInt(getV('scratches', 0), 10);
 
-			if ($('#game_container:contains(Congratulations!)').length) { // grab winning event
-				if ($('#game_container:contains(They have been added to your account!)').length) { // bullets
+			if ($('#game_container:contains("Congratulations!")').length) { // grab winning event
+				if ($('#game_container:contains("They have been added to your account!")').length) { // bullets
 					var rex = new RegExp('won (\\d+) bullets');
 					var r = $('#game_container').text().match(rex);
 					bullets += parseInt(r[1], 10);
 					setV('bullets', bullets);
 				}
-				if ($('#game_container:contains(It has been added to your account!)').length) { // money
+				if ($('#game_container:contains("It has been added to your account!")').length) { // money
 					var rex = new RegExp('You have won \\$ (\\d+)');
 					var str = $('#game_container').text().replace(/,/g, '');
 					var r = str.match(rex);
@@ -2201,7 +2201,7 @@ if (document.getElementById('game_container') !== null) {
 					$('input[name="scratch"]').focus();
 				}
 			}
-			if ($('#game_container:contains(Start scratching)').length) { // grab scratching event
+			if ($('#game_container:contains("Start scratching")').length) { // grab scratching event
 				scratches += 1;
 				setV('scratches', scratches);
 				if ($('input[name="Check"]').length) {
@@ -2291,7 +2291,7 @@ if (document.getElementById('game_container') !== null) {
 			var bttoday = parseInt(getV('bttoday', 0), 10);
 			var btmoney = parseInt(getV('btmoney', 0), 10);
 			var btmode = parseInt(getV('btmode', 1), 10);
-			if ($('#game_container:contains(Success, you bought)').length) {
+			if ($('#game_container:contains("Success, you bought")').length) {
 				var rex = new RegExp('Success you bought (\\d+) bullets for \\$ (\\d+)');
 				var str = $('#game_container').text().split('Bulletfactory')[0].replace(/,/g, '');
 				var r = str.match(rex);
@@ -3920,7 +3920,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('user.php') && nn == 'span') {
 			var input = GetParam('nick');
 			var str = (v == 'nl' ? 'Deze speler bestaat niet' : 'This user does not exist');
-			if ($('#game_container:contains(' + str + ')').length && input !== false) {
+			if ($('#game_container:contains("' + str + '")').length && input !== false) {
 				setTimeout(function () { // needed because $.get only works on same domain
 					GM_xmlhttpRequest({ // grab data from xml
 						method: 'GET',
@@ -4618,7 +4618,7 @@ $('#game_container').on('DOMNodeInserted', function(event){
 	var nn = event.target.tagName.toLowerCase();
 	if(on_page('jail.php')) {
 		// Return when self bo
-		if ($('#game_container:contains(You busted yourself out of jail)').length) {
+		if ($('#game_container:contains("You busted yourself out of jail")').length) {
 			if(!$('#bo_fired').length) {
 				var bos = parseInt(getV('bustouts', 0), 10);
 				bos = (bos + 1);
@@ -4628,14 +4628,14 @@ $('#game_container').on('DOMNodeInserted', function(event){
 			}
 		}
 		// Return when busted
-		if ($('#game_container:contains(You are not in jail!)').length) {
+		if ($('#game_container:contains("You are not in jail!")').length) {
 			if(!$('#bo_fired').length) {
 				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
 		}
 		// Return when bought out
-		if ($('#game_container:contains(You bought yourself out)').length) {
+		if ($('#game_container:contains("You bought yourself out")').length) {
 			if(!$('#bo_fired').length && nn != 'b') {
 				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
