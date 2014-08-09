@@ -521,6 +521,138 @@ function CheckBmsg() {
 	}, 0);
 }
 
+function CheckServiceVariable() {
+	setInterval(function() {
+		var serviceData = unsafeWindow.omerta.services.account.data;
+		if (prefs['notify_health']) {
+			var newHealth = parseFloat(serviceData.progressbars.health);
+			var oldHealth = parseFloat(getV('serviceHealth', 0));
+			if (oldHealth === 0) {
+				setV('serviceHealth', newHealth);
+			} else if (newHealth < oldHealth) {
+				setV('serviceHealth', newHealth);
+
+				var text = 'You lost '+ (oldHealth - newHealth) +' health!';
+				var title = 'Health (' + v + ')';
+				var notification = new Notification(title, {
+					dir: 'auto',
+					lang: '',
+					body: text,
+					tag: 'health',
+					icon: GM_getResourceURL('red-star')
+				});
+				notification.onclick = function () {
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Bloodbank');
+					window.focus();
+					notification.close();
+				};
+			}
+		}
+
+		//check for new messages if they want them
+		if (serviceData.messages.inbox.length > 0 && prefs['notify_messages']) {
+			var lastMessage = parseInt(getV('lastMessage', 0));
+
+			var totalMessages = 0;
+			$.each(serviceData.messages.inbox, function(i, val) {
+				var id = parseInt(val.id);
+				if(lastMessage === id) {
+					return false;
+				}
+				totalMessages += 1;
+			});
+
+			if (totalMessages === 0) {
+				return false;
+			}
+			var msgId = parseInt(serviceData.messages.inbox[0].id);
+			setV('lastMessage', msgId);
+			if (totalMessages === 1) {
+				var text = 'Message: '+ serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
+				var title = 'New message from '+ serviceData.messages.inbox[0].frm +': '+ serviceData.messages.inbox[0].sbj +' (' + v + ')';
+				var notification = new Notification(title, {
+					dir: 'auto',
+					lang: '',
+					body: text,
+					tag: 'Mail',
+					icon: GM_getResourceURL('red-star')
+				});
+				notification.onclick = function () {
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+ msgId);
+					window.focus();
+					notification.close();
+				};
+			} else {
+				var text = 'You have got '+ totalMessages +' new messages';
+				var title = 'New messages (' + v + ')';
+				var notification = new Notification(title, {
+					dir: 'auto',
+					lang: '',
+					body: text,
+					tag: 'Mail',
+					icon: GM_getResourceURL('red-star')
+				});
+				notification.onclick = function () {
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=inbox');
+					window.focus();
+					notification.close();
+				};
+			}
+		}
+
+		//check for new alerts if they want them
+		if (serviceData.messages.alert.length > 0 && prefs['notify_alerts']) {
+			var lastAlert = parseInt(getV('lastAlert', 0));
+
+			var totalAlerts = 0;
+			$.each(serviceData.messages.alert, function(i, val) {
+				var id = parseInt(val.id);
+				if(lastAlert === id) {
+					return false;
+				}
+				totalAlerts += 1;
+			});
+
+			if(totalAlerts === 0) {
+				return false;
+			}
+			var msgId = parseInt(serviceData.messages.alert[0].id);
+			setV('lastAlert', msgId);
+			if(totalAlerts === 1) {
+				var text = 'Alert: '+ serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
+				var title = 'Alert! '+ serviceData.messages.alert[0].sbj +' (' + v + ')';
+				var notification = new Notification(title, {
+					dir: 'auto',
+					lang: '',
+					body: text,
+					tag: 'Alert',
+					icon: GM_getResourceURL('red-star')
+				});
+				notification.onclick = function () {
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+ msgId);
+					window.focus();
+					notification.close();
+				};
+			} else {
+				var text = 'You have got '+ totalAlerts +' new alerts';
+				var title = 'Alert! (' + v + ')';
+				var notification = new Notification(title, {
+					dir: 'auto',
+					lang: '',
+					body: text,
+					tag: 'Alert!',
+					icon: GM_getResourceURL('red-star')
+				});
+				notification.onclick = function () {
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=inbox');
+					window.focus();
+					notification.close();
+				};
+			}
+		}
+	}, 30000);
+}
+
 function whatV(hostname) {
 	switch (hostname || window.location.hostname) {
 		case 'www.omerta3.com':
@@ -4010,6 +4142,9 @@ if (document.getElementById('game_container') !== null) {
 			var notify_gta = (prefs['notify_gta'] ? true : false);
 			var notify_travel = (prefs['notify_travel'] ? true : false);
 			var notify_bullets = (prefs['notify_bullets'] ? true : false);
+			var notify_health = (prefs['notify_health'] ? true : false);
+			var notify_messages = (prefs['notify_messages'] ? true : false);
+			var notify_alerts = (prefs['notify_alerts'] ? true : false);
 			var jailHL = (prefs['jailHL'] ? true: false);
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
 			var jailHL_other = sets['jailHL_other'] || 9;
@@ -4183,7 +4318,34 @@ if (document.getElementById('game_container') !== null) {
 								}).click(function () {
 									setA('prefs', 'notify_bullets', $('#notify_gta:checked').length);
 								}),
-								$('<label>').attr('for', 'notify_bullets').text('Buy bullets')
+								$('<label>').attr('for', 'notify_bullets').text('Buy bullets'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'notify_health',
+									type: 'checkbox',
+									checked: notify_health
+								}).click(function () {
+									setA('prefs', 'notify_health', $('#notify_health:checked').length);
+								}),
+								$('<label>').attr('for', 'notify_health').text('When losing health'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'notify_messages',
+									type: 'checkbox',
+									checked: notify_messages
+								}).click(function () {
+									setA('prefs', 'notify_messages', $('#notify_messages:checked').length);
+								}),
+								$('<label>').attr('for', 'notify_messages').text('Receive new messages'),
+								$('<br>'),
+								$('<input>').attr({
+									id: 'notify_alerts',
+									type: 'checkbox',
+									checked: notify_alerts
+								}).click(function () {
+									setA('prefs', 'notify_alerts', $('#notify_alerts:checked').length);
+								}),
+								$('<label>').attr('for', 'notify_alerts').text('New alerts')
 							)
 						)
 					),
@@ -4496,6 +4658,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 	if(v == 'dm' || v == 'com' || v == 'nl') {
 		setTimeout(function() {
 			CheckCooldown();
+			CheckServiceVariable();
 		}, 1000);
 
 	}
@@ -4700,6 +4863,9 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		var notify_gta = (prefs['notify_gta'] ? true : false);
 		var notify_travel = (prefs['notify_travel'] ? true : false);
 		var notify_bullets = (prefs['notify_bullets'] ? true : false);
+		var notify_health = (prefs['notify_health'] ? true : false);
+		var notify_messages = (prefs['notify_messages'] ? true : false);
+		var notify_alerts = (prefs['notify_alerts'] ? true : false);
 		var notify_bg = (prefs['notify_bg'] ? true : false);
 		var jailHL = (prefs['jailHL'] ? true: false);
 		var jailHL_sel = sets['jailHL_sel'] || 'highest';
@@ -4872,6 +5038,33 @@ $('#game_menu').one('DOMNodeInserted', function () {
 								setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
 							}),
 							$('<label>').attr('for', 'notify_bullets').text('Buy bullets'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_health',
+								type: 'checkbox',
+								checked: notify_health
+							}).click(function () {
+								setA('prefs', 'notify_health', $('#notify_health:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_health').text('When losing health'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_messages',
+								type: 'checkbox',
+								checked: notify_messages
+							}).click(function () {
+								setA('prefs', 'notify_messages', $('#notify_messages:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_messages').text('Receive new messages'),
+							$('<br>'),
+							$('<input>').attr({
+								id: 'notify_alerts',
+								type: 'checkbox',
+								checked: notify_alerts
+							}).click(function () {
+								setA('prefs', 'notify_alerts', $('#notify_alerts:checked').length);
+							}),
+							$('<label>').attr('for', 'notify_alerts').text('New alerts'),
 							$('<br>'),
 							$('<input>').attr({
 								id: 'notify_bg',
