@@ -1078,8 +1078,13 @@ if (document.getElementById('game_container') !== null) {
 
 			// Get the values for the will, since .DM is not supported ill leave those out (for now)
 
-			willName = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last').text().replace(/,/g, '').trim();
-			willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
+			if (IsNewVersion()) {
+				willTR = $('.thinline:eq(0)>tbody>tr:eq(10)>td:last');
+			} else {
+				willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
+			}
+			willName = willTR.text().replace(/,/g, '').trim();
+
 
 			var appendDead = function() {
 				willTR.append('<span class="red"> | Dead!</span>');
