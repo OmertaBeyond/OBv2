@@ -397,7 +397,9 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 		icon: beyondIcon
 	});
 	notification.onclick = function () {
-		unsafeWindow.omerta.GUI.container.loadPage(callbackUrl);
+		if (callbackUrl !== null) {
+			unsafeWindow.omerta.GUI.container.loadPage(callbackUrl);
+		}
 		window.focus();
 		notification.close();
 	};
@@ -637,6 +639,49 @@ function IsNewVersion() {
 function checkUserAlive(user, callback){
 	$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + user, function (data) {
 		callback(!data['DiedAt']);
+	});
+}
+
+function highlightChatMessage(messageContainer, sendNotification) {
+	var sender = $(messageContainer).find('.chat-sender-participant, .chat-sender-offline');
+	var messageText = $(messageContainer).find('.chat-message-text');
+	var nickRegex = new RegExp('\\b' + getV('nick', null) + '\\b', 'i');
+	if (sender.text() == getV('nick', null)) {
+		$(messageContainer).css('background-color', 'rgba(55, 162, 255, 0.42)');
+	} else if (nickRegex.test($(messageText).text())) {
+		$(messageContainer).css('background-color', 'rgba(125, 3, 2, 0.77)');
+		if (sendNotification) {
+			SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
+		}
+	}
+}
+
+/*
+ * Chat listener
+ */
+if (document.getElementById('omerta_chat_room') !== null && typeof MutationObserver != 'undefined') {
+	var firstMessageTs;
+	var chatObserver = new MutationObserver(function(mutations) {
+		mutations.forEach(function(mutation) {
+			for (var i = 0; i < mutation.addedNodes.length; i++) {
+				var node = mutation.addedNodes[i];
+				if (node.nodeType == 1 && !node.hasAttribute('data-beyond-fired') && $(node).hasClass('user-message-text')) {
+					node.setAttribute('data-beyond-fired', true);
+					if (typeof firstMessageTs == 'undefined') {
+						firstMessageTs = $.now();
+					}
+					var isBufferedMessage = firstMessageTs >= $.now() - 500;
+					highlightChatMessage(node, prefs['notify_highlight'] && !isBufferedMessage);
+				}
+			}
+		});
+	});
+
+	chatObserver.observe(document.getElementById('omerta_chat_room'), {
+		attributes: false,
+		childList: true,
+		subtree: true,
+		characterData: false
 	});
 }
 
@@ -4302,6 +4347,7 @@ function GetPrefPage() {
 	var notify_messages = (prefs['notify_messages'] ? true : false);
 	var notify_alerts = (prefs['notify_alerts'] ? true : false);
 	var notify_bg = (prefs['notify_bg'] ? true : false);
+	var notify_highlight = (prefs['notify_highlight'] ? true : false);
 	var jailHL = (prefs['jailHL'] ? true: false);
 	var jailHL_sel = sets['jailHL_sel'] || 'highest';
 	var jailHL_other = sets['jailHL_other'] || 9;
@@ -4508,7 +4554,16 @@ function GetPrefPage() {
 						}).click(function () {
 							setA('prefs', 'notify_bg', $('#notify_bg:checked').length);
 						}),
-						$('<label>').attr('for', 'notify_bg').text('Train BG')
+						$('<label>').attr('for', 'notify_bg').text('Train BG'),
+						$('<br>'),
+						$('<input>').attr({
+							id: 'notify_highlight',
+							type: 'checkbox',
+							checked: notify_highlight
+						}).click(function () {
+							setA('prefs', 'notify_highlight', $('#notify_highlight:checked').length);
+						}),
+						$('<label>').attr('for', 'notify_highlight').text('Name mentioned in chat')
 					)
 				)
 			),
