@@ -4241,7 +4241,9 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 		)
 	);
 
-	buildMarquee();
+	if (!IsNewVersion()) {
+		buildMarquee();
+	}
 
 	var city = getPow('bninfo', 2, -1);
 	if (city > 0) {
