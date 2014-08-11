@@ -314,139 +314,6 @@ function bnUpdate(current) {
 	}
 	setPow('bninfo', 3, plane); // save
 }
-var crimeTimer = false;
-var gtaTimer = false;
-var travelTimer = false;
-var bulletTimer = false;
-var bgTimer = false;
-
-function CheckCooldown() {
-	setTimeout(function() {
-		if(prefs['notify_bg'] && !bgTimer) {
-			var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
-			if(timer > 0) {
-				bgTimer = true;
-				setTimeout(function() {
-					bgTimer = false;
-					var text = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
-					var title = 'Train Bodygyuard (' + v + ')';
-					var notification = new Notification(title, {
-						dir: 'bg',
-						lang: '',
-						body: text,
-						tag: 'bg',
-						icon: GM_getResourceURL('red-star')
-					});
-					notification.onclick = function () {
-						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Bodyguards');
-						window.focus();
-						notification.close();
-					};
-				}, timer * 1000);
-			}
-		}
-		if(prefs['notify_gta'] && !gtaTimer) {
-			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
-			if(timer > 0) {
-				gtaTimer = true;
-				setTimeout(function() {
-					gtaTimer = false;
-					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
-					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
-					var notification = new Notification(title, {
-						dir: 'auto',
-						lang: '',
-						body: text,
-						tag: 'car',
-						icon: GM_getResourceURL('red-star')
-					});
-					notification.onclick = function () {
-						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Cars');
-						window.focus();
-						notification.close();
-					};
-				}, timer * 1000);
-			}
-		}
-
-		if(prefs['notify_crime'] && !crimeTimer) {
-			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
-			if(timer > 0) {
-				crimeTimer = true;
-				setTimeout(function() {
-					crimeTimer = false;
-					var text = 'You can do a crime';
-					var title = 'Crime (' + v + ')';
-					var notification = new Notification(title, {
-						dir: 'auto',
-						lang: '',
-						body: text,
-						tag: 'crime',
-						icon: GM_getResourceURL('red-star')
-					});
-					notification.onclick = function () {
-						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Crimes');
-						window.focus();
-						notification.close();
-					};
-				}, timer * 1000);
-			}
-		}
-
-		if(prefs['notify_travel'] && !travelTimer) {
-			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
-			if(timer > 0) {
-				travelTimer = true;
-				setTimeout(function() {
-					travelTimer = false;
-					var text = 'You can travel';
-					var title = 'Travel (' + v + ')';
-					var notification = new Notification(title, {
-						dir: 'auto',
-						lang: '',
-						body: text,
-						tag: 'Travel',
-						icon: GM_getResourceURL('red-star')
-					});
-					notification.onclick = function () {
-						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Travel');
-						window.focus();
-						notification.close();
-					};
-				}, timer * 1000);
-			}
-		}
-
-		if(prefs['notify_bullets'] && !bulletTimer) {
-			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
-			if(timer > 0) {
-				bulletTimer = true;
-				setTimeout(function() {
-					bulletTimer = false;
-					var text = 'You can buy bullets';
-					var title = 'Bullets (' + v + ')';
-					var notification = new Notification(title, {
-						dir: 'auto',
-						lang: '',
-						body: text,
-						tag: 'Bullets',
-						icon: GM_getResourceURL('red-star')
-					});
-					notification.onclick = function () {
-						unsafeWindow.omerta.GUI.container.loadPage('./bullets2.php');
-						window.focus();
-						notification.close();
-					};
-				}, timer * 1000);
-			}
-		}
-
-		setTimeout(function () {
-			CheckCooldown();
-		}, 60000);
-	}, 0);
-}
-
 
 function CheckBmsg() {
 	setTimeout(function () {
@@ -458,97 +325,101 @@ function CheckBmsg() {
 				var response = JSON.parse(xhr.responseText);
 				var deaths = response['deaths'].length;
 				var news = response['news'].length;
-				if (news == 1) {
-					if (prefs['bmsgNews']) {
-						var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
-						var title = response['news'][0]['title'];
-						var type = response['news'][0]['type'];
-						text += response['news'][0]['preview'];
+				if (news == 1 && prefs['bmsgNews']) {
+					var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
+					var title = response['news'][0]['title'];
+					var type = response['news'][0]['type'];
+					text += response['news'][0]['preview'];
 
-						var notification = new Notification(title, {
-							dir: 'auto',
-							lang: '',
-							body: text,
-							tag: 'news',
-							icon: GM_getResourceURL('red-star')
-						});
-						notification.onclose = function () {
-							setTimeout(CheckBmsg(), 60000);
-						};
-						notification.onclick = function () {
-							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
-							notification.close();
-						};
-						setV('lastbmsg', response['news'][0]['ts']);
+					var notification = new Notification(title, {
+						dir: 'auto',
+						lang: '',
+						body: text,
+						tag: 'news',
+						icon: GM_getResourceURL('red-star')
+					});
+					notification.onclose = function () {
+						setTimeout(CheckBmsg(), 60000);
+					};
+					notification.onclick = function () {
+						window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
+						notification.close();
+					};
+					setV('lastbmsg', response['news'][0]['ts']);
+				} else if (prefs['bmsgDeaths'] && (deaths >= 1)) {
+					var text = response['deaths'].length + ' people died:\n\n';
+					var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
+					for (var i = 0; i < am; i++) {
+						var d = new Date(response['deaths'][i]['ts'] * 1000);
+						var time = (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' + (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
+						var extra = (response['deaths'][i]['akill'] == 1) ? '(A)' : (response['deaths'][i]['bf'] == 1) ? '(BF)' : '';
+						var fam = (response['deaths'][i]['fam'] === '') ? '(none)' : '(' + response['deaths'][i]['fam'] + ')';
+						text += extra + ' ' + time + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + fam + '\n';
 					}
-				} else {
-					if (prefs['bmsgDeaths']) {
-						if (deaths >= 1) {
-							var text = response['deaths'].length + ' people died:\n\n';
-							var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
-							for (var i = 0; i < am; i++) {
-								var d = new Date(response['deaths'][i]['ts'] * 1000);
-								var time = (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' + (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
-								var extra = (response['deaths'][i]['akill'] == 1) ? '(A)' : (response['deaths'][i]['bf'] == 1) ? '(BF)' : '';
-								var fam = (response['deaths'][i]['fam'] === '') ? '(none)' : '(' + response['deaths'][i]['fam'] + ')';
-								text += extra + ' ' + time + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + fam + '\n';
-							}
 
-							var notification = new Notification('Deaths! (' + v + ')', {
-								dir: 'auto',
-								lang: '',
-								body: text,
-								tag: 'deaths',
-								icon: GM_getResourceURL('rip')
-							});
-							notification.onclose = function () {
-								setTimeout(CheckBmsg(), 60000);
-							};
-							notification.onclick = function () {
-								unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
-								window.focus();
-								notification.close();
-							};
-							setV('lastbmsg', response['deaths'][0]['ts']);
-						}
-					}
-					setTimeout(function () {
-						CheckBmsg();
-					}, 60000);
+					var notification = new Notification('Deaths! (' + v + ')', {
+						dir: 'auto',
+						lang: '',
+						body: text,
+						tag: 'deaths',
+						icon: GM_getResourceURL('rip')
+					});
+					notification.onclose = function () {
+						setTimeout(CheckBmsg(), 60000);
+					};
+					notification.onclick = function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
+						window.focus();
+						notification.close();
+					};
+					setV('lastbmsg', response['deaths'][0]['ts']);
 				}
+				setTimeout(function () {
+					CheckBmsg();
+				}, 60000);
 			}
 		});
 	}, 0);
 }
 
+var crimeTimer = false;
+var gtaTimer = false;
+var travelTimer = false;
+var bulletTimer = false;
+var bgTimer = false;
+
+function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
+	var notification = new Notification(title, {
+		dir: 'auto',
+		lang: '',
+		body: text,
+		tag: tag,
+		icon: beyondIcon
+	});
+	notification.onclick = function () {
+		unsafeWindow.omerta.GUI.container.loadPage(callbackUrl);
+		window.focus();
+		notification.close();
+	};
+}
+
 function CheckServiceVariable() {
 	setInterval(function() {
 		var serviceData = unsafeWindow.omerta.services.account.data;
+
 		if (prefs['notify_health']) {
 			var newHealth = parseFloat(serviceData.progressbars.health);
 			var oldHealth = parseFloat(getV('serviceHealth', 0));
-			if (oldHealth === 0) {
-				setV('serviceHealth', newHealth);
-			} else if (newHealth < oldHealth) {
-				setV('serviceHealth', newHealth);
-
+			if (oldHealth > 0 && (oldHealth > newHealth)) {
 				var text = 'You lost '+ (oldHealth - newHealth) +' health!';
 				var title = 'Health (' + v + ')';
-				var notification = new Notification(title, {
-					dir: 'auto',
-					lang: '',
-					body: text,
-					tag: 'health',
-					icon: GM_getResourceURL('red-star')
-				});
-				notification.onclick = function () {
-					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Bloodbank');
-					window.focus();
-					notification.close();
-				};
+				SendNotification(title, text, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
 			}
+
+			setV('serviceHealth', newHealth);
 		}
 
+		var ok = true;
 		//check for new messages if they want them
 		if (serviceData.messages.inbox.length > 0 && prefs['notify_messages']) {
 			var lastMessage = parseInt(getV('lastMessage', 0));
@@ -562,48 +433,30 @@ function CheckServiceVariable() {
 				totalMessages += 1;
 			});
 
-			if (totalMessages === 0) {
-				return false;
-			}
-			var msgId = parseInt(serviceData.messages.inbox[0].id);
-			setV('lastMessage', msgId);
-			if (totalMessages === 1) {
-				var text = 'Message: '+ serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
-				var title = 'New message from '+ serviceData.messages.inbox[0].frm +': '+ serviceData.messages.inbox[0].sbj +' (' + v + ')';
-				var notification = new Notification(title, {
-					dir: 'auto',
-					lang: '',
-					body: text,
-					tag: 'Mail',
-					icon: GM_getResourceURL('red-star')
-				});
-				notification.onclick = function () {
-					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+ msgId);
-					window.focus();
-					notification.close();
-				};
-			} else {
-				var text = 'You have got '+ totalMessages +' new messages';
-				var title = 'New messages (' + v + ')';
-				var notification = new Notification(title, {
-					dir: 'auto',
-					lang: '',
-					body: text,
-					tag: 'Mail',
-					icon: GM_getResourceURL('red-star')
-				});
-				notification.onclick = function () {
-					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=inbox');
-					window.focus();
-					notification.close();
-				};
+			if (totalMessages !== 0) {
+				var msgId = parseInt(serviceData.messages.inbox[0].id);
+				var title = '';
+				var text = '';
+				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
+
+				setV('lastMessage', msgId);
+				if (totalMessages === 1) {
+					text = 'Message: '+ serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
+					title = 'New message from '+ serviceData.messages.inbox[0].frm +': '+ serviceData.messages.inbox[0].sbj +' (' + v + ')';
+					callbackUrl = callbackUrl + msgId;
+				} else {
+					text = 'You have got '+ totalMessages +' new messages';
+					title = 'New messages (' + v + ')';
+					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
+				}
+
+				SendNotification(title, text, 'Mail', callbackUrl, GM_getResourceURL('red-star'));
 			}
 		}
 
 		//check for new alerts if they want them
 		if (serviceData.messages.alert.length > 0 && prefs['notify_alerts']) {
 			var lastAlert = parseInt(getV('lastAlert', 0));
-
 			var totalAlerts = 0;
 			$.each(serviceData.messages.alert, function(i, val) {
 				var id = parseInt(val.id);
@@ -613,41 +466,74 @@ function CheckServiceVariable() {
 				totalAlerts += 1;
 			});
 
-			if(totalAlerts === 0) {
-				return false;
+			if(totalAlerts !== 0) {
+				var msgId = parseInt(serviceData.messages.alert[0].id);
+				var title = '';
+				var text = '';
+				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
+				setV('lastAlert', msgId);
+				if(totalAlerts === 1) {
+					text = 'Alert: '+ serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
+					title = 'Alert! '+ serviceData.messages.alert[0].sbj +' (' + v + ')';
+					callbackUrl = callbackUrl + msgId;
+				} else {
+					text = 'You have got '+ totalAlerts +' new alerts';
+					title = 'Alert! (' + v + ')';
+					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
+				}
+				SendNotification(title, text, 'alert', callbackUrl, GM_getResourceURL('red-star'));
 			}
-			var msgId = parseInt(serviceData.messages.alert[0].id);
-			setV('lastAlert', msgId);
-			if(totalAlerts === 1) {
-				var text = 'Alert: '+ serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
-				var title = 'Alert! '+ serviceData.messages.alert[0].sbj +' (' + v + ')';
-				var notification = new Notification(title, {
-					dir: 'auto',
-					lang: '',
-					body: text,
-					tag: 'Alert',
-					icon: GM_getResourceURL('red-star')
-				});
-				notification.onclick = function () {
-					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId='+ msgId);
-					window.focus();
-					notification.close();
-				};
-			} else {
-				var text = 'You have got '+ totalAlerts +' new alerts';
-				var title = 'Alert! (' + v + ')';
-				var notification = new Notification(title, {
-					dir: 'auto',
-					lang: '',
-					body: text,
-					tag: 'Alert!',
-					icon: GM_getResourceURL('red-star')
-				});
-				notification.onclick = function () {
-					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=inbox');
-					window.focus();
-					notification.close();
-				};
+		}
+
+		if(prefs['notify_gta'] && !gtaTimer) {
+			var timer = serviceData.cooldowns.car;
+			if(timer > 0) {
+				gtaTimer = true;
+				setTimeout(function() {
+					gtaTimer = false;
+					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
+					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
+					SendNotification(title, text, 'car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
+				}, timer * 1000);
+			}
+		}
+
+		if(prefs['notify_crime'] && !crimeTimer) {
+			var timer = serviceData.cooldowns.crime;
+			if(timer > 0) {
+				crimeTimer = true;
+				setTimeout(function() {
+					crimeTimer = false;
+					var text = 'You can do a crime';
+					var title = 'Crime (' + v + ')';
+					SendNotification(title, text, 'crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
+				}, timer * 1000);
+			}
+		}
+
+		if(prefs['notify_travel'] && !travelTimer) {
+			var timer = serviceData.cooldowns.travel;
+			if(timer > 0) {
+				travelTimer = true;
+				setTimeout(function() {
+					travelTimer = false;
+					var text = 'You can travel';
+					var title = 'Travel (' + v + ')';
+					SendNotification(title, text, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+				}, timer * 1000);
+			}
+		}
+
+		if(prefs['notify_bullets'] && !bulletTimer) {
+			var timer = serviceData.cooldowns.bullets;
+			if(timer > 0) {
+				bulletTimer = true;
+				setTimeout(function() {
+					bulletTimer = false;
+					var text = 'You can buy bullets';
+					var title = 'Bullets (' + v + ')';
+					SendNotification(title, text, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
+				}, timer * 1000);
 			}
 		}
 	}, 30000);
@@ -1077,13 +963,13 @@ if (document.getElementById('game_container') !== null) {
 			var defaultWillName = (v == 'nl' ? 'Niemand' : 'Nobody');
 
 			// Get the values for the will, since .DM is not supported ill leave those out (for now)
-
 			if (IsNewVersion()) {
 				willTR = $('.thinline:eq(0)>tbody>tr:eq(10)>td:last');
 			} else {
 				willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
 			}
 			willName = willTR.text().replace(/,/g, '').trim();
+
 
 
 			var appendDead = function() {
@@ -1404,8 +1290,8 @@ if (document.getElementById('game_container') !== null) {
 					'title': ''
 				}).text($('td.tableheader:first').text())
 			).click(function () {
-				voteNow(false);
-			});
+					voteNow(false);
+				});
 			var lastVote = getV('lastvote', 0); // get last voting time
 			if (lastVote === 0) {
 				if (confirm('You haven\'t used the 1-click voter yet!\nDo you want to use it now?')) {
@@ -2127,8 +2013,8 @@ if (document.getElementById('game_container') !== null) {
 								fontWeight: 'bold'
 							})
 						).click(function () {
-							$('#SlTracker').draggable();
-						}),
+								$('#SlTracker').draggable();
+							}),
 						$('<hr>').css({
 							color: 'gray'
 						}),
@@ -2250,8 +2136,8 @@ if (document.getElementById('game_container') !== null) {
 								fontWeight: 'bold'
 							})
 						).click(function () {
-							$('#STracker').draggable();
-						}),
+								$('#STracker').draggable();
+							}),
 						$('<hr>').css({
 							color: 'gray'
 						}),
@@ -2331,8 +2217,8 @@ if (document.getElementById('game_container') !== null) {
 								fontWeight: 'bold'
 							})
 						).click(function () {
-							$('#BTracker').draggable();
-						}),
+								$('#BTracker').draggable();
+							}),
 						$('<hr>').css({
 							color: 'gray'
 						}),
@@ -2433,7 +2319,7 @@ if (document.getElementById('game_container') !== null) {
 			var bustrank = $('#bustrank').attr('value');
 
 			var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
-			i = 1;
+				i = 1;
 			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s Assistent', 'Gevorderde', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
 
 			var a = brank.indexOf(bustrank);
@@ -3488,8 +3374,8 @@ if (document.getElementById('game_container') !== null) {
 								index: i,
 								acceskey: (i + 1),
 								title: 'Fill in this booze (Hotkey: ' + (i + 1) + ')'
-							// START of Disable "Don't make functions within a loop." error
-							/*jshint -W083 */
+								// START of Disable "Don't make functions within a loop." error
+								/*jshint -W083 */
 							}).css('cursor', 'pointer').text((i + 1) + ' ' + bname).click(function () {
 								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]');
@@ -3556,8 +3442,8 @@ if (document.getElementById('game_container') !== null) {
 								id: 'nh' + i,
 								index: i,
 								title: 'Fill in this narc'
-							// START of Disable "Don't make functions within a loop." error
-							/*jshint -W083 */
+								// START of Disable "Don't make functions within a loop." error
+								/*jshint -W083 */
 							}).css('cursor', 'pointer').text(nname).click(function () {
 								var i = parseInt($(this).attr('index'), 10);
 								var inpt = $('input[type="text"]');
@@ -3856,8 +3742,8 @@ if (document.getElementById('game_container') !== null) {
 					$('<option>').attr('value', '2').text('Below'),
 					$('<option>').attr('value', '3').text('Between')
 				).on('change', function() {
-					$('#selval2').toggle($(this).val() === '3');
-				}),
+						$('#selval2').toggle($(this).val() === '3');
+					}),
 				$('<input>').attr({
 					type: 'text',
 					id: 'selval',
@@ -4028,6 +3914,19 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=Bodyguards') && nn == 'div') {
 			// Hide bio
 			$('div[id$="BoughtBG"]').css('display', 'none');
+			//set timer for BG if it counts down
+			if(prefs['notify_bg'] && !bgTimer) {
+				var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
+				if(timer > 0) {
+					bgTimer = true;
+					setTimeout(function() {
+						bgTimer = false;
+						var text = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
+						var title = 'Train Bodygyuard (' + v + ')';
+						SendNotification(title, text, 'bodyguard', './BeO/webroot/index.php?module=Bodyguards', GM_getResourceURL('red-star'));
+					}, timer * 1000);
+				}
+			}
 		}
 		//---------------- Raid Result @ Statistics and Spots ----------------
 		if (on_page('global_stats') || on_page('module=Spots')) {
@@ -4116,7 +4015,7 @@ if (document.getElementById('game_container') !== null) {
 			).click(function () {
 					$('#game_container').empty();
 					$('#game_container').append(GetPrefPage());
-			});
+				});
 			// live famstats circle (needs new icon!)
 			var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
@@ -4131,7 +4030,7 @@ if (document.getElementById('game_container') !== null) {
 				)
 			).click(function () {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
-			});
+				});
 
 			if($('.ob-prefs-bg').length === 0) {
 				$('div.omerta-widget-avatar-body').append(prefs_div);
@@ -4188,14 +4087,9 @@ $('#game_container').one('DOMNodeInserted', function () {
 			CheckBmsg();
 		}, 1000);
 	}
-
-	if(v == 'dm' || v == 'com' || v == 'nl') {
-		setTimeout(function() {
-			CheckCooldown();
-			CheckServiceVariable();
-		}, 1000);
-
-	}
+	setTimeout(function() {
+		CheckServiceVariable();
+	}, 1000);
 });
 
 /*
