@@ -434,6 +434,7 @@ function playBeep() {
 		return;
 	}
 	beeping = true;
+	beep.play();
 }
 
 function CheckServiceVariable() {
