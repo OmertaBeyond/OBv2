@@ -46,6 +46,7 @@
 // @priority                 1
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
+// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.17/howler.min.js
 // @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
@@ -95,6 +96,7 @@ var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
+var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
 var OB_VERSION = '2.0.44';
 var cur_v = '4.6.2';
 
@@ -325,28 +327,34 @@ function CheckBmsg() {
 				var response = JSON.parse(xhr.responseText);
 				var deaths = response['deaths'].length;
 				var news = response['news'].length;
-				if (news == 1 && prefs['bmsgNews']) {
+				if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
 					var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
 					var title = response['news'][0]['title'];
 					var type = response['news'][0]['type'];
 					text += response['news'][0]['preview'];
 
-					var notification = new Notification(title, {
-						dir: 'auto',
-						lang: '',
-						body: text,
-						tag: 'news',
-						icon: GM_getResourceURL('red-star')
-					});
-					notification.onclose = function () {
-						setTimeout(CheckBmsg(), 60000);
-					};
-					notification.onclick = function () {
-						window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
-						notification.close();
-					};
+					if (prefs['bmsgNews']) {
+						var notification = new Notification(title, {
+							dir: 'auto',
+							lang: '',
+							body: text,
+							tag: 'news',
+							icon: GM_getResourceURL('red-star')
+						});
+						notification.onclose = function () {
+							setTimeout(CheckBmsg(), 60000);
+						};
+						notification.onclick = function () {
+							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
+							notification.close();
+						};
+					}
+
+					if (prefs['bmsgNews_sound']) {
+						playBeep();
+					}
 					setV('lastbmsg', response['news'][0]['ts']);
-				} else if (prefs['bmsgDeaths'] && (deaths >= 1)) {
+				} else if ((prefs['bmsgDeaths'] || prefs['bmsgDeaths_sound']) && (deaths >= 1)) {
 					var text = response['deaths'].length + ' people died:\n\n';
 					var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
 					for (var i = 0; i < am; i++) {
@@ -357,21 +365,28 @@ function CheckBmsg() {
 						text += extra + ' ' + time + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + fam + '\n';
 					}
 
-					var notification = new Notification('Deaths! (' + v + ')', {
-						dir: 'auto',
-						lang: '',
-						body: text,
-						tag: 'deaths',
-						icon: GM_getResourceURL('rip')
-					});
-					notification.onclose = function () {
-						setTimeout(CheckBmsg(), 60000);
-					};
-					notification.onclick = function () {
-						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
-						window.focus();
-						notification.close();
-					};
+					if (prefs['bmsgDeaths']) {
+						var notification = new Notification('Deaths! (' + v + ')', {
+							dir: 'auto',
+							lang: '',
+							body: text,
+							tag: 'deaths',
+							icon: GM_getResourceURL('rip')
+						});
+						notification.onclose = function () {
+							setTimeout(CheckBmsg(), 60000);
+						};
+						notification.onclick = function () {
+							unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
+							window.focus();
+							notification.close();
+						};
+					}
+
+					if (prefs['bmsgDeaths_sound']) {
+						playBeep();
+					}
+
 					setV('lastbmsg', response['deaths'][0]['ts']);
 				}
 				setTimeout(function () {
@@ -405,17 +420,38 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	};
 }
 
+var beeping = false;
+var beep = new Howl({
+	urls: [ OB_CDN_URL + '/sounds/beep.wav' ], //doesn't work with GM_getResourceURL
+	onend: function() {
+		beeping = false;
+	}
+});
+
+function playBeep() {
+	if (beeping) {
+		//dont play beep more than once at the same time
+		return;
+	}
+	beeping = true;
+}
+
 function CheckServiceVariable() {
 	setInterval(function() {
 		var serviceData = unsafeWindow.omerta.services.account.data;
 
-		if (prefs['notify_health']) {
+		if (prefs['notify_health'] || prefs['notify_health_sound']) {
 			var newHealth = parseFloat(serviceData.progressbars.health);
 			var oldHealth = parseFloat(getV('serviceHealth', 0));
 			if (oldHealth > 0 && (oldHealth > newHealth)) {
 				var text = 'You lost '+ (oldHealth - newHealth) +' health!';
 				var title = 'Health (' + v + ')';
-				SendNotification(title, text, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
+				if (prefs['notify_health']) {
+					SendNotification(title, text, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
+				}
+				if (prefs['notify_health_sound']) {
+					playBeep();
+				}
 			}
 
 			setV('serviceHealth', newHealth);
@@ -423,7 +459,7 @@ function CheckServiceVariable() {
 
 		var ok = true;
 		//check for new messages if they want them
-		if (serviceData.messages.inbox.length > 0 && prefs['notify_messages']) {
+		if (serviceData.messages.inbox.length > 0 && (prefs['notify_messages'] || prefs['notify_messages_sound'])) {
 			var lastMessage = parseInt(getV('lastMessage', 0));
 
 			var totalMessages = 0;
@@ -451,30 +487,34 @@ function CheckServiceVariable() {
 					title = 'New messages (' + v + ')';
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
-
-				SendNotification(title, text, 'Mail', callbackUrl, GM_getResourceURL('red-star'));
+				if (prefs['notify_messages']) {
+					SendNotification(title, text, 'Mail', callbackUrl, GM_getResourceURL('red-star'));
+				}
+				if (prefs['notify_messages_sound']) {
+					playBeep();
+				}
 			}
 		}
 
 		//check for new alerts if they want them
-		if (serviceData.messages.alert.length > 0 && prefs['notify_alerts']) {
+		if (serviceData.messages.alert.length > 0 && (prefs['notify_alerts'] || prefs['notify_alerts_sound'])) {
 			var lastAlert = parseInt(getV('lastAlert', 0));
 			var totalAlerts = 0;
 			$.each(serviceData.messages.alert, function(i, val) {
 				var id = parseInt(val.id);
-				if(lastAlert === id) {
+				if (lastAlert === id) {
 					return false;
 				}
 				totalAlerts += 1;
 			});
 
-			if(totalAlerts !== 0) {
+			if (totalAlerts !== 0) {
 				var msgId = parseInt(serviceData.messages.alert[0].id);
 				var title = '';
 				var text = '';
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
 				setV('lastAlert', msgId);
-				if(totalAlerts === 1) {
+				if (totalAlerts === 1) {
 					text = 'Alert: '+ serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
 					title = 'Alert! '+ serviceData.messages.alert[0].sbj +' (' + v + ')';
 					callbackUrl = callbackUrl + msgId;
@@ -483,50 +523,70 @@ function CheckServiceVariable() {
 					title = 'Alert! (' + v + ')';
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
-				SendNotification(title, text, 'alert', callbackUrl, GM_getResourceURL('red-star'));
+				if (prefs['notify_alerts']) {
+					SendNotification(title, text, 'alert', callbackUrl, GM_getResourceURL('red-star'));
+				}
+				if (prefs['notify_alerts_sound']) {
+					playBeep();
+				}
 			}
 		}
 
-		if(prefs['notify_gta'] && !gtaTimer) {
+		if ((prefs['notify_gta'] || prefs['notify_gta_sound']) && !gtaTimer) {
 			var timer = serviceData.cooldowns.car;
-			if(timer > 0) {
+			if (timer > 0) {
 				gtaTimer = true;
 				setTimeout(function() {
 					gtaTimer = false;
 					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
 					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
-					SendNotification(title, text, 'car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
+					if (prefs['notify_gta']) {
+						SendNotification(title, text, 'car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
+					}
+					if (prefs['notify_gta_sound']) {
+						playBeep();
+					}
 				}, timer * 1000);
 			}
 		}
 
-		if(prefs['notify_crime'] && !crimeTimer) {
+		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
 			var timer = serviceData.cooldowns.crime;
-			if(timer > 0) {
+			if (timer > 0) {
 				crimeTimer = true;
 				setTimeout(function() {
 					crimeTimer = false;
 					var text = 'You can do a crime';
 					var title = 'Crime (' + v + ')';
-					SendNotification(title, text, 'crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
+					if (prefs['notify_crime']) {
+						SendNotification(title, text, 'crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
+					}
+					if (prefs['notify_crime_sound']) {
+						playBeep();
+					}
 				}, timer * 1000);
 			}
 		}
 
-		if(prefs['notify_travel'] && !travelTimer) {
+		if ((prefs['notify_travel'] || prefs['notify_travel_sound']) && !travelTimer) {
 			var timer = serviceData.cooldowns.travel;
-			if(timer > 0) {
+			if (timer > 0) {
 				travelTimer = true;
 				setTimeout(function() {
 					travelTimer = false;
 					var text = 'You can travel';
 					var title = 'Travel (' + v + ')';
-					SendNotification(title, text, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+					if (prefs['notify_travel']) {
+						SendNotification(title, text, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+					}
+					if (prefs['notify_travel_sound']) {
+						playBeep();
+					}
 				}, timer * 1000);
 			}
 		}
 
-		if(prefs['notify_bullets'] && !bulletTimer) {
+		if ((prefs['notify_bullets'] || prefs['notify_bullets_sound']) && !bulletTimer) {
 			var timer = serviceData.cooldowns.bullets;
 			if(timer > 0) {
 				bulletTimer = true;
@@ -534,7 +594,12 @@ function CheckServiceVariable() {
 					bulletTimer = false;
 					var text = 'You can buy bullets';
 					var title = 'Bullets (' + v + ')';
-					SendNotification(title, text, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
+					if (prefs['notify_bullets']) {
+						SendNotification(title, text, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
+					}
+					if (prefs['notify_bullets_sound']) {
+						playBeep();
+					}
 				}, timer * 1000);
 			}
 		}
@@ -642,7 +707,7 @@ function checkUserAlive(user, callback){
 	});
 }
 
-function highlightChatMessage(messageContainer, sendNotification) {
+function highlightChatMessage(messageContainer, isBufferedMessage) {
 	var sender = $(messageContainer).find('.chat-sender-participant, .chat-sender-offline');
 	var messageText = $(messageContainer).find('.chat-message-text');
 	var nickRegex = new RegExp('\\b' + getV('nick', null) + '\\b', 'i');
@@ -650,8 +715,13 @@ function highlightChatMessage(messageContainer, sendNotification) {
 		$(messageContainer).css('background-color', 'rgba(55, 162, 255, 0.42)');
 	} else if (nickRegex.test($(messageText).text())) {
 		$(messageContainer).css('background-color', 'rgba(125, 3, 2, 0.77)');
-		if (sendNotification) {
-			SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
+		if (!isBufferedMessage) {
+			if (prefs['notify_highlight']) {
+				SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
+			}
+			if (prefs['notify_highlight_sound']) {
+				playBeep();
+			}
 		}
 	}
 }
@@ -671,7 +741,7 @@ if (document.getElementById('omerta_chat_room') !== null && typeof MutationObser
 						firstMessageTs = $.now();
 					}
 					var isBufferedMessage = firstMessageTs >= $.now() - 500;
-					highlightChatMessage(node, prefs['notify_highlight'] && !isBufferedMessage);
+					highlightChatMessage(node, isBufferedMessage);
 				}
 			}
 		});
@@ -3959,7 +4029,7 @@ if (document.getElementById('game_container') !== null) {
 			// Hide bio
 			$('div[id$="BoughtBG"]').css('display', 'none');
 			//set timer for BG if it counts down
-			if(prefs['notify_bg'] && !bgTimer) {
+			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
 				var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
 				if(timer > 0) {
 					bgTimer = true;
@@ -3967,7 +4037,12 @@ if (document.getElementById('game_container') !== null) {
 						bgTimer = false;
 						var text = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
 						var title = 'Train Bodygyuard (' + v + ')';
-						SendNotification(title, text, 'bodyguard', './BeO/webroot/index.php?module=Bodyguards', GM_getResourceURL('red-star'));
+						if (prefs['notify_bg']) {
+							SendNotification(title, text, 'bodyguard', './BeO/webroot/index.php?module=Bodyguards', GM_getResourceURL('red-star'));
+						}
+						if (prefs['notify_bg_sound']) {
+							playBeep();
+						}
 					}, timer * 1000);
 				}
 			}
@@ -4336,17 +4411,6 @@ function GetPrefPage() {
 		setA('sets', $(this).attr('id'), $(this).val());
 	};
 
-	var getnews = (prefs['bmsgNews'] ? true : false);
-	var getdeaths = (prefs['bmsgDeaths'] ? true : false);
-	var notify_crime = (prefs['notify_crime'] ? true : false);
-	var notify_gta = (prefs['notify_gta'] ? true : false);
-	var notify_travel = (prefs['notify_travel'] ? true : false);
-	var notify_bullets = (prefs['notify_bullets'] ? true : false);
-	var notify_health = (prefs['notify_health'] ? true : false);
-	var notify_messages = (prefs['notify_messages'] ? true : false);
-	var notify_alerts = (prefs['notify_alerts'] ? true : false);
-	var notify_bg = (prefs['notify_bg'] ? true : false);
-	var notify_highlight = (prefs['notify_highlight'] ? true : false);
 	var jailHL = (prefs['jailHL'] ? true: false);
 	var jailHL_sel = sets['jailHL_sel'] || 'highest';
 	var jailHL_other = sets['jailHL_other'] || 9;
@@ -4428,6 +4492,59 @@ function GetPrefPage() {
 		})
 	);
 
+	var getNotificationItem = function(name, label) {
+		return $('<tr>').append(
+			$('<td>').text(label),
+			$('<td>').css('text-align', 'center').append(
+				$('<input>').attr({
+					type: 'checkbox',
+					checked: prefs[name] ? true : false
+				}).click(function () {
+					setA('prefs', name, $(this).prop('checked'));
+				})
+			),
+			$('<td>').css('text-align', 'center').append(
+				$('<input>').attr({
+					type: 'checkbox',
+					checked: prefs[name + '_sound'] ? true : false
+				}).click(function () {
+					setA('prefs', name + '_sound', $(this).prop('checked'));
+				})
+			)
+		);
+	};
+
+	var notificationOptions = [
+		{ name: 'bmsgDeaths', label: 'Deaths' },
+		{ name: 'bmsgNews', label: 'News' },
+		{ name: 'notify_crime', label: 'Crime' },
+		{ name: 'notify_gta', label: 'Nick a car' },
+		{ name: 'notify_travel', label: 'Travel' },
+		{ name: 'notify_bullets', label: 'Buy bullets' },
+		{ name: 'notify_health', label: 'When losing health' },
+		{ name: 'notify_messages', label: 'Receive new message' },
+		{ name: 'notify_alerts', label: 'New alerts' },
+		{ name: 'notify_bg', label: 'Train BG' },
+		{ name: 'notify_highlight', label: 'Name mentioned in chat' }
+	];
+
+	var notificationMarkup = $('<table>').addClass('thinline').attr({ cellspacing: 0, cellpading: 2, width: '100%' }).append(
+		$('<tr>').append(
+			$('<td>').addClass('tableitem').attr('align', 'center').append(
+				$('<b>').text('Event')
+			),
+			$('<td>').addClass('tableitem').attr('align', 'center').append(
+				$('<b>').text('Notification')
+			),
+			$('<td>').addClass('tableitem').attr('align', 'center').append(
+				$('<b>').text('Sound')
+			)
+		),
+		notificationOptions.map(function(element) {
+			return getNotificationItem(element.name, element.label);
+		})
+	);
+
 	var prefs_page = $('<center>').attr({
 		id: 'prefsContainer'
 	}).append(
@@ -4453,7 +4570,7 @@ function GetPrefPage() {
 				$('<td>').attr({ height: '1', bgcolor: 'black' })
 			),
 			$('<tr>').append(
-				$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications for events like deaths or news posts.').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text('OmertaBeyond can send you desktop notifications or play a sound for events like deaths or news posts.').append(
 					$('<br>'),
 					$('<div>').attr('id', 'Authmsg'),
 					$('<button id="btnNotification">').text('Authorize for notifications').click(function () {
@@ -4465,104 +4582,7 @@ function GetPrefPage() {
 					}),
 					$('<br>'),
 					$('<div>').addClass('notify').append(
-						$('<input>').attr({
-							id: 'deaths',
-							type: 'checkbox',
-							checked: getdeaths
-						}).click(function () {
-							setA('prefs', 'bmsgDeaths', $('#deaths:checked').length);
-						}),
-						$('<label>').attr('for', 'deaths').text('Deaths'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'news',
-							type: 'checkbox',
-							checked: getnews
-						}).click(function () {
-							setA('prefs', 'bmsgNews', $('#news:checked').length);
-						}),
-						$('<label>').attr('for', 'news').text('News'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_crime',
-							type: 'checkbox',
-							checked: notify_crime
-						}).click(function () {
-							setA('prefs', 'notify_crime', $('#notify_crime:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_crime').text('Crime'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_gta',
-							type: 'checkbox',
-							checked: notify_gta
-						}).click(function () {
-							setA('prefs', 'notify_gta', $('#notify_gta:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_gta').text('Nick a car'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_travel',
-							type: 'checkbox',
-							checked: notify_travel
-						}).click(function () {
-							setA('prefs', 'notify_travel', $('#notify_travel:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_travel').text('Travel'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_bullets',
-							type: 'checkbox',
-							checked: notify_bullets
-						}).click(function () {
-							setA('prefs', 'notify_bullets', $('#notify_bullets:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_bullets').text('Buy bullets'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_health',
-							type: 'checkbox',
-							checked: notify_health
-						}).click(function () {
-							setA('prefs', 'notify_health', $('#notify_health:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_health').text('When losing health'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_messages',
-							type: 'checkbox',
-							checked: notify_messages
-						}).click(function () {
-							setA('prefs', 'notify_messages', $('#notify_messages:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_messages').text('Receive new messages'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_alerts',
-							type: 'checkbox',
-							checked: notify_alerts
-						}).click(function () {
-							setA('prefs', 'notify_alerts', $('#notify_alerts:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_alerts').text('New alerts'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_bg',
-							type: 'checkbox',
-							checked: notify_bg
-						}).click(function () {
-							setA('prefs', 'notify_bg', $('#notify_bg:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_bg').text('Train BG'),
-						$('<br>'),
-						$('<input>').attr({
-							id: 'notify_highlight',
-							type: 'checkbox',
-							checked: notify_highlight
-						}).click(function () {
-							setA('prefs', 'notify_highlight', $('#notify_highlight:checked').length);
-						}),
-						$('<label>').attr('for', 'notify_highlight').text('Name mentioned in chat')
+						notificationMarkup
 					)
 				)
 			),

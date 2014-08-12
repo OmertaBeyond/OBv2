@@ -24,7 +24,8 @@
         "GM_xmlhttpRequest",
         "unsafeWindow",
         "GM_setClipboard",
-        "Notification"
+        "Notification",
+        "Howl"
     ],
 
     // Development.
