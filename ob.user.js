@@ -1081,30 +1081,30 @@ if (document.getElementById('game_container') !== null) {
 			var startMonth = startDate.getMonth()+1 >= 10 ? (startDate.getMonth()+1) : '0' + (startDate.getMonth()+1);
 			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr +')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays-1) + ' days old)');
 
-			// crime stats
-			if(!IsNewVersion()) {
-				vTr = 3;
-			} else {
-				vTr = 2;
-			}
-			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text());
-			var successCrimes = parseInt(getV('crimeSuccess', 0));
-			if(successCrimes >= 1) {
-				var successRate = (successCrimes / crimeAttempts) * 100;
-				var earned = getV('crimeMoney', 0);
-				var newText = '<tr><td><b>Crime success</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
-				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')').after(newText);
-			}
 
+			if(!IsNewVersion()) {
+				vTr = 4;
+			} else {
+				vTr = 3;
+			}
 			// car
-			++vTr; // next row
-			++vTr; // next row again because we added a row
-			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text());
+			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text().replace(',', ''), 10);
 			var successCars = parseInt(getV('carSuccess', 0));
 			if(successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
 				var earned = getV('carMoney', 0);
 				var newText = '<tr><td><b>Car nicking success</b></td><td>' + successCars + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
+				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')').after(newText);
+			}
+
+			vTr--;
+			// crime stats
+			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text().replace(',', ''), 10);
+			var successCrimes = parseInt(getV('crimeSuccess', 0));
+			if(successCrimes >= 1) {
+				var successRate = (successCrimes / crimeAttempts) * 100;
+				var earned = getV('crimeMoney', 0);
+				var newText = '<tr><td><b>Crime success</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
 				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')').after(newText);
 			}
 
