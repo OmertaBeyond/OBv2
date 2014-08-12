@@ -2301,7 +2301,7 @@ if (document.getElementById('game_container') !== null) {
 			var status = $('span#status').text();
 			var inFam = ($('span#family > a').length ? $('span#family > a').text() : $('span#family').text());
 			var alive = (status.search(str));
-			var unick = $('span#username').text();
+			var unick = $('span#username').first().text();
 
 			// DEAD or AKILLED ?
 			if (!alive) {
