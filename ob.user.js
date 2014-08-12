@@ -1806,7 +1806,6 @@ if (document.getElementById('game_container') !== null) {
 					if (symcode == 77) {
 						$(this).val($(this).val() + '000000');
 					}
-					$(this).val($(this).val().replace(/k|m/g, ''));
 					return (symcode == 75 || symcode == 77) ? false : true;
 				});
 			});
