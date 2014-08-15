@@ -418,6 +418,11 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 		window.focus();
 		notification.close();
 	};
+
+	// Automaticly close notification after 5 seconds
+	setTimeout(function(){
+		notification.close();
+	}, 5000);
 }
 
 var beeping = false;
