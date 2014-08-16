@@ -4868,9 +4868,8 @@ function GetPrefPage() {
 							localStorage.removeItem('jailHL_own_lackey_' + v);
 							localStorage.removeItem('jailHL_fr_lackey_' + v);
 							localStorage.removeItem('jailHL_other_lackey_' + v);
-							localStorage.removeItem('bmsgNews_' + v);
-							localStorage.removeItem('bmsgDeaths_' + v);
 							localStorage.removeItem('sluggsHideLaughing_' + v);
+							localStorage.removeItem('prefs_' + v);
 						}
 					})
 				)
