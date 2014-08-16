@@ -2052,7 +2052,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 		//---------------- SlotsTracker ----------------
-		if (on_page('/gambling/slotmachine.php') && nn == 'center') {
+		if (on_page('/gambling/slotmachine.php') && nn == 'center' && v != 'nl') {
 			var slotjp = parseInt(getV('slotjp', 0), 10);
 			var slotbar = parseInt(getV('slotbar', 0), 10);
 			var slotgames = parseInt(getV('slotgames', 0), 10);
@@ -2184,7 +2184,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 		//---------------- Scratch tracker ----------------
-		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form')) {
+		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form') && v != 'nl') {
 			var unopened = getV('unopened', 0);
 			var monin = parseInt(getV('monin', 0), 10);
 			var mils = parseInt(getV('mils', 0), 10);
@@ -2290,7 +2290,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 		//---------------- Bullet Tracker ----------------
-		if (on_page('/bullets2.php') && nn == 'center') {
+		if (on_page('/bullets2.php') && nn == 'center' && v != 'nl') {
 			var d = new Date();
 			var btdate = getV('btdate', 0);
 			if (d.getDate() > btdate) {
