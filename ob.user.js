@@ -402,6 +402,7 @@ var gtaTimer = false;
 var travelTimer = false;
 var bulletTimer = false;
 var bgTimer = false;
+var notificationsArray = [];
 
 function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	var notification = new Notification(title, {
@@ -419,10 +420,16 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 		notification.close();
 	};
 
-	// Automaticly close notification after 5 seconds
-	setTimeout(function(){
-		notification.close();
-	}, 5000);
+	// Automaticly close notification
+	var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
+	if(autoCloseSecs > 0) {
+		setTimeout(function(){
+			notification.close();
+			delete(notificationsArray[tag]);
+		}, autoCloseSecs * 1000);
+	}
+
+	notificationsArray[tag] = notification;
 }
 
 var beeping = false;
@@ -539,7 +546,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_gta'] || prefs['notify_gta_sound']) && !gtaTimer) {
-			var timer = serviceData.cooldowns.car;
+			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
 			if (timer > 0) {
 				gtaTimer = true;
 				setTimeout(function() {
@@ -547,7 +554,7 @@ function CheckServiceVariable() {
 					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
 					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
 					if (prefs['notify_gta']) {
-						SendNotification(title, text, 'car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
+						SendNotification(title, text, 'Car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_gta_sound']) {
 						playBeep();
@@ -557,7 +564,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
-			var timer = serviceData.cooldowns.crime;
+			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
 			if (timer > 0) {
 				crimeTimer = true;
 				setTimeout(function() {
@@ -565,7 +572,7 @@ function CheckServiceVariable() {
 					var text = 'You can do a crime';
 					var title = 'Crime (' + v + ')';
 					if (prefs['notify_crime']) {
-						SendNotification(title, text, 'crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
+						SendNotification(title, text, 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_crime_sound']) {
 						playBeep();
@@ -575,7 +582,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_travel'] || prefs['notify_travel_sound']) && !travelTimer) {
-			var timer = serviceData.cooldowns.travel;
+			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
 			if (timer > 0) {
 				travelTimer = true;
 				setTimeout(function() {
@@ -593,7 +600,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_bullets'] || prefs['notify_bullets_sound']) && !bulletTimer) {
-			var timer = serviceData.cooldowns.bullets;
+			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
 			if(timer > 0) {
 				bulletTimer = true;
 				setTimeout(function() {
@@ -2291,6 +2298,11 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//---------------- Bullet Tracker ----------------
 		if (on_page('/bullets2.php') && nn == 'center') {
+			if(notificationsArray['Bullets'] !== undefined) {
+				notificationsArray['Bullets'].close();
+				delete(notificationsArray['Bullets']);
+			}
+
 			var d = new Date();
 			var btdate = getV('btdate', 0);
 			if (d.getDate() > btdate) {
@@ -3704,8 +3716,19 @@ if (document.getElementById('game_container') !== null) {
 				$('input#ver').focus(); // focus captcha field
 			}
 		}
+
+		if(on_page('module=travel')) {
+			if(notificationsArray['Travel'] !== undefined) {
+				notificationsArray['Travel'].close();
+				delete(notificationsArray['Travel']);
+			}
+		}
 		//---------------- Crimes ----------------
 		if (on_page('module=Crimes') && nn == 'br') {
+			if(notificationsArray['Crime'] !== undefined) {
+				notificationsArray['Crime'].close();
+				delete(notificationsArray['Crime']);
+			}
 			setTimeout(function () {
 				$('input.option:last').prop('checked', true);
 			}, 100);
@@ -3725,6 +3748,12 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		//---------------- Cars ----------------
+		if (on_page('module=Cars')) {
+			if (notificationsArray['Car'] !== undefined) {
+				notificationsArray['Car'].close();
+				delete(notificationsArray['Car']);
+			}
+		}
 		//---------- If Lackeys is on ----------
 		if (on_page('module=Cars') && nn == 'div') {
 			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
@@ -4424,6 +4453,7 @@ function GetPrefPage() {
 	var jailHL_own_lackey = sets['jailHL_own_lackey'] || 7;
 	var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 8;
 	var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
+	var autoCloseNotificationsSecs = sets['autoCloseNotificationsSecs'] || 0;
 	var bo_hotkey = sets['bo_hotkey'] || '/';
 	var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
 	var custom_groups = getV('custom_groups', '').split('|');
@@ -4585,6 +4615,15 @@ function GetPrefPage() {
 								$('#Authmsg').text('Authorization for notification is: ' + perm);
 							});
 						}
+					}),
+					$('<br>'),
+					$('<label>').attr('for', 'autoCloseNotificationsSecs').text('Show notifications for X seconds (0 = always show)'),
+					$('<input>').attr({
+						id: 'autoCloseNotificationsSecs',
+						type: 'text',
+						value: autoCloseNotificationsSecs
+					}).blur(function() {
+						setA('sets', 'autoCloseNotificationsSecs', $('#autoCloseNotificationsSecs').val());
 					}),
 					$('<br>'),
 					$('<div>').addClass('notify').append(
