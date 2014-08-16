@@ -327,7 +327,7 @@ function CheckBmsg() {
 				var response = JSON.parse(xhr.responseText);
 				var deaths = response['deaths'].length;
 				var news = response['news'].length;
-				if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
+				if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
 					var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
 					var title = response['news'][0]['title'];
 					var type = response['news'][0]['type'];
@@ -510,7 +510,7 @@ function CheckServiceVariable() {
 		}
 
 		//check for new alerts if they want them
-		if (serviceData.messages.alert.length > 0 && (prefs['notify_alerts'] || prefs['notify_alerts_sound'])) {
+		if (serviceData.messages.alert.length > 0 && (prefs['notify_alerts'] || prefs['notify_alerts_sound'])) {
 			var lastAlert = parseInt(getV('lastAlert', 0));
 			var totalAlerts = 0;
 			$.each(serviceData.messages.alert, function(i, val) {
@@ -563,7 +563,7 @@ function CheckServiceVariable() {
 			}
 		}
 
-		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
+		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
 			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
 			if (timer > 0) {
 				crimeTimer = true;
@@ -4064,7 +4064,7 @@ if (document.getElementById('game_container') !== null) {
 			// Hide bio
 			$('div[id$="BoughtBG"]').css('display', 'none');
 			//set timer for BG if it counts down
-			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
+			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
 				var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
 				if(timer > 0) {
 					bgTimer = true;
