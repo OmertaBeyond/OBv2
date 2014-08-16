@@ -4870,6 +4870,7 @@ function GetPrefPage() {
 							localStorage.removeItem('jailHL_other_lackey_' + v);
 							localStorage.removeItem('sluggsHideLaughing_' + v);
 							localStorage.removeItem('prefs_' + v);
+							alert('Please reload Omerta for the changes to take effect.');
 						}
 					})
 				)
