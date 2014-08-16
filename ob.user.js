@@ -546,7 +546,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_gta'] || prefs['notify_gta_sound']) && !gtaTimer) {
-			var timer = serviceData.cooldowns.car;
+			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
 			if (timer > 0) {
 				gtaTimer = true;
 				setTimeout(function() {
@@ -564,7 +564,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
-			var timer = serviceData.cooldowns.crime;
+			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
 			if (timer > 0) {
 				crimeTimer = true;
 				setTimeout(function() {
@@ -582,7 +582,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_travel'] || prefs['notify_travel_sound']) && !travelTimer) {
-			var timer = serviceData.cooldowns.travel;
+			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
 			if (timer > 0) {
 				travelTimer = true;
 				setTimeout(function() {
@@ -600,7 +600,7 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_bullets'] || prefs['notify_bullets_sound']) && !bulletTimer) {
-			var timer = serviceData.cooldowns.bullets;
+			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
 			if(timer > 0) {
 				bulletTimer = true;
 				setTimeout(function() {
@@ -3748,13 +3748,14 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		//---------------- Cars ----------------
-		//---------- If Lackeys is on ----------
-		if (on_page('module=Cars') && nn == 'div') {
-			if(notificationsArray['Car'] !== undefined) {
+		if (on_page('module=Cars')) {
+			if (notificationsArray['Car'] !== undefined) {
 				notificationsArray['Car'].close();
 				delete(notificationsArray['Car']);
 			}
-
+		}
+		//---------- If Lackeys is on ----------
+		if (on_page('module=Cars') && nn == 'div') {
 			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
 			// Loop cars
 			var x = 0;
