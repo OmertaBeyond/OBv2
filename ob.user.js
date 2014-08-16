@@ -402,6 +402,7 @@ var gtaTimer = false;
 var travelTimer = false;
 var bulletTimer = false;
 var bgTimer = false;
+var notificationsArray = [];
 
 function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	var notification = new Notification(title, {
@@ -424,8 +425,11 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	if(autoCloseSecs > 0) {
 		setTimeout(function(){
 			notification.close();
+			delete(notificationsArray[tag]);
 		}, autoCloseSecs * 1000);
 	}
+
+	notificationsArray[tag] = notification;
 }
 
 var beeping = false;
@@ -550,7 +554,7 @@ function CheckServiceVariable() {
 					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
 					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
 					if (prefs['notify_gta']) {
-						SendNotification(title, text, 'car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
+						SendNotification(title, text, 'Car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_gta_sound']) {
 						playBeep();
@@ -568,7 +572,7 @@ function CheckServiceVariable() {
 					var text = 'You can do a crime';
 					var title = 'Crime (' + v + ')';
 					if (prefs['notify_crime']) {
-						SendNotification(title, text, 'crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
+						SendNotification(title, text, 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_crime_sound']) {
 						playBeep();
@@ -2294,6 +2298,11 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//---------------- Bullet Tracker ----------------
 		if (on_page('/bullets2.php') && nn == 'center') {
+			if(notificationsArray['Bullets'] !== undefined) {
+				notificationsArray['Bullets'].close();
+				delete(notificationsArray['Bullets']);
+			}
+
 			var d = new Date();
 			var btdate = getV('btdate', 0);
 			if (d.getDate() > btdate) {
@@ -3707,8 +3716,19 @@ if (document.getElementById('game_container') !== null) {
 				$('input#ver').focus(); // focus captcha field
 			}
 		}
+
+		if(on_page('module=travel')) {
+			if(notificationsArray['Travel'] !== undefined) {
+				notificationsArray['Travel'].close();
+				delete(notificationsArray['Travel']);
+			}
+		}
 		//---------------- Crimes ----------------
 		if (on_page('module=Crimes') && nn == 'br') {
+			if(notificationsArray['Crime'] !== undefined) {
+				notificationsArray['Crime'].close();
+				delete(notificationsArray['Crime']);
+			}
 			setTimeout(function () {
 				$('input.option:last').prop('checked', true);
 			}, 100);
@@ -3730,6 +3750,11 @@ if (document.getElementById('game_container') !== null) {
 		//---------------- Cars ----------------
 		//---------- If Lackeys is on ----------
 		if (on_page('module=Cars') && nn == 'div') {
+			if(notificationsArray['Car'] !== undefined) {
+				notificationsArray['Car'].close();
+				delete(notificationsArray['Car']);
+			}
+
 			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
 			// Loop cars
 			var x = 0;
@@ -4591,13 +4616,13 @@ function GetPrefPage() {
 						}
 					}),
 					$('<br>'),
-					$('<label>').attr('for', 'autoCloseNotificationsSecs').text("Show notifications for X seconds (0 = always show)"),
+					$('<label>').attr('for', 'autoCloseNotificationsSecs').text('Show notifications for X seconds (0 = always show)'),
 					$('<input>').attr({
 						id: 'autoCloseNotificationsSecs',
 						type: 'text',
 						value: autoCloseNotificationsSecs
 					}).blur(function() {
-						setA('sets', 'autoCloseNotificationsSecs', $('#autoCloseNotificationsSecs').val())
+						setA('sets', 'autoCloseNotificationsSecs', $('#autoCloseNotificationsSecs').val());
 					}),
 					$('<br>'),
 					$('<div>').addClass('notify').append(
