@@ -419,10 +419,13 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 		notification.close();
 	};
 
-	// Automaticly close notification after 5 seconds
-	setTimeout(function(){
-		notification.close();
-	}, 5000);
+	// Automaticly close notification
+	var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
+	if(autoCloseSecs > 0) {
+		setTimeout(function(){
+			notification.close();
+		}, autoCloseSecs * 1000);
+	}
 }
 
 var beeping = false;
@@ -4424,6 +4427,7 @@ function GetPrefPage() {
 	var jailHL_own_lackey = sets['jailHL_own_lackey'] || 7;
 	var jailHL_fr_lackey = sets['jailHL_fr_lackey'] || 8;
 	var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
+	var autoCloseNotificationsSecs = sets['autoCloseNotificationsSecs'] || 0;
 	var bo_hotkey = sets['bo_hotkey'] || '/';
 	var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
 	var custom_groups = getV('custom_groups', '').split('|');
@@ -4585,6 +4589,15 @@ function GetPrefPage() {
 								$('#Authmsg').text('Authorization for notification is: ' + perm);
 							});
 						}
+					}),
+					$('<br>'),
+					$('<label>').attr('for', 'autoCloseNotificationsSecs').text("Show notifications for X seconds (0 = always show)"),
+					$('<input>').attr({
+						id: 'autoCloseNotificationsSecs',
+						type: 'text',
+						value: autoCloseNotificationsSecs
+					}).blur(function() {
+						setA('sets', 'autoCloseNotificationsSecs', $('#autoCloseNotificationsSecs').val())
 					}),
 					$('<br>'),
 					$('<div>').addClass('notify').append(
