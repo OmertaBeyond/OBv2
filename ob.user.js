@@ -4849,27 +4849,21 @@ function GetPrefPage() {
 				$('<td>').attr({ height: '1', bgcolor: 'black' })
 			),
 			$('<tr>').append(
-				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Old Preferences')
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Reset data')
 			),
 			$('<tr>').append(
 				$('<td>').attr({ height: '1', bgcolor: 'black' })
 			),
 			$('<tr>').append(
 				$('<td>').attr('align', 'center').css('text-align', 'center').text(
-					'You have old preferences stored.'
+					'Manually reset all saved OB data.'
 				).append(
 					$('<br>'),
-					$('<span>').text('Click the button to clear those'),
+					$('<span>').text('Click the button to clear all settings, WARNING this resets all OB data'),
 					$('<br>'),
 					$('<button>').text('Clear').click(function () {
-						if (confirm('Are you sure?')) {
-							localStorage.removeItem('jailHL_def_' + v);
-							localStorage.removeItem('jailHL_friends_' + v);
-							localStorage.removeItem('jailHL_own_lackey_' + v);
-							localStorage.removeItem('jailHL_fr_lackey_' + v);
-							localStorage.removeItem('jailHL_other_lackey_' + v);
-							localStorage.removeItem('sluggsHideLaughing_' + v);
-							localStorage.removeItem('prefs_' + v);
+						if (confirm('Are you sure you want to clear ALL OB data?')) {
+							localStorage.clear();
 							alert('Please reload Omerta for the changes to take effect.');
 						}
 					})
