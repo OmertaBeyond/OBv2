@@ -4071,7 +4071,7 @@ if (document.getElementById('game_container') !== null) {
 					setTimeout(function() {
 						bgTimer = false;
 						var text = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
-						var title = 'Train Bodygyuard (' + v + ')';
+						var title = 'Train Bodyguard (' + v + ')';
 						if (prefs['notify_bg']) {
 							SendNotification(title, text, 'bodyguard', './BeO/webroot/index.php?module=Bodyguards', GM_getResourceURL('red-star'));
 						}
