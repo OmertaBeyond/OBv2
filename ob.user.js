@@ -4442,6 +4442,9 @@ $('#game_menu').one('DOMNodeInserted', function () {
 });
 
 function GetPrefPage() {
+	// set location.hash so other code doesnt get triggered
+	window.location.hash = 'OB_preferences';
+
 	var setGroupPriority = function () {
 		setA('sets', $(this).attr('id'), $(this).val());
 	};
