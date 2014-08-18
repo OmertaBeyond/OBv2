@@ -4437,7 +4437,6 @@ $('#game_menu').one('DOMNodeInserted', function () {
 		$('a.link:eq(2)').before(a);
 		$('a.link:eq(3)').before(div);
 
-
 	}, 1000);
 });
 
