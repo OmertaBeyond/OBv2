@@ -422,7 +422,7 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 
 	// Automatically close notification
 	var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
-	if(autoCloseSecs > 0) {
+	if (autoCloseSecs > 0) {
 		setTimeout(function(){
 			notification.close();
 			delete(notificationsArray[tag]);
@@ -478,7 +478,7 @@ function CheckServiceVariable() {
 			var totalMessages = 0;
 			$.each(serviceData.messages.inbox, function(i, val) {
 				var id = parseInt(val.id);
-				if(lastMessage === id) {
+				if (lastMessage === id) {
 					return false;
 				}
 				totalMessages += 1;
@@ -601,7 +601,7 @@ function CheckServiceVariable() {
 
 		if ((prefs['notify_bullets'] || prefs['notify_bullets_sound']) && !bulletTimer) {
 			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
-			if(timer > 0) {
+			if (timer > 0) {
 				bulletTimer = true;
 				setTimeout(function() {
 					bulletTimer = false;
@@ -702,7 +702,7 @@ function datestringParse(dateString) {
 }
 
 function IsNewVersion() {
-	if(v == 'dm') {
+	if (v == 'dm') {
 		return true;
 	} else {
 		return false;
@@ -824,11 +824,11 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		// limit captcha to size and disabled to 3 letters is typed
-		if(($('input#ver').length > 0) || ($('input#lbfVer').length > 0) || ($('input#bfVer').length > 0) || ($('input[name="imgcode"]').length > 0)) {
+		if (($('input#ver').length > 0) || ($('input#lbfVer').length > 0) || ($('input#bfVer').length > 0) || ($('input[name="imgcode"]').length > 0)) {
 			$(':submit').prop('disabled', true);
 		}
 		$('input#ver, input#lbfVer, input#bfVer, input[name="imgcode"]').attr('maxlength', 3).keyup(function() {
-			if($(this).val().length === 3) {
+			if ($(this).val().length === 3) {
 				$(':submit').prop('disabled', false);
 			} else {
 				$(':submit').prop('disabled', true);
@@ -1144,7 +1144,7 @@ if (document.getElementById('game_container') !== null) {
 			setV('bustouts', bos);
 
 			// Interest reminder
-			if(!$('#interestRow').length) {
+			if (!$('#interestRow').length) {
 				var inbank;
 				if (!IsNewVersion()) {
 					inbank = $('.thinline:eq(4)>tbody>tr:eq(3)>td:last>a').html().replace(/\D/g, '');
@@ -1165,7 +1165,7 @@ if (document.getElementById('game_container') !== null) {
 			// Tell how old the account is
 			var startDate = new Date();
 			var vTr;
-			if(IsNewVersion()) {
+			if (IsNewVersion()) {
 				startDate = datestringParse($('table.thinline:eq(0)>tbody>tr:eq(5)>td:last').text());
 				vTr = 5;
 			} else {
@@ -1179,7 +1179,7 @@ if (document.getElementById('game_container') !== null) {
 			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr +')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays-1) + ' days old)');
 
 
-			if(!IsNewVersion()) {
+			if (!IsNewVersion()) {
 				vTr = 4;
 			} else {
 				vTr = 3;
@@ -1187,7 +1187,7 @@ if (document.getElementById('game_container') !== null) {
 			// car
 			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text().replace(',', ''), 10);
 			var successCars = parseInt(getV('carSuccess', 0));
-			if(successCars >= 1) {
+			if (successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
 				var earned = getV('carMoney', 0);
 				var newText = '<tr><td><b>Car nicking success</b></td><td>' + successCars + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
@@ -1198,7 +1198,7 @@ if (document.getElementById('game_container') !== null) {
 			// crime stats
 			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text().replace(',', ''), 10);
 			var successCrimes = parseInt(getV('crimeSuccess', 0));
-			if(successCrimes >= 1) {
+			if (successCrimes >= 1) {
 				var successRate = (successCrimes / crimeAttempts) * 100;
 				var earned = getV('crimeMoney', 0);
 				var newText = '<tr><td><b>Crime success</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
@@ -1214,7 +1214,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//-------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
-			if(getV('fam_colour', '') === '' || getV('friends_colour', '') === '') {
+			if (getV('fam_colour', '') === '' || getV('friends_colour', '') === '') {
 				unsafeWindow.omerta.GUI.container.loadPage('/jail_settings.php');
 			}
 			var bos = parseInt(getV('bustouts', 0), 10);
@@ -1231,12 +1231,12 @@ if (document.getElementById('game_container') !== null) {
 			// Loop inmates
 			$('tr[bgcolor]').each(function () {
 				// Skip nobust
-				if(getV('nobust', 0)) {
+				if (getV('nobust', 0)) {
 					var nobust = getV('nobust').toLowerCase().split(',');
 					var fam = $(this).find('td:eq(1) > font').text().toLowerCase();
 					var name = $(this).find('td:eq(0) > font > a > font').text().toLowerCase();
-					if((fam.length > 0 && $.inArray(fam, nobust) != -1) || $.inArray(name, nobust) != -1) {
-						if($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
+					if ((fam.length > 0 && $.inArray(fam, nobust) != -1) || $.inArray(name, nobust) != -1) {
+						if ($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
 							$(this).find('td').css('text-decoration', 'line-through');
 							return;
 						}
@@ -1246,16 +1246,16 @@ if (document.getElementById('game_container') !== null) {
 				$(this).attr('priority', '10');
 				// Friends, Family or custom group
 				if ($(this).attr('bgcolor') !== '') {
-					if($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
+					if ($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
 						$(this).attr('priority', jailHL_friends);
 					}
-					if(getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
+					if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
 						// get custom groups
 						var cg = getV('custom_groups', '').split('|');
 						cg.pop();
 						for(var i = 0;i<cg.length;i++) {
 							var g = cg[i].split(':');
-							if(g[1] == $(this).attr('bgcolor')) {
+							if (g[1] == $(this).attr('bgcolor')) {
 								var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
 								$(this).attr('priority', cg_prio);
 							}
@@ -1271,7 +1271,7 @@ if (document.getElementById('game_container') !== null) {
 							cg.pop();
 							for(var i = 0;i<cg.length;i++) {
 								var g = cg[i].split(':');
-								if(g[1] == $(this).attr('bgcolor')) {
+								if (g[1] == $(this).attr('bgcolor')) {
 									var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
 									$(this).attr('priority', cg_prio);
 								}
@@ -1295,7 +1295,7 @@ if (document.getElementById('game_container') !== null) {
 							cg.pop();
 							for(var i = 0;i<cg.length;i++) {
 								var g = cg[i].split(':');
-								if(g[1] == $(this).attr('bgcolor')) {
+								if (g[1] == $(this).attr('bgcolor')) {
 									var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
 									$(this).attr('priority', cg_prio);
 								}
@@ -1320,10 +1320,10 @@ if (document.getElementById('game_container') !== null) {
 			});
 			// Loop inmates again for selection
 			var prior = null;
-			if(jailHL_sel == 'lowest') {
+			if (jailHL_sel == 'lowest') {
 				for (i = 0; i <= rows; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if(isNaN(priority)) {
+					if (isNaN(priority)) {
 						continue;
 					}
 					if (priority <= prior || !prior) {
@@ -1333,10 +1333,10 @@ if (document.getElementById('game_container') !== null) {
 						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true);
 					}
 				}
-			} else if(jailHL_sel == 'random') {
+			} else if (jailHL_sel == 'random') {
 				for (i = 0; i < rows; i++) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if(isNaN(priority)) {
+					if (isNaN(priority)) {
 						continue;
 					}
 					if (priority <= prior || !prior) {
@@ -1344,7 +1344,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 				var priolen = $('tr[priority="'+prior+'"]').length;
-				if(priolen>0) {
+				if (priolen>0) {
 					var priowho = rand(0, (priolen-1));
 					$('#HLrow').html($('tr[priority="'+prior+'"]:eq('+priowho+')').html());
 					$('#HLrow').css('background-color', $('tr[priority="'+prior+'"]:eq('+priowho+')').attr('bgcolor'));
@@ -1353,7 +1353,7 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				for (i = rows; i >= 0; i--) {
 					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if(isNaN(priority)) {
+					if (isNaN(priority)) {
 						continue;
 					}
 					if (priority <= prior || !prior) {
@@ -1367,7 +1367,7 @@ if (document.getElementById('game_container') !== null) {
 			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false);
 			// Add successful BO to total
 			if ($('#game_container:contains("You busted this person")').length) {
-				if($('#game_container:contains("cellmate out of jail")').length) {
+				if ($('#game_container:contains("cellmate out of jail")').length) {
 					bos = (bos + 1);
 				}
 				bos = (bos + 1);
@@ -1392,7 +1392,7 @@ if (document.getElementById('game_container') !== null) {
 			// Go back to jail when time is over
 			if ($('#game_container span').attr('data-timeleft')) {
 				$('#game_container span').on('DOMSubtreeModified', function() {
-					if($('#game_container span').attr('data-timeleft') == -1) {
+					if ($('#game_container span').attr('data-timeleft') == -1) {
 						unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 					}
 				});
@@ -1401,7 +1401,7 @@ if (document.getElementById('game_container') !== null) {
 		// Save omerta jail settings
 		if (on_page('/jail_settings.php') && nn == 'form') {
 			// check if already saved
-			if($('form[name="jailcolours"]').attr('saving')!= 'done') {
+			if ($('form[name="jailcolours"]').attr('saving')!= 'done') {
 				// save omerta defaults
 				setV('friends_colour', $('select[name="friends_colour_select"]').val());
 				setV('fam_colour', $('select[name="fam_colour_select"]').val());
@@ -1543,7 +1543,7 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('tr[class*="color"]').each(function () {
 					var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
-					if($(this).attr('class')=='color2') {
+					if ($(this).attr('class')=='color2') {
 						$(this).children('td:eq(0)').append(
 							$('<img />').addClass('inboxImg unread').attr({
 								src: GM_getResourceURL('delete'),
@@ -2313,7 +2313,7 @@ if (document.getElementById('game_container') !== null) {
 
 		//---------------- Bullet Tracker ----------------
 		if (on_page('/bullets2.php') && nn == 'center') {
-			if(notificationsArray['Bullets'] !== undefined) {
+			if (notificationsArray['Bullets'] !== undefined) {
 				notificationsArray['Bullets'].close();
 				delete(notificationsArray['Bullets']);
 			}
@@ -3734,15 +3734,15 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 
-		if(on_page('module=travel')) {
-			if(notificationsArray['Travel'] !== undefined) {
+		if (on_page('module=travel')) {
+			if (notificationsArray['Travel'] !== undefined) {
 				notificationsArray['Travel'].close();
 				delete(notificationsArray['Travel']);
 			}
 		}
 		//---------------- Crimes ----------------
 		if (on_page('module=Crimes') && nn == 'br') {
-			if(notificationsArray['Crime'] !== undefined) {
+			if (notificationsArray['Crime'] !== undefined) {
 				notificationsArray['Crime'].close();
 				delete(notificationsArray['Crime']);
 			}
@@ -3751,9 +3751,9 @@ if (document.getElementById('game_container') !== null) {
 			}, 100);
 		}
 
-		if(on_page('module=Crimes') && nn == 'font') {
+		if (on_page('module=Crimes') && nn == 'font') {
 			var text = $('#game_container').text().trim();
-			if(text.match(/\$ ([,\d]+)/) !== null) {
+			if (text.match(/\$ ([,\d]+)/) !== null) {
 				var oldValue = parseInt(getV('crimeMoney', 0));
 				var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
 				setV('crimeMoney', (sum + oldValue));
@@ -3789,9 +3789,9 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		//------ Successful car nick. Does not include lackeys -----
-		if(on_page('module=Cars') && nn == 'center') {
+		if (on_page('module=Cars') && nn == 'center') {
 			var text = $('#game_container').text().trim();
-			if(text.match(/\[\$ ([,\d]+)\]/) !== null) {
+			if (text.match(/\[\$ ([,\d]+)\]/) !== null) {
 				var oldValue = parseInt(getV('carMoney', 0));
 				var sum = parseInt(text.match(/\[\$ ([,\d]+)\]/)[1].replace(',', ''));
 				setV('carMoney', (sum + oldValue));
@@ -4083,7 +4083,7 @@ if (document.getElementById('game_container') !== null) {
 			//set timer for BG if it counts down
 			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
 				var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
-				if(timer > 0) {
+				if (timer > 0) {
 					bgTimer = true;
 					setTimeout(function() {
 						bgTimer = false;
@@ -4203,11 +4203,11 @@ if (document.getElementById('game_container') !== null) {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
 				});
 
-			if($('.ob-prefs-bg').length === 0) {
+			if ($('.ob-prefs-bg').length === 0) {
 				$('div.omerta-widget-avatar-body').append(prefs_div);
 			}
 
-			if($('.ob-lf-bg').length === 0) {
+			if ($('.ob-lf-bg').length === 0) {
 				$('div.omerta-widget-avatar-body').append(lf_div);
 			}
 		}
@@ -4220,10 +4220,10 @@ if (document.getElementById('game_container') !== null) {
 
 $('#game_container').on('DOMNodeInserted', function(event){
 	var nn = event.target.tagName.toLowerCase();
-	if(on_page('jail.php')) {
+	if (on_page('jail.php')) {
 		// Return when self bo
 		if ($('#game_container:contains("You busted yourself out of jail")').length) {
-			if(!$('#bo_fired').length) {
+			if (!$('#bo_fired').length) {
 				var bos = parseInt(getV('bustouts', 0), 10);
 				bos = (bos + 1);
 				setV('bustouts', bos);
@@ -4233,14 +4233,14 @@ $('#game_container').on('DOMNodeInserted', function(event){
 		}
 		// Return when busted
 		if ($('#game_container:contains("You are not in jail!")').length) {
-			if(!$('#bo_fired').length) {
+			if (!$('#bo_fired').length) {
 				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
 		}
 		// Return when bought out
 		if ($('#game_container:contains("You bought yourself out")').length) {
-			if(!$('#bo_fired').length && nn != 'b') {
+			if (!$('#bo_fired').length && nn != 'b') {
 				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
@@ -4915,7 +4915,7 @@ if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !
 	$.get('/information.php', function (data) {
 		var a = data.split('<tbody');
 		if (a[2]) { // fails on click limit or other error
-			if(v == 'com' || v == 'nl') {
+			if (v == 'com' || v == 'nl') {
 				$('#game_wrapper').append(
 					$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
 				);
@@ -4927,7 +4927,7 @@ if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !
 			bnUpdate(0); // call update function
 			$.get('/user.php?nick=' + getV('nick', ''), function (data) {
 				var a = data.split('<script');
-				if(v == 'com' || v == 'nl') {
+				if (v == 'com' || v == 'nl') {
 					$('#game_wrapper').append(
 						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
 					);
