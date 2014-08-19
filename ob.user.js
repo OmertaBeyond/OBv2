@@ -824,14 +824,16 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		// limit captcha to size and disabled to 3 letters is typed
-		if (($('input#ver').length > 0) || ($('input#lbfVer').length > 0) || ($('input#bfVer').length > 0) || ($('input[name="imgcode"]').length > 0)) {
-			$(':submit').first().prop('disabled', true);
+		var codeInput = $('input#ver, input#lbfVer, input#bfVer, input[name="imgcode"]');
+		var codeSubmit = codeInput.closest('form').find('input[type="submit"]');
+		if (codeInput.length > 0) {
+			codeSubmit.prop('disabled', true);
 		}
-		$('input#ver, input#lbfVer, input#bfVer, input[name="imgcode"]').attr('maxlength', 3).keyup(function() {
+		codeInput.attr('maxlength', 3).keyup(function() {
 			if ($(this).val().length === 3) {
-				$(':submit').first().prop('disabled', false);
+				codeSubmit.prop('disabled', false);
 			} else {
-				$(':submit').first().prop('disabled', true);
+				codeSubmit.prop('disabled', true);
 			}
 		});
 
