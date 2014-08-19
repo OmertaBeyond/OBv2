@@ -739,6 +739,82 @@ function highlightChatMessage(messageContainer, isBufferedMessage) {
 	}
 }
 
+function isElementInViewport(el) {
+	var rect = el.getBoundingClientRect();
+	return (
+		rect.top >= 0 &&
+		rect.left >= 0 &&
+		rect.bottom <= $(window).height() &&
+		rect.right <= $(window).width()
+	);
+}
+
+function addChatResizeImprovements() {
+	if ($('#omerta_chat_room .ps-container').children().length === 0) {
+		//wait till chat gets populated
+		window.setTimeout(addChatResizeImprovements, 500);
+		return;
+	}
+	var oldActiveElement;
+	var originalStyle = ['#omerta_chat', '#omerta_chat_room', '#omerta_chat_room .ps-container', '#omerta_chat .chat', '#omerta_chat .chat input', 'footer'].map(function(selector) {
+		return { 'selector': selector, 'css': $(selector).css(['width', 'height', 'opacity']) };
+	});
+
+	var chatIsMaximized = false;
+	var chatIsPinned = false;
+
+	$('#omerta_chat').hover(function() {
+		if (chatIsMaximized || prefs['chat_resize_disabled']) {
+			return;
+		}
+		chatIsMaximized = true;
+		if (document.activeElement && isElementInViewport(document.activeElement)) {
+			oldActiveElement = document.activeElement;
+		} else {
+			oldActiveElement = null;
+		}
+		var baseWidth = prefs['chat_width'] || Math.min(parseInt(document.documentElement.clientWidth * 0.50, 10), 650);
+		var baseHeight = prefs['chat_height'] || Math.min(parseInt(document.documentElement.clientHeight * 0.70, 10), 550);
+		$('#omerta_chat').css('width', baseWidth + 'px').css('height', baseHeight + 'px').css('opacity', 1);
+		$('#omerta_chat_room, #omerta_chat_room .ps-container').css('width', '100%').css('height', (baseHeight - 80) + 'px');
+		$('#omerta_chat .chat').css('width', (baseWidth - 20) + 'px');
+		$('#omerta_chat .chat input').css('width', (baseWidth - 35) + 'px');
+		$('footer').css('z-index', 100000);
+		unsafeWindow.omerta.chat.utils.scrollChat(unsafeWindow.Strophe.getNodeFromJid(unsafeWindow.omerta.chat.data.selected()), true, false);
+		$('.chat-controls-listing').prepend(
+			$('<a>').attr('title', 'Pin chat window').attr('class', 'chat-pin').click(function() {
+				chatIsPinned = !chatIsPinned;
+				$('.chat input').focus();
+			}).append(
+				$('<i>').attr('class', 'ci icon-pushpin')
+			)
+		);
+		$('.chat input').focus();
+
+	}, function() {
+		if (chatIsPinned) {
+			return;
+		}
+		chatIsMaximized = false;
+		originalStyle.forEach(function(element) {
+			if (typeof element.css === 'undefined') {
+				$(element.selector).css('width', 'auto').css('height', 'auto');
+			} else {
+				for (var key in element.css) {
+					if (element.css.hasOwnProperty(key)) {
+						$(element.selector).css(key, element.css[key]);
+					}
+				}
+			}
+		});
+		if (oldActiveElement && isElementInViewport(oldActiveElement)) {
+			$(oldActiveElement).focus();
+		}
+		$('.chat-pin').remove();
+		unsafeWindow.omerta.chat.utils.scrollChat(unsafeWindow.Strophe.getNodeFromJid(unsafeWindow.omerta.chat.data.selected()), true, false);
+	});
+}
+
 /*
  * Chat listener
  */
@@ -766,6 +842,8 @@ if (document.getElementById('omerta_chat_room') !== null && typeof MutationObser
 		subtree: true,
 		characterData: false
 	});
+
+	addChatResizeImprovements();
 }
 
 /*
@@ -4602,6 +4680,49 @@ function GetPrefPage() {
 		})
 	);
 
+	var chatResizeSettingsMarkup;
+
+	if (document.getElementById('omerta_chat_room') !== null) {
+		chatResizeSettingsMarkup = [
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Chat Settings')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').append(
+					$('<input>').attr({
+						name: 'chat_resize_disabled',
+						id: 'chat_resize_disabled',
+						type: 'checkbox',
+						checked: prefs['chat_resize_disabled']
+					}).click(function () {
+						setA('prefs', 'chat_resize_disabled', $(this).prop('checked'));
+					}),
+					$('<label>').css('padding-left', '5px').attr('for', 'chat_resize_disabled').text('Prevent chat window from resizing automatically')
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text('Set chat window size manually:')
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').append(
+					$('<input>').attr('type', 'number').css('width', '50px').attr('placeholder', 'width').val(prefs['chat_width']).blur(function() {
+						setA('prefs', 'chat_width', $(this).val());
+					}),
+					$('<span>').text('x'),
+					$('<input>').attr('type', 'number').css('width', '50px').attr('placeholder', 'height').val(prefs['chat_height']).blur(function() {
+						setA('prefs', 'chat_height', $(this).val());
+					})
+				)
+			)
+		];
+	}
+
 	var prefs_page = $('<center>').attr({
 		id: 'prefsContainer'
 	}).append(
@@ -4866,6 +4987,7 @@ function GetPrefPage() {
 
 				)
 			),
+			chatResizeSettingsMarkup,
 			$('<tr>').append(
 				$('<td>').attr({ height: '1', bgcolor: 'black' })
 			),
