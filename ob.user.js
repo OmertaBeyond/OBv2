@@ -420,7 +420,7 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 		notification.close();
 	};
 
-	// Automaticly close notification
+	// Automatically close notification
 	var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
 	if(autoCloseSecs > 0) {
 		setTimeout(function(){
@@ -434,7 +434,7 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 
 var beeping = false;
 var beep = new Howl({
-	urls: [ OB_CDN_URL + '/sounds/beep.wav' ], //doesn't work with GM_getResourceURL
+	urls: [ OB_CDN_URL + '/sounds/beep.wav' ], // doesn't work with GM_getResourceURL
 	onend: function() {
 		beeping = false;
 	}
@@ -442,7 +442,7 @@ var beep = new Howl({
 
 function playBeep() {
 	if (beeping) {
-		//dont play beep more than once at the same time
+		// don't play beep more than once at the same time
 		return;
 	}
 	beeping = true;
@@ -471,7 +471,7 @@ function CheckServiceVariable() {
 		}
 
 		var ok = true;
-		//check for new messages if they want them
+		// check for new messages if they want them
 		if (serviceData.messages.inbox.length > 0 && (prefs['notify_messages'] || prefs['notify_messages_sound'])) {
 			var lastMessage = parseInt(getV('lastMessage', 0));
 
@@ -509,7 +509,7 @@ function CheckServiceVariable() {
 			}
 		}
 
-		//check for new alerts if they want them
+		// check for new alerts if they want them
 		if (serviceData.messages.alert.length > 0 && (prefs['notify_alerts'] || prefs['notify_alerts_sound'])) {
 			var lastAlert = parseInt(getV('lastAlert', 0));
 			var totalAlerts = 0;
@@ -660,11 +660,11 @@ if (localStorage['sets_' + v]) {
 }
 
 function addEndTimeTooltip(node) {
-	//add a tooltip on every cooldown timer showing when it'll end (in OT)
-	//let's make sure we don't break OB in case tipsy gets dropped
+	// add a tooltip on every cooldown timer showing when it'll end (in OT)
+	// let's make sure we don't break OB in case tipsy gets dropped
 	if (unsafeWindow.$.fn.tipsy) {
-		//.addBack is needed in case the element containing data-timeleft is the one being added to DOM tree
-		//(which is the case on bullet waiting page, safehouse message, and probably others)
+		// .addBack is needed in case the element containing data-timeleft is the one being added to DOM tree
+		// (which is the case on bullet waiting page, safehouse message, and probably others)
 		$(node).find('[data-timeleft]').addBack('[data-timeleft]').each(function() {
 			var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000);
 			//formating dates in js is fun. #not
@@ -696,7 +696,7 @@ function datestringParse(dateString) {
 	var time = dateTime[1].split(':');
 	var h = time[0];
 	var m = time[1];
-	var s = parseInt(time[2]); //get rid of that 00.0;
+	var s = parseInt(time[2]); // get rid of that 00.0;
 
 	return new Date(yyyy,mm,dd,h,m,s);
 }
@@ -794,8 +794,8 @@ if (document.getElementById('game_container') !== null) {
 			characterData: false
 		});
 	} else {
-		//jeez, get a new browser ;(
-		//falling back to DOMNodeInserted event
+		// jeez, get a new browser ;(
+		// falling back to DOMNodeInserted event
 		document.getElementById('game_container').addEventListener('DOMNodeInserted', function(event) {
 			if (event.target.nodeType != 1) {
 				return false;
@@ -835,9 +835,11 @@ if (document.getElementById('game_container') !== null) {
 			}
 		});
 
-		//add end time tooltip to every countdown
-		//causes issues with Greasemonkey 2+, disabling till issue is fixed
-		//addEndTimeTooltip(node);
+		/*
+		 add end time tooltip to every countdown
+		 causes issues with Greasemonkey 2+, disabling till issue is fixed
+		 addEndTimeTooltip(node);
+		 */
 
 		//---------------- FAMILY PAGE ----------------
 		if (on_page('family.php') && nn == 'center') {
@@ -882,7 +884,7 @@ if (document.getElementById('game_container') !== null) {
 				tops.push($(this).text());
 			});
 
-			var nTop = tops.length; //# tops
+			var nTop = tops.length; // # tops
 			var SorC = (nTop == 3) ? 2 : /Consi/.test($('table.thinline:eq(0) > tbody > tr:eq(7) > td:first').text()); //Sotto or Consi
 			var don = $.trim(tops[0]);
 			var sotto = (nTop > 1 && (nTop == 3 || SorC === 0)) ? tops.pop() : null;
@@ -900,7 +902,7 @@ if (document.getElementById('game_container') !== null) {
 				objects.push($(this).text());
 			});
 
-			//get spot owners
+			// get spot owners
 			var spots = [];
 			var anchors = $('table.thinline:eq(3) > tbody > tr > td:has(a)').each(function () {
 				spots.push($(this).text());
@@ -1128,7 +1130,7 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				var deadWillName = getV('deadWillName');
 
-				// If the person in the will has been changed it shouldnt be shown anymore
+				// If the person in the will has been changed it shouldn't be shown anymore
 				if (deadWillName == willName) {
 					appendDead();
 				}
@@ -1160,7 +1162,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 
-			// Tell how old the acount is
+			// Tell how old the account is
 			var startDate = new Date();
 			var vTr;
 			if(IsNewVersion()) {
@@ -3157,10 +3159,12 @@ if (document.getElementById('game_container') !== null) {
 								n = key[n];
 								b = key[b];
 
-								// don't fill in if we can't earn RP and AF would want to buy
-								//Omerta sometimes won't display "NOW" when rp can be earned for b/n actions.
-								//it just displays "The next time you can earn rankpoints from buying [booze|narcs] is<end>"
-								//we'll handle that case too.
+								/*
+								 Don't fill in if we can't earn RP and AF would want to buy
+								 Omerta sometimes won't display "NOW" when rp can be earned for b/n actions.
+								 it just displays "The next time you can earn rank points from buying [booze|narcs] is<end>"
+								 we'll handle that case too.
+								 */
 								if (!lbooze) {
 									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
 										b = -1;
@@ -3308,7 +3312,7 @@ if (document.getElementById('game_container') !== null) {
 								setV('AFtop', top);
 							});
 						} else {
-							//show static AF settings in one row
+							// show static AF settings in one row
 							$('#AF hr, #AF br').remove();
 						}
 
@@ -3784,7 +3788,7 @@ if (document.getElementById('game_container') !== null) {
 			);
 		}
 
-		//------ Successfull car nick. Does not include lackeys -----
+		//------ Successful car nick. Does not include lackeys -----
 		if(on_page('module=Cars') && nn == 'center') {
 			var text = $('#game_container').text().trim();
 			if(text.match(/\[\$ ([,\d]+)\]/) !== null) {
@@ -4098,7 +4102,7 @@ if (document.getElementById('game_container') !== null) {
 		//---------------- Raid Result @ Statistics and Spots ----------------
 		if (on_page('global_stats') || on_page('module=Spots')) {
 			var isSpots = on_page('module=Spots');
-			//add possible raid profit in a new column for all objects
+			// add possible raid profit in a new column for all objects
 			$('td:contains("Profit"), td:contains("Winst"), td:contains("Kazanc")').closest('table').find('tr').each(function() {
 				var tableHeader;
 				if (isSpots) {
@@ -4107,7 +4111,7 @@ if (document.getElementById('game_container') !== null) {
 					tableHeader = $(this).find('td.tableheader, td[bgcolor="black"]');
 				}
 				if (tableHeader.length > 0) {
-					//increase colspan of table header
+					// increase colspan of table header
 					tableHeader.each(function() {
 						$(this).attr('colspan', parseInt($(this).attr('colspan')) + 1);
 					});
@@ -4119,18 +4123,18 @@ if (document.getElementById('game_container') !== null) {
 				} else {
 					var firstRowText = $(this).find('td:first').text();
 					if (firstRowText == 'City:' || firstRowText == 'Stad:') {
-						//add table header
+						// add table header
 						$(this).append($('<td><b class="raid_profit_tooltip" title="Best Possible Raid Result per Player">Raid Result:</b></td>'));
 						return;
 					}
 				}
 				if (isSpots && $(this).find('td[colspan="3"]').length > 0) {
-					//make Bankrupt/OOB columns wider
+					// make Bankrupt/OOB columns wider
 					$(this).find('td[colspan="3"]').attr('colspan', '4');
 					return;
 				}
 				if (!isSpots) {
-					//make city column a bit smaller
+					// make city column a bit smaller
 					$(this).find('td:first').attr('width', '130');
 				}
 				var profit;
@@ -4144,7 +4148,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 				if (profit > 0) {
-					//row with running + profitable object
+					// row with running + profitable object
 					var protection = parseInt($(this).find('.percent').text().replace('%', ''));
 					var raidResult = calcRaidResult(profit, protection);
 					if (isSpots) {
@@ -4153,8 +4157,8 @@ if (document.getElementById('game_container') !== null) {
 						$(this).append('<td>$ ' + commafy(Math.floor(raidResult)) + '</td>');
 					}
 				} else if (isSpots || $(this).find('.loss').length > 0 || $(this).text().indexOf('None') !== -1 || $(this).text().indexOf('Geen') !== -1) {
-					//append empty column for spots with losses or no profit
-					//border will be gone otherwise
+					// append empty column for spots with losses or no profit
+					// border will be gone otherwise
 					if (isSpots) {
 						$(this).find('td:eq(4)').after('<td></td>');
 					} else {
@@ -4454,7 +4458,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 });
 
 function GetPrefPage() {
-	// set location.hash so other code doesnt get triggered
+	// set location.hash so other code doesn't get triggered
 	window.location.hash = 'OB_preferences';
 
 	var setGroupPriority = function () {
@@ -4477,7 +4481,7 @@ function GetPrefPage() {
 	var af_position = sets['af_position'] || 'floating';
 	setA('prefs', 'NR', 1);
 
-	// Build custom groups prio settings
+	// Build custom groups priority settings
 	var c_group_div = null;
 	for (var i=0;i<custom_groups.length;i++) {
 		var group_name = custom_groups[i].split(':')[0];
@@ -4527,7 +4531,7 @@ function GetPrefPage() {
 			type: 'text'
 		}),
 		$('<button>').text('Add').click(function() {
-			//let's not add empty entries
+			// let's not add empty entries
 			var newVal = $('#new_nobust').val();
 			if (newVal.length > 0) {
 				$('<span>').attr({id: newVal}).text(newVal).insertBefore($('#new_nobust'));
