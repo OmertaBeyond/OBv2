@@ -751,7 +751,7 @@ function isElementInViewport(el) {
 
 function addChatResizeImprovements() {
 	if ($('#omerta_chat_room .ps-container').children().length === 0) {
-		//wait till chat gets populated
+		// wait till chat gets populated
 		window.setTimeout(addChatResizeImprovements, 500);
 		return;
 	}
