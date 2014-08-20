@@ -33,7 +33,7 @@ Note: if you have time/knowledge, help us to make it fully working/compatible.
 * [Rix](https://github.com/Gwildor) - Admin, Developer
 * [MrWhite](https://github.com/Ivdbroek85) - Admin, Developer
 * [sbanks](https://github.com/susanbanks) - Admin, Website
-* [MurderInc](https://github.com/baelor) - Developer
+* [MurderInc](https://github.com/baelor) - Admin, Developer
 * [Brainscrewer](https://github.com/Brainscrewer) - Code contributor
 * [Sebbe](https://github.com/Sebbe) - Code contributor
 
