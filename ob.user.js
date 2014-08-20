@@ -348,6 +348,13 @@ function CheckBmsg() {
 							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
 							notification.close();
 						};
+
+						var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
+						if (autoCloseSecs > 0) {
+							setTimeout(function(){
+								notification.close();
+							}, autoCloseSecs * 1000);
+						}
 					}
 
 					if (prefs['bmsgNews_sound']) {
@@ -381,6 +388,14 @@ function CheckBmsg() {
 							window.focus();
 							notification.close();
 						};
+
+						var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
+						if (autoCloseSecs > 0) {
+							setTimeout(function(){
+								notification.close();
+							}, autoCloseSecs * 1000);
+						}
+
 					}
 
 					if (prefs['bmsgDeaths_sound']) {
