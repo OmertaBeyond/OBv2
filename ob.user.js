@@ -904,16 +904,21 @@ if (document.getElementById('game_container') !== null) {
 		// limit captcha to size and disabled to 3 letters is typed
 		var codeInput = $('input#ver, input#lbfVer, input#bfVer, input[name="imgcode"]');
 		var codeSubmit = codeInput.closest('form').find('input[type="submit"]');
-		if (codeInput.length > 0) {
-			codeSubmit.prop('disabled', true);
-		}
-		codeInput.attr('maxlength', 3).keyup(function() {
-			if ($(this).val().length === 3) {
-				codeSubmit.prop('disabled', false);
-			} else {
+
+		if (on_page('jail.php')) {
+			codeSubmit.prop('disabled', false);
+		} else {
+			if (codeInput.length > 0) {
 				codeSubmit.prop('disabled', true);
 			}
-		});
+			codeInput.attr('maxlength', 3).keyup(function() {
+				if ($(this).val().length === 3) {
+					codeSubmit.prop('disabled', false);
+				} else {
+					codeSubmit.prop('disabled', true);
+				}
+			});
+		}
 
 		/*
 		 add end time tooltip to every countdown
