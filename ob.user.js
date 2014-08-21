@@ -2500,15 +2500,13 @@ if (document.getElementById('game_container') !== null) {
 		}
 		//---------------- User Profile ----------------
 		if (on_page('user.php') && nn == 'center') {
-			var str = (v == 'nl' ? 'Dead' : 'Dood');
 			var status = $('span#status').text();
 			var inFam = ($('span#family > a').length ? $('span#family > a').text() : $('span#family').text());
-			var alive = (status.search(str));
+			var alive = status.search(/Dead|Dood/);
 			var unick = $('span#username').first().text();
-
 			// DEAD or AKILLED ?
 			if (!alive) {
-				var rankings = '<a href="' + document.location.hostname + '/BeO/webroot/index.php?module=Rankings&nick=' + unick + '">View Rankings</a>';
+				var rankings = '<a href="/BeO/webroot/index.php?module=Rankings&nick=' + unick + '">View Rankings</a>';
 				if ($('img[src*="/userbadges/rip.gif"]').parent().get(0).tagName != 'A') {
 					var akill = '<span style="color:red; font-weight:bold;"> (Akill) </span>';
 					status += akill;
