@@ -658,6 +658,7 @@ function whatV(hostname) {
 }
 
 var v = whatV();
+var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm';
 var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
@@ -1049,7 +1050,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 
-			if (v == 'com' || v == 'nl') {
+			if (versionHasLogger) {
 				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=fampage&v=' + v + '&' + url, function (data) {
 					// Family position and worth
 					$('td.subtableheader').first().closest('tr').after(
@@ -2585,7 +2586,7 @@ if (document.getElementById('game_container') !== null) {
 				)
 			);
 			var historyLink = null;
-			if (v == 'com' || v == 'nl') {
+			if (versionHasLogger) {
 				historyLink = $('<span>').text('View History').css('cursor', 'pointer').click(function () {
 					$.get(OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + unick, function (data) {
 						$('#game_container').empty();
@@ -4353,7 +4354,7 @@ $('#game_container').on('DOMNodeInserted', function(event){
  */
 
 $('#game_container').one('DOMNodeInserted', function () {
-	if (v == 'com' || v == 'nl') {
+	if (versionHasLogger) {
 		setTimeout(function () {
 			CheckBmsg();
 		}, 1000);
