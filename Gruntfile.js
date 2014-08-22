@@ -16,30 +16,28 @@ module.exports = function (grunt) {
 			}
 		},
 		csslint: {
+			src: [
+				'scripts/beyond.css'
+			],
 			options: {
 				'box-model': false,     // true: Using width with padding can sometimes make elements larger than you expect.
 				'gradients': false,     // true: Missing vendor-prefixed CSS gradients for Old Webkit (Safari 4+, Chrome).
 				'ids':       false,     // true: Don't use IDs in selectors. Selectors should not contain IDs.
 				'important': false      // true: Use of !important. Be careful when using !important declaration.
-			},
-			src: [
-				'scripts/beyond.css'
-			]
+			}
 		},
 		lintspaces: {
-			all: {
-				src: [
-					'Gruntfile.js',
-					'.jshintrc',
-					'.travis.yml',
-					'package.json',
-					'scripts/beyond.css',
-					'ob.user.js'
-				],
-				options: {
-					editorconfig: '.editorconfig',
-					ignores: ['js-comments']
-				}
+			src: [
+				'Gruntfile.js',
+				'.jshintrc',
+				'.travis.yml',
+				'package.json',
+				'scripts/beyond.css',
+				'ob.user.js'
+			],
+			options: {
+				editorconfig: '.editorconfig',
+				ignores: ['js-comments']
 			}
 		}
 	});
