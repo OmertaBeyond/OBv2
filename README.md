@@ -58,4 +58,4 @@ You can find us at:
 * Install [Node.js](http://nodejs.org/download/)
 * Install grunt: `npm install -g grunt-cli`
 * Install the Node.js dependencies via npm: `npm install`
-* Run `grunt` to check source with `jshint`, `csslint` and `lintspaces`
+* Run `grunt` to check source with `jscs`, `jshint`, `csslint` and `lintspaces`
