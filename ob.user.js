@@ -2026,6 +2026,9 @@ if (document.getElementById('game_container') !== null) {
 		//---------------- TOP 3 ----------------
 		// Control Panel
 		if (on_page('module=Family') && nn == 'div') {
+			if (GetParam('who')) {
+				$('input[name="invite"]').val(GetParam('who'))
+			}
 			// linkify CP log
 			if (nid == 'jsprogbar_fam_rank_progress') {
 				$('table.color2:eq(0) > tbody > tr > td').not(':first').not(':last').each(function () {
