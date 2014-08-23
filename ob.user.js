@@ -2033,13 +2033,17 @@ if (document.getElementById('game_container') !== null) {
 						var len = $(this).html().trim().split(' ').length - 1;
 						var who = $(this).html().trim().split(' ');
 						if (who[0].match(/[A-Z]/g)) {
-							who[0] = '<a href="/user.php?nick=' + who[0] + '"><b>' + who[0] + '</b></a>';
+							if (who[0] != 'Your') {
+								who[0] = '<a href="/user.php?nick=' + who[0] + '"><b>' + who[0] + '</b></a>';
+							}
 						}
 						if (who[len].match(/[A-Z]/g)) {
 							if (who[len] != 'Capo(s)') {
 								if (who[len] != 'Object(s)') {
 									if (who[len] != 'Unlocked') {
-										who[len] = '<a href="/user.php?nick=' + who[len].match(/\D+/g)[0].replace('.', '') + '"><b>' + who[len] + '</b></a>';
+										if (who[len] != 'Boss.') {
+											who[len] = '<a href="/user.php?nick=' + who[len].match(/\D+/g)[0].replace('.', '') + '"><b>' + who[len] + '</b></a>';
+										}
 									}
 								}
 							}
@@ -2047,17 +2051,11 @@ if (document.getElementById('game_container') !== null) {
 						$(this).html(who.join(' '));
 					}
 				});
-				// Add promo calculation for CD/GF/FL.
-				var brugP = parseInt($('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').text().replace(/\D/g, ''), 10);
-				var perc = (brugP != '0') ? $('input[name="ppercentage"]').val() : 0;
-				var cdP = parseInt((((brugP / 100) * perc) + brugP), 10);
+				// Add promo calculation for GF/FL.
+				var cdP = parseInt($('table.color2:eq(1) > tbody > tr:eq(16) > td > table > tbody > tr:eq(6) > td:eq(3)').text().replace(/\D/g, ''), 10);
+				var perc = (cdP != '0') ? $('input[name="ppercentage"]').val() : 0;
 				var gfP = parseInt((((cdP / 100) * perc) + parseInt(cdP, 10)), 10);
-				$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6) > td:eq(1)').removeAttr('colspan');
-				$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody > tr:eq(6)').append(
-					$('<td>').text('Capodecina'),
-					$('<td>').text('$ ' + commafy(cdP))
-				);
-				$('table.color2:eq(1) > tbody > tr:eq(8) > td > table > tbody').append(
+				$('table.color2:eq(1) > tbody > tr:eq(16) > td > table > tbody').append(
 					$('<tr>').append(
 						$('<td>').text('GF / FL'),
 						$('<td>').text('$ ' + commafy(gfP))
@@ -2072,13 +2070,17 @@ if (document.getElementById('game_container') !== null) {
 					var len = $(this).html().trim().split(' ').length - 1;
 					var who = $(this).html().trim().split(' ');
 					if (who[0].match(/[A-Z]/g)) {
-						who[0] = '<a href="/user.php?nick=' + who[0] + '"><b>' + who[0] + '</b></a>';
+						if (who[0] != 'Your') {
+							who[0] = '<a href="/user.php?nick=' + who[0] + '"><b>' + who[0] + '</b></a>';
+						}
 					}
 					if (who[len].match(/[A-Z]/g)) {
 						if (who[len] != 'Capo(s)') {
 							if (who[len] != 'Object(s)') {
 								if (who[len] != 'Unlocked') {
-									who[len] = '<a href="/user.php?nick=' + who[len].match(/\D+/g)[0].replace('.', '') + '"><b>' + who[len] + '</b></a>';
+									if (who[len] != 'Boss.') {
+										who[len] = '<a href="/user.php?nick=' + who[len].match(/\D+/g)[0].replace('.', '') + '"><b>' + who[len] + '</b></a>';
+									}
 								}
 							}
 						}
