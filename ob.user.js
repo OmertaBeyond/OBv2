@@ -5109,6 +5109,8 @@ if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !
 			});
 		}
 	});
+	$('#xhr').remove();
+	$('#str2dom').remove();
 }
 
 // Reset on death
