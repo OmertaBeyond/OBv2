@@ -2582,7 +2582,7 @@ if (document.getElementById('game_container') !== null) {
 						'id': 'actions',
 						'colspan': '2',
 						'align': 'center'
-					}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver=' + unick + '">Heist</a> | <a href="' + document.location.protocol + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Spots&driver=' + unick + '">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives?search=' + unick + '">Hire Detectives</a>')
+					}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver=' + unick + '">Heist</a> | <a href="' + document.location.protocol + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Spots&driver=' + unick + '">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives&search=' + unick + '">Hire Detectives</a>')
 				)
 			);
 			var historyLink = null;
@@ -4059,7 +4059,6 @@ if (document.getElementById('game_container') !== null) {
 				if (GetParam('search')) {
 					$('input[name="target"]').val(GetParam('search'));
 				}
-
 			}
 		}
 		//---------------- Misc ----------------
