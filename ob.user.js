@@ -2011,9 +2011,9 @@ if (document.getElementById('game_container') !== null) {
 		//---------------- All users ----------------
 		if (on_page('/allusers.php') && nn == 'div') {
 			// add page number
-			var page = GetParam('start');
-			page = (page / 15) + 1;
-			$('a[href*="/allusers.php"]:eq(2)').before($('<p>').text('Page: ' + page));
+			var start = parseInt(GetParam('start'), 10);
+			var page = (start / 15) + 1;
+			$('h4').before($('<h4>').text('Page: ' + page));
 
 			// edit show/hide dead link
 			var dead = GetParam('dead');
