@@ -2027,7 +2027,7 @@ if (document.getElementById('game_container') !== null) {
 		// Control Panel
 		if (on_page('module=Family') && nn == 'div') {
 			if (GetParam('who')) {
-				$('input[name="invite"]').val(GetParam('who'))
+				$('input[name="invite"]').val(GetParam('who'));
 			}
 			// linkify CP log
 			if (nid == 'jsprogbar_fam_rank_progress') {
