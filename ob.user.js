@@ -2688,6 +2688,22 @@ if (document.getElementById('game_container') !== null) {
 					$(msgTxt).html($(msgTxt).html());
 				}
 			}
+			var KillMsg = new RegExp(linkify[6]); // Kill success
+			if (KillMsg.test(msgType)) {
+				setArr(2);
+				$(msgTxt).html(arr.join(' '));
+			}
+			var CondMsg = new RegExp(linkify[8]); // Condoleances
+			if (CondMsg.test(msgType)) {
+				setArr(2);
+				setArr(arr.length - 15);
+				$(msgTxt).html(arr.join(' '));
+			}
+			var InvMsg = new RegExp(linkify[12]); // Invite
+			if (InvMsg.test(msgType)) {
+				setArr(8);
+				$(msgTxt).html(arr.join(' '));
+			}
 		}
 		//---------------- Lackeys ----------------
 		if (on_page('module=Lackeys') && nn == 'div') {
