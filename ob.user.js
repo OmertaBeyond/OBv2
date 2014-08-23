@@ -5074,11 +5074,11 @@ if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !
 				var a = data.split('<script');
 				if (v == 'com' || v == 'nl') {
 					$('#game_wrapper').append(
-						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
+						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[1])
 					);
 				} else {
 					$('.Grid').append(
-						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
+						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[1])
 					);
 				}
 				if ($('#xhr').length) {
