@@ -1,5 +1,6 @@
 ![OBv2](images/logo.png "Omerta Beyond v2")
 
+[![GitHub version](https://badge.fury.io/gh/OmertaBeyond%2FOBv2.svg)](https://github.com/OmertaBeyond/OBv2/releases)
 [![Repo Size](https://reposs.herokuapp.com/?path=OmertaBeyond/OBv2)](https://github.com/OmertaBeyond/OBv2/archive/master.zip)
 [![Build Status](https://travis-ci.org/OmertaBeyond/OBv2.svg?branch=master)](https://travis-ci.org/OmertaBeyond/OBv2)
 [![devDependency Status](https://david-dm.org/OmertaBeyond/OBv2/dev-status.svg?theme=shields.io)](https://david-dm.org/OmertaBeyond/OBv2#info=devDependencies)
