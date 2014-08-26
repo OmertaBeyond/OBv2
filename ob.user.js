@@ -275,12 +275,12 @@ function grabHTML(url, func) {
 
 function bnUpdate(current) {
 	var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
-	var nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?2:1)+') > td:eq(1) > a').text();
-	var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?7:6)+') > td:eq(1)').text();
-	var type = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?9:8)+') > td:eq(1) > a').text();
-	var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?10:9)+') > td:eq(1) > a').text();
-	var health = 100 - parseInt($(xpath + ' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq('+(v == 'com' || v == 'nl'?3:2)+') > td:eq(1) > a > table > tbody > tr > td').attr('width'), 10);
-	var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq('+(v == 'com' || v == 'nl'?2:1)+') > td:eq(1)').text();
+	var nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1) > a').text();
+	var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 7 : 6) + ') > td:eq(1)').text();
+	var type = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 9 : 8) + ') > td:eq(1) > a').text();
+	var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 10 : 9) + ') > td:eq(1) > a').text();
+	var health = 100 - parseInt($(xpath + ' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 3 : 2) + ') > td:eq(1) > a > table > tbody > tr > td').attr('width'), 10);
+	var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1)').text();
 
 	setV('bloodType', type);
 	setV('nick', nick);
@@ -346,13 +346,13 @@ function CheckBmsg() {
 							setTimeout(CheckBmsg(), 60000);
 						};
 						notification.onclick = function () {
-							window.open(OB_NEWS_WEBSITE+'/'+response['news'][0]['id']);
+							window.open(OB_NEWS_WEBSITE + '/' + response['news'][0]['id']);
 							notification.close();
 						};
 
 						var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
 						if (autoCloseSecs > 0) {
-							setTimeout(function(){
+							setTimeout(function() {
 								notification.close();
 							}, autoCloseSecs * 1000);
 						}
@@ -392,7 +392,7 @@ function CheckBmsg() {
 
 						var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
 						if (autoCloseSecs > 0) {
-							setTimeout(function(){
+							setTimeout(function() {
 								notification.close();
 							}, autoCloseSecs * 1000);
 						}
@@ -439,7 +439,7 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	// Automatically close notification
 	var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
 	if (autoCloseSecs > 0) {
-		setTimeout(function(){
+		setTimeout(function() {
 			notification.close();
 			delete(notificationsArray[tag]);
 		}, autoCloseSecs * 1000);
@@ -473,7 +473,7 @@ function CheckServiceVariable() {
 			var newHealth = parseFloat(serviceData.progressbars.health);
 			var oldHealth = parseFloat(getV('serviceHealth', 0));
 			if (oldHealth > 0 && (oldHealth > newHealth)) {
-				var text = 'You lost '+ (oldHealth - newHealth) +' health!';
+				var text = 'You lost ' + (oldHealth - newHealth) + ' health!';
 				var title = 'Health (' + v + ')';
 				if (prefs['notify_health']) {
 					SendNotification(title, text, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
@@ -508,11 +508,11 @@ function CheckServiceVariable() {
 
 				setV('lastMessage', msgId);
 				if (totalMessages === 1) {
-					text = 'Message: '+ serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
-					title = 'New message from '+ serviceData.messages.inbox[0].frm +': '+ serviceData.messages.inbox[0].sbj +' (' + v + ')';
+					text = 'Message: ' + serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
+					title = 'New message from ' + serviceData.messages.inbox[0].frm + ': ' + serviceData.messages.inbox[0].sbj + ' (' + v + ')';
 					callbackUrl = callbackUrl + msgId;
 				} else {
-					text = 'You have got '+ totalMessages +' new messages';
+					text = 'You have got ' + totalMessages + ' new messages';
 					title = 'New messages (' + v + ')';
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
@@ -544,11 +544,11 @@ function CheckServiceVariable() {
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
 				setV('lastAlert', msgId);
 				if (totalAlerts === 1) {
-					text = 'Alert: '+ serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
-					title = 'Alert! '+ serviceData.messages.alert[0].sbj +' (' + v + ')';
+					text = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
+					title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
 					callbackUrl = callbackUrl + msgId;
 				} else {
-					text = 'You have got '+ totalAlerts +' new alerts';
+					text = 'You have got ' + totalAlerts + ' new alerts';
 					title = 'Alert! (' + v + ')';
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
@@ -684,7 +684,7 @@ function addEndTimeTooltip(node) {
 		// (which is the case on bullet waiting page, safehouse message, and probably others)
 		$(node).find('[data-timeleft]').addBack('[data-timeleft]').each(function() {
 			var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000);
-			//formating dates in js is fun. #not
+			// formating dates in js is fun. #not
 			var tooltipTitle = ('0' + cooldownEnd.getUTCHours()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCMinutes()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCSeconds()).slice(-2);
 			if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
 				tooltipTitle += ' ' + ('0' + cooldownEnd.getUTCDate()).slice(-2) + '/' + ('0' + (cooldownEnd.getUTCMonth() + 1)).slice(-2);
@@ -705,9 +705,9 @@ function calcRaidResult(profit, protection) {
 // function to parse date string (09-07-2014 09:30:54)
 function datestringParse(dateString) {
 	var dateTime = dateString.split(' ');
-	var date= dateTime[0].split('-');
+	var date = dateTime[0].split('-');
 	var dd = date[0];
-	var mm = date[1]-1;
+	var mm = date[1] - 1;
 	var yyyy = date[2];
 
 	var time = dateTime[1].split(':');
@@ -715,7 +715,7 @@ function datestringParse(dateString) {
 	var m = time[1];
 	var s = parseInt(time[2]); // get rid of that 00.0;
 
-	return new Date(yyyy,mm,dd,h,m,s);
+	return new Date(yyyy, mm, dd, h, m, s);
 }
 
 function IsNewVersion() {
@@ -731,7 +731,7 @@ function IsNewVersion() {
  * @param  {[String]}  user
  * @return {Boolean}
  */
-function checkUserAlive(user, callback){
+function checkUserAlive(user, callback) {
 	$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + user, function (data) {
 		callback(!data['DiedAt']);
 	});
@@ -938,12 +938,12 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		/*
-		 add end time tooltip to every countdown
-		 causes issues with Greasemonkey 2+, disabling till issue is fixed
-		 addEndTimeTooltip(node);
+		 * add end time tooltip to every countdown
+		 * causes issues with Greasemonkey 2+, disabling till issue is fixed
+		 * addEndTimeTooltip(node);
 		 */
 
-		//---------------- FAMILY PAGE ----------------
+		// ---------------- FAMILY PAGE ----------------
 		if (on_page('family.php') && nn == 'center') {
 			// add HR, Deaths and Worth
 			var famid = wlh.split('=')[1];
@@ -987,7 +987,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 
 			var nTop = tops.length; // # tops
-			var SorC = (nTop == 3) ? 2 : /Consi/.test($('table.thinline:eq(0) > tbody > tr:eq(7) > td:first').text()); //Sotto or Consi
+			var SorC = (nTop == 3) ? 2 : /Consi/.test($('table.thinline:eq(0) > tbody > tr:eq(7) > td:first').text()); // Sotto or Consi
 			var don = $.trim(tops[0]);
 			var sotto = (nTop > 1 && (nTop == 3 || SorC === 0)) ? tops.pop() : null;
 			var cons = (nTop > 1 && (nTop == 3 || SorC == 1)) ? tops.pop() : null;
@@ -1190,7 +1190,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			}
 		}
-		//---------------- My account ----------------
+		// ---------------- My account ----------------
 		if (on_page('/information.php') && nn == 'table') {
 			var interest = parseInt(getV('interest', 0), 10);
 			var banktleft = parseInt(getV('banktleft', 0), 10);
@@ -1258,7 +1258,7 @@ if (document.getElementById('game_container') !== null) {
 					var left = (banktleft - timestamp);
 					var tr = $('<tr>').attr({id: 'interestRow'}).append(
 						$('<td>').html('<b>Interest</b>'),
-						$('<td>').html('<a href="/bank.php">$ '+commafy(interest)+'</a> (<span data-timeleft="'+left+'">Now!</span>)')
+						$('<td>').html('<a href="/bank.php">$ ' + commafy(interest) + '</a> (<span data-timeleft="' + left + '">Now!</span>)')
 					);
 					$('.thinline:eq(4)').append(tr);
 				}
@@ -1277,8 +1277,8 @@ if (document.getElementById('game_container') !== null) {
 			var diff = Math.abs(Date.now() - startDate.getTime());
 			var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
 			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
-			var startMonth = startDate.getMonth()+1 >= 10 ? (startDate.getMonth()+1) : '0' + (startDate.getMonth()+1);
-			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr +')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays-1) + ' days old)');
+			var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
+			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr + ')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)');
 
 
 			if (!IsNewVersion()) {
@@ -1287,24 +1287,24 @@ if (document.getElementById('game_container') !== null) {
 				vTr = 3;
 			}
 			// car
-			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text().replace(',', ''), 10);
+			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')>td:last').text().replace(',', ''), 10);
 			var successCars = parseInt(getV('carSuccess', 0));
 			if (successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
 				var earned = getV('carMoney', 0);
 				var newText = '<tr><td><b>Car nicking success</b></td><td>' + successCars + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
-				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')').after(newText);
+				$('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')').after(newText);
 			}
 
 			vTr--;
 			// crime stats
-			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')>td:last').text().replace(',', ''), 10);
+			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')>td:last').text().replace(',', ''), 10);
 			var successCrimes = parseInt(getV('crimeSuccess', 0));
 			if (successCrimes >= 1) {
 				var successRate = (successCrimes / crimeAttempts) * 100;
 				var earned = getV('crimeMoney', 0);
 				var newText = '<tr><td><b>Crime success</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
-				$('table.thinline:eq(5)>tbody>tr:eq('+ vTr +')').after(newText);
+				$('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')').after(newText);
 			}
 
 			// Visual improvement
@@ -1314,7 +1314,7 @@ if (document.getElementById('game_container') !== null) {
 				$('.thinline:eq(4)>tbody>tr:eq(2)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
 			}
 		}
-		//-------------------- Jail --------------------
+		// -------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
 			if (getV('fam_colour', '') === '' || getV('friends_colour', '') === '') {
 				unsafeWindow.omerta.GUI.container.loadPage('/jail_settings.php');
@@ -1355,10 +1355,10 @@ if (document.getElementById('game_container') !== null) {
 						// get custom groups
 						var cg = getV('custom_groups', '').split('|');
 						cg.pop();
-						for(var i = 0;i<cg.length;i++) {
+						for (var i = 0; i < cg.length; i++) {
 							var g = cg[i].split(':');
 							if (g[1] == $(this).attr('bgcolor')) {
-								var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
+								var cg_prio = parseInt(sets['jailHL_' + g[0]], 10);
 								$(this).attr('priority', cg_prio);
 							}
 						}
@@ -1371,10 +1371,10 @@ if (document.getElementById('game_container') !== null) {
 							// get custom groups
 							var cg = getV('custom_groups', '').split('|');
 							cg.pop();
-							for(var i = 0;i<cg.length;i++) {
+							for (var i = 0; i < cg.length; i++) {
 								var g = cg[i].split(':');
 								if (g[1] == $(this).attr('bgcolor')) {
-									var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
+									var cg_prio = parseInt(sets['jailHL_' + g[0]], 10);
 									$(this).attr('priority', cg_prio);
 								}
 							}
@@ -1395,10 +1395,10 @@ if (document.getElementById('game_container') !== null) {
 							// get custom groups
 							var cg = getV('custom_groups', '').split('|');
 							cg.pop();
-							for(var i = 0;i<cg.length;i++) {
+							for (var i = 0; i < cg.length; i++) {
 								var g = cg[i].split(':');
 								if (g[1] == $(this).attr('bgcolor')) {
-									var cg_prio = parseInt(sets['jailHL_'+g[0]], 10);
+									var cg_prio = parseInt(sets['jailHL_' + g[0]], 10);
 									$(this).attr('priority', cg_prio);
 								}
 							}
@@ -1445,12 +1445,12 @@ if (document.getElementById('game_container') !== null) {
 						prior = priority;
 					}
 				}
-				var priolen = $('tr[priority="'+prior+'"]').length;
-				if (priolen>0) {
-					var priowho = rand(0, (priolen-1));
-					$('#HLrow').html($('tr[priority="'+prior+'"]:eq('+priowho+')').html());
-					$('#HLrow').css('background-color', $('tr[priority="'+prior+'"]:eq('+priowho+')').attr('bgcolor'));
-					$('tr[priority="'+prior+'"]:eq('+priowho+')').find('input[name="bust"]').attr('checked', true);
+				var priolen = $('tr[priority="' + prior + '"]').length;
+				if (priolen > 0) {
+					var priowho = rand(0, (priolen - 1));
+					$('#HLrow').html($('tr[priority="' + prior + '"]:eq(' + priowho + ')').html());
+					$('#HLrow').css('background-color', $('tr[priority="' + prior + '"]:eq(' + priowho + ')').attr('bgcolor'));
+					$('tr[priority="' + prior + '"]:eq(' + priowho + ')').find('input[name="bust"]').attr('checked', true);
 				}
 			} else {
 				for (i = rows; i >= 0; i--) {
@@ -1503,7 +1503,7 @@ if (document.getElementById('game_container') !== null) {
 		// Save omerta jail settings
 		if (on_page('/jail_settings.php') && nn == 'form') {
 			// check if already saved
-			if ($('form[name="jailcolours"]').attr('saving')!= 'done') {
+			if ($('form[name="jailcolours"]').attr('saving') != 'done') {
 				// save omerta defaults
 				setV('friends_colour', $('select[name="friends_colour_select"]').val());
 				setV('fam_colour', $('select[name="fam_colour_select"]').val());
@@ -1512,8 +1512,8 @@ if (document.getElementById('game_container') !== null) {
 				var custom_groups = '';
 				$('#game_container form center div').not('#creategroup').each(function() {
 					var group_name = $(this).attr('id');
-					var group_colour = $(this).find('select[name="editgroup_colour_select'+i+'"]').find('option:eq(0)').val();
-					custom_groups = custom_groups+group_name+':'+group_colour+'|';
+					var group_colour = $(this).find('select[name="editgroup_colour_select' + i + '"]').find('option:eq(0)').val();
+					custom_groups = custom_groups + group_name + ':' + group_colour + '|';
 					i++;
 				});
 				// save custom groups
@@ -1522,7 +1522,7 @@ if (document.getElementById('game_container') !== null) {
 				$('form[name="jailcolours"]').attr('saving', 'done');
 			}
 		}
-		//---------------- 1-click voter ----------------
+		// ---------------- 1-click voter ----------------
 		if (on_page('/vfo.php') && nn == 'center') {
 			$('a[href*="votelot.php"]').attr('name', 'forticket');
 
@@ -1564,7 +1564,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
-		//---------------- Group Crimes ----------------
+		// ---------------- Group Crimes ----------------
 		// GroupCrime general accept focus
 		if (on_page('module=GroupCrimes') && nn == 'center') {
 			// focus on accept
@@ -1624,7 +1624,7 @@ if (document.getElementById('game_container') !== null) {
 				$('input[name="driver"]').focus();
 			}
 		}
-		//---------------- Mail ----------------
+		// ---------------- Mail ----------------
 		// Inbox
 		if ((on_page('action=inbox') || on_page('action=delMsg')) && nn == 'center') {
 			// save unread msg and msg ids
@@ -1645,7 +1645,7 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('tr[class*="color"]').each(function () {
 					var id = $(this).children('td:eq(1)').children('a').attr('href').split('?')[1].match(/\d+/g)[0];
-					if ($(this).attr('class')=='color2') {
+					if ($(this).attr('class') == 'color2') {
 						$(this).children('td:eq(0)').append(
 							$('<img />').addClass('inboxImg unread').attr({
 								src: GM_getResourceURL('delete'),
@@ -1871,7 +1871,7 @@ if (document.getElementById('game_container') !== null) {
 				}, 1000);
 			}
 		}
-		//---------------- Bank ----------------
+		// ---------------- Bank ----------------
 		if (on_page('/bank.php') && nn == 'center') {
 			// auto reload after transfer
 			if ($('center').html().search('<table') == -1) {
@@ -1890,7 +1890,7 @@ if (document.getElementById('game_container') !== null) {
 				}, 0);
 
 				// Interest reminder
-				var seconds = parseInt($('table.thinline:eq(1) tbody span').attr('data-timeleft'),10);
+				var seconds = parseInt($('table.thinline:eq(1) tbody span').attr('data-timeleft'), 10);
 				setTimeout(function () {
 					setV('banktleft', (time() + seconds));
 				}, 0);
@@ -2009,7 +2009,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 		}
-		//---------------- All users ----------------
+		// ---------------- All users ----------------
 		if (on_page('/allusers.php') && nn == 'div') {
 			// add page number
 			var start = parseInt(GetParam('start'), 10);
@@ -2024,7 +2024,7 @@ if (document.getElementById('game_container') !== null) {
 				$('a[href*="/allusers.php?dead="]').attr('href', url.replace(dead, hs));
 			}
 		}
-		//---------------- TOP 3 ----------------
+		// ---------------- TOP 3 ----------------
 		// Control Panel
 		if (on_page('module=Family') && nn == 'div') {
 			if (GetParam('who')) {
@@ -2179,7 +2179,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 		}
-		//---------------- SlotsTracker ----------------
+		// ---------------- SlotsTracker ----------------
 		if (on_page('/gambling/slotmachine.php') && nn == 'center') {
 			var slotjp = parseInt(getV('slotjp', 0), 10);
 			var slotbar = parseInt(getV('slotbar', 0), 10);
@@ -2311,7 +2311,7 @@ if (document.getElementById('game_container') !== null) {
 				});
 			});
 		}
-		//---------------- Scratch tracker ----------------
+		// ---------------- Scratch tracker ----------------
 		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form')) {
 			var unopened = getV('unopened', 0);
 			var monin = parseInt(getV('monin', 0), 10);
@@ -2409,7 +2409,7 @@ if (document.getElementById('game_container') !== null) {
 				);
 			}
 			$('#STracker').mouseup(function () {
-				//alert('Set the x and y values using GM_getValue.');
+				// alert('Set the x and y values using GM_getValue.');
 				var divOffset = $('#STracker').offset();
 				var left = divOffset.left;
 				var top = divOffset.top;
@@ -2418,7 +2418,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 
-		//---------------- Bullet Tracker ----------------
+		// ---------------- Bullet Tracker ----------------
 		if (on_page('/bullets2.php') && nn == 'center') {
 			if (notificationsArray['Bullets'] !== undefined) {
 				notificationsArray['Bullets'].close();
@@ -2504,7 +2504,7 @@ if (document.getElementById('game_container') !== null) {
 				setV('BTtop', top);
 			});
 		}
-		//---------------- User Profile ----------------
+		// ---------------- User Profile ----------------
 		if (on_page('user.php') && nn == 'center') {
 			var status = $('span#status').text();
 			var inFam = ($('span#family > a').length ? $('span#family > a').text() : $('span#family').text());
@@ -2617,7 +2617,7 @@ if (document.getElementById('game_container') !== null) {
 				$('#actions').html($('#actions').html() + ' | <a href="/BeO/webroot/index.php?module=Family&who=' + unick + '">Invite to Family</a>');
 			}
 		}
-		//---------------- Linkify ----------------
+		// ---------------- Linkify ----------------
 		// Messages
 		if (on_page('action=showMsg') && nn == 'center') {
 			var msgType = $('.tableheader:eq(1) > b > strong').text();
@@ -2627,7 +2627,7 @@ if (document.getElementById('game_container') !== null) {
 			var linkify = ['Route 66 heist', 'Organised Crime', 'Mega Organized Crime', 'Target not found', 'Carrace invite', 'Target found', 'Kill success', 'Witness statement', 'Condolences', 'found', 'Ticket update', 'Crashed Message', 'Invitation', 'Raid Notification', 'Married', 'Wedding Gift', 'Wedding', 'Wedding Invitation', 'shot!'];
 
 			var setArr = function (num) {
-				if(arr[num].substr(-1) == '.') {
+				if (arr[num].substr(-1) == '.') {
 					return (arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>.');
 				} else {
 					return (arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>');
@@ -2706,7 +2706,7 @@ if (document.getElementById('game_container') !== null) {
 				$(msgTxt).html(arr.join(' '));
 			}
 		}
-		//---------------- Lackeys ----------------
+		// ---------------- Lackeys ----------------
 		if (on_page('module=Lackeys') && nn == 'div') {
 			// General
 			var logpath = 'table[data-info="log"] > tbody > tr';
@@ -2724,8 +2724,8 @@ if (document.getElementById('game_container') !== null) {
 					totalCarval += carVal;
 					++x;
 				});
-				$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
-					$('<span>').text('total value: $'+commafy(totalCarval))
+				$('div.oheader:eq(2)').text($(itemspath).length + $('div.oheader:eq(2)').text()).append(
+					$('<span>').text('total value: $' + commafy(totalCarval))
 				);
 			}
 			// Sluggs
@@ -2748,15 +2748,14 @@ if (document.getElementById('game_container') !== null) {
 					var sluggs_bought_match_nl = /Sluggs kocht (\d+) kogels voor \$(\d+)/;
 					var sluggs_bought_match_com = /Sluggs bought (\d+) bullets for \$(\d+)/;
 
-					if (v == 'nl'){
+					if (v == 'nl') {
 						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl) && x != logpath.length) {
 							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_nl);
 							var ppb = Math.round(r[2] / r[1]);
 							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + ppb + '/kogel)');
 						}
 						++x;
-					}
-					else {
+					} else {
 						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_com) && x != logpath.length) {
 							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(sluggs_bought_match_com);
 							var ppb = Math.round(r[2] / r[1]);
@@ -2776,7 +2775,7 @@ if (document.getElementById('game_container') !== null) {
 						var sluggs_laughs_match_nl = /Sluggs lacht om je lage limiet/;
 						var sluggs_laughs_match_com = /Sluggs is laughing at your measly limit/;
 
-						if (v == 'nl'){
+						if (v == 'nl') {
 							if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().match(sluggs_laughs_match_nl) && x != logpath.length) {
 								if (hide) {
 									$(this).hide();
@@ -2785,8 +2784,7 @@ if (document.getElementById('game_container') !== null) {
 								}
 							}
 							++x;
-						}
-						else {
+						} else {
 							if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().match(sluggs_laughs_match_com) && x != logpath.length) {
 								if (hide) {
 									$(this).hide();
@@ -2844,7 +2842,7 @@ if (document.getElementById('game_container') !== null) {
 				)
 			);
 		}
-		//---------------- BRC ----------------
+		// ---------------- BRC ----------------
 		if ((on_page('prices.php') && nn == 'center') || (on_page('smuggling.php') && nn == 'center')) {
 			var carry_n, carry_b;
 			var bninfo = getV('bninfo', -1);
@@ -3064,7 +3062,7 @@ if (document.getElementById('game_container') !== null) {
 							'heigth': '19px'
 						});
 
-						//--Calc profits
+						// --Calc profits
 						if (i == city - 4) { // This is the current city
 							td.css('text-align', 'center');
 							td.html('<i>You are in ' + cities[i] + '</i>');
@@ -3285,10 +3283,10 @@ if (document.getElementById('game_container') !== null) {
 								b = key[b];
 
 								/*
-								 Don't fill in if we can't earn RP and AF would want to buy
-								 Omerta sometimes won't display "NOW" when rp can be earned for b/n actions.
-								 it just displays "The next time you can earn rank points from buying [booze|narcs] is<end>"
-								 we'll handle that case too.
+								 * Don't fill in if we can't earn RP and AF would want to buy
+								 * Omerta sometimes won't display "NOW" when rp can be earned for b/n actions.
+								 * it just displays "The next time you can earn rank points from buying [booze|narcs] is<end>"
+								 * we'll handle that case too.
 								 */
 								if (!lbooze) {
 									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
@@ -3429,7 +3427,7 @@ if (document.getElementById('game_container') !== null) {
 								$('#AF').draggable();
 							});
 							$('#AF').mouseup(function () {
-								//alert('Set the x and y values using GM_getValue.');
+								// alert('Set the x and y values using GM_getValue.');
 								var divOffset = $('#AF').offset();
 								var left = divOffset.left;
 								var top = divOffset.top;
@@ -3591,7 +3589,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
-		//---------------- Smuggling ----------------
+		// ---------------- Smuggling ----------------
 		if (on_page('smuggling.php') && nn == 'center') {
 			var lbooze = 0,
 				lnarcs = 0,
@@ -3865,7 +3863,7 @@ if (document.getElementById('game_container') !== null) {
 				delete(notificationsArray['Travel']);
 			}
 		}
-		//---------------- Crimes ----------------
+		// ---------------- Crimes ----------------
 		if (on_page('module=Crimes') && nn == 'br') {
 			if (notificationsArray['Crime'] !== undefined) {
 				notificationsArray['Crime'].close();
@@ -3889,14 +3887,14 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 
-		//---------------- Cars ----------------
+		// ---------------- Cars ----------------
 		if (on_page('module=Cars')) {
 			if (notificationsArray['Car'] !== undefined) {
 				notificationsArray['Car'].close();
 				delete(notificationsArray['Car']);
 			}
 		}
-		//---------- If Lackeys is on ----------
+		// ---------- If Lackeys is on ----------
 		if (on_page('module=Cars') && nn == 'div') {
 			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
 			// Loop cars
@@ -3908,12 +3906,12 @@ if (document.getElementById('game_container') !== null) {
 				totalCarval += carVal;
 				++x;
 			});
-			$('div.oheader:eq(2)').text($(itemspath).length+$('div.oheader:eq(2)').text()).append(
-				$('<span>').text('total value: $'+commafy(totalCarval))
+			$('div.oheader:eq(2)').text($(itemspath).length + $('div.oheader:eq(2)').text()).append(
+				$('<span>').text('total value: $' + commafy(totalCarval))
 			);
 		}
 
-		//------ Successful car nick. Does not include lackeys -----
+		// ------ Successful car nick. Does not include lackeys -----
 		if (on_page('module=Cars') && nn == 'center') {
 			var text = $('#game_container').text().trim();
 			if (text.match(/\[\$ ([,\d]+)\]/) !== null) {
@@ -3925,7 +3923,7 @@ if (document.getElementById('game_container') !== null) {
 				setV('carSuccess', totalSuccess);
 			}
 		}
-		//---------------- Obay ----------------
+		// ---------------- Obay ----------------
 		if (on_page('obay.php') && !on_page('specific') && nn == 'center') {
 			$('table.thinline:eq(2) > tbody > tr').each(function () {
 				if (['one', 'two', 'three'].indexOf($(this).attr('class')) > -1) { // this row has an object
@@ -3944,7 +3942,7 @@ if (document.getElementById('game_container') !== null) {
 			$('input[name="anon"][value="0"]').prop('checked', 'checked');
 			$('input[type="submit"]').focus();
 		}
-		//---------------- Garage ----------------
+		// ---------------- Garage ----------------
 		if (on_page('garage.php') && nn == 'h2') {
 			var rows = $('table.thinline > tbody > tr').length;
 			var totVal = 0;
@@ -4066,7 +4064,7 @@ if (document.getElementById('game_container') !== null) {
 							var carWorthBelow = sort == 2 && carVal < val;
 							var carWorthBetween = (sort == 3 && carVal >= val && (carVal <= maxPrice));
 							if (carWorthAbove || carWorthBelow || carWorthBetween) {
-								if (comment.indexOf('IN SAFEHOUSE') !== -1){
+								if (comment.indexOf('IN SAFEHOUSE') !== -1) {
 									check.prop('checked', false);
 								} else {
 									check.prop('checked', true);
@@ -4077,7 +4075,7 @@ if (document.getElementById('game_container') !== null) {
 				})
 			);
 		}
-		//---------------- Kill page ----------------
+		// ---------------- Kill page ----------------
 		if (on_page('module=Detectives') && nn == 'div') {
 			if (nid == 'wrappertest') {
 				if (GetParam('search')) {
@@ -4085,7 +4083,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
-		//---------------- Misc ----------------
+		// ---------------- Misc ----------------
 		// look its me
 		if ((on_page('users_online') && nn == 'center') || (on_page('allusers.php') && nn == 'div') || (on_page('global_stats')) && nn == 'center') {
 			var nick = getV('nick', '');
@@ -4146,26 +4144,26 @@ if (document.getElementById('game_container') !== null) {
 				}, 100);
 			}
 		}
-		//---------------- Blood AF ----------------
+		// ---------------- Blood AF ----------------
 		if (on_page('module=Bloodbank') && nn == 'table') {
 			var table, tr, A, B, t, m, type, types;
 			type = getV('bloodType');
 
 			var bloodAF = function (t) {
-				//setup costs row
+				// setup costs row
 				table = $('table.thinline:eq(1)');
 				tr = $('<tr>').html('<td><font size="2"><b> &nbsp;Total Costs </b></font></td><td align="center"><font size="2" id="A"></font></td><td align="center"><font size="2" id="B"></font></td><td align="center"><font size="2" id="AB"></font></td><td align="center"><font size="2" id="O"></font></td>');
 				table.append(tr);
 
 				function getType(num) {
-					return parseInt($('table.thinline:eq(1) > tbody > tr:eq(2) > td:eq('+num+')').text().replace('$ ', ''), 10);
+					return parseInt($('table.thinline:eq(1) > tbody > tr:eq(2) > td:eq(' + num + ')').text().replace('$ ', ''), 10);
 				}
 
 				function setType(num) {
 					return ($('select').get(0).selectedIndex = num);
 				}
 
-				function calc(a, b, ab, o) { //see if user can buy bloodtype and then calc total price
+				function calc(a, b, ab, o) { // see if user can buy bloodtype and then calc total price
 					$('font#A').text(a ? '$ ' + m * $('td[align="center"]:eq(9)').text().replace('$ ', '') : 'X');
 					$('font#B').text(b ? '$ ' + m * $('td[align="center"]:eq(10)').text().replace('$ ', '') : 'X');
 					$('font#AB').text(ab ? '$ ' + m * $('td[align="center"]:eq(11)').text().replace('$ ', '') : 'X');
@@ -4200,11 +4198,11 @@ if (document.getElementById('game_container') !== null) {
 			};
 			bloodAF(type);
 		}
-		//---------------- Bodyguards ----------------
+		// ---------------- Bodyguards ----------------
 		if (on_page('module=Bodyguards') && nn == 'div') {
 			// Hide bio
 			$('div[id$="BoughtBG"]').css('display', 'none');
-			//set timer for BG if it counts down
+			// set timer for BG if it counts down
 			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
 				var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
 				if (timer > 0) {
@@ -4223,7 +4221,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		}
-		//---------------- Raid Result @ Statistics and Spots ----------------
+		// ---------------- Raid Result @ Statistics and Spots ----------------
 		if (on_page('global_stats') || on_page('module=Spots')) {
 			var isSpots = on_page('module=Spots');
 			// add possible raid profit in a new column for all objects
@@ -4291,7 +4289,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 		}
-		//---------------- END OF MAIN GAME CONTAINER ----------------
+		// ---------------- END OF MAIN GAME CONTAINER ----------------
 
 		// DM PREFS
 		if (v === 'dm') {
@@ -4342,7 +4340,7 @@ if (document.getElementById('game_container') !== null) {
  * Pages without only text nodes
  */
 
-$('#game_container').on('DOMNodeInserted', function(event){
+$('#game_container').on('DOMNodeInserted', function(event) {
 	var nn = event.target.tagName.toLowerCase();
 	if (on_page('jail.php')) {
 		// Return when self bo
@@ -4562,7 +4560,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 			'href': '#',
 			'data-box': 'true'
 		}).append(
-			$('<span>').addClass('title').css('background', 'url("'+GM_getResourceURL('favicon')+'") no-repeat scroll left center transparent').text('Beyond'),
+			$('<span>').addClass('title').css('background', 'url("' + GM_getResourceURL('favicon') + '") no-repeat scroll left center transparent').text('Beyond'),
 			$('<span>').addClass('menu_open')
 		);
 		var div = $('<div>').addClass('menu').append(
@@ -4589,7 +4587,7 @@ function GetPrefPage() {
 		setA('sets', $(this).attr('id'), $(this).val());
 	};
 
-	var jailHL = (prefs['jailHL'] ? true: false);
+	var jailHL = (prefs['jailHL'] ? true : false);
 	var jailHL_sel = sets['jailHL_sel'] || 'highest';
 	var jailHL_other = sets['jailHL_other'] || 9;
 	var jailHL_friends = sets['jailHL_friends'] || 5;
@@ -4607,9 +4605,9 @@ function GetPrefPage() {
 
 	// Build custom groups priority settings
 	var c_group_div = null;
-	for (var i=0;i<custom_groups.length;i++) {
+	for (var i = 0; i < custom_groups.length; i++) {
 		var group_name = custom_groups[i].split(':')[0];
-		var group_prio = sets['jailHL_'+group_name] || (i+12);
+		var group_prio = sets['jailHL_' + group_name] || (i + 12);
 		var tr = $('<tr>').append(
 			$('<td>').text(group_name),
 			$('<td>').append(
@@ -4637,7 +4635,7 @@ function GetPrefPage() {
 	}
 	// Build no bust list
 	var nobust_div = $('<div>').attr('id', 'nobust');
-	for (var i=0;i<nobust.length;i++) {
+	for (var i = 0; i < nobust.length; i++) {
 		if (nobust[i].length > 0) {
 			nobust_div.append(
 				$('<span>').attr({id: nobust[i]}).text(nobust[i]),
@@ -4928,7 +4926,7 @@ function GetPrefPage() {
 							name: 'jailHL_sel',
 							id: 'jailHL_high',
 							type: 'radio',
-							checked: (jailHL_sel=='highest'?true:false)
+							checked: (jailHL_sel == 'highest' ? true : false)
 						}).click(function () {
 							setA('sets', 'jailHL_sel', 'highest');
 						}),
@@ -4940,7 +4938,7 @@ function GetPrefPage() {
 							name: 'jailHL_sel',
 							id: 'jailHL_low',
 							type: 'radio',
-							checked: (jailHL_sel=='lowest'?true:false)
+							checked: (jailHL_sel == 'lowest' ? true : false)
 						}).click(function () {
 							setA('sets', 'jailHL_sel', 'lowest');
 						}),
@@ -4952,7 +4950,7 @@ function GetPrefPage() {
 							name: 'jailHL_sel',
 							id: 'jailHL_rand',
 							type: 'radio',
-							checked: (jailHL_sel=='random'?true:false)
+							checked: (jailHL_sel == 'random' ? true : false)
 						}).click(function () {
 							setA('sets', 'jailHL_sel', 'random');
 						}),
@@ -5155,7 +5153,7 @@ $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href
 $('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
 if (v === 'dm') {
 	$('#omerta_header #logo').css({
-		'background-image': 'url('+GM_getResourceURL('logo')+')',
+		'background-image': 'url(' + GM_getResourceURL('logo') + ')',
 		'top': '2px',
 		'left': '0px',
 		'width': '549px',
