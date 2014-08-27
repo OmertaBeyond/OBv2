@@ -927,8 +927,8 @@ if (document.getElementById('game_container') !== null) {
 			if (codeInput.length > 0) {
 				codeSubmit.prop('disabled', true);
 			}
-			codeInput.attr('maxlength', 3).keyup(function() {
-				if ($(this).val().length === 3) {
+			codeInput.attr('maxlength', 3).keydown(function() {
+				if ($(this).val().length >= 2) {
 					codeSubmit.prop('disabled', false);
 				} else {
 					codeSubmit.prop('disabled', true);
