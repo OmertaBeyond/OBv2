@@ -37,6 +37,7 @@
 // @author                   Sebbe <sebbe@omertabeyond.com>
 // @author                   Brainscrewer <brainscrewer@omertabeyond.com>
 // @oujs:author              vBm
+// @oujs:collaborator        Gwildor
 // @oujs:collaborator        MurderInc
 // @oujs:collaborator        Sebbe
 // @license                  GNU General Public License v3
