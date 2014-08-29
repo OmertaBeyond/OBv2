@@ -5125,11 +5125,11 @@ if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !
 				}
 				var d = new Date(); // set check date
 				setV('brcDate', d.getHours());
+				$('#xhr').remove();
+				$('#str2dom').remove();
 			});
 		}
 	});
-	$('#xhr').remove();
-	$('#str2dom').remove();
 }
 
 // Reset on death
