@@ -5,6 +5,12 @@ module.exports = function (grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		jscs: {
+			src: 'ob.user.js',
+			options: {
+				config: '.jscsrc'
+			}
+		},
 		jshint: {
 			all: [
 				'Gruntfile.js',
@@ -47,6 +53,7 @@ module.exports = function (grunt) {
 	require('time-grunt')(grunt);
 
 	grunt.registerTask('default', [
+		'jscs',
 		'jshint',
 		'csslint',
 		'lintspaces'
