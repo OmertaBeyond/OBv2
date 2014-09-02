@@ -3668,7 +3668,7 @@ if (document.getElementById('game_container') !== null) {
 								}
 								var total = array_sum(b_amount);
 								var missing = booze - b_amount[i];
-								var value = inpt[(i + 1)].value;
+								var value = parseInt(inpt[(i + 1)].value, 10);
 								if (b_amount[i] === 0 && total < booze) {
 									if (value === 0) {
 										inpt[(i + 1)].value = booze;
