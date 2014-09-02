@@ -4110,6 +4110,7 @@ if (document.getElementById('game_container') !== null) {
 							$('.otable > table > tbody > tr:not(:last-child)').each(function() {
 								var detectiveText = $(this).find('td:first').text();
 								var ajaxID = $(this).find('td:nth-child(2) a').attr('data-id');
+								var elem = this;
 
 								// Check if the row contains 'failed', which means the detective hasn't found the person
 								// In case he hasn't, its safe to remove that detective
@@ -4117,7 +4118,7 @@ if (document.getElementById('game_container') !== null) {
 								if (wordInString(detectiveText, failedMessage)) {
 									$.post('BeO/webroot/?module=Detectives&action=fire', { id: ajaxID }).done(function(data) {
 										$('#ob_fire_all').val('Detectives fired!');
-										$(this).closest('tr').hide();
+										$(elem).closest('tr').hide();
 									});
 								}
 							});
