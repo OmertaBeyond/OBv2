@@ -1715,24 +1715,32 @@ if (document.getElementById('game_container') !== null) {
 				)
 			);
 			// add custom system delete
+			// Declare translation variables
+
+			var lottery_text = (v == 'nl' ? 'Super Loterij' : 'Super Lottery');
+			var target_not_found_text = (v == 'nl' ? 'Doelwit niet gevonden' : 'Target not found');
+			var target_found_text = (v == 'nl' ? 'Doelwit gevonden' : 'Target found');
+			var promoted_text = (v == 'nl' ? 'Gepromoveerd' : 'Promoted');
+
+
 			$('td[align="right"][colspan="100%"] > a:eq(0)').before($('<br />'));
 			$('td[align="right"][colspan="100%"]').append(
 				$('<br />'),
 				$('<span>').text('Delete System: '),
-				$('<span>').css('cursor', 'pointer').text('Super Lottery').click(function () {
-					delMsg('name', 'Omerta Super Lottery');
+				$('<span>').css('cursor', 'pointer').text(lottery_text).click(function () {
+					delMsg('name', lottery_text);
 				}),
 				$('<span>').text(' | '),
-				$('<span>').css('cursor', 'pointer').text('Target not found').click(function () {
-					delMsg('name', 'Target not found');
+				$('<span>').css('cursor', 'pointer').text(target_not_found_text).click(function () {
+					delMsg('name', target_not_found_text);
 				}),
 				$('<span>').text(' | '),
-				$('<span>').css('cursor', 'pointer').text('Target found').click(function () {
-					delMsg('name', 'Target found');
+				$('<span>').css('cursor', 'pointer').text(target_found_text).click(function () {
+					delMsg('name', target_found_text);
 				}),
 				$('<span>').text(' | '),
-				$('<span>').css('cursor', 'pointer').text('Promoted').click(function () {
-					delMsg('name', 'Promoted');
+				$('<span>').css('cursor', 'pointer').text(promoted_text).click(function () {
+					delMsg('name', promoted_text);
 				})
 			);
 		}
@@ -1743,12 +1751,17 @@ if (document.getElementById('game_container') !== null) {
 				$('a[href*="showSentMsg"]').each(function () {
 					var id = $(this).attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).parent().prepend(
-						$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=1').html(
-							$('<img />').addClass('inboxImg').attr({
-								src: GM_getResourceURL('delete'),
-								title: 'Delete'
-							})
-						)
+						$('<img />').addClass('inboxImg').attr({
+							src: GM_getResourceURL('delete'),
+							title: 'Delete'
+						}).click(function () {
+								$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=1', function (data) {
+									$('font[color="red"]').text('Message deleted.');
+								});
+
+								$(this).closest('tr').hide();
+								$(this).closest('tr').next().hide();
+						})
 					);
 				});
 			}, 0);
