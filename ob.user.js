@@ -4044,6 +4044,8 @@ if (document.getElementById('game_container') !== null) {
 						'color': '#000'
 					}).html($('tr:has(input[name="shipcity"])').html())
 				);
+				// remove cloned action_result input, otherwise the confirm() for sell etc. will be useless
+				$('#footer input[name="action_result"]').remove();
 			}
 			$('tr:has(input[name="shipcity"])>td').append(
 				$('<select>').attr({
