@@ -4425,13 +4425,6 @@ $('#game_container').on('DOMNodeInserted', function(event) {
 				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 			}
 		}
-		// Return when bought out
-		if ($('#game_container:contains("You bought yourself out")').length) {
-			if (!$('#bo_fired').length && nn != 'b') {
-				$('#game_container').append($('<span>').attr('id', 'bo_fired'));
-				unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-			}
-		}
 	}
 });
 
