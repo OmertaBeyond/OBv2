@@ -2738,7 +2738,10 @@ if (document.getElementById('game_container') !== null) {
 			var money = $('td[data-info="money"]').text().replace(/,/g, '');
 			// Noodles
 			if (on_page('type=2') && nn == 'div') {
-				// Loop cars
+				var carSuccess = parseInt(getV('carSuccess', 0));
+				var carMoney = parseInt(getV('carMoney', 0));
+
+				// Loop cars to grab values
 				var x = 0;
 				var totalCarval = 0;
 				$(itemspath).each(function () {
@@ -2747,9 +2750,17 @@ if (document.getElementById('game_container') !== null) {
 					totalCarval += carVal;
 					++x;
 				});
+
+				// Show total value of nicked cars
 				$('div.oheader:eq(2)').text($(itemspath).length + $('div.oheader:eq(2)').text()).append(
 					$('<span>').text('total value: $' + commafy(totalCarval))
 				);
+
+				// Save cars and value
+				$('table[data-info="items"] > tbody > tr > td > input[type="submit"]').click(function() {
+					setV('carSuccess', (x + carSuccess));
+					setV('carMoney', (totalCarval + carMoney));
+				});
 			}
 			// Sluggs
 			if (on_page('type=6') && nn == 'div') {
