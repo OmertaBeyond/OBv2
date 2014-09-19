@@ -2738,8 +2738,8 @@ if (document.getElementById('game_container') !== null) {
 			var money = $('td[data-info="money"]').text().replace(/,/g, '');
 			// Noodles
 			if (on_page('type=2') && nn == 'div') {
-				var carSuccess = parseInt(getV('carSuccess', 0));
-				var carMoney = parseInt(getV('carMoney', 0));
+				var carSuccess = parseInt(getV('carSuccess', 0), 10);
+				var carMoney = parseInt(getV('carMoney', 0), 10);
 
 				// Loop cars to grab values
 				var x = 0;
