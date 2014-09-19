@@ -1626,7 +1626,49 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// Raid LE autoform
 		if (on_page('module=Spots') && nn == 'form') {
-			$('input[name="bullets"]').val('200');
+			var kind_text = (v == 'nl' ? 'Soort' : 'Kind');
+			var text_real = 'Real';
+			var text_fake = 'Fake';
+			var raid_setting = getV('raid_setting', 'real_raid');
+
+			$('table.thinline tr').eq(4).after($('<tr>').append(
+				$('<td>').html('<b>' + kind_text + '</b>'),
+					$('<td>').text(text_real).append(
+						$('<input>').attr({
+							type: 'radio',
+							class: 'real_raid',
+							checked: (raid_setting == 'real_raid') ? true : false
+						})
+					).append(
+						text_fake
+					).append(
+						$('<input>').attr({
+							type: 'radio',
+							class: 'fake_raid',
+							checked: (raid_setting == 'fake_raid') ? true : false
+						})
+					)
+			));
+
+			if (raid_setting == 'fake_raid') {
+				$('input[name="bullets"]').val('0');
+			} else {
+				$('input[name="bullets"]').val('200');
+			}
+
+			$('input[type=radio]').change(function() {
+				setV('raid_setting', $(this).attr('class'));
+				raid_setting = getV('raid_setting');
+
+				if (raid_setting == 'fake_raid') {
+					$('input[name="bullets"]').val('0');
+				} else {
+					$('input[name="bullets"]').val('200');
+				}
+
+				$('input[type=radio]:checked').not(this).prop('checked', false);
+			});
+
 			if (GetParam('driver')) {
 				var dr = GetParam('driver');
 				$('input[name="driver"]').val(dr);
