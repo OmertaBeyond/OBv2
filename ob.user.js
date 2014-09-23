@@ -4100,7 +4100,7 @@ if (document.getElementById('game_container') !== null) {
 				// remove cloned action_result input, otherwise the confirm() for sell etc. will be useless
 				$('#footer input[name="action_result"]').remove();
 			}
-			$('tr:has(input[name="shipcity"])>td').append(
+			$('td:has(input[value="SH-cars"])').append(
 				$('<select>').attr({
 					id: 'selsort'
 				}).append(
