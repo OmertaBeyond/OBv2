@@ -4165,7 +4165,7 @@ if (document.getElementById('game_container') !== null) {
 			// Translation variables
 			var failedMessage = (v == 'nl' ? 'gefaald' : 'failed');
 			var clickLimitMessage = (v == 'nl' ? 'klik limiet' : 'click limit');
-			var fireDetectivesMessage = (v == 'nl' ? 'Ontsla alle detectives die hebben gefaald' : 'Fire all failed detectives');
+			var fireDetectivesMessage = (v == 'nl' ? 'Verwijder gefaalde detectives' : 'Fire all failed detectives');
 			var clickLimitErrorMessage = (v == 'nl' ? 'Je hebt je kliklimiet bereikt!' : 'You\'ve reached your click limit!');
 
 			$('input[data-action="fireAll"]').closest('td').css('width', 'auto').after(
