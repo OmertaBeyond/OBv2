@@ -19,8 +19,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.51
-// @date                     11-09-2014
+// @version                  2.0.52
+// @date                     23-09-2014
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -98,7 +98,7 @@ var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
-var OB_VERSION = '2.0.51';
+var OB_VERSION = '2.0.52';
 var cur_v = '4.7';
 
 /*
