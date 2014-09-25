@@ -4102,34 +4102,34 @@ if (document.getElementById('game_container') !== null) {
 			}
 			$('td:has(input[value="SH-cars"])').append(
 				$('<select>').attr({
-					id: 'selsort'
+					name: 'selsort'
 				}).append(
 					$('<option>').attr('value', '0').text('-----'),
 					$('<option>').attr('value', '1').text('Above'),
 					$('<option>').attr('value', '2').text('Below'),
 					$('<option>').attr('value', '3').text('Between')
 				).on('change', function() {
-						$('#selval2').toggle($(this).val() === '3');
-					}),
+					$(this).siblings('[name="selval2"]').toggle($(this).val() === '3');
+				}),
 				$('<input>').attr({
 					type: 'text',
-					id: 'selval',
+					name: 'selval',
 					size: '9'
 				}),
 				$('<input>').attr({
 					type: 'text',
-					id: 'selval2',
+					name: 'selval2',
 					size: '9'
 				}).css('display', 'none'),
 				$('<input>').attr({
 					type: 'button',
-					id: 'selgo',
+					name: 'selgo',
 					value: 'Select'
 				}).click(function () {
-					if ($('#selval').val() !== '' && $('#selsort').val() != '-----') {
-						var sort = $('#selsort').val();
-						var val = $('#selval').val();
-						var maxPrice = $('#selval2').val();
+					var sort = $(this).siblings('[name="selsort"]').val();
+					var val = $(this).siblings('[name="selval"]').val();
+					if (val !== '' && sort != '-----') {
+						var maxPrice = $(this).siblings('[name="selval2"]').val();
 						$('tr.thinline').each(function () { // loop rows
 							var carid = $(this).find('td:eq(0)').text();
 							var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); // get value
