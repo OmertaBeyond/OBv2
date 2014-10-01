@@ -2889,6 +2889,59 @@ if (document.getElementById('game_container') !== null) {
 					hideLaughing(true);
 				}
 			}
+			// Freekowtski
+			if (on_page('type=4') && nn == 'div') {
+				var x = 0;
+				$(logpath).each(function () {
+					// show price per unit when Freekowtski bought
+
+					var free_bought_match_nl = /Freekowtski heeft zojuist (\d+) (\w+) gekocht voor \$(\d+)/;
+					var free_bought_match_com = /Freekowtski just bought (\d+) of (\w+) for \$(\d+)/;
+
+					if (v == 'nl') {
+						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(free_bought_match_nl) && x != logpath.length) {
+							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(free_bought_match_nl);
+							var ppu = Math.round(r[3] / r[1]);
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + commafy(ppu) + ' / eenheid)');
+						}
+						++x;
+					} else {
+						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(free_bought_match_com) && x != logpath.length) {
+							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(free_bought_match_com);
+							var ppu = Math.round(r[3] / r[1]);
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + commafy(ppu) + ' / unit)');
+						}
+						++x;
+					}
+				});
+			}
+			// O'Rourke
+			if (on_page('type=3') && nn == 'div') {
+				var x = 0;
+				$(logpath).each(function () {
+					// show price per unit when O'Rourke bought
+
+					var rourke_bought_match_nl = /O'Rourke heeft zojuist (\d+) (\w+) gekocht voor \$(\d+)/;
+					var rourke_bought_match_com = /O'Rourke just bought (\d+) of (\w+) for \$(\d+)/;
+
+					if (v == 'nl') {
+						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(rourke_bought_match_nl) && x != logpath.length) {
+							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(rourke_bought_match_nl);
+							var ppu = Math.round(r[3] / r[1]);
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + commafy(ppu) + ' / eenheid)');
+						}
+						++x;
+					} else {
+						if ($(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(rourke_bought_match_com) && x != logpath.length) {
+							var r = $(logpath + ':eq(' + x + ') > td:eq(1)').html().replace(/,/g, '').match(rourke_bought_match_com);
+							var ppu = Math.round(r[3] / r[1]);
+							$(logpath + ':eq(' + x + ') > td:eq(1)').html($(logpath + ':eq(' + x + ') > td:eq(1)').html() + ' ($' + commafy(ppu) + ' / unit)');
+						}
+						++x;
+					}
+				});
+			}
+			// Fire all button
 			$('input[data-action="addCredits"]').closest('td').css('width', '99%').after(
 				$('<td>').attr('align', 'right').append(
 					$('<input id="ob_fire_all" type="button" value="Fire all lackeys">').click(function() {
