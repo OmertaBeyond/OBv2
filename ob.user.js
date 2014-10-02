@@ -4568,7 +4568,7 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 		setTimeout(function () {
 			GM_xmlhttpRequest({
 				method: 'GET',
-				url: '//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices',
+				url: '/BeO/webroot/index.php?module=API&action=smuggling_prices',
 				onload: function (resp) {
 					var parser = new DOMParser();
 					var dom = parser.parseFromString(resp.responseText, 'application/xml');
