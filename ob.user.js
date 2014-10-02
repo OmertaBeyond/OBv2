@@ -4281,45 +4281,43 @@ if (document.getElementById('game_container') !== null) {
 			var input = GetParam('nick');
 			var str = (v == 'nl' ? 'Deze speler bestaat niet' : 'This user does not exist');
 			if ($('#game_container:contains("' + str + '")').length && input !== false) {
-				setTimeout(function () { // needed because $.get only works on same domain
-					GM_xmlhttpRequest({ // grab data from xml
-						method: 'GET',
-						url: OB_RIX_WEBSITE + '/obxml/quicklookup.xml.php?v=' + v + '&input=' + input,
-						onload: function (resp) {
-							var parser = new DOMParser();
-							var xml = parser.parseFromString(resp.responseText, 'application/xml');
-							var total = xml.getElementsByTagName('totalresults')[0].textContent;
-							$('#game_container').html(str + ': ' + input);
-							if (input.length < 3) {
-								$('#game_container').html(str + ': ' + input + '<br />This will give too many results. Try to be more specific.');
-							} else if (total != '0') {
-								$('#game_container').html((total <= 50) ? str + ': ' + input + '<br />Maybe this is what you were looking for:<br />' : str + ': ' + input + '<br />Maybe this is what you were looking for:<br />Total results: ' + total + ' Showing first 50 results<br />');
-								var num = (total <= 50) ? total : 50;
-								for (var i = 0; i < num; i++) {
-									var results = xml.getElementsByTagName('name')[i].textContent;
-									$('#game_container').html($('#game_container').html() + '<br /><a href="user.php?nick=' + results + '" id="' + i + '" class="sel">' + results + '</a>');
-								}
-								$('#0').focus();
-								var j = 0;
-								$(window).keydown(function (event) {
-									if (event.keyCode == 40) {
-										if (j < num - 1) {
-											j++;
-											$('#' + j).focus();
-										}
-									}
-								});
-								$(window).keydown(function (event) {
-									if (event.keyCode == 38) {
-										if (j !== 0) {
-											j--;
-											$('#' + j).focus();
-										}
-									}
-								});
-							} else {
-								$('#game_container').html(str + ': ' + input + '<br />Sorry, we also couldn\'t find any alternatives.');
+				setTimeout(function () {
+					$.getJSON(OB_API_WEBSITE + '/?p=quicklookup&v=' + v + '&input=' + input, function (data) {
+						$('#game_container').html(str + ': ' + input);
+						var html = '';
+						var i = 0;
+						for (var results in data) {
+							if (i < 50) {
+								html += '<br /><a href="user.php?nick=' + results + '" id="' + i + '" class="sel">' + results + '</a>';
 							}
+							i++;
+						}
+						var total = i === 0 ? 0 : ++i;
+						if (input.length < 3) {
+							$('#game_container').html(str + ': ' + input + '<br />This will give too many results. Try to be more specific.');
+						} else if (total !== 0) {
+							$('#game_container').html((total <= 50) ? str + ': ' + input + '<br />Maybe this is what you were looking for:<br />' : str + ': ' + input + '<br />Maybe this is what you were looking for:<br />Total results: ' + total + ' Showing first 50 results<br />');
+							$('#game_container').html($('#game_container').html() + html);
+							$('#0').focus();
+							var j = 0;
+							$(window).keydown(function (event) {
+								if (event.keyCode == 40) {
+									if (j < num - 1) {
+										j++;
+										$('#' + j).focus();
+									}
+								}
+							});
+							$(window).keydown(function (event) {
+								if (event.keyCode == 38) {
+									if (j !== 0) {
+										j--;
+										$('#' + j).focus();
+									}
+								}
+							});
+						} else {
+							$('#game_container').html(str + ': ' + input + '<br />Sorry, we also couldn\'t find any alternatives.');
 						}
 					});
 				}, 100);
