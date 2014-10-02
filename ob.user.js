@@ -527,10 +527,11 @@ function CheckServiceVariable() {
 
 		// check for new alerts if they want them
 		if (serviceData.messages.alert.length > 0 && (prefs['notify_alerts'] || prefs['notify_alerts_sound'])) {
+			// msgId -1 is a friend request
 			var lastAlert = parseInt(getV('lastAlert', 0));
 			var totalAlerts = 0;
 			$.each(serviceData.messages.alert, function(i, val) {
-				var id = parseInt(val.id);
+				var id = (val.id?parseInt(val.id):-1);
 				if (lastAlert === id) {
 					return false;
 				}
@@ -538,15 +539,22 @@ function CheckServiceVariable() {
 			});
 
 			if (totalAlerts !== 0) {
-				var msgId = parseInt(serviceData.messages.alert[0].id);
+				var msgId = (serviceData.messages.alert[0].id?parseInt(serviceData.messages.alert[0].id):-1);
 				var title = '';
 				var text = '';
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
 				setV('lastAlert', msgId);
 				if (totalAlerts === 1) {
-					text = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
-					title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
-					callbackUrl = callbackUrl + msgId;
+					// If its a friend request it has no msg or id
+                    if(serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
+						text = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
+						title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
+						callbackUrl = callbackUrl + msgId;
+                    } else {
+						text = 'Alert: You got a new friend request!';
+						title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
+						callbackUrl = serviceData.messages.alert[0].link;
+                    }
 				} else {
 					text = 'You have got ' + totalAlerts + ' new alerts';
 					title = 'Alert! (' + v + ')';
