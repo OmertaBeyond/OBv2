@@ -546,7 +546,7 @@ function CheckServiceVariable() {
 				setV('lastAlert', msgId);
 				if (totalAlerts === 1) {
 					// If its a friend request it has no msg or id
-					if(serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
+					if (serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
 						text = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
 						title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
 						callbackUrl = callbackUrl + msgId;
