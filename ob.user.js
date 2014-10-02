@@ -531,7 +531,7 @@ function CheckServiceVariable() {
 			var lastAlert = parseInt(getV('lastAlert', 0));
 			var totalAlerts = 0;
 			$.each(serviceData.messages.alert, function(i, val) {
-				var id = (val.id?parseInt(val.id):-1);
+				var id = (val.id ? parseInt(val.id) : -1);
 				if (lastAlert === id) {
 					return false;
 				}
@@ -539,7 +539,7 @@ function CheckServiceVariable() {
 			});
 
 			if (totalAlerts !== 0) {
-				var msgId = (serviceData.messages.alert[0].id?parseInt(serviceData.messages.alert[0].id):-1);
+				var msgId = (serviceData.messages.alert[0].id ? parseInt(serviceData.messages.alert[0].id) : -1);
 				var title = '';
 				var text = '';
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
