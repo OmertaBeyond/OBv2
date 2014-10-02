@@ -546,15 +546,15 @@ function CheckServiceVariable() {
 				setV('lastAlert', msgId);
 				if (totalAlerts === 1) {
 					// If its a friend request it has no msg or id
-                    if(serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
+					if(serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
 						text = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
 						title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
 						callbackUrl = callbackUrl + msgId;
-                    } else {
+					} else {
 						text = 'Alert: You got a new friend request!';
 						title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
 						callbackUrl = serviceData.messages.alert[0].link;
-                    }
+					}
 				} else {
 					text = 'You have got ' + totalAlerts + ' new alerts';
 					title = 'Alert! (' + v + ')';
