@@ -81,12 +81,22 @@
 }
 
 .NRinfo {
+	background-color: #3F505F !important;
+	color: #FFA !important;
+	text-decoration: none;
+	opacity: 0.90;
+	display: block;
+	border-radius: 5px;
 	position: absolute;
-	bottom: 10px;
-	right: 10px;
-	width: 200px;
+	width: 300px;
 	border: 2px double gray;
 	padding: 5px;
+}
+
+.NRicon {
+	position: absolute;
+	right: 7px;
+	top: 7px
 }
 
 .BRCinfo {

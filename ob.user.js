@@ -59,6 +59,8 @@
 // @resource    log          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/changelog.png
 // @resource    rip          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/rip.png
 // @resource    red-star     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
+// @resource    NRicon       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/magnifier.png
+// @resource    loadingicon  https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/loading.png
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
@@ -5242,6 +5244,220 @@ function GetPrefPage() {
 	}
 
 	return prefs_page;
+}
+
+// ---------------- NickReader ----------------
+var nickReaderIcon = GM_getResourceURL('NRicon');
+var loadingIcon = GM_getResourceURL('loadingicon');
+function parseGrab(html, url) {
+	var body = html.slice(html.indexOf('</head>') + 7);
+	// make sure all requests are handled seperatly
+	var ident = url.split('=')[1];
+	// Check for clicklimit
+	if (body.indexOf('You reached your click limit.') == -1) {
+		// Add placeholder div
+		$('body').append(
+			$('<div>').attr('id', 'XHRDiv' + ident).html(body).hide()
+		);
+
+		// grabbing keys
+		var keys = [];
+		$('#XHRDiv' + ident + ' > center > table#user > tbody > tr > td.subtableheader').each(function (n) {
+			keys[n] = $.trim($(this).text());
+		});
+		keys.shift();
+
+		// grabbing values
+		var vals = [];
+		$('#XHRDiv' + ident + ' > center > table#user > tbody > tr > td.profilerow').each(function (n) {
+			vals[n] = $.trim($(this).text());
+		});
+		vals.pop();
+		vals.shift(); vals.shift();
+
+		// parse certain values to make them fit within the popup
+		for (var i = keys.length - 1; i >= 0 ;i--) {
+			// Limit status
+			if (vals[i].indexOf(' online ') != -1) {
+				vals[i] = vals[i].slice(0, vals[i].indexOf(' online ') + 7);
+			}
+			// Limit HP
+			if (vals[i].indexOf('(Click') != -1) {
+				vals[i] = vals[i].slice(0, vals[i].indexOf('('));
+			}
+			// Limit family string
+			if (vals[i].indexOf('(Caporegime:') != -1) {
+				vals[i] = vals[i].slice(0, vals[i].indexOf('('));
+			}
+			// Limit marital status
+			if (vals[i].indexOf('Married Couple:') != -1) {
+				vals[i] = vals[i].split('Married ')[1];
+			}
+			// Remove friends
+			if (vals[i].indexOf(' Friends') != -1) {
+				vals.splice(i, 1);
+				keys.splice(i, 1);
+			}
+			// Remove SMS
+			if (vals[i].indexOf('Send SMS') != -1) {
+				vals.splice(i, 1);
+				keys.splice(i, 1);
+			}
+		}
+
+		// Create table
+		$('#' + ident).attr('name', 'done').empty().append(
+			$('<table>').attr({
+				'id': 'NRtable'
+			}),
+			$('<img>').attr('src', nickReaderIcon).addClass('NRicon')
+		);
+
+		// Add keys and values to table
+		for (var i = 0; i < keys.length; i++) {
+			$('#NRtable').append(
+				$('<tr>').append(
+					$('<td>').attr('height', '15').text(keys[i]),
+					$('<td>').text(vals[i])
+				)
+			);
+		}
+
+		// Remove the placeholder div
+		$('#XHRDiv' + ident).remove();
+
+		// End the process
+		$('#proc').text(0);
+	} else {
+		$('#' + ident).text('Clicklimit, please try again...');
+		$('#proc').text(0);
+	}
+}
+
+function checkNRdiv(url, nickId) {
+	// is the NR activated?
+	var on = ($('#shft').text() == '1' ? 1 : 0);
+	// default is to add popup
+	var go = 1;
+	// check for an existing popup
+	if ($('#' + nickId).length > 0) {
+		var popup = $('#' + nickId);
+		if (on) { // if it's there, let's see it
+			popup.css('display', 'block');
+		}
+		go = 0; // we found a popup already
+		// check for any empty values
+		if (popup.html().indexOf('<td></td></tr>') != -1) {
+			popup.remove();
+			go = 1; // it's no good though
+		}
+		// check if it's loaded yet (clicklimit)
+		if ($('#' + nickId).attr('name') == 'loading') {
+			popup.remove();
+			go = 1; // it's no good though
+		}
+	}
+	// yes we may proceed to add the popup
+	if (go && on) {
+		$('#game_container').append(
+			$('<div>').attr('id', nickId).addClass('NRInfo').text('Loading info..').append(
+				$('<img>').attr('src', loadingIcon)
+			)
+		);
+
+		// add follow the mouse
+		$(window).mousemove(function(mouse) {
+			var divH = $('#' + nickId).scrollHeight;
+			var divW = $('#' + nickId).scrollWidth;
+
+			var X = mouse.pageX;
+			var Y = mouse.pageY;
+			var plusX = 20;
+			var plusY = 20;
+
+			if (X + divW + 20 > document.documentElement.scrollWidth) { // if box falls of the right
+				plusX = -20 - divW;
+			}
+			if (Y + divH + 20 > $(window).innerHeight) { // if box falls of the bottom
+				plusY = -20 - divH;
+			}
+			$('#' + nickId).css('left', X + plusX);
+			$('#' + nickId).css('top', Y + plusY);
+		});
+
+		// add popup to page
+		$('#' + nickId).attr('name', 'loading');
+
+		// check if there isn't a process running already, otherwise grab the HTML
+		if ($('#proc').text() === '0') {
+			grabHTML(url, parseGrab); // (url to grab, function to execute after)
+			$('#proc').text(1);
+		} else {
+			$('#' + nickId).text('Wait for the previous..');
+		}
+	}
+}
+
+function nickReader() {
+	var nicks = $('a[href*="user.php"]:not([href*="&jh="])');
+	if (nicks.length > 0) {
+		// don't run this part twice
+		if ($('#NRstatus').length === 0) {
+			$('#game_header_marquee').append(
+				$('<div>').attr('id', 'NRstatus').css({
+					'position': 'relative',
+					'display': 'none'
+				}).append(
+					$('<center>').append(
+						$('<img>').attr('src', nickReaderIcon),
+						$('<b>').text('Nickreader enabled')
+					)
+				)
+			);
+
+			// setup shift event checker
+			$('body').append(
+				$('<div>').attr('id', 'shft').text(0).hide()
+			);
+
+			// setup proces checker
+			$('body').append(
+				$('<div>').attr('id', 'proc').text(0).hide()
+			);
+
+			// add shift keydown handler
+			$(window).keydown(function(event) {
+				var key = event.which;
+				if (key == 16) {
+					if ($('#shft').text() === '0') {
+						$('#NRstatus').show('slow');
+						$('#shft').text(1);
+					} else {
+						$('#NRstatus').hide('slow');
+						$('#shft').text(0);
+						$('#proc').text(0);
+						$('div[id^="XHRDiv"]').remove();
+					}
+				}
+			});
+		}
+		// add mouse event checkers
+		nicks.each(function() {
+			if ($(this).attr('href').search('cpuser') == -1) {
+				var nickId = $(this).attr('href').split('=')[1];
+				$(this).mouseover(function() {
+					checkNRdiv($(this).attr('href'), nickId);
+				});
+				$(this).mouseout(function() {
+					if ($('#' + nickId)) {
+						$('#' + nickId).remove();
+					}
+				});
+			}
+		});
+		// focus on frame so 'shift' event is noticed
+		$(window).focus();
+	}
 }
 
 /*
