@@ -955,8 +955,8 @@ function checkNRdiv(url, nickId) {
 	}
 	// yes we may proceed to add the popup
 	if (go && on) {
-		$('#game_container').append(
-			$('<div>').attr('id', nickId).addClass('NRInfo').text('Loading info..').append(
+		$('body').append(
+			$('<div>').attr('id', nickId).addClass('NRinfo').text('Loading info..').append(
 				$('<img>').attr('src', loadingIcon)
 			)
 		);
