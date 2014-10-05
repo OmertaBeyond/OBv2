@@ -95,7 +95,7 @@
  */
 
 var OB_WEBSITE = 'http://www.omertabeyond.com';
-var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
+var OB_API_WEBSITE = 'https://gm.omertabeyond.net';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
