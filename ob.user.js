@@ -97,7 +97,6 @@
 var OB_WEBSITE = 'http://www.omertabeyond.com';
 var OB_API_WEBSITE = 'http://gm.omertabeyond.com';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
-var OB_STATS_WEBSITE = 'http://stats.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
 var OB_VERSION = '2.0.52';
@@ -1359,7 +1358,7 @@ if (document.getElementById('game_container') !== null) {
 											$('<a>').attr('href', 'user.php?name=' + v['Name']).text(v['Name'])
 										),
 										$('<td>').attr('align', 'center').append(
-											$('<a>').attr('href', OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + v['Name']).text(v['Rank'])
+											$('<a>').attr('href', OB_API_WEBSITE + '/?p=history&v=' + v + '&name=' + v['Name']).text(v['Rank'])
 										),
 										$('<td>').attr('align', 'center').text(v['Date']),
 										$('<td>').css('text-align', 'right').text(v['Agod'] + 'd ' + v['Agoh'] + 'h ' + v['Agom'] + 'm')
@@ -2882,7 +2881,7 @@ if (document.getElementById('game_container') !== null) {
 			var historyLink = null;
 			if (versionHasLogger) {
 				historyLink = $('<span>').text('View History').css('cursor', 'pointer').click(function () {
-					$.get(OB_STATS_WEBSITE + '/history.php?v=' + v + '&name=' + unick, function (data) {
+					$.get(OB_API_WEBSITE + '/?p=history&v=' + v + '&name=' + unick, function (data) {
 						$('#game_container').empty();
 						$('#game_container').html(data);
 					});
