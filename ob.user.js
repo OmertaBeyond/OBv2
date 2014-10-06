@@ -871,34 +871,31 @@ function parseGrab(html, url) {
 		vals.shift(); vals.shift();
 
 		// parse certain values to make them fit within the popup
-		for (var i = keys.length - 1; i >= 0 ;i--) {
+		vals = vals.map(function(col) {
 			// Limit status
-			if (vals[i].indexOf(' online ') != -1) {
-				vals[i] = vals[i].slice(0, vals[i].indexOf(' online ') + 7);
+			if (col.indexOf(' online ') != -1) {
+				return col.slice(0, col.indexOf(' online ') + 7);
 			}
 			// Limit HP
-			if (vals[i].indexOf('(Click') != -1) {
-				vals[i] = vals[i].slice(0, vals[i].indexOf('('));
+			if (/\(Click|\(Klik/.test(col)) {
+				return col.slice(0, col.indexOf('('));
 			}
 			// Limit family string
-			if (vals[i].indexOf('(Caporegime:') != -1) {
-				vals[i] = vals[i].slice(0, vals[i].indexOf('('));
+			if (col.indexOf('(CapoRegime:') != -1) {
+				return col.slice(0, col.indexOf('('));
 			}
 			// Limit marital status
-			if (vals[i].indexOf('Married Couple:') != -1) {
-				vals[i] = vals[i].split('Married ')[1];
+			if (/Married Couple:|Getrouwd stel:/.test(col)) {
+				return col.split(/Married |Getrouwd /)[1];
 			}
-			// Remove friends
-			if (vals[i].indexOf(' Friends') != -1) {
-				vals.splice(i, 1);
-				keys.splice(i, 1);
-			}
-			// Remove SMS
-			if (vals[i].indexOf('Send SMS') != -1) {
-				vals.splice(i, 1);
-				keys.splice(i, 1);
-			}
-		}
+			return col;
+		}).filter(function(col) {
+			return !/ Friends| vrienden/.test(col) && col.indexOf('Send SMS') == -1;
+		});
+
+		keys = keys.filter(function(col) {
+			return !/Friends:|Vrienden:/.test(col) && col.indexOf('SMS Status') == -1;
+		});
 
 		// Create table
 		$('#' + ident).attr('name', 'done').empty().append(
