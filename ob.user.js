@@ -2160,7 +2160,7 @@ if (document.getElementById('game_container') !== null) {
 		// ---------------- Bank ----------------
 		if (on_page('/bank.php') && nn == 'center') {
 			// auto reload after transfer
-			if ($('center').html().search('<table') == -1) {
+			if ($('#game_container center').html().search('<table') == -1) {
 				setTimeout(function () {
 					unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
 				}, 1000);
@@ -3850,7 +3850,7 @@ if (document.getElementById('game_container') !== null) {
 					for (var BN = [], i = 0; i <= 1; i++) { // B/N
 						for (BN[i] = [], j = 0; j <= 6; j++) { // type
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
-								BN[i][j].push(parseInt($('center:eq(' + i + ') > table > tbody > tr:eq(' + (3 + k) + ') > td:eq(' + (1 + j) + ')').text().replace(/[^0-9]/g, ''), 10));
+								BN[i][j].push(parseInt($('#game_container center:eq(' + i + ') > table > tbody > tr:eq(' + (3 + k) + ') > td:eq(' + (1 + j) + ')').text().replace(/[^0-9]/g, ''), 10));
 							}
 							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); // get min
 							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); // get max
@@ -3886,7 +3886,7 @@ if (document.getElementById('game_container') !== null) {
 					for (BN = [], i = 0; i <= 1; i++) { // B/N
 						for (BN[i] = [], j = 0; j <= 6; j++) { // type
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
-								BN[i][j].push(parseInt($('center:eq(' + i + ') > table > tbody > tr:eq(' + (3 + k) + ') > td:eq(' + (1 + j) + ')').text().replace(/[^0-9]/g, ''), 10));
+								BN[i][j].push(parseInt($('#game_container center:eq(' + i + ') > table > tbody > tr:eq(' + (3 + k) + ') > td:eq(' + (1 + j) + ')').text().replace(/[^0-9]/g, ''), 10));
 							}
 							BN[i][j].unshift(Math.min.apply(null, BN[i][j])); // get min
 							BN[i][j].unshift(Math.max.apply(null, BN[i][j])); // get max
@@ -3908,13 +3908,13 @@ if (document.getElementById('game_container') !== null) {
 					for (j = 0; j <= 6; j++) {
 						for (k = 2; k <= 9; k++) {
 							if (j === 0) { // add mouseover effects
-								var row = $('center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ')');
+								var row = $('#game_container center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ')');
 								row.attr('id', i + 'row' + k);
 								row.css('borderTop', '1px solid #000');
 								row.hover(highlightPriceRow, removeHighlightPriceRow);
 							}
 
-							var item = $('center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ') > td:eq(' + (j + 1) + ')');
+							var item = $('#game_container center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ') > td:eq(' + (j + 1) + ')');
 							item.css({
 								'borderTop': '1px solid #000',
 								'text-align': 'center',
@@ -4359,7 +4359,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 			// add footer div only window is bigger then 1024px
 			if (window.innerWidth > 1024) {
-				$('center').append(
+				$('#game_container center').append(
 					$('<div>').attr({
 						id: 'footer'
 					}).css({
