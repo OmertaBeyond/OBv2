@@ -890,11 +890,13 @@ function parseGrab(html, url) {
 			}
 			return col;
 		}).filter(function(col) {
-			return !/ Friends| vrienden/.test(col) && col.indexOf('Send SMS') == -1;
+			// Filter friends, SMS and organised crimes from vals
+			return !/ Friends| vrienden/.test(col) && col.indexOf('Send SMS') == -1 && col.indexOf('Available') == -1 && col.indexOf('Tired') == -1 && col.indexOf('Beschikbaar') == -1 && col.indexOf('Moe') == -1;
 		});
 
 		keys = keys.filter(function(col) {
-			return !/Friends:|Vrienden:/.test(col) && col.indexOf('SMS Status') == -1;
+			// Filter friends, SMS and organised crimes from keys
+			return !/Friends:|Vrienden:/.test(col) && !/Heist Status:/.test(col) && !/Organised Crime Status:|Georganiseerde Misdaad Status:/.test(col) && col.indexOf('SMS Status') == -1;
 		});
 
 		// Create table
