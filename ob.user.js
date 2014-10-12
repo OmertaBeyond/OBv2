@@ -1496,20 +1496,19 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			// Tell how old the account is
-			var startDate = new Date();
-			var vTr;
-			if (IsNewVersion()) {
-				startDate = datestringParse($('table.thinline:eq(0)>tbody>tr:eq(5)>td:last').text());
-				vTr = 5;
-			} else {
-				startDate = datestringParse($('table.thinline:eq(0)>tbody>tr:eq(6)>td:last').text());
-				vTr = 6;
-			}
+			var vTr = IsNewVersion() ? 5 : 6;
+			var startElem = $('table.thinline:eq(0)>tbody>tr:eq(' + vTr + ')>td:last');
+			var startDate = datestringParse(startElem.text());
 			var diff = Math.abs(Date.now() - startDate.getTime());
 			var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
 			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
 			var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
-			$('table.thinline:eq(0)>tbody>tr:eq(' + vTr + ')>td:last').html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)');
+			var previousText = startElem.text();
+			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)').click(function() {
+				var currentText = $(this).text();
+				$(this).text(previousText);
+				previousText = currentText;
+			});
 
 
 			if (!IsNewVersion()) {
