@@ -2804,7 +2804,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + unick, function (data) {
 					if (data['DiedAt'] === null) {
-						$('span#status').text(status + ' | Death date is not known');
+						$('span#status').html(status + ' | Death date is not known');
 					} else {
 						$('span#status').html(status + ' | ' + rankings + ' | Died at ' + data['Date'] + ' OT (' + data['Agod'] + 'd ' + data['Agoh'] + 'h ' + data['Agom'] + 'm ago)');
 					}
