@@ -961,18 +961,18 @@ function checkNRdiv(url, nickId) {
 
 		// add follow the mouse
 		$(window).mousemove(function(mouse) {
-			var divH = $('#' + nickId).scrollHeight;
-			var divW = $('#' + nickId).scrollWidth;
+			var divH = $('#' + nickId).height();
+			var divW = $('#' + nickId).width();
 
 			var X = mouse.pageX;
 			var Y = mouse.pageY;
 			var plusX = 20;
 			var plusY = 20;
 
-			if (X + divW + 20 > document.documentElement.scrollWidth) { // if box falls of the right
+			if (X + divW + 20 > $(window).width()) { // if box falls of the right
 				plusX = -20 - divW;
 			}
-			if (Y + divH + 20 > $(window).innerHeight) { // if box falls of the bottom
+			if (Y + divH + 20 > $(window).innerHeight()) { // if box falls of the bottom
 				plusY = -20 - divH;
 			}
 			$('#' + nickId).css('left', X + plusX);
