@@ -1149,6 +1149,13 @@ if (document.getElementById('game_container') !== null) {
 		if (!on_page('action=showMsg')) {
 			$(window).unbind('keydown');
 		}
+		// Disable nickreader when going to other page
+		if ($('#shft').length > 0) {
+			$('#shft').text(0);
+		}
+		if ($('.NRinfo').length > 0) {
+			$('.NRinfo').remove();
+		}
 
 		// limit captcha to size and disabled to 3 letters is typed
 		var codeInput = $('input#ver, input#lbfVer, input#bfVer, input[name="imgcode"]');
