@@ -1243,7 +1243,7 @@ if (document.getElementById('game_container') !== null) {
 				spots.push($(this).text());
 			});
 
-			$('a[href*="user.php"]').each(function () {
+			$('#game_container a[href*="user.php"]').each(function () {
 				var n = $(this).text(); // nick
 				var color = 'blue'; // default online color
 				var vip, tPos;
