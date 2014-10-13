@@ -1010,14 +1010,18 @@ function nickReader() {
 			);
 
 			// setup shift event checker
-			$('body').append(
-				$('<div>').attr('id', 'shft').text(0).hide()
-			);
+			if ($('#shft').length === 0) {
+				$('body').append(
+					$('<div>').attr('id', 'shft').text('0').hide()
+				);
+			}
 
 			// setup proces checker
-			$('body').append(
-				$('<div>').attr('id', 'proc').text(0).hide()
-			);
+			if ($('#proc').length === 0) {
+				$('body').append(
+					$('<div>').attr('id', 'proc').text('0').hide()
+				);
+			}
 
 			// add shift keydown handler
 			$(window).keydown(function(event) {
@@ -1151,10 +1155,16 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// Disable nickreader when going to other page
 		if ($('#shft').length > 0) {
-			$('#shft').text(0);
+			$('#shft').remove();
+		}
+		if ($('#proc').length > 0) {
+			$('#proc').remove();
 		}
 		if ($('.NRinfo').length > 0) {
 			$('.NRinfo').remove();
+		}
+		if ($('#NRstatus').length > 0) {
+			$('#NRstatus').remove();
 		}
 
 		// limit captcha to size and disabled to 3 letters is typed
