@@ -1577,6 +1577,10 @@ if (document.getElementById('game_container') !== null) {
 			var jailHL_other_lackey = parseInt(sets['jailHL_other_lackey'] || 11, 10);
 
 			var rows = $('tr[bgcolor]').length;
+			var prior = null;
+			// list for inmates with lowest priority
+			var bustlist = [];
+			var priority;
 			// Build new row on top
 			$('#game_container > form > center > table.thinline > tbody').prepend($('<tr>').attr('id', 'HLrow').css('border-bottom', '1px solid #000'));
 			// Loop inmates
@@ -1587,79 +1591,111 @@ if (document.getElementById('game_container') !== null) {
 					var fam = $(this).find('td:eq(1) > font').text().toLowerCase();
 					var name = $(this).find('td:eq(0) > font > a > font').text().toLowerCase();
 					if ((fam.length > 0 && $.inArray(fam, nobust) != -1) || $.inArray(name, nobust) != -1) {
-						if ($(this).attr('bgcolor') != getV('fam_colour') && $(this).attr('bgcolor') != getV('friends_colour')) {
-							$(this).find('td').css('text-decoration', 'line-through');
-							return;
-						}
+						$(this).find('td').css('text-decoration', 'line-through');
+						$(this).attr('nobust', true);
+						return;
 					}
 				}
-				// Set default priority
-				$(this).attr('priority', '10');
-				// Friends, Family or custom group
-				if ($(this).attr('bgcolor') !== '') {
-					if ($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
-						$(this).attr('priority', jailHL_friends);
-					}
-					if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
-						// get custom groups
-						var cg = getV('custom_groups', '').split('|');
-						cg.pop();
-						for (var i = 0; i < cg.length; i++) {
-							var g = cg[i].split(':');
-							if (g[1] == $(this).attr('bgcolor')) {
-								var cg_prio = parseInt(sets['jailHL_' + g[0]], 10);
-								$(this).attr('priority', cg_prio);
-							}
-						}
-					}
-					// Lackeys of Friends, Family or custom group
-					if ($(this).find('td:eq(0)>font>span').text() !== '') {
-						if ($(this).attr('bgcolor') === '') {
-							$(this).attr('priority', jailHL_other_lackey); // other lackeys
-						} else if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
-							// get custom groups
+				if ($(this).find('td:eq(0)>font>span').text() === '') {
+					// normal player
+					if ($(this).attr('bgcolor') !== '') {
+						// friends, family or custom group
+						if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
+							// custom group
 							var cg = getV('custom_groups', '').split('|');
 							cg.pop();
 							for (var i = 0; i < cg.length; i++) {
 								var g = cg[i].split(':');
 								if (g[1] == $(this).attr('bgcolor')) {
 									var cg_prio = parseInt(sets['jailHL_' + g[0]], 10);
-									$(this).attr('priority', cg_prio);
+									priority = cg_prio;
+									if (!prior || priority <= prior) {
+										if (!prior || priority < prior) {
+											prior = priority;
+											bustlist = [];
+										}
+										bustlist.push($(this));
+									}
 								}
 							}
-						} else {
-							if ($(this).find('td:eq(0) > font > a').text() == getV('nick', '')) {
-								$(this).attr('priority', jailHL_own_lackey); // friend/fam lackeys
-							} else {
-								$(this).attr('priority', jailHL_fr_lackey); // friend/fam lackeys
-							}
-						}
-					}
-				} else {
-					// Lackeys
-					if ($(this).find('td:eq(0)>font>span').text() !== '') {
-						if ($(this).attr('bgcolor') === '') {
-							$(this).attr('priority', jailHL_other_lackey); // other lackeys
-						} else if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
-							// get custom groups
-							var cg = getV('custom_groups', '').split('|');
-							cg.pop();
-							for (var i = 0; i < cg.length; i++) {
-								var g = cg[i].split(':');
-								if (g[1] == $(this).attr('bgcolor')) {
-									var cg_prio = parseInt(sets['jailHL_' + g[0]], 10);
-									$(this).attr('priority', cg_prio);
+						} else if ($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
+							// friends or family
+							priority = jailHL_friends;
+							if (!prior || priority <= prior) {
+								if (!prior || priority < prior) {
+									prior = priority;
+									bustlist = [];
 								}
-							}
-						} else {
-							if ($(this).find('td:eq(0) > font > a').text() == getV('nick', '')) {
-								$(this).attr('priority', jailHL_own_lackey); // friend/fam lackeys
-							} else {
-								$(this).attr('priority', jailHL_fr_lackey); // friend/fam lackeys
+								bustlist.push($(this));
 							}
 						}
 					} else {
-						$(this).attr('priority', jailHL_other); // other
+						// other
+						priority = jailHL_other;
+						if (!prior || priority <= prior) {
+							if (!prior || priority < prior) {
+								prior = priority;
+								bustlist = [];
+							}
+							bustlist.push($(this));
+						}
+					}
+				} else {
+					// lackey
+					if ($(this).attr('bgcolor') !== '') {
+						// friend, family or custom group
+						if (getV('custom_groups', '').indexOf($(this).attr('bgcolor')) > 0) {
+							// custom group
+							var cg = getV('custom_groups', '').split('|');
+							cg.pop();
+							for (var i = 0; i < cg.length; i++) {
+								var g = cg[i].split(':');
+								if (g[1] == $(this).attr('bgcolor')) {
+									var cg_prio = parseInt(sets['jailHL_' + g[0] + '_lackey'], 10);
+									priority = cg_prio;
+									if (!prior || priority <= prior) {
+										if (!prior || priority < prior) {
+											prior = priority;
+											bustlist = [];
+										}
+										bustlist.push($(this));
+									}
+								}
+							}
+						} else if ($(this).attr('bgcolor') == getV('fam_colour') || $(this).attr('bgcolor') == getV('friends_colour')) {
+							// friends or family
+							priority = jailHL_fr_lackey;
+							if (!prior || priority <= prior) {
+								if (!prior || priority < prior) {
+									prior = priority;
+									bustlist = [];
+								}
+								bustlist.push($(this));
+							}
+						}
+					} else {
+						// other
+						if ($(this).find('td:eq(0) > font > a').text() == getV('nick', '')) {
+							// own
+							priority = jailHL_own_lackey;
+							if (!prior || priority <= prior) {
+								if (!prior || priority < prior) {
+									prior = priority;
+									bustlist = [];
+								}
+								bustlist.push($(this));
+							}
+						} else {
+							// other
+							priority = jailHL_other_lackey;
+							if (!prior || priority <= prior) {
+								if (!prior || priority < prior) {
+									prior = priority;
+									bustlist = [];
+								}
+								bustlist.push($(this));
+							}
+						}
 					}
 				}
 			}).click(function () {
@@ -1669,53 +1705,23 @@ if (document.getElementById('game_container') !== null) {
 				$(this).find('input[name="bust"]').attr('checked', true);
 				$('input[name="ver"]').focus();
 			});
-			// Loop inmates again for selection
-			var prior = null;
-			if (jailHL_sel == 'lowest') {
-				for (i = 0; i <= rows; i++) {
-					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if (isNaN(priority)) {
-						continue;
-					}
-					if (priority <= prior || !prior) {
-						prior = priority; // changes highest priority
-						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html());
-						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'));
-						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true);
-					}
+			if (bustlist.length > 0) {
+				var bustthis;
+				if (jailHL_sel === 'lowest') {
+					bustthis = bustlist[bustlist.length - 1];
+				} else if (jailHL_sel === 'random') {
+					bustthis = bustlist[rand(0, (bustlist.length - 1))];
+				} else {
+					bustthis = bustlist[0];
 				}
-			} else if (jailHL_sel == 'random') {
-				for (i = 0; i < rows; i++) {
-					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if (isNaN(priority)) {
-						continue;
-					}
-					if (priority <= prior || !prior) {
-						prior = priority;
-					}
-				}
-				var priolen = $('tr[priority="' + prior + '"]').length;
-				if (priolen > 0) {
-					var priowho = rand(0, (priolen - 1));
-					$('#HLrow').html($('tr[priority="' + prior + '"]:eq(' + priowho + ')').html());
-					$('#HLrow').css('background-color', $('tr[priority="' + prior + '"]:eq(' + priowho + ')').attr('bgcolor'));
-					$('tr[priority="' + prior + '"]:eq(' + priowho + ')').find('input[name="bust"]').attr('checked', true);
-				}
-			} else {
-				for (i = rows; i >= 0; i--) {
-					var priority = parseInt($('tr[bgcolor]:eq(' + i + ')').attr('priority'), 10);
-					if (isNaN(priority)) {
-						continue;
-					}
-					if (priority <= prior || !prior) {
-						prior = priority; // changes highest priority
-						$('#HLrow').html($('tr[bgcolor]:eq(' + i + ')').html());
-						$('#HLrow').css('background-color', $('tr[bgcolor]:eq(' + i + ')').attr('bgcolor'));
-						$('tr[bgcolor]:eq(' + i + ')').find('input[name="bust"]').attr('checked', true);
-					}
-				}
+
+				// select inmate
+				$('#HLrow').html(bustthis.html());
+				$('#HLrow').css('background-color', bustthis.attr('bgcolor'));
+				bustthis.find('input[name="bust"]').attr('checked', true);
 			}
-			$('tr[bgcolor]:not([priority])').find('input[name="bust"]').attr('checked', false);
+
+			$('tr[bgcolor][nobust]').find('input[name="bust"]').attr('checked', false);
 			// Add successful BO to total
 			if ($('#game_container:contains("You busted this person")').length) {
 				if ($('#game_container:contains("cellmate out of jail")').length) {
@@ -5011,20 +5017,33 @@ function GetPrefPage() {
 	for (var i = 0; i < custom_groups.length; i++) {
 		var group_name = custom_groups[i].split(':')[0];
 		var group_prio = sets['jailHL_' + group_name] || (i + 12);
-		var tr = $('<tr>').append(
-			$('<td>').text(group_name),
-			$('<td>').append(
-				$('<input>').attr({
-					id: 'jailHL_' + group_name,
-					type: 'text',
-					value: group_prio
-				}).blur(setGroupPriority)
+		var group_lackey_prio = sets['jailHL_' + group_name + '_lackey'] || (i + 13);
+		var tr = [
+			$('<tr>').append(
+				$('<td>').text(group_name),
+				$('<td>').append(
+					$('<input>').attr({
+						id: 'jailHL_' + group_name,
+						type: 'text',
+						value: group_prio
+					}).blur(setGroupPriority)
+				)
+			),
+			$('<tr>').append(
+				$('<td>').text(group_name + ' lackeys'),
+				$('<td>').append(
+					$('<input>').attr({
+						id: 'jailHL_' + group_name + '_lackey',
+						type: 'text',
+						value: group_lackey_prio
+					}).blur(setGroupPriority)
+				)
 			)
-		);
+		];
 		if (c_group_div === null) {
 			c_group_div = tr;
 		} else {
-			c_group_div.after(tr);
+			c_group_div = c_group_div.concat(tr);
 		}
 	}
 
