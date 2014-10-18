@@ -4990,7 +4990,8 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 function GetPrefPage() {
 	// set location.hash so other code doesn't get triggered
-	window.location.hash = 'OB_preferences';
+	// window.location.hash = 'OB_preferences';
+	// ^ gonna comment this out for a quick .dm patch for new layout
 
 	var setGroupPriority = function () {
 		setA('sets', $(this).attr('id'), $(this).val());
@@ -5192,8 +5193,8 @@ function GetPrefPage() {
 	}).append(
 		$('<table>').addClass('thinline').attr({ cellspacing: 0, cellpading: 2, width: '90%' }).append(
 			$('<tr>').append(
-				$('<td>').addClass('tableheader').attr('align', 'center').append(
-					$('<b>').text('OmertaBeyond Preferences')
+				$('<td>').addClass('tableheader').attr('align', 'center').css('text-align', 'center').append(
+					$('<span>').css('font-weight', 'bold').text('OmertaBeyond Preferences')
 				)
 			),
 			$('<tr>').append(
