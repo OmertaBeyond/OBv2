@@ -4501,6 +4501,24 @@ if (document.getElementById('game_container') !== null) {
 			} else {
 				$('#ob_fire_all').prop('disabled', true);
 			}
+
+			// If a user inserts '60k', automaticly change it to '60.000'.
+			// This should work for every value in front of the 'k'
+
+			$('input[name="bullets"]').blur(function()
+			{
+				var textValue = $(this).val();
+
+				// if the last character of the string is 'k'
+				if (textValue.match(/k$/)) {
+					// remove the last character
+					var bulletValue = textValue.slice(0, textValue.length - 1);
+					var newBulletValue = bulletValue * 1000;
+
+					$('input[name="bullets"]').val(newBulletValue);
+				}
+			});
+
 		}
 		// ---------------- Misc ----------------
 		// look its me
