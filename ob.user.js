@@ -4978,33 +4978,35 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
  */
 
 $('#game_menu').one('DOMNodeInserted', function () {
-	// We're too fast, 1 sec delay
-	setTimeout(function () {
-		// change all users link
-		$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
+	if (!IsNewVersion()) {
+		// We're too fast, 1 sec delay
+		setTimeout(function () {
+			// change all users link
+			$('a[href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
 
-		// add beyond menu
-		var a = $('<a>').addClass('link').attr({
-			'href': '#',
-			'data-box': 'true'
-		}).append(
-			$('<span>').addClass('title').css('background', 'url("' + GM_getResourceURL('favicon') + '") no-repeat scroll left center transparent').text('Beyond'),
-			$('<span>').addClass('menu_open')
-		);
-		var div = $('<div>').addClass('menu').append(
-			$('<span>').addClass('menuItem').text('Preferences').click(function () {
-				$('#game_container').empty();
-				$('#game_container').append(GetPrefPage());
-			}),
-			$('<span>').addClass('menuItem').text('Live Famstats').click(function () {
-				window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
-			})
-		);
+			// add beyond menu
+			var a = $('<a>').addClass('link').attr({
+				'href': '#',
+				'data-box': 'true'
+			}).append(
+				$('<span>').addClass('title').css('background', 'url("' + GM_getResourceURL('favicon') + '") no-repeat scroll left center transparent').text('Beyond'),
+				$('<span>').addClass('menu_open')
+			);
+			var div = $('<div>').addClass('menu').append(
+				$('<span>').addClass('menuItem').text('Preferences').click(function () {
+					$('#game_container').empty();
+					$('#game_container').append(GetPrefPage());
+				}),
+				$('<span>').addClass('menuItem').text('Live Famstats').click(function () {
+					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
+				})
+			);
 
-		$('a.link:eq(2)').before(a);
-		$('a.link:eq(3)').before(div);
+			$('a.link:eq(2)').before(a);
+			$('a.link:eq(3)').before(div);
 
-	}, 1000);
+		}, 1000);
+	}
 });
 
 function GetPrefPage() {
