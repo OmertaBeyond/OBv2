@@ -595,8 +595,8 @@ function CheckServiceVariable() {
 				crimeTimer = true;
 				setTimeout(function() {
 					crimeTimer = false;
-					var text = 'You can do a crime';
-					var title = 'Crime (' + v + ')';
+					var text = (v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime');
+					var title = (v == 'nl' ? 'Misdaad (' + v + ')' : 'Crime (' + v + ')');
 					if (prefs['notify_crime']) {
 						SendNotification(title, text, 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
 					}
@@ -613,8 +613,8 @@ function CheckServiceVariable() {
 				travelTimer = true;
 				setTimeout(function() {
 					travelTimer = false;
-					var text = 'You can travel';
-					var title = 'Travel (' + v + ')';
+					var text = (v == 'nl' ? 'Je kunt reizen' : 'You can travel');
+					var title = (v == 'nl' ? 'Reizen (' + v + ')' : 'Travel (' + v + ')');
 					if (prefs['notify_travel']) {
 						SendNotification(title, text, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
 					}
@@ -631,8 +631,8 @@ function CheckServiceVariable() {
 				bulletTimer = true;
 				setTimeout(function() {
 					bulletTimer = false;
-					var text = 'You can buy bullets';
-					var title = 'Bullets (' + v + ')';
+					var text = (v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets');
+					var title = (v == 'nl' ? 'Kogels (' + v + ')' : 'Bullets (' + v + ')');
 					if (prefs['notify_bullets']) {
 						SendNotification(title, text, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
 					}
