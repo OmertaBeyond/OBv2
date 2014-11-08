@@ -4890,7 +4890,7 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 							if (mycity - 4 == city) {
 								alert('You are already staying in this city!');
 							} else if (confirm('Are you sure you want to travel to ' + cities[city] + '?')) {
-								window.location = '#/BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId=' + ((city == 'nul') ? 0 : city) + '&travel=yes';
+								window.location = '/BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId=' + ((city == 'nul') ? 0 : city);
 							}
 						});
 
