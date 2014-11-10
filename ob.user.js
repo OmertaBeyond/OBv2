@@ -2492,7 +2492,7 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 		// ---------------- SlotsTracker ----------------
-		if (on_page('/gambling/slotmachine.php') && nn == 'center') {
+		if ((on_page('/gambling/slotmachine.php') || on_page('module=Casino.SlotMachine')) && nn == 'center') {
 			var slotjp = parseInt(getV('slotjp', 0), 10);
 			var slotbar = parseInt(getV('slotbar', 0), 10);
 			var slotgames = parseInt(getV('slotgames', 0), 10);
@@ -2501,8 +2501,8 @@ if (document.getElementById('game_container') !== null) {
 			var slotspent = parseInt(getV('slotspent', 0), 10);
 			var slotbet = parseInt(getV('slotbet', 0), 10);
 			var jpmwon = parseInt(getV('jpmwon', 0), 10);
-			var str = $('#game_container').text().replace(/,/g, '');
-			var betinput = $('input[name="betted"]');
+            var str = $('#game_container > center > table > tbody > tr:eq(2) > td').text().replace(/,/g, '').replace(/\n/g, '').replace(/\t/g, '');
+            var betinput = (!IsNewVersion() ? $('input[name="betted"]') : $('input[name="bet"]'));
 			betinput.focus();
 			betinput.keyup(function () {
 				setV('slotbet', parseInt($(this).val(), 10));
@@ -2526,7 +2526,7 @@ if (document.getElementById('game_container') !== null) {
 					slotbar += 1; // triple bar +1;
 					setV('slotbar', slotbar);
 				}
-				var rex = new RegExp('Congratulations! You won \\$(\\d+)');
+                var rex = new RegExp((!IsNewVersion() ? 'Congratulations! You won \\$(\\d+)' : 'Congratulations! You won \\$ (\\d+)'));
 				var smw = str.match(rex); // get money
 				slotgames += 1; // games played +1;
 				setV('slotgames', slotgames);
@@ -2608,8 +2608,7 @@ if (document.getElementById('game_container') !== null) {
 				setV('SlTtop', top);
 			});
 			// m/k usage
-			var inputs = $('input[name="betted"]');
-			inputs.each(function () {
+			betinput.each(function () {
 				$(this).keydown(function (event) {
 					var symcode = event.which;
 					if (symcode == 75) {
