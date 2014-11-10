@@ -4247,6 +4247,15 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('input.option:last').prop('checked', true);
 			}, 100);
+			// Refresh page when crimetimer runs out
+			if ($('span').length > 0) {
+				var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
+				if (timer > 0) {
+					setTimeout(function() {
+						unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+					}, timer * 1000);
+				}
+			}
 		}
 
 		if (on_page('module=Crimes') && nn == 'font') {
@@ -4267,6 +4276,15 @@ if (document.getElementById('game_container') !== null) {
 			if (notificationsArray['Car'] !== undefined) {
 				notificationsArray['Car'].close();
 				delete(notificationsArray['Car']);
+			}
+			// Refresh page when cartimer runs out
+			if ($('span').length > 0) {
+				var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
+				if (timer > 0) {
+					setTimeout(function() {
+						unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+					}, timer * 1000);
+				}
 			}
 		}
 		// ---------- If Lackeys is on ----------
