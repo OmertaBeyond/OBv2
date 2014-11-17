@@ -4745,7 +4745,7 @@ if (document.getElementById('game_container') !== null) {
 		// ---------------- END OF MAIN GAME CONTAINER ----------------
 
 		// DM PREFS
-		if (v === 'dm') {
+		if (IsNewVersion()) {
 			// prefs circle
 			var prefs_div = $('<div>').addClass('sm-circle-bg ob-prefs-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
@@ -4759,31 +4759,34 @@ if (document.getElementById('game_container') !== null) {
 					}
 				)
 			).click(function () {
-					$('#game_container').empty();
-					$('#game_container').append(GetPrefPage());
-				});
-			// live famstats circle (needs new icon!)
-			var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
-				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr({'src': GM_getResourceURL('favicon'), 'title': 'Omerta Beyond Live Famstats'}).addClass('ob-prefs-img')
-				).hover(
-					function() {
-						$(this).css('background', '#1EB418');
-					},
-					function() {
-						$(this).css('background', '#FFF');
-					}
-				)
-			).click(function () {
+				$('span.title-main').text('Omerta Beyond Preferences');
+				$('#game_container').empty();
+				$('#game_container').append(GetPrefPage());
+			});
+			if (versionHasLogger) {
+				// live famstats circle (needs new icon!)
+				var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
+					$('<span>').addClass('sm-circle sm-health').append(
+						$('<img>').attr({'src': GM_getResourceURL('favicon'), 'title': 'Omerta Beyond Live Famstats'}).addClass('ob-prefs-img')
+					).hover(
+						function() {
+							$(this).css('background', '#1EB418');
+						},
+						function() {
+							$(this).css('background', '#FFF');
+						}
+					)
+				).click(function () {
 					window.open(OB_RIX_WEBSITE + '/stats.php?v=' + v + '&d=n');
 				});
 
-			if ($('.ob-prefs-bg').length === 0) {
-				$('div.omerta-widget-avatar-body').append(prefs_div);
+				if ($('.ob-lf-bg').length === 0) {
+					$('div.omerta-widget-avatar-body').append(lf_div);
+				}
 			}
 
-			if ($('.ob-lf-bg').length === 0) {
-				$('div.omerta-widget-avatar-body').append(lf_div);
+			if ($('.ob-prefs-bg').length === 0) {
+				$('div.omerta-widget-avatar-body').append(prefs_div);
 			}
 		}
 	};
