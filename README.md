@@ -24,6 +24,8 @@ At the moment OB is compatible with:
  * [TamperMonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 * Opera 12 (semi working)
  * [ViolentMonkey](https://addons.opera.com/en/extensions/details/violent-monkey/)
+* Safari
+ * [TamperMonkey](https://extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC)
 
 Note: if you have time/knowledge, help us to make it fully working/compatible.
 
