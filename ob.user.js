@@ -4238,36 +4238,67 @@ if (document.getElementById('game_container') !== null) {
 				delete(notificationsArray['Travel']);
 			}
 		}
-		// ---------------- Crimes ----------------
-		if (on_page('module=Crimes') && nn == 'br') {
-			if (notificationsArray['Crime'] !== undefined) {
-				notificationsArray['Crime'].close();
-				delete(notificationsArray['Crime']);
-			}
-			setTimeout(function () {
-				$('input.option:last').prop('checked', true);
-			}, 100);
-			// Refresh page when crimetimer runs out
-			if ($('span').length > 0) {
-				var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
-				if (timer > 0) {
-					setTimeout(function() {
-						unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-					}, timer * 1000);
+
+		// ---------------- Crime Page ----------------
+		if (!IsNewVersion()) {
+			if (on_page('module=Crimes') && nn == 'br') {
+				if (notificationsArray['Crime'] !== undefined) {
+					notificationsArray['Crime'].close();
+					delete(notificationsArray['Crime']);
+				}
+				// Always select last option
+				setTimeout(function () {
+					$('input.option:last').prop('checked', true);
+				}, 100);
+				// Refresh page when crimetimer runs out
+				if ($('span').length > 0) {
+					var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
+					if (timer > 0) {
+						setTimeout(function() {
+							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+						}, timer * 1000);
+					}
 				}
 			}
-		}
+			// Grab money stolen
+			if (on_page('module=Crimes') && nn == 'font') {
+				var text = $('#game_container').text().trim();
+				if (text.match(/\$ ([,\d]+)/) !== null) {
+					var oldValue = parseInt(getV('crimeMoney', 0));
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					setV('crimeMoney', (sum + oldValue));
 
-		if (on_page('module=Crimes') && nn == 'font') {
-			var text = $('#game_container').text().trim();
-			if (text.match(/\$ ([,\d]+)/) !== null) {
-				var oldValue = parseInt(getV('crimeMoney', 0));
-				var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
-				setV('crimeMoney', (sum + oldValue));
+					var totalSuccess = parseInt(getV('crimeSuccess', 0));
+					++totalSuccess;
+					setV('crimeSuccess', totalSuccess);
+				}
+			}
+		} else {
+			if (on_page('module=Crimes') && nid == 'crime-choices') {
+				if (notificationsArray['Crime'] !== undefined) {
+					notificationsArray['Crime'].close();
+					delete(notificationsArray['Crime']);
+				}
+				// Refresh page when crimetimer runs out
+				if ($('li').length > 0) {
+					var timer = parseInt($('#game_container li').attr('data-timeleft'), 10);
+					if (timer > 0) {
+						setTimeout(function() {
+							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+						}, timer * 1000);
+					}
+				}
+				// Grab money stolen
+				var text = $('#game_container').text().trim();
+				if (text.match(/\$ ([,\d]+)/) !== null) {
+					var oldValue = parseInt(getV('crimeMoney', 0));
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					setV('crimeMoney', (sum + oldValue));
 
-				var totalSuccess = parseInt(getV('crimeSuccess', 0));
-				++totalSuccess;
-				setV('crimeSuccess', totalSuccess);
+					var totalSuccess = parseInt(getV('crimeSuccess', 0));
+					++totalSuccess;
+					setV('crimeSuccess', totalSuccess);
+				}
 			}
 		}
 
