@@ -1146,6 +1146,7 @@ if (document.getElementById('game_container') !== null) {
 	var gameContainerChanged = function(node) {
 		var nn = node.tagName.toLowerCase();
 		var nid = node.getAttribute('id');
+		var nclass = node.className;
 		var wlh = window.location.hash;
 
 		// unbind events
@@ -4274,7 +4275,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			}
 		} else {
-			if (on_page('module=Crimes') && nid == 'crime-choices') {
+			if (on_page('module=Crimes') && nid == 'module_Crimes') {
 				if (notificationsArray['Crime'] !== undefined) {
 					notificationsArray['Crime'].close();
 					delete(notificationsArray['Crime']);
@@ -4302,49 +4303,96 @@ if (document.getElementById('game_container') !== null) {
 			}
 		}
 
-		// ---------------- Cars ----------------
-		if (on_page('module=Cars')) {
-			if (notificationsArray['Car'] !== undefined) {
-				notificationsArray['Car'].close();
-				delete(notificationsArray['Car']);
-			}
-			// Refresh page when cartimer runs out
-			if ($('span').length > 0) {
-				var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
-				if (timer > 0) {
-					setTimeout(function() {
-						unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-					}, timer * 1000);
+		// ---------------- Cars Page ----------------
+		if (!IsNewVersion()) {
+			if (on_page('module=Cars')) {
+				// Close notifications
+				if (notificationsArray['Car'] !== undefined) {
+					notificationsArray['Car'].close();
+					delete(notificationsArray['Car']);
+				}
+				// Refresh page when cartimer runs out
+				if ($('span').length > 0) {
+					var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
+					if (timer > 0) {
+						setTimeout(function() {
+							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+						}, timer * 1000);
+					}
 				}
 			}
-		}
-		// ---------- If Lackeys is on ----------
-		if (on_page('module=Cars') && nn == 'div') {
-			var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
-			// Loop cars
-			var x = 0;
-			var totalCarval = 0;
-			$(itemspath).each(function () {
-				// grab value
-				var carVal = parseInt($(itemspath + ':eq(' + x + ') > td:eq(4)').text().replace(',', '').replace('$', ''), 10);
-				totalCarval += carVal;
-				++x;
-			});
-			$('div.oheader:eq(2)').text($(itemspath).length + $('div.oheader:eq(2)').text()).append(
-				$('<span>').text('total value: $' + commafy(totalCarval))
-			);
-		}
-
-		// ------ Successful car nick. Does not include lackeys -----
-		if (on_page('module=Cars') && nn == 'center') {
-			var text = $('#game_container').text().trim();
-			if (text.match(/\[\$ ([,\d]+)\]/) !== null) {
-				var oldValue = parseInt(getV('carMoney', 0));
-				var sum = parseInt(text.match(/\[\$ ([,\d]+)\]/)[1].replace(',', ''));
-				setV('carMoney', (sum + oldValue));
-				var totalSuccess = parseInt(getV('carSuccess', 0));
-				++totalSuccess;
-				setV('carSuccess', totalSuccess);
+			// Lackeys are on, show lackey page enhancements
+			if (on_page('module=Cars') && nn == 'div') {
+				var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
+				// Loop cars
+				var x = 0;
+				var totalCarval = 0;
+				$(itemspath).each(function () {
+					// Grab value
+					var carVal = parseInt($(itemspath + ':eq(' + x + ') > td:eq(4)').text().replace(',', '').replace('$', ''), 10);
+					totalCarval += carVal;
+					++x;
+				});
+				// Show total value
+				$('div.oheader:eq(2)').text($(itemspath).length + $('div.oheader:eq(2)').text()).append(
+					$('<span>').text('total value: $' + commafy(totalCarval))
+				);
+			}
+			// Grab value of stolen car (does not include cars stolen by lackeys)
+			if (on_page('module=Cars') && nn == 'center') {
+				var text = $('#game_container').text().trim();
+				if (text.match(/\$ ([,\d]+)/) !== null) {
+					var oldValue = parseInt(getV('carMoney', 0));
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					setV('carMoney', (sum + oldValue));
+					var totalSuccess = parseInt(getV('carSuccess', 0));
+					++totalSuccess;
+					setV('carSuccess', totalSuccess);
+				}
+			}
+		} else {
+			if (on_page('module=Cars') && nid == 'module_Cars') {
+				// Close notifications
+				if (notificationsArray['Car'] !== undefined) {
+					notificationsArray['Car'].close();
+					delete(notificationsArray['Car']);
+				}
+				// Refresh page when cartimer runs out
+				if ($('li').length > 0) {
+					var timer = parseInt($('#game_container li').attr('data-timeleft'), 10);
+					if (timer > 0) {
+						setTimeout(function() {
+							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
+						}, timer * 1000);
+					}
+				}
+				// Grab value of stolen car (does not include cars stolen by lackeys)
+				var text = $('#game_container').text().trim();
+				if (text.match(/\$ ([,\d]+)/) !== null) {
+					var oldValue = parseInt(getV('carMoney', 0));
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					setV('carMoney', (sum + oldValue));
+					var totalSuccess = parseInt(getV('carSuccess', 0));
+					++totalSuccess;
+					setV('carSuccess', totalSuccess);
+				}
+			}
+			// Lackeys are on, show lackey page enhancements
+			if (on_page('module=Cars') && nclass == 'otable widetable') {
+				var itemspath = 'table[data-info="items"] > tbody > tr[data-id]';
+				// Loop cars
+				var x = 0;
+				var totalCarval = 0;
+				$(itemspath).each(function () {
+					// grab value
+					var carVal = parseInt($(itemspath + ':eq(' + x + ') > td:eq(4)').text().replace(',', '').replace('$', ''), 10);
+					totalCarval += carVal;
+					++x;
+				});
+				// Show total value
+				$('div.oheader:eq(2)').text($(itemspath).length + $('div.oheader:eq(2)').text()).append(
+					$('<span>').text('total value: $' + commafy(totalCarval))
+				);
 			}
 		}
 		// ---------------- Obay ----------------
