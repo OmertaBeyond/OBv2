@@ -2011,6 +2011,7 @@ if (document.getElementById('game_container') !== null) {
 			var target_not_found_text = (v == 'nl' ? 'Doelwit niet gevonden' : 'Target not found');
 			var target_found_text = (v == 'nl' ? 'Doelwit gevonden' : 'Target found');
 			var promoted_text = (v == 'nl' ? 'Gepromoveerd' : 'Promoted');
+			var obay_higherbid_text = (v == 'nl' ? 'Obay hoger bod informatie' : 'Obay higher bid information');
 
 
 			$('td[align="right"][colspan="100%"] > a:eq(0)').before($('<br />'));
@@ -2031,6 +2032,10 @@ if (document.getElementById('game_container') !== null) {
 				$('<span>').text(' | '),
 				$('<span>').css('cursor', 'pointer').text(promoted_text).click(function () {
 					delMsg('name', promoted_text);
+				}),
+				$('<span>').text(' | '),
+				$('<span>').css('cursor', 'pointer').text(obay_higherbid_text).click(function () {
+					delMsg('name', obay_higherbid_text);
 				})
 			);
 		}
