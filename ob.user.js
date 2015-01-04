@@ -4922,6 +4922,7 @@ $('#game_container').one('DOMNodeInserted', function () {
  * Prices in top bar
  */
 
+var prevPrices = [];
 $('#omerta_bar').one('DOMNodeInserted', function () {
 	function buildMarquee() {
 		setTimeout(function () {
@@ -4949,10 +4950,21 @@ $('#omerta_bar').one('DOMNodeInserted', function () {
 
 					var p = [];
 					var q = [];
+					var pricesChanged = false;
 
 					for (var i = 0; i <= 7; i++) {
 						p[i] = getPrice('cocaine', i);
 						q[i] = p[i];
+						if ((prevPrices === undefined || prevPrices[i] === undefined) || prevPrices[i] != p[i]) {
+							pricesChanged = true;
+						}
+					}
+
+					if (pricesChanged) {
+						prevPrices = JSON.parse(JSON.stringify(q));
+					} else {
+						setTimeout(buildMarquee, 30000);
+						return;
 					}
 
 					var max = p.sort(function (a, b) {
