@@ -4908,6 +4908,7 @@ $('#game_container').on('DOMNodeInserted', function(event) {
  */
 
 var prevPrices = [];
+var firstTimePrice = true;
 $('#game_container').one('DOMNodeInserted', function () {
 	if (versionHasLogger) {
 		setTimeout(function () {
@@ -4966,16 +4967,36 @@ $('#game_container').one('DOMNodeInserted', function () {
 					})[0];
 					var min = p[(p.length - 1)];
 
+					var highCity = '';
+					var highCityPrice = 0;
+					var lowCity = '';
+					var lowCityPrice = 0;
 					i = 0;
 					q.forEach(function ($n) {
 						if ($n == min) {
 							q[i] = '<span style="color:#00ff00;">' + $n + '</span>';
+							lowCity = cities[i];
+							lowCityPrice = $n;
 						}
 						if ($n == max) {
 							q[i] = '<span style="color:#ff0000;">' + $n + '</span>';
+							highCity = cities[i];
+							highCityPrice = $n;
 						}
 						i++;
 					});
+
+					if (!firstTimePrice && (prefs['notify_bn'] || prefs['notify_bn_sound'])) {
+						if (prefs['notify_bn']) {
+							SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+						}
+
+						if (prefs['notify_bn_sound']) {
+							playBeep();
+						}
+					}
+
+					firstTimePrice = false;
 
 					var time = dom.getElementsByTagName('humantime')[0].textContent;
 					time = time.split(' ')[0];
@@ -5249,6 +5270,7 @@ function GetPrefPage() {
 	var notificationOptions = [
 		{ name: 'bmsgDeaths', label: 'Deaths' },
 		{ name: 'bmsgNews', label: 'News' },
+		{ name: 'notify_bn', label: 'B/N prices changes'},
 		{ name: 'notify_crime', label: 'Crime' },
 		{ name: 'notify_gta', label: 'Nick a car' },
 		{ name: 'notify_travel', label: 'Travel' },
