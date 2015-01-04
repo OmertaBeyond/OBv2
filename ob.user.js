@@ -4904,9 +4904,10 @@ $('#game_container').on('DOMNodeInserted', function(event) {
 });
 
 /*
- * Notifications trigger
+ * Notifications trigger & marquee
  */
 
+var prevPrices = [];
 $('#game_container').one('DOMNodeInserted', function () {
 	if (versionHasLogger) {
 		setTimeout(function () {
@@ -4916,14 +4917,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 	setTimeout(function() {
 		CheckServiceVariable();
 	}, 1000);
-});
 
-/*
- * Prices in top bar
- */
-
-var prevPrices = [];
-$('#omerta_bar').one('DOMNodeInserted', function () {
 	function buildMarquee() {
 		setTimeout(function () {
 			GM_xmlhttpRequest({
