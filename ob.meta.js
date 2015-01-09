@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.57
-// @date                     20-12-2014
+// @version                  2.0.58
+// @date                     09-01-2015
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -31,6 +31,7 @@
 // @priority                 1
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
+// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.17/howler.min.js
 // @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
@@ -42,6 +43,8 @@
 // @resource    log          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/changelog.png
 // @resource    rip          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/rip.png
 // @resource    red-star     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
+// @resource    NRicon       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/magnifier.png
+// @resource    loadingicon  https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/loading.png
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
