@@ -3,6 +3,7 @@
 [![GitHub version](https://badge.fury.io/gh/OmertaBeyond%2FOBv2.svg)](https://github.com/OmertaBeyond/OBv2/releases)
 [![Repo Size](https://reposs.herokuapp.com/?path=OmertaBeyond/OBv2)](https://github.com/OmertaBeyond/OBv2/archive/master.zip)
 [![Build Status](https://travis-ci.org/OmertaBeyond/OBv2.svg?branch=master)](https://travis-ci.org/OmertaBeyond/OBv2)
+[![Codacy Badge](https://www.codacy.com/project/badge/3b9bd8fcf7254a0f86bcc5db152a39a5)](https://www.codacy.com/public/thevbm/OBv2_2)
 [![devDependency Status](https://david-dm.org/OmertaBeyond/OBv2/dev-status.svg?theme=shields.io)](https://david-dm.org/OmertaBeyond/OBv2#info=devDependencies)
 [![License](http://img.shields.io/badge/license-GPLv3-blue.svg)](http://opensource.org/licenses/GPL-3.0)
 
