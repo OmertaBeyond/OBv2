@@ -1150,7 +1150,7 @@ if (document.getElementById('game_container') !== null) {
 		var wlh = window.location.hash;
 
 		// unbind events
-		if (!on_page('garage.php')) {
+		if (!on_page('garage.php') && !on_page('module=Cars')) {
 			$(window).unbind('scroll');
 		}
 		if (!on_page('action=showMsg')) {
@@ -4420,7 +4420,7 @@ if (document.getElementById('game_container') !== null) {
 			$('input[type="submit"]').focus();
 		}
 		// ---------------- Garage ----------------
-		if (on_page('garage.php') && nn == 'h2') {
+		if ((on_page('garage.php') || on_page('module=Cars')) && nn == 'h2') {
 			var rows = $('table.thinline > tbody > tr').length;
 			var totVal = 0;
 			var types = [
