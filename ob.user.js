@@ -492,11 +492,11 @@ function CheckServiceVariable() {
 		var ok = true;
 		// check for new messages if they want them
 		if (serviceData.messages.inbox.length > 0 && (prefs['notify_messages'] || prefs['notify_messages_sound'])) {
-			var lastMessage = parseInt(getV('lastMessage', 0));
+			var lastMessage = parseInt(getV('lastMessage', 0), 10);
 
 			var totalMessages = 0;
 			$.each(serviceData.messages.inbox, function(i, val) {
-				var id = parseInt(val.id);
+				var id = parseInt(val.id, 10);
 				if (lastMessage === id) {
 					return false;
 				}
@@ -504,7 +504,7 @@ function CheckServiceVariable() {
 			});
 
 			if (totalMessages !== 0) {
-				var msgId = parseInt(serviceData.messages.inbox[0].id);
+				var msgId = parseInt(serviceData.messages.inbox[0].id, 10);
 				var title = '';
 				var text = '';
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
@@ -531,10 +531,10 @@ function CheckServiceVariable() {
 		// check for new alerts if they want them
 		if (serviceData.messages.alert.length > 0 && (prefs['notify_alerts'] || prefs['notify_alerts_sound'])) {
 			// msgId -1 is a friend request
-			var lastAlert = parseInt(getV('lastAlert', 0));
+			var lastAlert = parseInt(getV('lastAlert', 0), 10);
 			var totalAlerts = 0;
 			$.each(serviceData.messages.alert, function(i, val) {
-				var id = (val.id ? parseInt(val.id) : -1);
+				var id = (val.id ? parseInt(val.id, 10) : -1);
 				if (lastAlert === id) {
 					return false;
 				}
@@ -542,7 +542,7 @@ function CheckServiceVariable() {
 			});
 
 			if (totalAlerts !== 0) {
-				var msgId = (serviceData.messages.alert[0].id ? parseInt(serviceData.messages.alert[0].id) : -1);
+				var msgId = (serviceData.messages.alert[0].id ? parseInt(serviceData.messages.alert[0].id, 10) : -1);
 				var title = '';
 				var text = '';
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
@@ -694,7 +694,7 @@ function addEndTimeTooltip(node) {
 		// .addBack is needed in case the element containing data-timeleft is the one being added to DOM tree
 		// (which is the case on bullet waiting page, safehouse message, and probably others)
 		$(node).find('[data-timeleft]').addBack('[data-timeleft]').each(function() {
-			var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000);
+			var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft')) * 1000, 10);
 			// formating dates in js is fun. #not
 			var tooltipTitle = ('0' + cooldownEnd.getUTCHours()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCMinutes()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCSeconds()).slice(-2);
 			if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
@@ -724,7 +724,7 @@ function datestringParse(dateString) {
 	var time = dateTime[1].split(':');
 	var h = time[0];
 	var m = time[1];
-	var s = parseInt(time[2]); // get rid of that 00.0;
+	var s = parseInt(time[2], 10); // get rid of that 00.0;
 
 	return new Date(yyyy, mm, dd, h, m, s);
 }
@@ -1540,7 +1540,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// car
 			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')>td:last').text().replace(',', ''), 10);
-			var successCars = parseInt(getV('carSuccess', 0));
+			var successCars = parseInt(getV('carSuccess', 0), 10);
 			if (successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
 				var earned = getV('carMoney', 0);
@@ -1551,7 +1551,7 @@ if (document.getElementById('game_container') !== null) {
 			vTr--;
 			// crime stats
 			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')>td:last').text().replace(',', ''), 10);
-			var successCrimes = parseInt(getV('crimeSuccess', 0));
+			var successCrimes = parseInt(getV('crimeSuccess', 0), 10);
 			if (successCrimes >= 1) {
 				var successRate = (successCrimes / crimeAttempts) * 100;
 				var earned = getV('crimeMoney', 0);
@@ -4270,11 +4270,11 @@ if (document.getElementById('game_container') !== null) {
 			if (on_page('module=Crimes') && nn == 'font') {
 				var text = $('#game_container').text().trim();
 				if (text.match(/\$ ([,\d]+)/) !== null) {
-					var oldValue = parseInt(getV('crimeMoney', 0));
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					var oldValue = parseInt(getV('crimeMoney', 0), 10);
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('crimeMoney', (sum + oldValue));
 
-					var totalSuccess = parseInt(getV('crimeSuccess', 0));
+					var totalSuccess = parseInt(getV('crimeSuccess', 0), 10);
 					++totalSuccess;
 					setV('crimeSuccess', totalSuccess);
 				}
@@ -4297,11 +4297,11 @@ if (document.getElementById('game_container') !== null) {
 				// Grab money stolen
 				var text = $('#game_container').text().trim();
 				if (text.match(/\$ ([,\d]+)/) !== null) {
-					var oldValue = parseInt(getV('crimeMoney', 0));
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					var oldValue = parseInt(getV('crimeMoney', 0), 10);
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('crimeMoney', (sum + oldValue));
 
-					var totalSuccess = parseInt(getV('crimeSuccess', 0));
+					var totalSuccess = parseInt(getV('crimeSuccess', 0), 10);
 					++totalSuccess;
 					setV('crimeSuccess', totalSuccess);
 				}
@@ -4347,10 +4347,10 @@ if (document.getElementById('game_container') !== null) {
 			if (on_page('module=Cars') && nn == 'center') {
 				var text = $('#game_container').text().trim();
 				if (text.match(/\$ ([,\d]+)/) !== null) {
-					var oldValue = parseInt(getV('carMoney', 0));
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					var oldValue = parseInt(getV('carMoney', 0), 10);
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('carMoney', (sum + oldValue));
-					var totalSuccess = parseInt(getV('carSuccess', 0));
+					var totalSuccess = parseInt(getV('carSuccess', 0), 10);
 					++totalSuccess;
 					setV('carSuccess', totalSuccess);
 				}
@@ -4374,10 +4374,10 @@ if (document.getElementById('game_container') !== null) {
 				// Grab value of stolen car (does not include cars stolen by lackeys)
 				var text = $('#game_container').text().trim();
 				if (text.match(/\$ ([,\d]+)/) !== null) {
-					var oldValue = parseInt(getV('carMoney', 0));
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''));
+					var oldValue = parseInt(getV('carMoney', 0), 10);
+					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('carMoney', (sum + oldValue));
-					var totalSuccess = parseInt(getV('carSuccess', 0));
+					var totalSuccess = parseInt(getV('carSuccess', 0), 10);
 					++totalSuccess;
 					setV('carSuccess', totalSuccess);
 				}
@@ -4772,7 +4772,7 @@ if (document.getElementById('game_container') !== null) {
 				if (tableHeader.length > 0) {
 					// increase colspan of table header
 					tableHeader.each(function() {
-						$(this).attr('colspan', parseInt($(this).attr('colspan')) + 1);
+						$(this).attr('colspan', parseInt($(this).attr('colspan'), 10) + 1);
 					});
 					return;
 				}
@@ -4798,17 +4798,17 @@ if (document.getElementById('game_container') !== null) {
 				}
 				var profit;
 				if (isSpots) {
-					profit = parseInt($(this).find('td[style="color:green;"]').text().replace(/,|\$/g, ''));
+					profit = parseInt($(this).find('td[style="color:green;"]').text().replace(/,|\$/g, ''), 10);
 				} else {
 					if ($(this).find('.profit').length > 0) {
-						profit = parseInt($(this).find('.profit').text().replace(/,|\$/g, ''));
+						profit = parseInt($(this).find('.profit').text().replace(/,|\$/g, ''), 10);
 					} else {
 						profit = 0;
 					}
 				}
 				if (profit > 0) {
 					// row with running + profitable object
-					var protection = parseInt($(this).find('.percent').text().replace('%', ''));
+					var protection = parseInt($(this).find('.percent').text().replace('%', ''), 10);
 					var raidResult = calcRaidResult(profit, protection);
 					if (isSpots) {
 						$(this).find('td:eq(4)').after('<td>$ ' + commafy(Math.floor(raidResult)) + '</td>');
