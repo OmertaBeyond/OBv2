@@ -83,6 +83,10 @@
 // @include                  https://*.omerta.dm/*
 // @include                  http://omerta.dm/*
 // @include                  https://omerta.dm/*
+// @include                  http://*.omerta.pt/*
+// @include                  https://*.omerta.pt/*
+// @include                  http://omerta.pt/*
+// @include                  https://omerta.pt/*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
 // @grant                    GM_getResourceText
@@ -664,13 +668,16 @@ function whatV(hostname) {
 		case 'www.barafranca.gen.tr':
 		case 'barafranca.gen.tr':
 			return 'tr';
+		case 'omerta.pt':
+		case 'www.omerta.pt':
+			return 'pt';
 		default:
 			return undefined;
 	}
 }
 
 var v = whatV();
-var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm';
+var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm' || v == 'pt';
 var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
@@ -730,7 +737,7 @@ function datestringParse(dateString) {
 }
 
 function IsNewVersion() {
-	if (v == 'dm') {
+	if (v == 'dm' || v == 'pt') {
 		return true;
 	} else {
 		return false;
