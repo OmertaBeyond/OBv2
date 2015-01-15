@@ -796,7 +796,15 @@ function addChatResizeImprovements() {
 	});
 
 	var chatIsMaximized = false;
+	var chatIsMinimized = false;
 	var chatIsPinned = false;
+
+	$('.chat-controls-listing > a:eq(1)').click(function() {
+		chatIsMinimized = true;
+	});
+	$('.chat-controls-listing > a:eq(2)').click(function() {
+		chatIsMinimized = false;
+	});
 
 	$('#omerta_chat').hover(function() {
 		if (chatIsMaximized || prefs['chat_resize_disabled']) {
@@ -827,7 +835,7 @@ function addChatResizeImprovements() {
 		$('.chat input').focus();
 
 	}, function() {
-		if (chatIsPinned) {
+		if (chatIsPinned || chatIsMinimized || prefs['chat_resize_disabled'] || prefs['chat_height'] !== '' || prefs['chat_width'] !== '') {
 			return;
 		}
 		chatIsMaximized = false;
