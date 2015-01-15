@@ -321,6 +321,23 @@ function bnUpdate(current) {
 	setPow('bninfo', 3, plane); // save
 }
 
+var beeping = false;
+var beep = new Howl({
+	urls: [ OB_CDN_URL + '/sounds/beep.wav' ], // doesn't work with GM_getResourceURL
+	onend: function() {
+		beeping = false;
+	}
+});
+
+function playBeep() {
+	if (beeping) {
+		// don't play beep more than once at the same time
+		return;
+	}
+	beeping = true;
+	beep.play();
+}
+
 function CheckBmsg() {
 	setTimeout(function () {
 		var lastbmsg = getV('lastbmsg', 0);
@@ -449,23 +466,6 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	}
 
 	notificationsArray[tag] = notification;
-}
-
-var beeping = false;
-var beep = new Howl({
-	urls: [ OB_CDN_URL + '/sounds/beep.wav' ], // doesn't work with GM_getResourceURL
-	onend: function() {
-		beeping = false;
-	}
-});
-
-function playBeep() {
-	if (beeping) {
-		// don't play beep more than once at the same time
-		return;
-	}
-	beeping = true;
-	beep.play();
 }
 
 function CheckServiceVariable() {
