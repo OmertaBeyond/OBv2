@@ -65,6 +65,10 @@
 // @include                  https://*.omerta.dm/*
 // @include                  http://omerta.dm/*
 // @include                  https://omerta.dm/*
+// @include                  http://*.omerta.pt/*
+// @include                  https://*.omerta.pt/*
+// @include                  http://omerta.pt/*
+// @include                  https://omerta.pt/*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
 // @grant                    GM_getResourceText
