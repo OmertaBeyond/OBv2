@@ -3946,8 +3946,8 @@ if (document.getElementById('game_container') !== null) {
 				};
 
 				var removeHighlightPriceRow = function (event) {
-					$(this).css('backgroundColor', '#F0F0F0');
-					$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', '#F0F0F0');
+					$(this).css('backgroundColor', 'transparent');
+					$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', 'transparent');
 				};
 
 				for (i = 0; i <= 1; i++) {
