@@ -5018,11 +5018,23 @@ $('#game_container').one('DOMNodeInserted', function () {
 					time = time.split(':');
 					time = (time[1] < 30) ? time[0] + ':00 OT' : time[0] + ':30 OT';
 
-					function hovermenu(city, x) {
-						$('#hiddenbox').css({
+					function hovermenu(city, x, y) {
+						var hoverStyle = IsNewVersion() ? {
+							display: 'block',
+							position: 'fixed',
+							left: $('#marquee').offset().left,
+							top: '42px',
+							zIndex: '102',
+							opacity: 0.8,
+							backgroundColor: 'black',
+							color: '#EEE',
+							border: 'none',
+							padding: '5px 15px 5px 15px'
+						} : {
 							display: 'inline',
 							left: x
-						}).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city));
+						};
+						$('#hiddenbox').css(hoverStyle).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city));
 					}
 
 					function flytolink(city, priceStr, priceToFly, cityId) {
@@ -5098,20 +5110,35 @@ $('#game_container').one('DOMNodeInserted', function () {
 		});
 	}
 
-	$('.menu > ul').append(
-		$('<li>').addClass('right').append(
-			$('<div>').attr('id', 'marquee').css({
-				align: 'center',
-				width: '100%',
-				paddingTop: '5px'
-			}),
-			$('<div>').attr('id', 'hiddenbox').addClass('marqueebox')
-		)
-	);
-
-	if (!IsNewVersion()) {
-		buildMarquee();
+	if (IsNewVersion()) {
+		$('.top-nav .news').after(
+			$('<li>').addClass('pull-left').css({
+				width: '40%',
+				padding: '0',
+				display: 'table',
+				lineHeight: '14px'
+			}).append(
+				$('<div>').attr('id', 'marquee').css({
+					display: 'table-cell',
+					verticalAlign: 'middle'
+				}),
+				$('<div>').attr('id', 'hiddenbox').addClass('marqueebox')
+			)
+		);
+	} else {
+		$('.menu > ul').append(
+			$('<li>').addClass('right').append(
+				$('<div>').attr('id', 'marquee').css({
+					align: 'center',
+					width: '100%',
+					paddingTop: '5px'
+				}),
+				$('<div>').attr('id', 'hiddenbox').addClass('marqueebox')
+			)
+		);
 	}
+
+	buildMarquee();
 
 	var city = getPow('bninfo', 2, -1);
 	if (city > 0) {
