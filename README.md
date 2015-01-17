@@ -32,14 +32,17 @@ Note: if you have time/knowledge, help us to make it fully working/compatible.
 
 
 # Team
-* [vBm](https://github.com/vBm) - Founder, Minor code tweaks
-* [Dopedog](https://github.com/TheDopedog) - Admin, Developer
-* [Rix](https://github.com/Gwildor) - Admin, Developer
-* [MrWhite](https://github.com/Ivdbroek85) - Admin, Developer
-* [sbanks](https://github.com/susanbanks) - Admin, Website
-* [MurderInc](https://github.com/baelor) - Admin, Developer
-* [Brainscrewer](https://github.com/Brainscrewer) - Code contributor
-* [Sebbe](https://github.com/Sebbe) - Code contributor
+
+* Active
+ * [vBm](https://github.com/vBm) - Founder, Minor code tweaks
+ * [Rix](https://github.com/Gwildor) - Admin, Developer
+ * [MrWhite](https://github.com/Ivdbroek85) - Admin, Developer
+ * [MurderInc](https://github.com/baelor) - Admin, Developer
+ * [Brainscrewer](https://github.com/Brainscrewer) - Code contributor
+ * [Sebbe](https://github.com/Sebbe) - Code contributor
+* Inactive
+ * [Dopedog](https://github.com/TheDopedog) - Admin, Developer
+ * [sbanks](https://github.com/susanbanks) - Admin, Website
 
 Many thanks to everyone who supported development without having direct push access.
 
