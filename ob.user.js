@@ -4994,7 +4994,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 							lowCityPrice = $n;
 						}
 						if ($n == max) {
-							q[i] = '<span style="color:#ff0000;">' + $n + '</span>';
+							q[i] = '<span style="color:' + (IsNewVersion() ? '#ff5353' : '#ff0000') + ';">' + $n + '</span>';
 							highCity = cities[i];
 							highCityPrice = $n;
 						}
