@@ -5091,7 +5091,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 
 					span.append(
 						$('<a>').attr({
-							href: 'prices.php',
+							href: 'prices.php'
 						}).text('All Prices').css({
 							color: '#FFF',
 							fontSize: '10px'
