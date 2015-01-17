@@ -5091,8 +5091,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 
 					span.append(
 						$('<a>').attr({
-							href: OB_API_WEBSITE + '/prices.php?v=' + v,
-							target: 'main'
+							href: 'prices.php',
 						}).text('All Prices').css({
 							color: '#FFF',
 							fontSize: '10px'
