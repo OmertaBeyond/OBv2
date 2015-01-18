@@ -109,6 +109,38 @@ var OB_VERSION = '2.0.58';
 var cur_v = '4.7.2';
 
 /*
+ * Define crucial functions and variables
+ */
+
+function whatV(hostname) {
+	switch (hostname || window.location.hostname) {
+		case 'www.omerta3.com':
+		case 'omerta3.com':
+		case 'www.barafranca.com':
+		case 'barafranca.com':
+		case 'www.barafranca.us':
+		case 'barafranca.us':
+			return 'com';
+		case 'omerta.dm':
+		case 'www.omerta.dm':
+			return 'dm';
+		case 'www.barafranca.nl':
+		case 'barafranca.nl':
+			return 'nl';
+		case 'www.barafranca.gen.tr':
+		case 'barafranca.gen.tr':
+			return 'tr';
+		case 'omerta.pt':
+		case 'www.omerta.pt':
+			return 'pt';
+		default:
+			return undefined;
+	}
+}
+
+var v = whatV();
+
+/*
  * Helper functions
  */
 
@@ -650,33 +682,6 @@ function CheckServiceVariable() {
 	}, 30000);
 }
 
-function whatV(hostname) {
-	switch (hostname || window.location.hostname) {
-		case 'www.omerta3.com':
-		case 'omerta3.com':
-		case 'www.barafranca.com':
-		case 'barafranca.com':
-		case 'www.barafranca.us':
-		case 'barafranca.us':
-			return 'com';
-		case 'omerta.dm':
-		case 'www.omerta.dm':
-			return 'dm';
-		case 'www.barafranca.nl':
-		case 'barafranca.nl':
-			return 'nl';
-		case 'www.barafranca.gen.tr':
-		case 'barafranca.gen.tr':
-			return 'tr';
-		case 'omerta.pt':
-		case 'www.omerta.pt':
-			return 'pt';
-		default:
-			return undefined;
-	}
-}
-
-var v = whatV();
 var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm' || v == 'pt';
 var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
