@@ -109,6 +109,79 @@ var OB_VERSION = '2.0.58';
 var cur_v = '4.7.2';
 
 /*
+ * Define crucial functions and variables
+ */
+
+function whatV(hostname) {
+	switch (hostname || window.location.hostname) {
+		case 'www.omerta3.com':
+		case 'omerta3.com':
+		case 'www.barafranca.com':
+		case 'barafranca.com':
+		case 'www.barafranca.us':
+		case 'barafranca.us':
+			return 'com';
+		case 'omerta.dm':
+		case 'www.omerta.dm':
+			return 'dm';
+		case 'www.barafranca.nl':
+		case 'barafranca.nl':
+			return 'nl';
+		case 'www.barafranca.gen.tr':
+		case 'barafranca.gen.tr':
+			return 'tr';
+		case 'omerta.pt':
+		case 'www.omerta.pt':
+			return 'pt';
+		default:
+			return undefined;
+	}
+}
+
+var v = whatV();
+var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
+var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
+
+/*
+ * Settings helpers
+ */
+
+function getV(name, standard) {
+	return (localStorage[name + '_' + v] || standard);
+}
+
+function setV(name, value) {
+	return (localStorage[name + '_' + v] = value);
+}
+
+function getA(name) {
+	return (JSON.parse(localStorage[name + '_' + v]));
+}
+
+function setA(name, pref, value) {
+	if (name === 'prefs') {
+		prefs[pref] = value;
+		return (localStorage[name + '_' + v] = JSON.stringify(prefs));
+	}
+	if (name === 'sets') {
+		sets[pref] = value;
+		return (localStorage[name + '_' + v] = JSON.stringify(sets));
+	}
+}
+
+if (localStorage['prefs_' + v]) {
+	var prefs = getA('prefs');
+} else {
+	var prefs = {};
+}
+
+if (localStorage['sets_' + v]) {
+	var sets = getA('sets');
+} else {
+	var sets = {};
+}
+
+/*
  * Helper functions
  */
 
@@ -135,29 +208,6 @@ function on_page(str) {
 		return true;
 	} else {
 		return false;
-	}
-}
-
-function getV(name, standard) {
-	return (localStorage[name + '_' + v] || standard);
-}
-
-function setV(name, value) {
-	return (localStorage[name + '_' + v] = value);
-}
-
-function getA(name) {
-	return (JSON.parse(localStorage[name + '_' + v]));
-}
-
-function setA(name, pref, value) {
-	if (name === 'prefs') {
-		prefs[pref] = value;
-		return (localStorage[name + '_' + v] = JSON.stringify(prefs));
-	}
-	if (name === 'sets') {
-		sets[pref] = value;
-		return (localStorage[name + '_' + v] = JSON.stringify(sets));
 	}
 }
 
@@ -650,49 +700,9 @@ function CheckServiceVariable() {
 	}, 30000);
 }
 
-function whatV(hostname) {
-	switch (hostname || window.location.hostname) {
-		case 'www.omerta3.com':
-		case 'omerta3.com':
-		case 'www.barafranca.com':
-		case 'barafranca.com':
-		case 'www.barafranca.us':
-		case 'barafranca.us':
-			return 'com';
-		case 'omerta.dm':
-		case 'www.omerta.dm':
-			return 'dm';
-		case 'www.barafranca.nl':
-		case 'barafranca.nl':
-			return 'nl';
-		case 'www.barafranca.gen.tr':
-		case 'barafranca.gen.tr':
-			return 'tr';
-		case 'omerta.pt':
-		case 'www.omerta.pt':
-			return 'pt';
-		default:
-			return undefined;
-	}
-}
-
-var v = whatV();
 var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm' || v == 'pt';
-var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
-var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
 var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
-
-if (localStorage['prefs_' + v]) {
-	var prefs = getA('prefs');
-} else {
-	var prefs = {};
-}
-if (localStorage['sets_' + v]) {
-	var sets = getA('sets');
-} else {
-	var sets = {};
-}
 
 function addEndTimeTooltip(node) {
 	// add a tooltip on every cooldown timer showing when it'll end (in OT)
