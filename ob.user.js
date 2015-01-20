@@ -2878,7 +2878,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			// Wealth
-			var tr, x, y, z, xpath;
+			var tr, x, y, z;
 			tr = 10;
 			x = $('#game_container').html().search('Marital status:');
 			y = $('#game_container').html().search('SMS Status');
