@@ -18,11 +18,11 @@
     "readmeFilename": "Readme.md",
     "devDependencies": {
         "grunt": "~0.4.5",
-        "grunt-contrib-jshint": "~0.10.0",
+        "grunt-contrib-jshint": "~0.11.0",
         "grunt-contrib-csslint": "~0.4.0",
         "grunt-lintspaces": "~0.6.0",
         "grunt-jscs": "~1.2.0",
-        "load-grunt-tasks": "~2.0.0",
+        "load-grunt-tasks": "~3.0.0",
         "time-grunt": "~1.0.0",
         "jshint-summary": "~0.4.0"
     }
