@@ -3540,7 +3540,7 @@ if (document.getElementById('game_container') !== null) {
 									$('<td>').css({
 										'border-left': '1px solid #000',
 										'border-bottom': '1px solid #000'
-									}).html('&nbsp; ' + narcnames[bestNarc]),
+									}).html(parseInt(narc, 10) === 0 ? 'NO NARCS' : '&nbsp; ' + narcnames[bestNarc]),
 									$('<td>').css({
 										'border-left': '1px solid #000',
 										'border-bottom': '1px solid #000'
