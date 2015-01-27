@@ -3576,7 +3576,7 @@ if (document.getElementById('game_container') !== null) {
 										}).html('&nbsp;').append(
 											$('<a>').attr({
 												id: 'go' + i,
-												href: document.location.protocol + '//' + document.location.hostname + '/smuggling.php?n=' + (bestNarc - 1) + '&b=' + (bestBooze - 1)
+												href: '/smuggling.php?action=go&n=' + (bestNarc - 1) + '&b=' + (bestBooze - 1)
 											}).css({
 												'font-weight': 'inherit',
 												'text-align': 'center',
@@ -3708,7 +3708,7 @@ if (document.getElementById('game_container') !== null) {
 							if (sel == 3) { // None
 								n = b = -1;
 							}
-							if (document.location.search !== '') { // user manual override using external Go! link
+							if (document.location.href.indexOf('action=go') !== -1) { // user manual override using external Go! link
 								n = key[(GetParam('n'))];
 								b = key[(GetParam('b'))];
 							}
