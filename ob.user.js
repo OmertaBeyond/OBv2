@@ -1751,8 +1751,10 @@ if (document.getElementById('game_container') !== null) {
 
 			$('tr[bgcolor][nobust]').find('input[name="bust"]').attr('checked', false);
 			// Add successful BO to total
-			if ($('#game_container:contains("You busted this person")').length) {
-				if ($('#game_container:contains("cellmate out of jail")').length) {
+			var bustMsg = (v == 'nl' ? 'Je hebt deze gangster' : 'You busted this person');
+			var bustFriendMsg = (v == 'nl' ? 'celmaat uit de gevangenis' : 'cellmate out of jail');
+			if ($('#game_container:contains("' + bustMsg + '")').length) {
+				if ($('#game_container:contains("' + bustFriendMsg + '")').length) {
 					bos = (bos + 1);
 				}
 				bos = (bos + 1);
