@@ -87,6 +87,7 @@
 // @include                  https://*.omerta.pt/*
 // @include                  http://omerta.pt/*
 // @include                  https://omerta.pt/*
+// @include                  https://dev.omerta.land*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
 // @grant                    GM_getResourceText
@@ -133,6 +134,8 @@ function whatV(hostname) {
 		case 'omerta.pt':
 		case 'www.omerta.pt':
 			return 'pt';
+		case 'dev.omerta.land':
+			return 'dev';
 		default:
 			return undefined;
 	}
@@ -747,7 +750,7 @@ function datestringParse(dateString) {
 }
 
 function IsNewVersion() {
-	if (v == 'dm' || v == 'pt') {
+	if (v == 'dm' || v == 'pt' || v == 'dev') {
 		return true;
 	} else {
 		return false;
