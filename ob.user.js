@@ -1760,14 +1760,24 @@ if (document.getElementById('game_container') !== null) {
 				bos = (bos + 1);
 				setV('bustouts', bos);
 			}
-			// Add amount of inmates and bustouts
-			$('table > tbody > tr > td > h1').parent().append(
-				$('<span>').text('In jail: ' + rows),
-				$('<br />'),
-				$('<span>').text('Bustouts: ' + bos)
-			);
-			// Focus on code field
-			$('input[name="ver"]').focus();
+			if (IsNewVersion()) {
+				$('form > table').remove();
+				// Add amount of inmates and bustouts
+				$('table > tbody > tr > td > h1').parent().append(
+					$('<span>').text('In jail: ' + rows),
+					$('<br />'),
+					$('<span>').text('Bustouts: ' + bos)
+				);
+			} else {
+				// Add amount of inmates and bustouts
+				$('table > tbody > tr > td > h1').parent().append(
+					$('<span>').text('In jail: ' + rows),
+					$('<br />'),
+					$('<span>').text('Bustouts: ' + bos)
+				);
+				// Focus on code field
+				$('input[name="ver"]').focus();
+			}
 		}
 		// Shit we're busted!
 		if (on_page('/jail.php') && nn == 'table') {
