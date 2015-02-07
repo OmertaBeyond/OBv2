@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 			}
 		},
 		jshint: {
-			all: [
+			src: [
 				'Gruntfile.js',
 				'ob.user.js'
 			],
