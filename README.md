@@ -28,6 +28,13 @@ At the moment OB is compatible with:
 * Safari
  * [TamperMonkey](https://extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC)
 
+Works on:
+ * .com
+ * .nl
+ * .dm
+ * .gen.tr (missing some features like logger)
+ * .pt (not fully tested)
+
 Note: if you have time/knowledge, help us to make it fully working/compatible.
 
 
