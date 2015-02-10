@@ -1764,13 +1764,15 @@ if (document.getElementById('game_container') !== null) {
 				setV('bustouts', bos);
 			}
 			if (IsNewVersion()) {
-				$('form > table').remove();
 				// Add amount of inmates and bustouts
-				$('table > tbody > tr > td > h1').parent().append(
-					$('<span>').text('In jail: ' + rows),
-					$('<br />'),
-					$('<span>').text('Bustouts: ' + bos)
+				$('#game_container tr:first').prepend(
+					$('<td>').css('width', '46%').append(
+						$('<span>').text('In jail: ' + rows),
+						$('<br />'),
+						$('<span>').text('Bustouts: ' + bos)
+					)
 				);
+				$('#game_container tr:first table').css('margin-left', '0');
 			} else {
 				// Add amount of inmates and bustouts
 				$('table > tbody > tr > td > h1').parent().append(
