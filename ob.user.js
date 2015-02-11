@@ -145,6 +145,23 @@ var v = whatV();
 var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 
+
+if (localStorage.getItem('ob_uid') === null) {
+	localStorage.setItem('ob_uid', Math.random().toString(36).substr(2, 9));
+}
+
+window.addEventListener('error', function(e) {
+	$.post(OB_API_WEBSITE + '/?p=jserror', {
+		message: e.message,
+		stack: e.error.stack,
+		filename: e.filename,
+		line: e.lineno,
+		game_version: v,
+		ob_version: OB_VERSION,
+		ob_uid: localStorage.getItem('ob_uid')
+	});
+});
+
 /*
  * Settings helpers
  */
@@ -5697,6 +5714,28 @@ function GetPrefPage() {
 							alert('Please reload Omerta for the changes to take effect.');
 						}
 					})
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Report a Bug')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').text(
+					'Please report any bugs you might encounter on IRC in #beyond or post a comment '
+				).append(
+					$('<a>').text('here.').css('text-decoration', 'underline').click(function() {
+						window.open('https://omertabeyond.net/');
+					}),
+					$('<br>'),
+					$('<span>').html('To help us track down the issue, please include the following code:'),
+					$('<br>'),
+					$('<strong>').text(localStorage.getItem('ob_uid'))
 				)
 			)
 		)
