@@ -1197,6 +1197,7 @@ if (document.getElementById('game_container') !== null) {
 		// unbind events
 		if (!on_page('garage.php') && !on_page('module=Cars')) {
 			$(window).unbind('scroll');
+			$('#game_wrapper_container div#footer').remove();
 		}
 		if (!on_page('action=showMsg')) {
 			$(window).unbind('keydown');
