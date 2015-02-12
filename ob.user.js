@@ -267,25 +267,25 @@ function voteNow(save) {
 
 function delMsg(what, name) {
 	$('tr[class*="color"]').each(function () {
-		var tr = $(this);
-		var title = tr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
-		var thismsgid = tr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
+		var msgTr = $(this);
+		var title = msgTr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
+		var thismsgid = msgTr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
 		name = name.replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 		if (what == 'id') {
 			if (name == thismsgid) {
 				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
 					$('font[color="red"]').text('Message deleted.');
 				});
-				tr.hide();
-				tr.next().hide();
+				msgTr.hide();
+				msgTr.next().hide();
 			}
 		} else if (what == 'name') {
 			if (name == title) {
 				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
 					$('font[color="red"]').text('Message deleted.');
 				});
-				tr.hide();
-				tr.next().hide();
+				msgTr.hide();
+				msgTr.next().hide();
 			}
 		}
 	});
@@ -1551,11 +1551,11 @@ if (document.getElementById('game_container') !== null) {
 				if (inbank > 0 && interest > 0) {
 					var timestamp = Math.round(parseInt(new Date().getTime(), 10) / 1000);
 					var left = (banktleft - timestamp);
-					var tr = $('<tr>').attr({id: 'interestRow'}).append(
+					var bankTr = $('<tr>').attr({id: 'interestRow'}).append(
 						$('<td>').html('<b>Interest</b>'),
 						$('<td>').html('<a href="/bank.php">$ ' + commafy(interest) + '</a> (<span data-timeleft="' + left + '">Now!</span>)')
 					);
-					$('.thinline:eq(4)').append(tr);
+					$('.thinline:eq(4)').append(bankTr);
 				}
 			}
 
@@ -5250,7 +5250,7 @@ function GetPrefPage() {
 		var group_name = custom_groups[i].split(':')[0];
 		var group_prio = sets['jailHL_' + group_name] || (i + 12);
 		var group_lackey_prio = sets['jailHL_' + group_name + '_lackey'] || (i + 13);
-		var tr = [
+		var jailTr = [
 			$('<tr>').append(
 				$('<td>').text(group_name),
 				$('<td>').append(
@@ -5273,9 +5273,9 @@ function GetPrefPage() {
 			)
 		];
 		if (c_group_div === null) {
-			c_group_div = tr;
+			c_group_div = jailTr;
 		} else {
-			c_group_div = c_group_div.concat(tr);
+			c_group_div = c_group_div.concat(jailTr);
 		}
 	}
 
