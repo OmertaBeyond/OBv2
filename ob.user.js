@@ -1249,30 +1249,30 @@ if (document.getElementById('game_container') !== null) {
 			var ownfam = getV('family', '');
 
 			// Count rows
-			tr = $('table.thinline:eq(0) > tbody > tr').length;
+			tr = $('table.thinline:eq(0) tr').length;
 
 			// add HQ space to members
-			var hq = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 3) + ') > td:last').text();
-			var members = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 5) + ') > td:last').text();
-			$('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 5) + ') > td:last').text(members + '/' + hq);
+			var hq = $('table.thinline:eq(0) tr:eq(' + (tr - 3) + ') td:last').text();
+			var members = $('table.thinline:eq(0) tr:eq(' + (tr - 5) + ') td:last').text();
+			$('table.thinline:eq(0) tr:eq(' + (tr - 5) + ') td:last').text(members + '/' + hq);
 
 			// add color to HQ space
 			var hqperc = ((members / hq) * 100);
-			$('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 5) + ') > td:last').css({
-				'background-image': '-moz-linear-gradient(left, #CCCCCC ' + hqperc + '%, #F0F0F0 ' + hqperc + '%)'
+			$('table.thinline:eq(0) tr:eq(' + (tr - 5) + ') td:last').css({
+				'background': 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + hqperc + '%, rgba(46, 188, 0, 0) ' + hqperc + '%)'
 			});
 
 			// add color to donating %
-			var doperc = $('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 4) + ') > td:last').text().split(' (')[0];
-			$('table.thinline:eq(0) > tbody > tr:eq(' + (tr - 4) + ') > td:last').css({
-				'background-image': '-moz-linear-gradient(left, #CCCCCC ' + doperc + ', #F0F0F0 ' + doperc + ')'
+			var doperc = $('table.thinline:eq(0) tr:eq(' + (tr - 4) + ') td:last').text().split(' (')[0].trim();
+			$('table.thinline:eq(0) tr:eq(' + (tr - 4) + ') td:last').css({
+				'background': 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + doperc + ', rgba(46, 188, 0, 0) ' + doperc + ')'
 			});
 
 			// add color to rank progress
 			if (famname == ownfam.toLowerCase()) {
-				var rankperc = $('table.thinline:eq(0) > tbody > tr:last > td:last').text().split(' (')[1].replace(')', '');
-				$('table.thinline:eq(0) > tbody > tr:last > td:last').css({
-					'background-image': '-moz-linear-gradient(left, #CCCCCC ' + rankperc + ', #F0F0F0 ' + rankperc + ')'
+				var rankperc = $('table.thinline:eq(0) tr:last td:last').text().split(' (')[1].replace(')', '').trim();
+				$('table.thinline:eq(0) tr:last td:last').css({
+					'background': 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + rankperc + ', rgba(46, 188, 0, 0) ' + rankperc + ')'
 				});
 			}
 
