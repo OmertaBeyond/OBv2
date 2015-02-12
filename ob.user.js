@@ -4904,6 +4904,7 @@ if (document.getElementById('game_container') !== null) {
 			).click(function () {
 				$('span.title-main').text('Omerta Beyond Preferences');
 				$('#game_container').empty();
+				$('#game_wrapper_container').css('height', '99%');
 				$('#game_container').append(GetPrefPage());
 			});
 			if (versionHasLogger) {
