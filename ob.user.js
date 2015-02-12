@@ -4526,12 +4526,12 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// scrolldown link
 			$('<div>').css({
-				float: 'right',
-				cursor: 'pointer'
+				'float': 'right',
+				'cursor': 'pointer'
 			}).append(
 				$('<span>').text('Scroll down').click(function () {
-					$('html').animate({
-						scrollTop: $('#game_wrapper_master').height()
+					$('#game_container_wrapper').animate({
+						scrollTop: $('#game_container').height()
 					}, 1000);
 				})
 			).insertBefore('table.thinline');
@@ -4545,17 +4545,21 @@ if (document.getElementById('game_container') !== null) {
 			});
 			// add footer div only window is bigger then 1024px
 			if (window.innerWidth > 1024) {
-				$('#game_container center').append(
+				$('#game_wrapper_container').append(
 					$('<div>').attr({
 						id: 'footer'
 					}).css({
-						'position': 'fixed',
-						'bottom': '0px',
-						'background': '#F0F0F0',
+						'position': 'absolute',
+						'bottom': '6px',
+						'left': '5px',
+						'background': '#50545A',
+						'color': '#EEE',
+						'width': '99%',
+						'text-align': 'center',
 						'border': '1px solid black',
-						'width': '70%',
-						'color': '#000'
-					}).html($('tr:has(input[name="shipcity"])').html())
+						'border-bottom-right-radius': '4px',
+						'border-bottom-left-radius': '4px'
+					}).html($('tr:has(input[name="shipcity"]) td').html())
 				);
 				// remove cloned action_result input, otherwise the confirm() for sell etc. will be useless
 				$('#footer input[name="action_result"]').remove();
