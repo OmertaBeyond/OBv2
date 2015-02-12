@@ -1279,14 +1279,14 @@ if (document.getElementById('game_container') !== null) {
 			// get tops
 			var tops = [];
 			$('table.thinline:eq(0) > tbody > tr > td:has(a)').each(function () {
-				tops.push($(this).text());
+				tops.push($(this).text().trim());
 			});
 
 			var nTop = tops.length; // # tops
-			var SorC = (nTop == 3) ? 2 : /Consi/.test($('table.thinline:eq(0) > tbody > tr:eq(7) > td:first').text()); // Sotto or Consi
-			var don = $.trim(tops[0]);
-			var sotto = (nTop > 1 && (nTop == 3 || SorC === 0)) ? tops.pop() : null;
-			var cons = (nTop > 1 && (nTop == 3 || SorC == 1)) ? tops.pop() : null;
+			var SorC = (nTop == 3) ? 2 : /Consi/.test($('table.thinline:eq(0) tr:eq(7) td:first').text()); // Sotto or Consi
+			var don = tops[0];
+			var sotto = (nTop > 1 && (nTop == 3 || SorC === false)) ? tops.pop() : null;
+			var cons = (nTop > 1 && (nTop == 3 || SorC === true)) ? tops.pop() : null;
 
 			// get capos
 			var capos = [];
@@ -1300,49 +1300,31 @@ if (document.getElementById('game_container') !== null) {
 				objects.push($(this).text());
 			});
 
-			// get spot owners
-			var spots = [];
-			$('table.thinline:eq(3) > tbody > tr > td:has(a)').each(function () {
-				spots.push($(this).text());
-			});
-
 			$('#game_container a[href*="user.php"]').each(function () {
 				var n = $(this).text(); // nick
-				var color = 'blue'; // default online color
-				var vip, tPos;
-				vip = tPos = '';
+				var vip = '';
 				if (n == don) {
-					$(this).html('<u>' + n + '</u><small><sup>[D]</sup></small>');
-					color = 'red';
+					$(this).html(n + '<small><sup>[D]</sup></small>');
 					vip = '[D]';
 				}
 				if (n == sotto) {
-					$(this).html('<u>' + n + '</u><small><sup>[S]</sup></small>');
-					color = 'red';
+					$(this).html(n + '<small><sup>[S]</sup></small>');
 					vip = '[S]';
 				}
 				if (n == cons) {
-					$(this).html('<u>' + n + '</u><small><sup>[C]</sup></small>');
-					color = 'red';
+					$(this).html(n + '<small><sup>[C]</sup></small>');
 					vip = '[C]';
 				}
 				if ($.inArray(n, capos) != -1) {
-					$(this).html('<u>' + n + '</u><small><sup>' + vip + '(c)</sup></small>');
-					color = (tPos ? 'red' : 'orange');
-					vip = vip + '(c)';
-				}
-				if ($.inArray(n, objects) != -1) {
-					$(this).html((vip === '' ? '<u>' : '') + n + (vip === '' ? '</u>' : '') + '<small><sup>' + vip + '(o)</sup></small>');
-					vip = vip + '(o)';
-					if (vip === '') {
-						color = 'green';
+					if (n != don) {
+						$(this).html(n + '<small><sup>' + vip + '(c)</sup></small>');
+						vip = vip + '(c)';
 					}
 				}
-				if ($.inArray(n, spots) != -1) {
-					$(this).html((vip === '' ? '<u>' : '') + n + (vip === '' ? '</u>' : '') + '<small><sup>' + vip + '(s)</sup></small>');
-					vip = vip + '(s)';
-					if (vip === '') {
-						color = 'purple';
+				if ($.inArray(n, objects) != -1) {
+					if (n != don) {
+						$(this).html(n + '<small><sup>' + vip + '(o)</sup></small>');
+						vip = vip + '(o)';
 					}
 				}
 			});
@@ -5800,7 +5782,6 @@ if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !
 					setV('family', fam);
 					setPow('bninfo', 4, role); // save
 				}
-				var d = new Date(); // set check date
 				setV('brcDate', d.getHours());
 				$('#xhr').remove();
 				$('#str2dom').remove();
