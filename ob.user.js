@@ -356,7 +356,6 @@ function bnUpdate(current) {
 	var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 7 : 6) + ') > td:eq(1)').text();
 	var type = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 9 : 8) + ') > td:eq(1) > a').text();
 	var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 10 : 9) + ') > td:eq(1) > a').text();
-	var health = 100 - parseInt($(xpath + ' > table > tbody > tr > td:eq(2) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 3 : 2) + ') > td:eq(1) > a > table > tbody > tr > td').attr('width'), 10);
 	var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1)').text();
 
 	setV('bloodType', type);
@@ -425,7 +424,6 @@ function CheckBmsg() {
 				if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
 					var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
 					var title = response['news'][0]['title'];
-					var type = response['news'][0]['type'];
 					text += response['news'][0]['preview'];
 
 					if (prefs['bmsgNews']) {
@@ -563,7 +561,6 @@ function CheckServiceVariable() {
 			setV('serviceHealth', newHealth);
 		}
 
-		var ok = true;
 		// check for new messages if they want them
 		if (serviceData.messages.inbox.length > 0 && (prefs['notify_messages'] || prefs['notify_messages_sound'])) {
 			var lastMessage = parseInt(getV('lastMessage', 0), 10);
@@ -1281,7 +1278,7 @@ if (document.getElementById('game_container') !== null) {
 
 			// get tops
 			var tops = [];
-			var anchors = $('table.thinline:eq(0) > tbody > tr > td:has(a)').each(function () {
+			$('table.thinline:eq(0) > tbody > tr > td:has(a)').each(function () {
 				tops.push($(this).text());
 			});
 
@@ -1293,19 +1290,19 @@ if (document.getElementById('game_container') !== null) {
 
 			// get capos
 			var capos = [];
-			var anchors = $('table.thinline:last > tbody > tr > td > a.tableheader').each(function () {
+			$('table.thinline:last > tbody > tr > td > a.tableheader').each(function () {
 				capos.push($(this).text());
 			});
 
 			// get object owners
 			var objects = [];
-			var anchors = $('table.thinline:eq(2) > tbody > tr > td:has(a)').each(function () {
+			$('table.thinline:eq(2) > tbody > tr > td:has(a)').each(function () {
 				objects.push($(this).text());
 			});
 
 			// get spot owners
 			var spots = [];
-			var anchors = $('table.thinline:eq(3) > tbody > tr > td:has(a)').each(function () {
+			$('table.thinline:eq(3) > tbody > tr > td:has(a)').each(function () {
 				spots.push($(this).text());
 			});
 
@@ -1501,7 +1498,6 @@ if (document.getElementById('game_container') !== null) {
 			var willName;
 			var willTR;
 			var timestamp = getV('willTimestamp');
-			var now = $.now(); // creates UNIX timestamp
 			var checkTimestamp = $.now() - (1000 * 30 * 60); //
 			var defaultWillName = (v == 'nl' ? 'Niemand' : 'Nobody');
 
@@ -2690,7 +2686,6 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// ---------------- Scratch tracker ----------------
 		if (on_page('/scratch.php') && (nn == 'center' || nn == 'form')) {
-			var unopened = getV('unopened', 0);
 			var monin = parseInt(getV('monin', 0), 10);
 			var mils = parseInt(getV('mils', 0), 10);
 			var bullets = parseInt(getV('bullets', 0), 10);
@@ -2811,7 +2806,6 @@ if (document.getElementById('game_container') !== null) {
 			var btbullets = parseInt(getV('btbullets', 0), 10);
 			var bttoday = parseInt(getV('bttoday', 0), 10);
 			var btmoney = parseInt(getV('btmoney', 0), 10);
-			var btmode = parseInt(getV('btmode', 1), 10);
 			if ($('#game_container:contains("Success, you bought")').length) {
 				var rex = new RegExp('Success you bought (\\d+) bullets for \\$ (\\d+)');
 				var str = $('#game_container').text().split('Bulletfactory')[0].replace(/,/g, '');
@@ -4481,7 +4475,6 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// ---------------- Garage ----------------
 		if ((on_page('garage.php') || on_page('module=Cars')) && nn == 'h2') {
-			var rows = $('table.thinline > tbody > tr').length;
 			var totVal = 0;
 			var types = [
 				['h',    8,  9, 13, 15, 16, 17, 18, 19, 21, 22, 27, 32, 34, 35, 40, 43],
@@ -4490,9 +4483,7 @@ if (document.getElementById('game_container') !== null) {
 				['tr',  23, 47, 54]
 			];
 			$('tr.thinline').each(function () { // loop rows
-				var carType = '';
 				var carid = $(this).find('td:eq(0)').text();
-				var car = $(this).find('td:eq(1)').find('a').attr('href').match(/\d*$/);
 				var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); // get value
 				totVal += carVal;
 				$(this).click(function () {
@@ -4629,9 +4620,7 @@ if (document.getElementById('game_container') !== null) {
 			// Fire all Detectives that have failed searching for person X
 			// Translation variables
 			var failedMessage = (v == 'nl' ? 'gefaald' : 'failed');
-			var clickLimitMessage = (v == 'nl' ? 'klik limiet' : 'click limit');
 			var fireDetectivesMessage = (v == 'nl' ? 'Verwijder gefaalde detectives' : 'Fire all failed detectives');
-			var clickLimitErrorMessage = (v == 'nl' ? 'Je hebt je kliklimiet bereikt!' : 'You\'ve reached your click limit!');
 
 			$('input[data-action="fireAll"]').closest('td').css('width', 'auto').after(
 				$('<td>').attr('align', 'right').append(
@@ -4747,7 +4736,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// ---------------- Blood AF ----------------
 		if (on_page('module=Bloodbank') && nn == 'table') {
-			var table, tr, A, B, t, m, type, types;
+			var table, tr, A, B, m, type, types;
 			type = getV('bloodType');
 
 			var bloodAF = function (t) {
@@ -4946,7 +4935,6 @@ if (document.getElementById('game_container') !== null) {
  */
 
 $('#game_container').on('DOMNodeInserted', function(event) {
-	var nn = event.target.tagName.toLowerCase();
 	if (on_page('jail.php')) {
 		// Return when self bo
 		if ($('#game_container:contains("You busted yourself out of jail")').length) {
@@ -5250,7 +5238,6 @@ function GetPrefPage() {
 	var jailHL_other_lackey = sets['jailHL_other_lackey'] || 11;
 	var autoCloseNotificationsSecs = sets['autoCloseNotificationsSecs'] || 0;
 	var bo_hotkey = sets['bo_hotkey'] || '/';
-	var block = (getV('bmsgNews', -1) != -1 ? 'block' : 'none');
 	var custom_groups = getV('custom_groups', '').split('|');
 	custom_groups.pop();
 	var nobust = getV('nobust', '').split(',');
