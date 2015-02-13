@@ -2798,7 +2798,7 @@ if (document.getElementById('game_container') !== null) {
 				setV('btbullets', btbullets);
 				setV('bttoday', bttoday);
 				setV('btmoney', btmoney);
-				setV('btdate', d.getDate());
+				setV('btdate', BTd.getDate());
 			}
 			var btdolpbul;
 			if (btbullets === 0) {
@@ -3602,13 +3602,13 @@ if (document.getElementById('game_container') !== null) {
 					}
 					// add lex row
 					if (lex > 1) {
-						d = new Date();
+						var lexDate = new Date();
 						table.append(
 							$('<tr>').append(
 								$('<td>').attr('colspan', '5').css({
 									'text-align': 'center',
 									'font-size': '10px'
-								}).text('Lex Level: ' + parseInt((lex - 1) * 100, 10) + ' - Seen ' + ((d.getDay() != lexDay) ? '1 Day ago' : d.getHours() - lexHour + ' Hours ago'))
+								}).text('Lex Level: ' + parseInt((lex - 1) * 100, 10) + ' - Seen ' + ((lexDate.getDay() != lexDay) ? '1 Day ago' : lexDate.getHours() - lexHour + ' Hours ago'))
 							)
 						);
 					}
@@ -4981,7 +4981,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 						marQd.setMinutes(m);
 						marQd.setSeconds(0);
 						marQd.setMilliseconds(0);
-						return (d.getTime() - unsafeWindow.omerta.server.clock.getTime());
+						return (marQd.getTime() - unsafeWindow.omerta.server.clock.getTime());
 					}
 
 					var p = [];
