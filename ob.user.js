@@ -178,17 +178,6 @@ function getA(name) {
 	return (JSON.parse(localStorage[name + '_' + v]));
 }
 
-function setA(name, pref, value) {
-	if (name === 'prefs') {
-		prefs[pref] = value;
-		return (localStorage[name + '_' + v] = JSON.stringify(prefs));
-	}
-	if (name === 'sets') {
-		sets[pref] = value;
-		return (localStorage[name + '_' + v] = JSON.stringify(sets));
-	}
-}
-
 if (localStorage['prefs_' + v]) {
 	var prefs = getA('prefs');
 } else {
@@ -199,6 +188,17 @@ if (localStorage['sets_' + v]) {
 	var sets = getA('sets');
 } else {
 	var sets = {};
+}
+
+function setA(name, pref, value) {
+	if (name === 'prefs') {
+		prefs[pref] = value;
+		return (localStorage[name + '_' + v] = JSON.stringify(prefs));
+	}
+	if (name === 'sets') {
+		sets[pref] = value;
+		return (localStorage[name + '_' + v] = JSON.stringify(sets));
+	}
 }
 
 /*
@@ -458,8 +458,8 @@ function CheckBmsg() {
 					var text = response['deaths'].length + ' people died:\n\n';
 					var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
 					for (var i = 0; i < am; i++) {
-						var d = new Date(response['deaths'][i]['ts'] * 1000);
-						var time = (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' + (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
+						var bmsgD = new Date(response['deaths'][i]['ts'] * 1000);
+						var time = (bmsgD.getHours() < 10 ? '0' : '') + bmsgD.getHours() + ':' + (bmsgD.getMinutes() < 10 ? '0' : '') + bmsgD.getMinutes() + ':' + (bmsgD.getSeconds() < 10 ? '0' : '') + bmsgD.getSeconds();
 						var extra = (response['deaths'][i]['akill'] == 1) ? '(A)' : (response['deaths'][i]['bf'] == 1) ? '(BF)' : '';
 						var fam = (response['deaths'][i]['fam'] === '') ? '(none)' : '(' + response['deaths'][i]['fam'] + ')';
 						text += extra + ' ' + time + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + fam + '\n';
@@ -2779,9 +2779,9 @@ if (document.getElementById('game_container') !== null) {
 				delete(notificationsArray['Bullets']);
 			}
 
-			var d = new Date();
+			var BTd = new Date();
 			var btdate = getV('btdate', 0);
-			if (d.getDate() > btdate) {
+			if (BTd.getDate() > btdate) {
 				setV('bttoday', 0);
 			}
 			var obaybul = parseInt(getV('obaybul', 0), 10);
@@ -3273,9 +3273,9 @@ if (document.getElementById('game_container') !== null) {
 			if ($('span#lexhelpsyou').length) {
 				var lex = parseInt($('span#lexhelpsyou').html().replace(/[^0-9]/g, ''), 10);
 				setV('lex', lex);
-				var d = new Date();
-				lexDay = d.getDay();
-				lexHour = d.getHours();
+				var BRCd = new Date();
+				lexDay = BRCd.getDay();
+				lexHour = BRCd.getHours();
 				setV('lexHour', lexHour);
 				setV('lexDay', lexDay);
 			} else {
@@ -4030,9 +4030,9 @@ if (document.getElementById('game_container') !== null) {
 			var cash = parseInt(bn_text[3].replace(/[^0-9.]/g, ''), 10);
 			var booze = parseInt(bn_text[4].match(/\d+/), 10); // max amount user can carry
 			var narcs = parseInt(bn_text[5].match(/\d+/), 10);
-			var d = new Date();
-			var lexDay = d.getDay();
-			var lexHour = d.getHours();
+			var lexD = new Date();
+			var lexDay = lexD.getDay();
+			var lexHour = lexD.getHours();
 			if (bn_text[6]) {
 				var lex = parseInt(bn_text[6].match(/\d+/), 10);
 				setV('lex', lex);
@@ -4680,8 +4680,10 @@ if (document.getElementById('game_container') !== null) {
 						var html = '';
 						var i = 0;
 						for (var results in data) {
-							if (i < 50) {
-								html += '<br /><a href="user.php?nick=' + results + '" id="' + i + '" class="sel">' + results + '</a>';
+							if (data.hasOwnProperty(results)) {
+								if (i < 50) {
+									html += '<br /><a href="user.php?nick=' + results + '" id="' + i + '" class="sel">' + results + '</a>';
+								}
 							}
 							i++;
 						}
@@ -4974,11 +4976,11 @@ $('#game_container').one('DOMNodeInserted', function () {
 					function refreshMarquee(h, m) {
 						h = (m >= 31 ? h + 1 : h);
 						m = (m >= 31 ? 1 : 31);
-						var d = new Date();
-						d.setHours(h);
-						d.setMinutes(m);
-						d.setSeconds(0);
-						d.setMilliseconds(0);
+						var marQd = new Date();
+						marQd.setHours(h);
+						marQd.setMinutes(m);
+						marQd.setSeconds(0);
+						marQd.setMilliseconds(0);
 						return (d.getTime() - unsafeWindow.omerta.server.clock.getTime());
 					}
 
@@ -5739,8 +5741,8 @@ function GetPrefPage() {
  * Info grabber
  */
 
-var d = new Date(); // check once every hour for new info
-if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != d.getHours()) {
+var infoD = new Date(); // check once every hour for new info
+if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours()) {
 	$.get('/information.php', function (data) {
 		var a = data.split('<tbody');
 		if (a[2]) { // fails on click limit or other error
@@ -5786,7 +5788,7 @@ if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) !
 					setV('family', fam);
 					setPow('bninfo', 4, role); // save
 				}
-				setV('brcDate', d.getHours());
+				setV('brcDate', infoD.getHours());
 				$('#xhr').remove();
 				$('#str2dom').remove();
 			});
