@@ -4293,15 +4293,6 @@ if (document.getElementById('game_container') !== null) {
 				setTimeout(function () {
 					$('input.option:last').prop('checked', true);
 				}, 100);
-				// Refresh page when crimetimer runs out
-				if ($('span').length > 0) {
-					var crimeTime = parseInt($('#game_container > span').attr('data-timeleft'), 10);
-					if (crimeTime > 0) {
-						setTimeout(function() {
-							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-						}, crimeTime * 1000);
-					}
-				}
 			}
 			// Grab money stolen
 			if (on_page('module=Crimes') && nn == 'font') {
@@ -4321,15 +4312,6 @@ if (document.getElementById('game_container') !== null) {
 				if (notificationsArray['Crime'] !== undefined) {
 					notificationsArray['Crime'].close();
 					delete(notificationsArray['Crime']);
-				}
-				// Refresh page when crimetimer runs out
-				if ($('li').length > 0) {
-					var timer = parseInt($('#game_container li').attr('data-timeleft'), 10);
-					if (timer > 0) {
-						setTimeout(function() {
-							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-						}, timer * 1000);
-					}
 				}
 				// Grab money stolen
 				var moneyStolenText = $('#game_container').text().trim();
@@ -4352,15 +4334,6 @@ if (document.getElementById('game_container') !== null) {
 				if (notificationsArray['Car'] !== undefined) {
 					notificationsArray['Car'].close();
 					delete(notificationsArray['Car']);
-				}
-				// Refresh page when cartimer runs out
-				if ($('span').length > 0) {
-					var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
-					if (timer > 0) {
-						setTimeout(function() {
-							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-						}, timer * 1000);
-					}
 				}
 			}
 			// Lackeys are on, show lackey page enhancements
@@ -4398,15 +4371,6 @@ if (document.getElementById('game_container') !== null) {
 				if (notificationsArray['Car'] !== undefined) {
 					notificationsArray['Car'].close();
 					delete(notificationsArray['Car']);
-				}
-				// Refresh page when cartimer runs out
-				if ($('li').length > 0) {
-					var timer = parseInt($('#game_container li').attr('data-timeleft'), 10);
-					if (timer > 0) {
-						setTimeout(function() {
-							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-						}, timer * 1000);
-					}
 				}
 				// Grab value of stolen car (does not include cars stolen by lackeys)
 				var carValText = $('#game_container').text().trim();
