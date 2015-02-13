@@ -268,7 +268,7 @@ function voteNow(save) {
 function delMsg(what, name) {
 	$('tr[class*="color"]').each(function () {
 		var msgTr = $(this);
-		var title = msgTr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
+		var msgTitle = msgTr.find('td:eq(1)').text().replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 		var thismsgid = msgTr.find('td:eq(1)').find('a').attr('href').split('iMsgId=')[1];
 		name = name.replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 		if (what == 'id') {
@@ -280,7 +280,7 @@ function delMsg(what, name) {
 				msgTr.next().hide();
 			}
 		} else if (what == 'name') {
-			if (name == title) {
+			if (name == msgTitle) {
 				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
 					$('font[color="red"]').text('Message deleted.');
 				});
@@ -291,11 +291,11 @@ function delMsg(what, name) {
 	});
 }
 
-function commafy(num) {
-	var str = (num + '').split('.'),
+function commafy(number) {
+	var str = (number + '').split('.'),
 		dec = str[1] || '',
-		num = str[0].replace(/(\d)(?=(\d{3})+\b)/g, '$1,');
-	return (dec) ? num + '.' + dec : num;
+		number = str[0].replace(/(\d)(?=(\d{3})+\b)/g, '$1,');
+	return (dec) ? number + '.' + dec : number;
 }
 
 function getPow(name, i, def) {
@@ -422,15 +422,15 @@ function CheckBmsg() {
 				var deaths = response['deaths'].length;
 				var news = response['news'].length;
 				if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
-					var text = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
-					var title = response['news'][0]['title'];
-					text += response['news'][0]['preview'];
+					var bmsgNewsTxt = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
+					var bmsgNewsTitle = response['news'][0]['title'];
+					bmsgNewsTxt += response['news'][0]['preview'];
 
 					if (prefs['bmsgNews']) {
-						var notification = new Notification(title, {
+						var notification = new Notification(bmsgNewsTitle, {
 							dir: 'auto',
 							lang: '',
-							body: text,
+							body: bmsgNewsTxt,
 							tag: 'news',
 							icon: GM_getResourceURL('red-star')
 						});
@@ -455,21 +455,22 @@ function CheckBmsg() {
 					}
 					setV('lastbmsg', response['news'][0]['ts']);
 				} else if ((prefs['bmsgDeaths'] || prefs['bmsgDeaths_sound']) && (deaths >= 1)) {
-					var text = response['deaths'].length + ' people died:\n\n';
+					var bmsgDeathsTxt = response['deaths'].length + ' people died:\n\n';
+					var bmsgDeathsTitle = 'Deaths! (' + v + ')';
 					var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
 					for (var i = 0; i < am; i++) {
 						var bmsgD = new Date(response['deaths'][i]['ts'] * 1000);
-						var time = (bmsgD.getHours() < 10 ? '0' : '') + bmsgD.getHours() + ':' + (bmsgD.getMinutes() < 10 ? '0' : '') + bmsgD.getMinutes() + ':' + (bmsgD.getSeconds() < 10 ? '0' : '') + bmsgD.getSeconds();
-						var extra = (response['deaths'][i]['akill'] == 1) ? '(A)' : (response['deaths'][i]['bf'] == 1) ? '(BF)' : '';
-						var fam = (response['deaths'][i]['fam'] === '') ? '(none)' : '(' + response['deaths'][i]['fam'] + ')';
-						text += extra + ' ' + time + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + fam + '\n';
+						var bmsgTime = (bmsgD.getHours() < 10 ? '0' : '') + bmsgD.getHours() + ':' + (bmsgD.getMinutes() < 10 ? '0' : '') + bmsgD.getMinutes() + ':' + (bmsgD.getSeconds() < 10 ? '0' : '') + bmsgD.getSeconds();
+						var bmsgExtra = (response['deaths'][i]['akill'] == 1) ? '(A)' : (response['deaths'][i]['bf'] == 1) ? '(BF)' : '';
+						var bmsgFam = (response['deaths'][i]['fam'] === '') ? '(none)' : '(' + response['deaths'][i]['fam'] + ')';
+						bmsgDeathsTxt += bmsgExtra + ' ' + bmsgTime + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + bmsgFam + '\n';
 					}
 
 					if (prefs['bmsgDeaths']) {
-						var notification = new Notification('Deaths! (' + v + ')', {
+						var notification = new Notification(bmsgDeathsTitle, {
 							dir: 'auto',
 							lang: '',
-							body: text,
+							body: bmsgDeathsTxt,
 							tag: 'deaths',
 							icon: GM_getResourceURL('rip')
 						});
@@ -548,10 +549,10 @@ function CheckServiceVariable() {
 			var newHealth = parseFloat(serviceData.progressbars.health);
 			var oldHealth = parseFloat(getV('serviceHealth', 0));
 			if (oldHealth > 0 && (oldHealth > newHealth)) {
-				var text = 'You lost ' + (oldHealth - newHealth) + ' health!';
-				var title = 'Health (' + v + ')';
+				var healthText = 'You lost ' + (oldHealth - newHealth) + ' health!';
+				var healthTitle = 'Health (' + v + ')';
 				if (prefs['notify_health']) {
-					SendNotification(title, text, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
+					SendNotification(healthTitle, healthText, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
 				}
 				if (prefs['notify_health_sound']) {
 					playBeep();
@@ -576,22 +577,22 @@ function CheckServiceVariable() {
 
 			if (totalMessages !== 0) {
 				var msgId = parseInt(serviceData.messages.inbox[0].id, 10);
-				var title = '';
-				var text = '';
+				var msgTitle = '';
+				var msgText = '';
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
 
 				setV('lastMessage', msgId);
 				if (totalMessages === 1) {
-					text = 'Message: ' + serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
-					title = 'New message from ' + serviceData.messages.inbox[0].frm + ': ' + serviceData.messages.inbox[0].sbj + ' (' + v + ')';
+					msgText = 'Message: ' + serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
+					msgTitle = 'New message from ' + serviceData.messages.inbox[0].frm + ': ' + serviceData.messages.inbox[0].sbj + ' (' + v + ')';
 					callbackUrl = callbackUrl + msgId;
 				} else {
-					text = 'You have got ' + totalMessages + ' new messages';
-					title = 'New messages (' + v + ')';
+					msgText = 'You have got ' + totalMessages + ' new messages';
+					msgTitle = 'New messages (' + v + ')';
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_messages']) {
-					SendNotification(title, text, 'Mail', callbackUrl, GM_getResourceURL('red-star'));
+					SendNotification(msgTitle, msgText, 'Mail', callbackUrl, GM_getResourceURL('red-star'));
 				}
 				if (prefs['notify_messages_sound']) {
 					playBeep();
@@ -614,28 +615,28 @@ function CheckServiceVariable() {
 
 			if (totalAlerts !== 0) {
 				var msgId = (serviceData.messages.alert[0].id ? parseInt(serviceData.messages.alert[0].id, 10) : -1);
-				var title = '';
-				var text = '';
+				var alertTitle = '';
+				var alertText = '';
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
 				setV('lastAlert', msgId);
 				if (totalAlerts === 1) {
 					// If its a friend request it has no msg or id
 					if (serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
-						text = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
-						title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
+						alertText = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
+						alertTitle = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
 						callbackUrl = callbackUrl + msgId;
 					} else {
-						text = 'Alert: You got a new friend request!';
-						title = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
+						alertText = 'Alert: You got a new friend request!';
+						alertTitle = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
 						callbackUrl = serviceData.messages.alert[0].link;
 					}
 				} else {
-					text = 'You have got ' + totalAlerts + ' new alerts';
-					title = 'Alert! (' + v + ')';
+					alertText = 'You have got ' + totalAlerts + ' new alerts';
+					alertTitle = 'Alert! (' + v + ')';
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_alerts']) {
-					SendNotification(title, text, 'alert', callbackUrl, GM_getResourceURL('red-star'));
+					SendNotification(alertTitle, alertText, 'alert', callbackUrl, GM_getResourceURL('red-star'));
 				}
 				if (prefs['notify_alerts_sound']) {
 					playBeep();
@@ -644,74 +645,74 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_gta'] || prefs['notify_gta_sound']) && !gtaTimer) {
-			var timer = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
-			if (timer > 0) {
+			var gtaTime = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
+			if (gtaTime > 0) {
 				gtaTimer = true;
 				setTimeout(function() {
 					gtaTimer = false;
-					var text = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
-					var title = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
+					var gtaText = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
+					var gtaTitle = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
 					if (prefs['notify_gta']) {
-						SendNotification(title, text, 'Car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
+						SendNotification(gtaTitle, gtaText, 'Car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_gta_sound']) {
 						playBeep();
 					}
-				}, timer * 1000);
+				}, gtaTime * 1000);
 			}
 		}
 
 		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
-			var timer = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
-			if (timer > 0) {
+			var crimeTime = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
+			if (crimeTime > 0) {
 				crimeTimer = true;
 				setTimeout(function() {
 					crimeTimer = false;
-					var text = (v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime');
-					var title = (v == 'nl' ? 'Misdaad (' + v + ')' : 'Crime (' + v + ')');
+					var crimeText = (v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime');
+					var crimeTitle = (v == 'nl' ? 'Misdaad (' + v + ')' : 'Crime (' + v + ')');
 					if (prefs['notify_crime']) {
-						SendNotification(title, text, 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
+						SendNotification(crimeTitle, crimeText, 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_crime_sound']) {
 						playBeep();
 					}
-				}, timer * 1000);
+				}, crimeTime * 1000);
 			}
 		}
 
 		if ((prefs['notify_travel'] || prefs['notify_travel_sound']) && !travelTimer) {
-			var timer = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
-			if (timer > 0) {
+			var travelTime = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
+			if (travelTime > 0) {
 				travelTimer = true;
 				setTimeout(function() {
 					travelTimer = false;
-					var text = (v == 'nl' ? 'Je kunt reizen' : 'You can travel');
-					var title = (v == 'nl' ? 'Reizen (' + v + ')' : 'Travel (' + v + ')');
+					var travelText = (v == 'nl' ? 'Je kunt reizen' : 'You can travel');
+					var travelTitle = (v == 'nl' ? 'Reizen (' + v + ')' : 'Travel (' + v + ')');
 					if (prefs['notify_travel']) {
-						SendNotification(title, text, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+						SendNotification(travelTitle, travelText, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_travel_sound']) {
 						playBeep();
 					}
-				}, timer * 1000);
+				}, travelTime * 1000);
 			}
 		}
 
 		if ((prefs['notify_bullets'] || prefs['notify_bullets_sound']) && !bulletTimer) {
-			var timer = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
-			if (timer > 0) {
+			var bulletsTime = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
+			if (bulletsTime > 0) {
 				bulletTimer = true;
 				setTimeout(function() {
 					bulletTimer = false;
-					var text = (v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets');
-					var title = (v == 'nl' ? 'Kogels (' + v + ')' : 'Bullets (' + v + ')');
+					var bulletsText = (v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets');
+					var bulletsTitle = (v == 'nl' ? 'Kogels (' + v + ')' : 'Bullets (' + v + ')');
 					if (prefs['notify_bullets']) {
-						SendNotification(title, text, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
+						SendNotification(bulletsTitle, bulletsText, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_bullets_sound']) {
 						playBeep();
 					}
-				}, timer * 1000);
+				}, bulletsTime * 1000);
 			}
 		}
 	}, 30000);
@@ -2013,9 +2014,9 @@ if (document.getElementById('game_container') !== null) {
 						);
 					}
 					if (num < 11) { // add msg hotkeys
-						var title = $(this).children('td:eq(1)').children();
-						title.html('[' + (num == 10 ? 0 : num) + '] ' + title.html());
-						title.attr('accesskey', (num == 10 ? 0 : num));
+						var mailTitle = $(this).children('td:eq(1)').children();
+						mailTitle.html('[' + (num == 10 ? 0 : num) + '] ' + mailTitle.html());
+						mailTitle.attr('accesskey', (num == 10 ? 0 : num));
 						num++;
 					}
 				});
@@ -4294,20 +4295,20 @@ if (document.getElementById('game_container') !== null) {
 				}, 100);
 				// Refresh page when crimetimer runs out
 				if ($('span').length > 0) {
-					var timer = parseInt($('#game_container > span').attr('data-timeleft'), 10);
-					if (timer > 0) {
+					var crimeTime = parseInt($('#game_container > span').attr('data-timeleft'), 10);
+					if (crimeTime > 0) {
 						setTimeout(function() {
 							unsafeWindow.omerta.GUI.container.loadPage(window.location.hash.substr(1));
-						}, timer * 1000);
+						}, crimeTime * 1000);
 					}
 				}
 			}
 			// Grab money stolen
 			if (on_page('module=Crimes') && nn == 'font') {
-				var text = $('#game_container').text().trim();
-				if (text.match(/\$ ([,\d]+)/) !== null) {
+				var moneyStolenText = $('#game_container').text().trim();
+				if (moneyStolenText.match(/\$ ([,\d]+)/) !== null) {
 					var oldValue = parseInt(getV('crimeMoney', 0), 10);
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
+					var sum = parseInt(moneyStolenText.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('crimeMoney', (sum + oldValue));
 
 					var totalSuccess = parseInt(getV('crimeSuccess', 0), 10);
@@ -4331,10 +4332,10 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 				// Grab money stolen
-				var text = $('#game_container').text().trim();
-				if (text.match(/\$ ([,\d]+)/) !== null) {
+				var moneyStolenText = $('#game_container').text().trim();
+				if (moneyStolenText.match(/\$ ([,\d]+)/) !== null) {
 					var oldValue = parseInt(getV('crimeMoney', 0), 10);
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
+					var sum = parseInt(moneyStolenText.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('crimeMoney', (sum + oldValue));
 
 					var totalSuccess = parseInt(getV('crimeSuccess', 0), 10);
@@ -4381,10 +4382,10 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// Grab value of stolen car (does not include cars stolen by lackeys)
 			if (on_page('module=Cars') && nn == 'center') {
-				var text = $('#game_container').text().trim();
-				if (text.match(/\$ ([,\d]+)/) !== null) {
+				var carValText = $('#game_container').text().trim();
+				if (carValText.match(/\$ ([,\d]+)/) !== null) {
 					var oldValue = parseInt(getV('carMoney', 0), 10);
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
+					var sum = parseInt(carValText.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('carMoney', (sum + oldValue));
 					var totalSuccess = parseInt(getV('carSuccess', 0), 10);
 					++totalSuccess;
@@ -4408,10 +4409,10 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 				// Grab value of stolen car (does not include cars stolen by lackeys)
-				var text = $('#game_container').text().trim();
-				if (text.match(/\$ ([,\d]+)/) !== null) {
+				var carValText = $('#game_container').text().trim();
+				if (carValText.match(/\$ ([,\d]+)/) !== null) {
 					var oldValue = parseInt(getV('carMoney', 0), 10);
-					var sum = parseInt(text.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
+					var sum = parseInt(carValText.match(/\$ ([,\d]+)/)[1].replace(',', ''), 10);
 					setV('carMoney', (sum + oldValue));
 					var totalSuccess = parseInt(getV('carSuccess', 0), 10);
 					++totalSuccess;
@@ -4782,20 +4783,20 @@ if (document.getElementById('game_container') !== null) {
 			$('div[id$="BoughtBG"]').css('display', 'none');
 			// set timer for BG if it counts down
 			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
-				var timer = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
-				if (timer > 0) {
+				var bgTime = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
+				if (bgTime > 0) {
 					bgTimer = true;
 					setTimeout(function() {
 						bgTimer = false;
-						var text = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
-						var title = 'Train Bodyguard (' + v + ')';
+						var bgText = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
+						var bgTitle = 'Train Bodyguard (' + v + ')';
 						if (prefs['notify_bg']) {
-							SendNotification(title, text, 'bodyguard', './BeO/webroot/index.php?module=Bodyguards', GM_getResourceURL('red-star'));
+							SendNotification(bgTitle, bgText, 'bodyguard', './BeO/webroot/index.php?module=Bodyguards', GM_getResourceURL('red-star'));
 						}
 						if (prefs['notify_bg_sound']) {
 							playBeep();
 						}
-					}, timer * 1000);
+					}, bgTime * 1000);
 				}
 			}
 		}
