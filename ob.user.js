@@ -107,7 +107,6 @@ var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
 var OB_VERSION = '2.0.59';
-var cur_v = '4.7.2';
 
 /*
  * Define crucial functions and variables
@@ -1382,7 +1381,7 @@ if (document.getElementById('game_container') !== null) {
 						if (v === 'com') {
 							$('<div>').addClass('dlContainer').append(
 								$('<a>').attr({
-									'href': OB_NEWS_WEBSITE + '/deathslog/' + cur_v + '/' + famid,
+									'href': OB_NEWS_WEBSITE + '/deathslog/latest/' + famid,
 									'target': '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
@@ -1437,7 +1436,7 @@ if (document.getElementById('game_container') !== null) {
 						if (v === 'com') {
 							$('<div>').addClass('dlContainer').append(
 								$('<a>').attr({
-									'href': OB_NEWS_WEBSITE + '/famlog/' + cur_v + '/' + famid,
+									'href': OB_NEWS_WEBSITE + '/famlog/latest/' + famid,
 									'target': '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
