@@ -4689,6 +4689,10 @@ if (document.getElementById('game_container') !== null) {
 						if (input.length < 3) {
 							$('#game_container').html(str + ': ' + input + '<br />This will give too many results. Try to be more specific.');
 						} else if (total !== 0) {
+							if (IsNewVersion()) {
+								$('#game_wrapper_container').css('height', '99%');
+								$('span.title-main').text('Quick lookup by Omerta Beyond');
+							}
 							$('#game_container').html((total <= 50) ? str + ': ' + input + '<br />Maybe this is what you were looking for:<br />' : str + ': ' + input + '<br />Maybe this is what you were looking for:<br />Total results: ' + total + ' Showing first 50 results<br />');
 							$('#game_container').html($('#game_container').html() + html);
 							$('#0').focus();
