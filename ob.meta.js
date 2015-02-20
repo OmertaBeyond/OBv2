@@ -18,6 +18,7 @@
 // @author                   MurderInc <murderinc@omertabeyond.com>
 // @author                   Sebbe <sebbe@omertabeyond.com>
 // @author                   Brainscrewer <brainscrewer@omertabeyond.com>
+// @author                   semitom <tom.gankema@gmail.com>
 // @oujs:author              vBm
 // @oujs:collaborator        Gwildor
 // @oujs:collaborator        MurderInc
