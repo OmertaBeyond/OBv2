@@ -2,6 +2,15 @@
     "name": "OmertaBeyond",
     "version": "2.0.61",
     "author": "OBDev Team (https://github.com/OmertaBeyond/OBv2)",
+    "contributors": [
+        "vBm <vbm@omertabeyond.com>",
+        "Dopedog <dopedog@omertabeyond.com>",
+        "Rix <rix@omertabeyond.com>",
+        "MrWhite <mrwhite@omertabeyond.com>",
+        "MurderInc <murderinc@omertabeyond.com>",
+        "Sebbe <sebbe@omertabeyond.com>",
+        "Brainscrewer <brainscrewer@omertabeyond.com>"
+    ],
     "description": "Userscript for barafranca.com",
     "homepage": "http://news.omertabeyond.com",
     "repository": {
