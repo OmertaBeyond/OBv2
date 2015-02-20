@@ -255,6 +255,15 @@ function isVisible(node) {
 	return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
 }
 
+// show footer div only when last tr is not visible
+function toggleFooterVisibility() {
+	if (isVisible($('tr:has(input[name="shipcity"])'))) {
+		$('#footer').css('display', 'none');
+	} else {
+		$('#footer').css('display', 'block');
+	}
+}
+
 function voteNow(save) {
 	$('a[name="forticket"]').each(function () {
 		window.open(this);
@@ -4468,39 +4477,33 @@ if (document.getElementById('game_container') !== null) {
 				'cursor': 'pointer'
 			}).append(
 				$('<span>').text('Scroll down').click(function () {
-					$('#game_container_wrapper').animate({
-						scrollTop: $('#game_container').height()
+					$(IsNewVersion() ? '#game_container_wrapper' : 'html').animate({
+						scrollTop: $(IsNewVersion() ? '#game_container' : '#game_wrapper_master').height()
 					}, 1000);
 				})
 			).insertBefore('table.thinline');
-			// show footer div only when last tr is not visible
-			$(window).scroll(function () {
-				if (isVisible($('tr:has(input[name="shipcity"])'))) {
-					$('#footer').css('display', 'none');
-				} else {
-					$('#footer').css('display', 'block');
-				}
-			});
+			$(window).scroll(toggleFooterVisibility);
 			// add footer div only window is bigger then 1024px
 			if (window.innerWidth > 1024) {
-				$('#game_wrapper_container').append(
+				$(IsNewVersion() ? '#game_wrapper_container' : '#game_container center').append(
 					$('<div>').attr({
 						id: 'footer'
 					}).css({
-						'position': 'absolute',
-						'bottom': '6px',
-						'left': '5px',
-						'background': '#50545A',
-						'color': '#EEE',
-						'width': '99%',
+						'position': IsNewVersion() ? 'absolute' : 'fixed',
+						'bottom': IsNewVersion() ? '6px' : '0px',
+						'left': IsNewVersion() ? '5px' : 'inherit',
+						'background': IsNewVersion() ? '#50545A' : '#F0F0F0',
+						'color': IsNewVersion() ? '#EEE' : '#000',
+						'width': IsNewVersion() ? '99%' : '70%',
 						'text-align': 'center',
 						'border': '1px solid black',
-						'border-bottom-right-radius': '4px',
-						'border-bottom-left-radius': '4px'
+						'border-bottom-right-radius': IsNewVersion() ? '4px' : '0px',
+						'border-bottom-left-radius': IsNewVersion() ? '4px' : '0px'
 					}).html($('tr:has(input[name="shipcity"]) td').html())
 				);
 				// remove cloned action_result input, otherwise the confirm() for sell etc. will be useless
 				$('#footer input[name="action_result"]').remove();
+				toggleFooterVisibility();
 			}
 			$('td:has(input[value="SH-cars"])').append(
 				$('<select>').attr({
