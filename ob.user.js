@@ -1600,6 +1600,22 @@ if (document.getElementById('game_container') !== null) {
 				$('.thinline:eq(4)>tbody>tr:eq(2)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
 			}
 		}
+		// ---------------- NEW My account ----------------
+		if (on_page('module=UserInformation')) {
+			// Tell how old the account is
+			var startElem = $('div.gangster-info-body li:eq(5) a span');
+			var startDate = unsafeWindow.omerta.character.info.startdate();
+			var diff = Math.abs(Date.now() - startDate.getTime());
+			var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
+			var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
+			var previousText = startElem.html();
+			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)').click(function() {
+				var currentText = $(this).html();
+				$(this).html(previousText);
+				previousText = currentText;
+			});
+		}
 		// -------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
 			if (getV('fam_colour', '') === '' || getV('friends_colour', '') === '') {
