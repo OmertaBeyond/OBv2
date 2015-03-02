@@ -1602,6 +1602,29 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// ---------------- NEW My account ----------------
 		if (on_page('module=UserInformation')) {
+			// Check for dead player in testament
+			var willTs = getV('willTimestamp', 0);
+			var checkWillTs = $.now() - (1000 * 10 * 60);
+			var willName = unsafeWindow.omerta.character.info.testament();
+			var willTr = $('div.gangster-info-body li:eq(2) a span');
+
+			if (willName !== '') {
+				if (willTs <= checkWillTs) {
+					checkUserAlive(willName, function(isAlive) {
+						setV('willTimestamp', $.now());
+						if (!isAlive) {
+							setV('deadWillName', willName);
+							willTr.append($('<span>').addClass('red').text(' | Dead!'));
+						}
+					});
+				} else {
+					var deadWillName = getV('deadWillName');
+					if (deadWillName == willName) {
+						willTr.append($('<span>').addClass('red').text(' | Dead!'));
+					}
+				}
+			}
+
 			// Tell how old the account is
 			var startElem = $('div.gangster-info-body li:eq(5) a span');
 			var startDate = unsafeWindow.omerta.character.info.startdate();
