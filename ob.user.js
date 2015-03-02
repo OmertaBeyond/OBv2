@@ -1790,6 +1790,7 @@ if (document.getElementById('game_container') !== null) {
 				$('input[name="ver"]').focus();
 			}
 		}
+
 		// Shit we're busted!
 		if (on_page('/jail.php') && nn == 'table') {
 			var bo_hotkey = sets['bo_hotkey'] || '/';
@@ -4506,7 +4507,7 @@ if (document.getElementById('game_container') !== null) {
 				$('#footer input[name="action_result"]').remove();
 				toggleFooterVisibility();
 			}
-			$('td:has(input[value="SH-cars"])').append(
+			$('td:has(input[value="SH-cars"]), #footer').append(
 				$('<select>').attr({
 					name: 'selsort'
 				}).append(
