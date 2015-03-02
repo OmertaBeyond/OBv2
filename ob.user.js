@@ -4531,11 +4531,11 @@ if (document.getElementById('game_container') !== null) {
 						id: 'footer'
 					}).css({
 						'position': IsNewVersion() ? 'absolute' : 'fixed',
-						'bottom': IsNewVersion() ? '6px' : '0px',
+						'bottom': IsNewVersion() ? '5px' : '0px',
 						'left': IsNewVersion() ? '5px' : 'inherit',
 						'background': IsNewVersion() ? '#50545A' : '#F0F0F0',
 						'color': IsNewVersion() ? '#EEE' : '#000',
-						'width': IsNewVersion() ? '99%' : '70%',
+						'width': IsNewVersion() ? '98.15%' : '70%',
 						'text-align': 'center',
 						'border': '1px solid black',
 						'border-bottom-right-radius': IsNewVersion() ? '4px' : '0px',
