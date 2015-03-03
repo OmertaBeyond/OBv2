@@ -66,9 +66,11 @@ You can find us at:
  * [Twitter](http://twitter.com/omertabeyond)
 
 
-# Getting started
+# How to contribute
 
 * Install [Node.js](http://nodejs.org/download/)
 * Install grunt: `npm install -g grunt-cli`
 * Install the Node.js dependencies via npm: `npm install`
+* Hack and poke around the source
 * Run `grunt` to check source with `jscs`, `jshint`, `csslint` and `lintspaces`
+* Open `Pull Request` for review :-)
