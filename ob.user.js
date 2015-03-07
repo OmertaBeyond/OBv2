@@ -320,7 +320,7 @@ function delMsg(what, name) {
 		if (what == 'id') {
 			if (name == thismsgid) {
 				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
-					$('font[color="red"]').text('Message deleted.');
+					$('font[color="red"]').text(i18n.t('mail.message_deleted'));
 				});
 				msgTr.hide();
 				msgTr.next().hide();
@@ -328,7 +328,7 @@ function delMsg(what, name) {
 		} else if (what == 'name') {
 			if (name == msgTitle) {
 				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
-					$('font[color="red"]').text('Message deleted.');
+					$('font[color="red"]').text(i18n.t('mail.message_deleted'));
 				});
 				msgTr.hide();
 				msgTr.next().hide();
@@ -430,10 +430,10 @@ function bnUpdate(current) {
 	setPow('bninfo', 2, cityCode); // save
 
 	// parse plane to ID
-	var rides = ['none', 'geen', 'Fokker DR-1', 'Havilland DH 82A', 'Fleet 7', 'Douglas DC-3'];
+	var rides = [i18n.t('profile.plane.none'), 'Fokker DR-1', 'Havilland DH 82A', 'Fleet 7', 'Douglas DC-3'];
 	for (var plane = 0, i = 0; i <= 5; i++) {
 		if (rides[i] == ride) {
-			plane = [0, 0, 1, 2, 3, 4][i];
+			plane = [0, 1, 2, 3, 4][i];
 			break;
 		}
 	}
@@ -468,7 +468,7 @@ function CheckBmsg() {
 				var deaths = response['deaths'].length;
 				var news = response['news'].length;
 				if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
-					var bmsgNewsTxt = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
+					var bmsgNewsTxt = i18n.t('notification.news.text', OB_NEWS_WEBSITE) + '\n\n';
 					var bmsgNewsTitle = response['news'][0]['title'];
 					bmsgNewsTxt += response['news'][0]['preview'];
 
@@ -501,8 +501,7 @@ function CheckBmsg() {
 					}
 					setV('lastbmsg', response['news'][0]['ts']);
 				} else if ((prefs['bmsgDeaths'] || prefs['bmsgDeaths_sound']) && (deaths >= 1)) {
-					var bmsgDeathsTxt = response['deaths'].length + ' people died:\n\n';
-					var bmsgDeathsTitle = 'Deaths! (' + v + ')';
+					var bmsgDeathsTxt = i18n.t('notification.deaths.text', response['deaths'].length) + '\n\n';
 					var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
 					for (var i = 0; i < am; i++) {
 						var bmsgD = new Date(response['deaths'][i]['ts'] * 1000);
@@ -513,7 +512,7 @@ function CheckBmsg() {
 					}
 
 					if (prefs['bmsgDeaths']) {
-						var notification = new Notification(bmsgDeathsTitle, {
+						var notification = new Notification(i18n.t('notification.deaths.title', v), {
 							dir: 'auto',
 							lang: '',
 							body: bmsgDeathsTxt,
@@ -595,10 +594,8 @@ function CheckServiceVariable() {
 			var newHealth = parseFloat(serviceData.progressbars.health);
 			var oldHealth = parseFloat(getV('serviceHealth', 0));
 			if (oldHealth > 0 && (oldHealth > newHealth)) {
-				var healthText = 'You lost ' + (oldHealth - newHealth) + ' health!';
-				var healthTitle = 'Health (' + v + ')';
 				if (prefs['notify_health']) {
-					SendNotification(healthTitle, healthText, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
+					SendNotification(i18n.t('notification.health.title', v), i18n.t('notification.health.text', oldHealth - newHealth), 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
 				}
 				if (prefs['notify_health_sound']) {
 					playBeep();
@@ -629,12 +626,12 @@ function CheckServiceVariable() {
 
 				setV('lastMessage', msgId);
 				if (totalMessages === 1) {
-					msgText = 'Message: ' + serviceData.messages.inbox[0].msg.replace(/<br \/>/g, '');
-					msgTitle = 'New message from ' + serviceData.messages.inbox[0].frm + ': ' + serviceData.messages.inbox[0].sbj + ' (' + v + ')';
+					msgText = i18n.t('notification.messages.detailed.text', serviceData.messages.inbox[0].msg.replace(/<br \/>/g, ''));
+					msgTitle = i18n.t('notification.messages.detailed.title', serviceData.messages.inbox[0].frm, serviceData.messages.inbox[0].sbj, v);
 					callbackUrl = callbackUrl + msgId;
 				} else {
-					msgText = 'You have got ' + totalMessages + ' new messages';
-					msgTitle = 'New messages (' + v + ')';
+					msgText = i18n.t('notification.messages.detailed.text', totalMessages);
+					msgTitle = i18n.t('notification.messages.detailed.text', v);
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_messages']) {
@@ -667,18 +664,18 @@ function CheckServiceVariable() {
 				setV('lastAlert', msgId);
 				if (totalAlerts === 1) {
 					// If its a friend request it has no msg or id
-					if (serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
-						alertText = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
-						alertTitle = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
+					if (serviceData.messages.alert[0].sbj !== i18n.t('mail.subject.friend_request')) {
+						alertText = i18n.t('notification.alerts.detailed.text', serviceData.messages.alert[0].msg.replace(/<br \/>/g, ''));
+						alertTitle = i18n.t('notification.alerts.detailed.title', serviceData.messages.alert[0].sbj, v);
 						callbackUrl = callbackUrl + msgId;
 					} else {
-						alertText = 'Alert: You got a new friend request!';
-						alertTitle = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
+						alertText = i18n.t('notification.alerts.friend_request.text');
+						alertTitle = i18n.t('notification.alerts.friend_request.title', serviceData.messages.alert[0].sbj, v);
 						callbackUrl = serviceData.messages.alert[0].link;
 					}
 				} else {
-					alertText = 'You have got ' + totalAlerts + ' new alerts';
-					alertTitle = 'Alert! (' + v + ')';
+					alertText = i18n.t('notification.alerts.bulk.text', totalAlerts);
+					alertTitle = i18n.t('notification.alerts.bulk.title', v);
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_alerts']) {
@@ -696,10 +693,8 @@ function CheckServiceVariable() {
 				gtaTimer = true;
 				setTimeout(function() {
 					gtaTimer = false;
-					var gtaText = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
-					var gtaTitle = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
 					if (prefs['notify_gta']) {
-						SendNotification(gtaTitle, gtaText, 'Car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
+						SendNotification(i18n.t('notification.car.title', v), i18n.t('notification.car.text'), 'Car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_gta_sound']) {
 						playBeep();
@@ -730,10 +725,8 @@ function CheckServiceVariable() {
 				travelTimer = true;
 				setTimeout(function() {
 					travelTimer = false;
-					var travelText = (v == 'nl' ? 'Je kunt reizen' : 'You can travel');
-					var travelTitle = (v == 'nl' ? 'Reizen (' + v + ')' : 'Travel (' + v + ')');
 					if (prefs['notify_travel']) {
-						SendNotification(travelTitle, travelText, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+						SendNotification(i18n.t('notification.travel.title', v), i18n.t('notification.travel.text'), 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_travel_sound']) {
 						playBeep();
@@ -748,10 +741,8 @@ function CheckServiceVariable() {
 				bulletTimer = true;
 				setTimeout(function() {
 					bulletTimer = false;
-					var bulletsText = (v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets');
-					var bulletsTitle = (v == 'nl' ? 'Kogels (' + v + ')' : 'Bullets (' + v + ')');
 					if (prefs['notify_bullets']) {
-						SendNotification(bulletsTitle, bulletsText, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
+						SendNotification(i18n.t('notification.bullets.title', v), i18n.t('notification.bullets.text'), 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_bullets_sound']) {
 						playBeep();
@@ -837,7 +828,7 @@ function highlightChatMessage(messageContainer, isBufferedMessage) {
 		$(messageContainer).css('background-color', 'rgba(125, 3, 2, 0.77)');
 		if (!isBufferedMessage) {
 			if (prefs['notify_highlight']) {
-				SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
+				SendNotification(i18n.t('notification.highlight.title'), sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
 			}
 			if (prefs['notify_highlight_sound']) {
 				playBeep();
@@ -5072,7 +5063,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 
 					if (!firstTimePrice && (prefs['notify_bn'] || prefs['notify_bn_sound'])) {
 						if (prefs['notify_bn']) {
-							SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+							SendNotification(i18n.t('notification.price_change.title', v), i18n.t('notification.price_change.text', highCity, highCityPrice, lowCity, lowCityPrice), 'Booze', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
 						}
 
 						if (prefs['notify_bn_sound']) {

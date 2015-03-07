@@ -1,8 +1,71 @@
 {
+  "mail": {
+    "message_deleted": "Message deleted.",
+    "subject": {
+      "friend_request": "Friend Request(s)"
+    }
+  },
   "notification": {
+    "alerts": {
+      "bulk": {
+        "text": "You have got %s new alerts",
+        "title": "Alert! (%s)"
+      },
+      "detailed": {
+        "text": "Alert: %s",
+        "title": "Alert! %s (%s)"
+      },
+      "friend_request": {
+        "text": "Alert: You got a new friend request!",
+        "title": "Alert! %s (%s)"
+      }
+    },
+    "car": {
+      "text": "You can nick a car",
+      "title": "Nick a car (%s)"
+    },
     "crime": {
       "text": "You can do a crime",
       "title": "Crime (%s)"
+    },
+    "bullets": {
+      "text": "You can buy bullets",
+      "title": "Bullets (%s)"
+    },
+    "deaths": {
+      "text": "%s people died:",
+      "title": "Deaths! (%s)"
+    },
+    "health": {
+      "text": "You lost %s health!",
+      "title": "Health (%s)"
+    },
+    "highlight": {
+      "title": "Your name was mentioned in the chat"
+    },
+    "messages": {
+      "bulk": {
+        "text": "You have got %s new messages",
+        "title": "New messages (%s)"
+      },
+      "detailed": {
+        "text": "Message: %s",
+        "title": "New message from %s: %s (%s)"
+      }
+    },
+    "news": {
+      "text": "A new article is posted %s"
+    },
+    "price_change": {
+      "text": [
+        "High city: %s (%s)",
+        "Low city: %s (%s)"
+      ],
+      "title": "B/N prices changed (%s)"
+    },
+    "travel": {
+      "text": "You can travel",
+      "title": "Travel (%s)"
     }
   },
   "profile": {
@@ -17,6 +80,9 @@
       "expert": "Expert",
       "ultimate": "Ultimate",
       "extreme_expert": "Extreme Expert"
+    },
+    "plane": {
+      "none": "none"
     }
   }
 }

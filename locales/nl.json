@@ -1,8 +1,24 @@
 {
+
+  "mail": {
+    "message_deleted": "Bericht verwijdert."
+  },
   "notification": {
+    "bullets": {
+      "text": "Je kunt kogels kopen",
+      "title": "Kogels (%s)"
+    },
+    "car": {
+      "text": "Je kunt weer een auto stelen",
+      "title": "Steel een auto (%s)"
+    },
     "crime": {
       "text": "Je kunt weer een misdaad doen",
       "title": "Misdaad (%s)"
+    },
+    "travel": {
+      "text": "Je kunt reizen",
+      "title": "Reizen (%s)"
     }
   },
   "profile": {
@@ -17,6 +33,9 @@
       "expert": "Held van Alcatraz",
       "ultimate": "Meesterbuster",
       "extreme_expert": "Houdini"
+    },
+    "plane": {
+      "none": "geen"
     }
   }
 }
