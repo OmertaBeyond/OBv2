@@ -25,7 +25,8 @@
         "unsafeWindow",
         "GM_setClipboard",
         "Notification",
-        "Howl"
+        "Howl",
+        "i18n"
     ],
 
     // Development.

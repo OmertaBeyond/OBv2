@@ -1,0 +1,22 @@
+{
+  "notification": {
+    "crime": {
+      "text": "Je kunt weer een misdaad doen",
+      "title": "Misdaad (%s)"
+    }
+  },
+  "profile": {
+    "bustrank": {
+      "rookie": "Beginner",
+      "novice": "In opleiding",
+      "initiate": "Ray's Assistent",
+      "decent": "Gevorderde",
+      "apprentice": "Senior buster",
+      "intermediate": "Professioneel",
+      "professional": "Expert",
+      "expert": "Held van Alcatraz",
+      "ultimate": "Meesterbuster",
+      "extreme_expert": "Houdini"
+    }
+  }
+}

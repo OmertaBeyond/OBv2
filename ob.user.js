@@ -51,6 +51,7 @@
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
 // @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.17/howler.min.js
+// @require                  https://cdn.jsdelivr.net/i18next/1.7.7/i18next.min.js
 // @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
@@ -64,6 +65,8 @@
 // @resource    red-star     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
 // @resource    NRicon       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/magnifier.png
 // @resource    loadingicon  https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/loading.png
+// @resource    transl-en    https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/locales/en.json
+// @resource    transl-nl    https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/locales/nl.json
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
@@ -139,6 +142,40 @@ function whatV(hostname) {
 		default:
 			return undefined;
 	}
+}
+
+var detectedLanguage = null;
+
+function getLanguage() {
+	return detectedLanguage || 'en';
+}
+
+function setLanguage() {
+	var resources = {
+		en: {
+			translation: JSON.parse(GM_getResourceText('transl-en'))
+		}
+	};
+	var langIndicators = {
+		'My Account': 'en',
+		'Mijn Account': 'nl',
+		'Hesabim': 'tr',
+		'Minha conta': 'pt'
+	};
+	var langString = $('#game_menu a[href="/information.php"]').text().trim();
+	if (langIndicators.hasOwnProperty(langString)) {
+		detectedLanguage = langIndicators[langString];
+		resources[getLanguage()] = {
+			translation: JSON.parse(GM_getResourceText('transl-' + getLanguage()))
+		};
+	}
+
+	i18n.init({
+		resStore: resources,
+		fallbackLng: 'en',
+		lng: getLanguage(),
+		shortcutFunction: 'sprintf'
+	});
 }
 
 var v = whatV();
@@ -677,10 +714,8 @@ function CheckServiceVariable() {
 				crimeTimer = true;
 				setTimeout(function() {
 					crimeTimer = false;
-					var crimeText = (v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime');
-					var crimeTitle = (v == 'nl' ? 'Misdaad (' + v + ')' : 'Crime (' + v + ')');
 					if (prefs['notify_crime']) {
-						SendNotification(crimeTitle, crimeText, 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
+						SendNotification(i18n.t('notification.crime.title', v), i18n.t('notification.crime.text'), 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
 					}
 					if (prefs['notify_crime_sound']) {
 						playBeep();
@@ -2975,7 +3010,7 @@ if (document.getElementById('game_container') !== null) {
 
 			var amount = [' (0-500)', ' (501-1.000)', ' (1.001-2.500)', ' (2.501-5.000)', ' (5.001-10.000)', ' (10.001-15.000)', ' (15.001-20.000)', ' (20.001-25.000)', ' (25.001-27.500)', ' (27.501+)'],
 				i = 1;
-			var brank = (v == 'nl' ? ['Beginner', 'In opleiding', 'Ray\'s Assistent', 'Gevorderde', 'Senior buster', 'Professioneel', 'Expert', 'Held van Alcatraz', 'Meesterbuster', 'Houdini'] : ['Rookie', 'Novice', 'Initiate', 'Decent', 'Apprentice', 'Intermediate', 'Professional', 'Expert', 'Ultimate', 'Extreme Expert']);
+			var brank = [i18n.t('profile.bustrank.rookie'), i18n.t('profile.bustrank.novice'), i18n.t('profile.bustrank.initiate'), i18n.t('profile.bustrank.decent'), i18n.t('profile.bustrank.apprentice'), i18n.t('profile.bustrank.intermediate'), i18n.t('profile.bustrank.professional'), i18n.t('profile.bustrank.expert'), i18n.t('profile.bustrank.ultimate'), i18n.t('profile.bustrank.extreme_expert')];
 
 			var a = brank.indexOf(bustrank);
 
@@ -5214,6 +5249,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 		}, 1000);
 	}
+	setTimeout(setLanguage, 1000);
 });
 
 function GetPrefPage() {

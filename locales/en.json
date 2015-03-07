@@ -1,0 +1,22 @@
+{
+  "notification": {
+    "crime": {
+      "text": "You can do a crime",
+      "title": "Crime (%s)"
+    }
+  },
+  "profile": {
+    "bustrank": {
+      "rookie": "Rookie",
+      "novice": "Novice",
+      "initiate": "Initiate",
+      "decent": "Decent",
+      "apprentice": "Apprentice",
+      "intermediate": "Intermediate",
+      "professional": "Professional",
+      "expert": "Expert",
+      "ultimate": "Ultimate",
+      "extreme_expert": "Extreme Expert"
+    }
+  }
+}
