@@ -65,8 +65,8 @@
 // @resource    red-star     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
 // @resource    NRicon       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/magnifier.png
 // @resource    loadingicon  https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/loading.png
-// @resource    transl-en    https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/locales/en.json
-// @resource    transl-nl    https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/locales/nl.json
+// @resource    transl-en    https://raw.githubusercontent.com/OmertaBeyond/OBv2/i18n/locales/en.json
+// @resource    transl-nl    https://raw.githubusercontent.com/OmertaBeyond/OBv2/i18n/locales/nl.json
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
