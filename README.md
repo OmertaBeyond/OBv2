@@ -27,6 +27,9 @@ At the moment OB is compatible with:
  * [ViolentMonkey](https://addons.opera.com/en/extensions/details/violent-monkey/)
 * Safari
  * [TamperMonkey](https://extensions.apple.com/details/?id=net.tampermonkey.safari-G3XV72R5TC)
+* Dolphin
+ * [TamperMonkey](https://play.google.com/store/apps/details?id=net.tampermonkey.dolphin)
+  * Note: minimum 1GB RAM and a fast dual-core CPU is recommended
 
 Works on:
  * .com
