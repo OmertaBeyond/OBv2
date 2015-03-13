@@ -360,20 +360,20 @@ function grabHTML(url, func) {
 }
 
 function bnUpdate(current) {
+	var nick, rank, bloodType, city, ride;
 	if (!IsNewVersion()) {
 		var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
-		var nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1) > a').text();
-		var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 7 : 6) + ') > td:eq(1)').text();
-		var bloodType = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 9 : 8) + ') > td:eq(1) > a').text();
-		var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 10 : 9) + ') > td:eq(1) > a').text();
-		var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1)').text();
+		nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1) > a').text();
+		rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 7 : 6) + ') > td:eq(1)').text();
+		bloodType = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 9 : 8) + ') > td:eq(1) > a').text();
+		city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 10 : 9) + ') > td:eq(1) > a').text();
+		ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1)').text();
 	} else {
-		var nick = unsafeWindow.omerta.character.info.name();
-		var rank = unsafeWindow.omerta.character.progress.rank();
-		var bloodType = unsafeWindow.omerta.character.info.bloodtype();
-		var city = unsafeWindow.omerta.character.game.city();
+		nick = unsafeWindow.omerta.character.info.name();
+		rank = unsafeWindow.omerta.character.progress.rank();
+		bloodType = unsafeWindow.omerta.character.info.bloodtype();
+		city = unsafeWindow.omerta.character.game.city();
 		var possessions = unsafeWindow.omerta.modules.UserInformation.data.possessions;
-		var ride;
 		if (possessions) {
 			$.each(possessions, function(i, v) {
 				if (possessions[i].type == 'plane') {
