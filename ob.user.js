@@ -5777,58 +5777,82 @@ function GetPrefPage() {
  */
 
 var infoD = new Date(); // check once every hour for new info
-if (getV('nick', '') === '' || getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours()) {
-	$.get('/information.php', function (data) {
-		var a = data.split('<tbody');
-		if (a[2]) { // fails on click limit or other error
-			if (v == 'com' || v == 'nl') {
+if (getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours()) {
+	if (IsNewVersion()) {
+		// Update shizzle
+		bnUpdate(0);
+		var nick = unsafeWindow.omerta.character.info.name();
+		$.get('/user.php?nick=' + nick, function (data) {
+			var a = data.split('<script');
+			$('#game_wrapper').append(
+				$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
+			);
+			if ($('#xhr').length) {
+				var role = 1; // default is in a family
+				var pos = $('span#position').attr('value');
+				var fam = ($('span#family > a').length ? $('span#family > a').text() : $('span#family').text());
+				var hascapo = ($('span#capo').length) ? 1 : 0;
+				if (/None|Geen/.test(fam)) {
+					role = 0;
+				} else {
+					if (/Capo (of|van):/.test(pos)) {
+						role = 2;
+					}
+					if (/(Sottocapo|Consiglieri|Don) (of|van):/.test(pos)) {
+						role = 3;
+					}
+					if (hascapo) {
+						role = 4;
+					}
+				}
+				setV('family', fam);
+				setPow('bninfo', 4, role); // save
+			}
+			setV('brcDate', infoD.getHours());
+			$('#xhr').remove();
+			$('#str2dom').remove();
+		});
+	} else {
+		$.get('/information.php', function (data) {
+			var a = data.split('<tbody');
+			if (a[2]) { // fails on click limit or other error
 				$('#game_wrapper').append(
 					$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
 				);
-			} else {
-				$('.Grid').append(
-					$('<div>').css('display', 'none').attr('id', 'str2dom').html(data)
-				);
-			}
-			bnUpdate(0); // call update function
-			$.get('/user.php?nick=' + getV('nick', ''), function (data) {
-				var a = data.split('<script');
-				if (v == 'com' || v == 'nl') {
+				bnUpdate(0); // call update function
+				$.get('/user.php?nick=' + getV('nick', ''), function (data) {
+					var a = data.split('<script');
 					$('#game_wrapper').append(
 						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[1])
 					);
-				} else {
-					$('.Grid').append(
-						$('<div>').css('display', 'none').attr('id', 'xhr').html(a[1])
-					);
-				}
-				if ($('#xhr').length) {
-					var role = 1; // default is in a family
-					var pos = $('span#position').attr('value');
-					var fam = ($('span#family > a').length ? $('span#family > a').text() : $('span#family').text());
-					var hascapo = ($('span#capo').length) ? 1 : 0;
-					if (/None|Geen/.test(fam)) {
-						role = 0;
-					} else {
-						if (/Capo (of|van):/.test(pos)) {
-							role = 2;
+					if ($('#xhr').length) {
+						var role = 1; // default is in a family
+						var pos = $('span#position').attr('value');
+						var fam = ($('span#family > a').length ? $('span#family > a').text() : $('span#family').text());
+						var hascapo = ($('span#capo').length) ? 1 : 0;
+						if (/None|Geen/.test(fam)) {
+							role = 0;
+						} else {
+							if (/Capo (of|van):/.test(pos)) {
+								role = 2;
+							}
+							if (/(Sottocapo|Consiglieri|Don) (of|van):/.test(pos)) {
+								role = 3;
+							}
+							if (hascapo) {
+								role = 4;
+							}
 						}
-						if (/(Sottocapo|Consiglieri|Don) (of|van):/.test(pos)) {
-							role = 3;
-						}
-						if (hascapo) {
-							role = 4;
-						}
+						setV('family', fam);
+						setPow('bninfo', 4, role); // save
 					}
-					setV('family', fam);
-					setPow('bninfo', 4, role); // save
-				}
-				setV('brcDate', infoD.getHours());
-				$('#xhr').remove();
-				$('#str2dom').remove();
-			});
-		}
-	});
+					setV('brcDate', infoD.getHours());
+					$('#xhr').remove();
+					$('#str2dom').remove();
+				});
+			}
+		});
+	}
 }
 
 // Reset on death
