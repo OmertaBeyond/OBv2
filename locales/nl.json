@@ -1,5 +1,11 @@
 {
-
+  "general": {
+    "clicklimit_reached": "Je hebt jouw kliklimiet bereikt."
+  },
+  "jail": {
+    "busted": "You busted this person",
+    "busted_cellmate": "cellmate out of jail"
+  },
   "mail": {
     "message_deleted": "Bericht verwijdert."
   },
@@ -37,5 +43,30 @@
     "plane": {
       "none": "geen"
     }
+  },
+  "smuggling": {
+    "booze": {
+      "none": "GEEN DRANK",
+      "wine": "Wijn",
+      "beer": "Bier",
+      "rum": "Rum",
+      "cognac": "Cognac",
+      "whiskey": "Whiskey",
+      "amaretto": "Amaretto",
+      "port": "Port"
+    },
+    "narcotics": {
+      "none": "GEEN DRUGS",
+      "morphine": "Morfine",
+      "marijuana": "Marihuana",
+      "glue": "Lijm",
+      "heroin": "Heroïne",
+      "opium": "Opium",
+      "cocaine": "Cocaïne",
+      "tobacco": "Tabak"
+    }
+  },
+  "testament": {
+    "nobody": "Niemand"
   }
 }

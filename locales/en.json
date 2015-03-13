@@ -1,9 +1,54 @@
 {
+  "account": {
+    "age": "%s days old",
+    "bank_account": "In bank account",
+    "car_nicks": "Car nicking success",
+    "crimes": "Crime success"
+  },
+  "bank": {
+    "interest": "Interest",
+    "now": "Now!"
+  },
+  "chat": {
+    "pin": "Pin chat window"
+  },
+  "family": {
+    "ago": "Ago",
+    "change": "Change",
+    "date": "Date",
+    "last_changes": "Last family changes",
+    "last_deaths": "Last family deaths",
+    "name": "Name",
+    "no_changes": "There are no changes yet!",
+    "no_deaths": "There are no deaths yet!",
+    "position": "Position:",
+    "rank": "Rank",
+    "ranks": "Ranks:",
+    "total_points": "Total points:",
+    "view_changelog": "View full changelog",
+    "view_deathslog": "View full deathslog",
+    "worth": "Worth:"
+  },
+  "general": {
+    "clicklimit_reached": "You reached your click limit."
+  },
+  "jail": {
+    "busted": "You busted this person",
+    "busted_cellmate": "cellmate out of jail",
+    "in_jail": "In jail: ",
+    "bustouts": "Bustouts: "
+  },
   "mail": {
     "message_deleted": "Message deleted.",
     "subject": {
       "friend_request": "Friend Request(s)"
     }
+  },
+  "nickreader": {
+    "clicklimit_reached": "Clicklimit, please try again...",
+    "enabled": "Nickreader enabled",
+    "loading": "Loading info ...",
+    "wait_for_previous": "Wait for the previous ..."
   },
   "notification": {
     "alerts": {
@@ -84,5 +129,31 @@
     "plane": {
       "none": "none"
     }
+  },
+  "smuggling": {
+    "booze": {
+      "none": "NO BOOZE",
+      "wine": "Wine",
+      "beer": "Beer",
+      "rum": "Rum",
+      "cognac": "Cognac",
+      "whiskey": "Whiskey",
+      "amaretto": "Amaretto",
+      "port": "Port"
+    },
+    "narcotics": {
+      "none": "NO NARCS",
+      "morphine": "Morphine",
+      "marijuana": "Marijuana",
+      "glue": "Glue",
+      "heroin": "Heroin",
+      "opium": "Opium",
+      "cocaine": "Cocaine",
+      "tobacco": "Tabacco"
+    }
+  },
+  "testament": {
+    "dead": "Dead!",
+    "nobody": "Nobody"
   }
 }

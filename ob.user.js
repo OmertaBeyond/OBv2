@@ -754,8 +754,8 @@ function CheckServiceVariable() {
 }
 
 var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm' || v == 'pt';
-var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
-var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
+var boozenames = ['none', 'wine', 'beer', 'rum', 'cognac', 'whiskey', 'amaretto', 'port'];
+var narcnames = ['none', 'morphine', 'marijuana', 'glue', 'heroin', 'opium', 'cocaine', 'tobacco'];
 
 function addEndTimeTooltip(node) {
 	// add a tooltip on every cooldown timer showing when it'll end (in OT)
@@ -888,7 +888,7 @@ function addChatResizeImprovements() {
 		$('footer').css('z-index', 100000);
 		unsafeWindow.omerta.chat.utils.scrollChat(unsafeWindow.Strophe.getNodeFromJid(unsafeWindow.omerta.chat.data.selected()), true, false);
 		$('.chat-controls-listing').prepend(
-			$('<a>').attr('title', 'Pin chat window').attr('class', 'chat-pin').click(function() {
+			$('<a>').attr('title', i18n.t('chat.pin')).attr('class', 'chat-pin').click(function() {
 				chatIsPinned = !chatIsPinned;
 				$('.chat input').focus();
 			}).append(
@@ -929,7 +929,7 @@ function parseGrab(html, url) {
 	// make sure all requests are handled seperatly
 	var ident = url.split('=')[1];
 	// Check for clicklimit
-	if (body.indexOf('You reached your click limit.') == -1) {
+	if (body.indexOf(i18n.t('general.clicklimit_reached')) == -1) {
 		// Add placeholder div
 		$('body').append(
 			$('<div>').attr('id', 'XHRDiv' + ident).html(body).hide()
@@ -1003,7 +1003,7 @@ function parseGrab(html, url) {
 		// End the process
 		$('#proc').text(0);
 	} else {
-		$('#' + ident).text('Clicklimit, please try again...');
+		$('#' + ident).text(i18n.t('nickreader.clicklimit_reached'));
 		$('#proc').text(0);
 	}
 }
@@ -1034,7 +1034,7 @@ function checkNRdiv(url, nickId) {
 	// yes we may proceed to add the popup
 	if (go && on) {
 		$('body').append(
-			$('<div>').attr('id', nickId).addClass('NRinfo').text('Loading info..').append(
+			$('<div>').attr('id', nickId).addClass('NRinfo').text(i18n.t('nickreader.loading')).append(
 				$('<img>').attr('src', loadingIcon)
 			)
 		);
@@ -1067,7 +1067,7 @@ function checkNRdiv(url, nickId) {
 			grabHTML(url, parseGrab); // (url to grab, function to execute after)
 			$('#proc').text(1);
 		} else {
-			$('#' + nickId).text('Wait for the previous..');
+			$('#' + nickId).text(i18n.t('nickreader.wait_for_previous'));
 		}
 	}
 }
@@ -1084,7 +1084,7 @@ function nickReader() {
 				}).append(
 					$('<center>').append(
 						$('<img>').attr('src', nickReaderIcon),
-						$('<b>').text('Nickreader enabled')
+						$('<b>').text(i18n.t('nickreader.enabled'))
 					)
 				)
 			);
@@ -1370,15 +1370,15 @@ if (document.getElementById('game_container') !== null) {
 					// Family position and worth
 					$('td.subtableheader').first().closest('tr').after(
 						$('<tr>').append(
-							$('<td>').addClass('subtableheader').text('Position:'),
-							$('<td>').addClass('profilerow').text('#' + data['pos'] + ' - Worth: ' + data['worth'] + '')
+							$('<td>').addClass('subtableheader').text(i18n.t('family.position')),
+							$('<td>').addClass('profilerow').text('#' + data['pos'] + ' - ' + i18n.t('family.worth') + ' ' + data['worth'] + '')
 						)
 					);
 
 					// add HR
 					$('table.thinline').first().find('tbody').append(
 						$('<tr>').append(
-							$('<td>').addClass('subtableheader').text('Ranks:'),
+							$('<td>').addClass('subtableheader').text(i18n.t('family.ranks')),
 							$('<td>').addClass('profilerow').append(
 								$('<table>').attr('width', '100%').append(
 									$('<tr>').append($('<td>').text('Godfather/First Lady:'), $('<td>').addClass('bold').text(data['hr']['gf'])),
@@ -1389,7 +1389,7 @@ if (document.getElementById('game_container') !== null) {
 									$('<tr>').append($('<td>').text('Assassin:'), $('<td>').addClass('bold').text(data['hr']['assa'])),
 									$('<tr>').append($('<td>').text('Swindler:'), $('<td>').addClass('bold').text(data['hr']['swin'])),
 									$('<tr>').append($('<td>').attr('colspan', '2').append($('<hr />'))),
-									$('<tr>').append($('<td>').text('Total points:'), $('<td>').addClass('bold').text(data['hr']['pts']))
+									$('<tr>').append($('<td>').text(i18n.t('family.total_points')), $('<td>').addClass('bold').text(data['hr']['pts']))
 								)
 							)
 						)
@@ -1401,16 +1401,16 @@ if (document.getElementById('game_container') !== null) {
 							$('<br />'),
 							$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
 								$('<tr>').append(
-									$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family deaths')
+									$('<td>').addClass('tableheader').attr('colspan', '100%').text(i18n.t('family.last_deaths'))
 								),
 								$('<tr>').append(
 									$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
 								),
 								$('<tr>').append(
-									$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Name'),
-									$('<td>').addClass('bold').attr('align', 'center').text('Rank'),
-									$('<td>').addClass('bold').attr('align', 'center').text('Date'),
-									$('<td>').addClass('bold').css('text-align', 'right').text('Ago')
+									$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text(i18n.t('family.name')),
+									$('<td>').addClass('bold').attr('align', 'center').text(i18n.t('family.rank')),
+									$('<td>').addClass('bold').attr('align', 'center').text(i18n.t('family.date')),
+									$('<td>').addClass('bold').css('text-align', 'right').text(i18n.t('family.ago'))
 								)
 							)
 						);
@@ -1422,7 +1422,7 @@ if (document.getElementById('game_container') !== null) {
 								}).append(
 									$('<img>').addClass('brcImg').attr({
 										src: GM_getResourceURL('log'),
-										title: 'View full deathslog'
+										title: i18n.t('family.view_deathslog')
 									})
 								)
 							).appendTo($('table.thinline:eq(2)>tbody>tr:eq(0)>td'));
@@ -1448,7 +1448,7 @@ if (document.getElementById('game_container') !== null) {
 						} else {
 							deaths_body.append(
 								$('<tr>').append(
-									$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '4').text('There are no deaths yet!')
+									$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '4').text(i18n.t('family.no_deaths'))
 								)
 							);
 						}
@@ -1458,14 +1458,14 @@ if (document.getElementById('game_container') !== null) {
 							$('<br />'),
 							$('<table>').addClass('thinline').css('width', '100%').attr('cellspacing', '0').attr('cellpadding', '2').attr('rules', 'none').append(
 								$('<tr>').append(
-									$('<td>').addClass('tableheader').attr('colspan', '100%').text('Last family changes')
+									$('<td>').addClass('tableheader').attr('colspan', '100%').text(i18n.t('family.last_changes'))
 								),
 								$('<tr>').append(
 									$('<td>').attr('colspan', '100%').attr('bgcolor', 'black').attr('height', '1')
 								),
 								$('<tr>').append(
-									$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text('Date'),
-									$('<td>').addClass('bold').attr('align', 'left').text('Change')
+									$('<td>').addClass('bold').css('width', '28%').attr('align', 'left').text(i18n.t('family.date')),
+									$('<td>').addClass('bold').attr('align', 'left').text(i18n.t('family.change'))
 								)
 							)
 						);
@@ -1477,7 +1477,7 @@ if (document.getElementById('game_container') !== null) {
 								}).append(
 									$('<img>').addClass('brcImg').attr({
 										src: GM_getResourceURL('log'),
-										title: 'View full changelog'
+										title: i18n.t('family.view_changelog')
 									})
 								)
 							).appendTo($('table.thinline:eq(3)>tbody>tr:eq(0)>td'));
@@ -1496,7 +1496,7 @@ if (document.getElementById('game_container') !== null) {
 						} else {
 							changes_body.append(
 								$('<tr>').append(
-									$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '2').text('There are no changes yet!')
+									$('<td>').addClass('red').css('text-align', 'center').attr('colspan', '2').text(i18n.t('family.no_changes'))
 								)
 							);
 						}
@@ -1517,7 +1517,6 @@ if (document.getElementById('game_container') !== null) {
 			var willTR;
 			var timestamp = getV('willTimestamp');
 			var checkTimestamp = $.now() - (1000 * 30 * 60); //
-			var defaultWillName = (v == 'nl' ? 'Niemand' : 'Nobody');
 
 			// Get the values for the will, since .DM is not supported ill leave those out (for now)
 			if (IsNewVersion()) {
@@ -1530,11 +1529,11 @@ if (document.getElementById('game_container') !== null) {
 
 
 			var appendDead = function() {
-				willTR.append('<span class="red"> | Dead!</span>');
+				willTR.append('<span class="red"> | ' + i18n.t('testament.dead') + '</span>');
 			};
 			// Let's skip doing this if the will has not been set.
 
-			if (getV('willTimestamp', 0) <= checkTimestamp && willName != defaultWillName) {
+			if (getV('willTimestamp', 0) <= checkTimestamp && willName != i18n.t('testament.nobody')) {
 				checkUserAlive(willName, function(isAlive) {
 					setV('willTimestamp', $.now());
 					if (!isAlive) {
@@ -1570,8 +1569,8 @@ if (document.getElementById('game_container') !== null) {
 					var timestamp = Math.round(parseInt(new Date().getTime(), 10) / 1000);
 					var left = (banktleft - timestamp);
 					var bankTr = $('<tr>').attr({id: 'interestRow'}).append(
-						$('<td>').html('<b>Interest</b>'),
-						$('<td>').html('<a href="/bank.php">$ ' + commafy(interest) + '</a> (<span data-timeleft="' + left + '">Now!</span>)')
+						$('<td>').html('<b>' + i18n.t('bank.interest') + '</b>'),
+						$('<td>').html('<a href="/bank.php">$ ' + commafy(interest) + '</a> (<span data-timeleft="' + left + '">' + i18n.t('bank.now') + '</span>)')
 					);
 					$('.thinline:eq(4)').append(bankTr);
 				}
@@ -1586,7 +1585,7 @@ if (document.getElementById('game_container') !== null) {
 			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
 			var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
 			var previousText = startElem.text();
-			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)').click(function() {
+			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + i18n.t('account.age', (diffDays - 1).toString()) + ')').click(function() {
 				var currentText = $(this).text();
 				$(this).text(previousText);
 				previousText = currentText;
@@ -1604,7 +1603,7 @@ if (document.getElementById('game_container') !== null) {
 			if (successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
 				var earned = getV('carMoney', 0);
-				var newText = '<tr><td><b>Car nicking success</b></td><td>' + successCars + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
+				var newText = '<tr><td><b>' + i18n.t('account.car_nicks') + '</b></td><td>' + successCars + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
 				$('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')').after(newText);
 			}
 
@@ -1615,15 +1614,15 @@ if (document.getElementById('game_container') !== null) {
 			if (successCrimes >= 1) {
 				var successRate = (successCrimes / crimeAttempts) * 100;
 				var earned = getV('crimeMoney', 0);
-				var newText = '<tr><td><b>Crime success</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
+				var newText = '<tr><td><b>' + i18n.t('account.crimes') + '</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
 				$('table.thinline:eq(5)>tbody>tr:eq(' + vTr + ')').after(newText);
 			}
 
 			// Visual improvement
 			if (!IsNewVersion()) {
-				$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
+				$('.thinline:eq(4)>tbody>tr:eq(3)>td:first').html('<a href="/bank.php"><b>' + i18n.t('account.bank_account') + '</b></a>');
 			} else {
-				$('.thinline:eq(4)>tbody>tr:eq(2)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
+				$('.thinline:eq(4)>tbody>tr:eq(2)>td:first').html('<a href="/bank.php"><b>' + i18n.t('account.bank_account') + '</b></a>');
 			}
 		}
 		// ---------------- NEW My account ----------------
@@ -1640,13 +1639,13 @@ if (document.getElementById('game_container') !== null) {
 						setV('willTimestamp', $.now());
 						if (!isAlive) {
 							setV('deadWillName', willName);
-							willTr.append($('<span>').addClass('red').text(' | Dead!'));
+							willTr.append($('<span>').addClass('red').text(' | ' + i18n.t('testament.dead')));
 						}
 					});
 				} else {
 					var deadWillName = getV('deadWillName');
 					if (deadWillName == willName) {
-						willTr.append($('<span>').addClass('red').text(' | Dead!'));
+						willTr.append($('<span>').addClass('red').text(' | ' + i18n.t('testament.dead')));
 					}
 				}
 			}
@@ -1659,7 +1658,7 @@ if (document.getElementById('game_container') !== null) {
 			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
 			var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
 			var previousText = startElem.html();
-			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)').click(function() {
+			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + i18n.t('account.age', (diffDays - 1).toString()) + ')').click(function() {
 				var currentText = $(this).html();
 				$(this).html(previousText);
 				previousText = currentText;
@@ -1825,10 +1824,8 @@ if (document.getElementById('game_container') !== null) {
 
 			$('tr[bgcolor][nobust]').find('input[name="bust"]').attr('checked', false);
 			// Add successful BO to total
-			var bustMsg = (v == 'nl' ? 'Je hebt deze gangster' : 'You busted this person');
-			var bustFriendMsg = (v == 'nl' ? 'celmaat uit de gevangenis' : 'cellmate out of jail');
-			if ($('#game_container:contains("' + bustMsg + '")').length) {
-				if ($('#game_container:contains("' + bustFriendMsg + '")').length) {
+			if ($('#game_container:contains("' + i18n.t('jail.busted') + '")').length) {
+				if ($('#game_container:contains("' + i18n.t('jail.busted_cellmate') + '")').length) {
 					bos = (bos + 1);
 				}
 				bos = (bos + 1);
@@ -1838,18 +1835,18 @@ if (document.getElementById('game_container') !== null) {
 				// Add amount of inmates and bustouts
 				$('#game_container tr:first').prepend(
 					$('<td>').css('width', '46%').append(
-						$('<span>').text('In jail: ' + rows),
+						$('<span>').text(i18n.t('jail.in_jail') + rows),
 						$('<br />'),
-						$('<span>').text('Bustouts: ' + bos)
+						$('<span>').text(i18n.t('jail.bustouts') + bos)
 					)
 				);
 				$('#game_container tr:first table').css('margin-left', '0');
 			} else {
 				// Add amount of inmates and bustouts
 				$('table > tbody > tr > td > h1').parent().append(
-					$('<span>').text('In jail: ' + rows),
+					$('<span>').text(i18n.t('jail.in_jail') + rows),
 					$('<br />'),
-					$('<span>').text('Bustouts: ' + bos)
+					$('<span>').text(i18n.t('jail.bustouts') + bos)
 				);
 				// Focus on code field
 				$('input[name="ver"]').focus();
@@ -3623,11 +3620,11 @@ if (document.getElementById('game_container') !== null) {
 									$('<td>').css({
 										'border-left': '1px solid #000',
 										'border-bottom': '1px solid #000'
-									}).html('&nbsp; ' + boozenames[bestBooze]),
+									}).html('&nbsp; ' + i18n.t('smuggling.booze.' + boozenames[bestBooze])),
 									$('<td>').css({
 										'border-left': '1px solid #000',
 										'border-bottom': '1px solid #000'
-									}).html(parseInt(narc, 10) === 0 ? 'NO NARCS' : '&nbsp; ' + narcnames[bestNarc]),
+									}).html(parseInt(narc, 10) === 0 ? i18n.t('smuggling.narcotics.none') : '&nbsp; ' + i18n.t('smuggling.narcotics.' + narcnames[bestNarc])),
 									$('<td>').css({
 										'border-left': '1px solid #000',
 										'border-bottom': '1px solid #000'
@@ -4008,7 +4005,7 @@ if (document.getElementById('game_container') !== null) {
 						for (var BN = [], i = 0; i <= 1; i++) { // B/N
 							for (BN[i] = [], j = 0; j <= 6; j++) { // type
 								for (BN[i][j] = [], k = 0; k <= 7; k++) {
-									BN[i][j].push(parseInt(dom.getElementsByTagName((i === 0 ? (narcnames[(j + 1)]).replace('abacco', 'obacco') : boozenames[(j + 1)]).toLowerCase())[k].textContent, 10)); // city
+									BN[i][j].push(parseInt(dom.getElementsByTagName((i === 0 ? (narcnames[(j + 1)]) : boozenames[(j + 1)]))[k].textContent, 10)); // city
 								}
 								BN[i][j].unshift(Math.min.apply(null, BN[i][j])); // get min
 								BN[i][j].unshift(Math.max.apply(null, BN[i][j])); // get max
