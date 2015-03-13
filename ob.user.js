@@ -1664,7 +1664,12 @@ if (document.getElementById('game_container') !== null) {
 			if (getV('fam_colour', '') === '' || getV('friends_colour', '') === '') {
 				unsafeWindow.omerta.GUI.container.loadPage('/jail_settings.php');
 			}
-			var bos = parseInt(getV('bustouts', 0), 10);
+			var bos;
+			if (!IsNewVersion()) {
+				bos = parseInt(getV('bustouts', 0), 10);
+			} else {
+				bos = unsafeWindow.omerta.modules.UserInformation.data.actions_stats[0].value;
+			}
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
 			var jailHL_other = parseInt(sets['jailHL_other'] || 9, 10);
 			var jailHL_friends = parseInt(sets['jailHL_friends'] || 5, 10);
@@ -1819,14 +1824,16 @@ if (document.getElementById('game_container') !== null) {
 
 			$('tr[bgcolor][nobust]').find('input[name="bust"]').attr('checked', false);
 			// Add successful BO to total
-			var bustMsg = (v == 'nl' ? 'Je hebt deze gangster' : 'You busted this person');
-			var bustFriendMsg = (v == 'nl' ? 'celmaat uit de gevangenis' : 'cellmate out of jail');
-			if ($('#game_container:contains("' + bustMsg + '")').length) {
-				if ($('#game_container:contains("' + bustFriendMsg + '")').length) {
+			if (!IsNewVersion()) {
+				var bustMsg = (v == 'nl' ? 'Je hebt deze gangster' : 'You busted this person');
+				var bustFriendMsg = (v == 'nl' ? 'celmaat uit de gevangenis' : 'cellmate out of jail');
+				if ($('#game_container:contains("' + bustMsg + '")').length) {
+					if ($('#game_container:contains("' + bustFriendMsg + '")').length) {
+						bos = (bos + 1);
+					}
 					bos = (bos + 1);
+					setV('bustouts', bos);
 				}
-				bos = (bos + 1);
-				setV('bustouts', bos);
 			}
 			if (IsNewVersion()) {
 				// Add amount of inmates and bustouts
