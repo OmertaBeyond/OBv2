@@ -360,14 +360,30 @@ function grabHTML(url, func) {
 }
 
 function bnUpdate(current) {
-	var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
-	var nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1) > a').text();
-	var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 7 : 6) + ') > td:eq(1)').text();
-	var type = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 9 : 8) + ') > td:eq(1) > a').text();
-	var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 10 : 9) + ') > td:eq(1) > a').text();
-	var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1)').text();
+	if (!IsNewVersion()) {
+		var xpath = current ? '#game_container' : '#str2dom'; // use current page OR xhr str2dom
+		var nick = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1) > a').text();
+		var rank = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 7 : 6) + ') > td:eq(1)').text();
+		var bloodType = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 9 : 8) + ') > td:eq(1) > a').text();
+		var city = $(xpath + ' > table > tbody > tr > td:eq(0) > table > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 10 : 9) + ') > td:eq(1) > a').text();
+		var ride = $(xpath + ' > table > tbody > tr > td:eq(2) > table:eq(1) > tbody > tr:eq(' + (v == 'com' || v == 'nl' ? 2 : 1) + ') > td:eq(1)').text();
+	} else {
+		var nick = unsafeWindow.omerta.character.info.name();
+		var rank = unsafeWindow.omerta.character.progress.rank();
+		var bloodType = unsafeWindow.omerta.character.info.bloodtype();
+		var city = unsafeWindow.omerta.character.game.city();
+		var possessions = unsafeWindow.omerta.modules.UserInformation.data.possessions;
+		var ride;
+		if (possessions) {
+			$.each(possessions, function(i, v) {
+				if (possessions[i].type == 'plane') {
+					ride = possessions[i].name_owned;
+				}
+			});
+		}
+	}
 
-	setV('bloodType', type);
+	setV('bloodType', bloodType);
 	setV('nick', nick);
 
 	// define max b/n judging by rank
@@ -1638,6 +1654,10 @@ if (document.getElementById('game_container') !== null) {
 				$(this).html(previousText);
 				previousText = currentText;
 			});
+			// Update info
+			setTimeout(function () {
+				bnUpdate(0);
+			}, 2000);
 		}
 		// -------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
