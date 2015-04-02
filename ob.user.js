@@ -645,7 +645,7 @@ function CheckServiceVariable() {
 				var callbackUrl = './BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=';
 				setV('lastAlert', msgId);
 				if (totalAlerts === 1) {
-					// If its a friend request it has no msg or id
+					// If it's a friend request, it has no msg or id
 					if (serviceData.messages.alert[0].sbj !== 'Friend Request(s)') {
 						alertText = 'Alert: ' + serviceData.messages.alert[0].msg.replace(/<br \/>/g, '');
 						alertTitle = 'Alert! ' + serviceData.messages.alert[0].sbj + ' (' + v + ')';
@@ -916,7 +916,7 @@ var nickReaderIcon = GM_getResourceURL('NRicon');
 var loadingIcon = GM_getResourceURL('loadingicon');
 function parseGrab(html, url) {
 	var body = html.slice(html.indexOf('</head>') + 7);
-	// make sure all requests are handled seperatly
+	// make sure all requests are handled separately
 	var ident = url.split('=')[1];
 	// Check for clicklimit
 	if (body.indexOf('You reached your click limit.') == -1) {
@@ -1086,7 +1086,7 @@ function nickReader() {
 				);
 			}
 
-			// setup proces checker
+			// setup process checker
 			if ($('#proc').length === 0) {
 				$('body').append(
 					$('<div>').attr('id', 'proc').text('0').hide()
@@ -3124,7 +3124,7 @@ if (document.getElementById('game_container') !== null) {
 				setArr(2);
 				$(msgTxt).html(arr.join(' '));
 			}
-			var CondMsg = new RegExp(linkify[8]); // Condoleances
+			var CondMsg = new RegExp(linkify[8]); // Condolences
 			if (CondMsg.test(msgType)) {
 				setArr(2);
 				setArr(arr.length - 15);
@@ -4674,7 +4674,7 @@ if (document.getElementById('game_container') !== null) {
 				$('#ob_fire_all').prop('disabled', true);
 			}
 
-			// If a user inserts '60k', automaticly change it to '60.000'.
+			// If a user inserts '60k', automatically change it to '60.000'.
 			// This should work for every value in front of the 'k'
 
 			$('input[name="bullets"]').blur(function () {
