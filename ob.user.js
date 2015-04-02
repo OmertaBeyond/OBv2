@@ -4677,8 +4677,7 @@ if (document.getElementById('game_container') !== null) {
 			// If a user inserts '60k', automaticly change it to '60.000'.
 			// This should work for every value in front of the 'k'
 
-			$('input[name="bullets"]').blur(function()
-			{
+			$('input[name="bullets"]').blur(function () {
 				var textValue = $(this).val();
 
 				// if the last character of the string is 'k'
