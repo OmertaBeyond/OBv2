@@ -62,6 +62,10 @@
 // @include                  https://*.barafranca.gen.tr/*
 // @include                  http://barafranca.gen.tr/*
 // @include                  https://barafranca.gen.tr/*
+// @include                  http://omerta.com.tr/*
+// @include                  https://omerta.com.tr/*
+// @include                  http://*.omerta.com.tr/*
+// @include                  https://*.omerta.com.tr/*
 // @include                  http://*.omerta.dm/*
 // @include                  https://*.omerta.dm/*
 // @include                  http://omerta.dm/*
