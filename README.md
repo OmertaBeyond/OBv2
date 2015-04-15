@@ -4,7 +4,7 @@
 [![Repo Size](https://reposs.herokuapp.com/?path=OmertaBeyond/OBv2)](https://github.com/OmertaBeyond/OBv2/archive/master.zip)
 [![Linux Build Status](https://img.shields.io/travis/OmertaBeyond/OBv2/master.svg?label=Linux%20build)](https://travis-ci.org/OmertaBeyond/OBv2)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/vBm/OBv2/master.svg?label=Windows%20build)](https://ci.appveyor.com/project/vBm/obv2)
-[![Codacy Badge](https://img.shields.io/codacy/3b9bd8fcf7254a0f86bcc5db152a39a5.svg)](https://www.codacy.com/public/thevbm/OBv2_2)
+[![Codacy Badge](https://img.shields.io/codacy/3b9bd8fcf7254a0f86bcc5db152a39a5.svg)](https://www.codacy.com/public/OmertaBeyond/OBv2)
 [![devDependency Status](https://img.shields.io/david/dev/OmertaBeyond/OBv2.svg)](https://david-dm.org/OmertaBeyond/OBv2#info=devDependencies)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](http://opensource.org/licenses/GPL-3.0)
 
