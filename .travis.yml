@@ -10,7 +10,7 @@ script:
 notifications:
     irc:
         channels:
-            - "irc.barafranca.com#dev"
+            - "ircs://irc.barafranca.com:6679#dev"
         template:
             - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
             - "Build details : %{build_url}"
