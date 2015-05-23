@@ -21,7 +21,7 @@
     "bugs": {
         "url": "https://github.com/OmertaBeyond/OBv2/issues"
     },
-    "license": "GPLv3",
+    "license": "GPL-3.0",
     "scripts": {
         "test": "grunt --verbose"
     },
