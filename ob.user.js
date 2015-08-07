@@ -92,7 +92,7 @@
 // @include                  https://*.omerta.pt/*
 // @include                  http://omerta.pt/*
 // @include                  https://omerta.pt/*
-// @include                  https://dev.omerta.land*
+// @include                  https://*.omerta.land*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
 // @grant                    GM_getResourceText
@@ -118,7 +118,12 @@ var OB_VERSION = '2.0.62';
  */
 
 function whatV(hostname) {
-	switch (hostname || window.location.hostname) {
+	hostname = hostname || window.location.hostname;
+	if (/(.*).omerta.land$/.test(hostname)) {
+		return 'dev';
+	}
+
+	switch (hostname) {
 		case 'www.omerta3.com':
 		case 'omerta3.com':
 		case 'www.barafranca.com':
@@ -138,8 +143,6 @@ function whatV(hostname) {
 		case 'omerta.pt':
 		case 'www.omerta.pt':
 			return 'pt';
-		case 'dev.omerta.land':
-			return 'dev';
 		default:
 			return undefined;
 	}
