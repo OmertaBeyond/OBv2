@@ -750,6 +750,18 @@ function CheckServiceVariable() {
 	}, 30000);
 }
 
+function getOmertaTime() {
+	if (typeof(unsafeWindow.omerta.server.clock) !== 'undefined') {
+		return unsafeWindow.omerta.server.clock.getTime();
+	}
+
+	if (typeof(unsafeWindow.omerta.Clock) !== 'undefined') {
+		return unsafeWindow.omerta.Clock.getTime();
+	}
+
+	return Date.now();
+}
+
 var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm' || v == 'pt';
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
 var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
@@ -761,7 +773,7 @@ function addEndTimeTooltip(node) {
 		// .addBack is needed in case the element containing data-timeleft is the one being added to DOM tree
 		// (which is the case on bullet waiting page, safehouse message, and probably others)
 		$(node).find('[data-timeleft]').addBack('[data-timeleft]').each(function() {
-			var cooldownEnd = new Date(unsafeWindow.omerta.server.clock.getTime() + parseInt(this.getAttribute('data-timeleft'), 10) * 1000);
+			var cooldownEnd = new Date(getOmertaTime() + parseInt(this.getAttribute('data-timeleft'), 10) * 1000);
 			// formating dates in js is fun. #not
 			var tooltipTitle = ('0' + cooldownEnd.getUTCHours()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCMinutes()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCSeconds()).slice(-2);
 			if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
@@ -5022,7 +5034,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 						marQd.setMinutes(m);
 						marQd.setSeconds(0);
 						marQd.setMilliseconds(0);
-						return (marQd.getTime() - unsafeWindow.omerta.server.clock.getTime());
+						return (marQd.getTime() - getOmertaTime());
 					}
 
 					var p = [];
