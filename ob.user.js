@@ -19,8 +19,8 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.62
-// @date                     13-04-2015
+// @version                  2.0.63
+// @date                     11-08-2015
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
 // @homepageURL              http://www.omertabeyond.com/
 // @namespace                v4.omertabeyond.com
@@ -111,7 +111,7 @@ var OB_API_WEBSITE = 'https://gm.omertabeyond.net';
 var OB_NEWS_WEBSITE = 'http://news.omertabeyond.com';
 var OB_RIX_WEBSITE = 'http://rix.omertabeyond.com';
 var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
-var OB_VERSION = '2.0.62';
+var OB_VERSION = '2.0.63';
 
 /*
  * Define crucial functions and variables
