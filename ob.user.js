@@ -4528,19 +4528,10 @@ if (document.getElementById('game_container') !== null) {
 				var carid = $(this).find('td:eq(0)').text();
 				var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); // get value
 				totVal += carVal;
-				$(this).click(function () {
+				$(this).click(function (e) {
 					var check = $(this).find('input[value="' + carid + '"]');
-					if (check.prop('checked') === false) {
-						check.prop('checked', true);
-					} else {
-						check.prop('checked', false);
-					}
-				});
-				$(this).find('input[value="' + carid + '"]').click(function () {
-					if ($(this).prop('checked') === false) {
-						$(this).prop('checked', true);
-					} else {
-						$(this).prop('checked', false);
+					if (e.target.tagName != 'INPUT') {
+						check.click();
 					}
 				});
 			});
@@ -4571,7 +4562,8 @@ if (document.getElementById('game_container') !== null) {
 			).insertBefore('table.thinline');
 			$(window).scroll(toggleFooterVisibility);
 			// add footer div only window is bigger then 1024px
-			if (window.innerWidth > 1024) {
+			// floating footer is temporarily disabled on v5 due to recent updates
+			if (window.innerWidth > 1024 && !IsNewVersion()) {
 				$(IsNewVersion() ? '#game_wrapper_container' : '#game_container center').append(
 					$('<div>').attr({
 						id: 'footer'
@@ -4628,16 +4620,14 @@ if (document.getElementById('game_container') !== null) {
 							var check = $(this).find('input[value="' + carid + '"]');
 							var comment = $(this).find('td:eq(6)').text().trim();
 							if (check.prop('checked') === true) {
-								check.prop('checked', false);
+								check.click();
 							}
 							var carWorthAbove = sort == 1 && carVal > val;
 							var carWorthBelow = sort == 2 && carVal < val;
 							var carWorthBetween = (sort == 3 && carVal >= val && (carVal <= maxPrice));
 							if (carWorthAbove || carWorthBelow || carWorthBetween) {
-								if (comment.indexOf('IN SAFEHOUSE') !== -1) {
-									check.prop('checked', false);
-								} else {
-									check.prop('checked', true);
+								if (comment.indexOf('IN SAFEHOUSE') === -1) {
+									check.click();
 								}
 							}
 						});
