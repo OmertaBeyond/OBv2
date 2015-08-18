@@ -59,11 +59,6 @@
 	"disallowTrailingComma": true,
 	"disallowKeywordsOnNewLine": ["else"],
 	"requireSpaceAfterLineComment": true,
-	"validateJSDoc": {
-		"checkParamNames": true,
-		"checkRedundantParams": true,
-		"requireParamTypes": true
-	  },
 	"requireCamelCaseOrUpperCaseIdentifiers": null,
 	"requireMultipleVarDecl": null
 }
