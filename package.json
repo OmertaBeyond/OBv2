@@ -13,7 +13,7 @@
         "semitom <tom.gankema@gmail.com>"
     ],
     "description": "Userscript for barafranca.com",
-    "homepage": "http://news.omertabeyond.com",
+    "homepage": "http://news.omertabeyond.net",
     "repository": {
         "type": "git",
         "url": "https://github.com/OmertaBeyond/OBv2.git"

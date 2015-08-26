@@ -57,7 +57,7 @@ Note: if you have time/knowledge, help us to make it fully working/compatible.
 
 Many thanks to everyone who supported development without having direct push access.
 
-[OmertaBeyond](http://www.omertabeyond.com/) © 2007-2015 (info@omertabeyond.com)
+[OmertaBeyond](http://www.omertabeyond.net/) © 2007-2015 (info@omertabeyond.com)
 
 
 # Info
@@ -65,7 +65,7 @@ Many thanks to everyone who supported development without having direct push acc
 You can find us at:
 
  * [**#beyond**](irc://irc.barafranca.com/beyond "irc://irc.barafranca.com/beyond") on Barafranca network.
- * [news.omertabeyond.com](http://news.omertabeyond.com)
+ * [news.omertabeyond.net](http://news.omertabeyond.net)
  * [Facebook](http://www.facebook.com/OmertaBeyond)
  * [Twitter](http://twitter.com/omertabeyond)
 

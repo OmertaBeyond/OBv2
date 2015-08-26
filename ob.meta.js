@@ -4,7 +4,7 @@
 // @version                  2.0.63
 // @date                     11-08-2015
 // @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
-// @homepageURL              http://www.omertabeyond.com/
+// @homepageURL              http://www.omertabeyond.net/
 // @namespace                v4.omertabeyond.com
 // @updateURL                https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/ob.meta.js
 // @supportURL               https://github.com/OmertaBeyond/OBv2/issues
