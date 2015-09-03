@@ -2769,15 +2769,15 @@ if (document.getElementById('game_container') !== null) {
 			var bullets = parseInt(getV('bullets', 0), 10);
 			var scratches = parseInt(getV('scratches', 0), 10);
 
-			if ($('#game_container:contains("Congratulations!")').length) { // grab winning event
-				if ($('#game_container:contains("They have been added to your account!")').length) { // bullets
-					var rex = new RegExp('won (\\d+) bullets');
+			if ($('#game_container:contains("Congratulations!"), #game_container:contains("Gefeliciteerd!")').length) { // grab winning event
+				if ($('#game_container:contains("They have been added to your account!"), #game_container:contains("Ze zijn toegevoegd aan jouw account!")').length) { // bullets
+					var rex = new RegExp('(\\d+) (bullets|Kogels)');
 					var r = $('#game_container').text().match(rex);
 					bullets += parseInt(r[1], 10);
 					setV('bullets', bullets);
 				}
-				if ($('#game_container:contains("It has been added to your account!")').length) { // money
-					var rex = new RegExp('You have won \\$ (\\d+)');
+				if ($('#game_container:contains("It has been added to your account!"), #game_container:contains("Het is toegevoegd aan je account!")').length) { // money
+					var rex = new RegExp('\\$ (\\d+)');
 					var str = $('#game_container').text().replace(/,/g, '');
 					var r = str.match(rex);
 					monin += parseInt(r[1], 10);
@@ -2789,7 +2789,7 @@ if (document.getElementById('game_container') !== null) {
 					$('input[name="scratch"]').focus();
 				}
 			}
-			if ($('#game_container:contains("Start scratching")').length) { // grab scratching event
+			if ($('#game_container:contains("Start scratching"), #game_container:contains("Start met krassen")').length) { // grab scratching event
 				scratches += 1;
 				setV('scratches', scratches);
 				if ($('input[name="Check"]').length) {
