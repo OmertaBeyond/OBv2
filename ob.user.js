@@ -1258,6 +1258,11 @@ if (document.getElementById('game_container') !== null) {
 			$('#NRstatus').remove();
 		}
 
+		// hitting the click limit means the page won't contain what we expect. ignore it.
+		if ($(node).filter(':contains("You reached your click limit."), :contains("Je hebt jouw kliklimiet bereikt.")').length > 0) {
+			return;
+		}
+
 		// limit captcha to size and disabled to 3 letters is typed
 		var codeInput = $('input#ver, input#lbfVer, input#bfVer, input[name="imgcode"]');
 		var codeSubmit = codeInput.closest('form').find('input[type="submit"]');
