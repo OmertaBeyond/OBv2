@@ -106,10 +106,10 @@
  * Define constants for our website
  */
 
-var OB_WEBSITE = 'http://www.omertabeyond.net';
+var OB_WEBSITE = 'https://www.omertabeyond.net';
 var OB_API_WEBSITE = 'https://gm.omertabeyond.net';
-var OB_NEWS_WEBSITE = 'http://news.omertabeyond.net';
-var OB_RIX_WEBSITE = 'http://rix.omertabeyond.net';
+var OB_NEWS_WEBSITE = 'https://news.omertabeyond.net';
+var OB_RIX_WEBSITE = 'https://rix.omertabeyond.net';
 var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
 var OB_VERSION = '2.0.65';
 
