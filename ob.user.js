@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2015 OmertaBeyond Dev Team
+ * Copyright (c) 2007-2016 OmertaBeyond Dev Team
  *
  * OmertaBeyond is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -57,7 +57,7 @@ Note: if you have time/knowledge, help us to make it fully working/compatible.
 
 Many thanks to everyone who supported development without having direct push access.
 
-[OmertaBeyond](http://www.omertabeyond.net/) © 2007-2015 (info@omertabeyond.com)
+[OmertaBeyond](http://www.omertabeyond.net/) © 2007-2016 (info@omertabeyond.com)
 
 
 # Info
