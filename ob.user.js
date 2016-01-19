@@ -1299,7 +1299,7 @@ if (document.getElementById('game_container') !== null) {
 			var ownfam = getV('family', '');
 
 			// Count rows
-			tr = $('table.thinline:eq(0) tr').length;
+			var tr = $('table.thinline:eq(0) tr').length;
 
 			// add HQ space to members
 			var hq = $('table.thinline:eq(0) tr:eq(' + (tr - 3) + ') td:last').text();
