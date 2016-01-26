@@ -3766,6 +3766,12 @@ if (document.getElementById('game_container') !== null) {
 							if (sel === 0) { // Calc for Best Run
 								n = key[(bestBN[bestRun][0] - 1)]; // this trick works, even I'm amazed
 								b = key[(bestBN[bestRun][1] - 1)];
+								if ((carry_n > 0 || carry_b > 0) && Math.max.apply(Math, allProfits) === 0) {
+									// HACK: in this scenario we're in a high where no other
+									// cities would generate any profit. Just pretend we're using
+									// RP mode so all units get sold.
+									sel = 2;
+								}
 							}
 							if (sel == 1) { // CD Run
 								for (i = 0; i <= 6; i++) {
