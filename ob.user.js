@@ -5120,11 +5120,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 							color: '#FFF',
 							fontSize: '10px'
 						}).click(function () {
-							if (mycity - 4 == city) {
-								alert('You are already staying in this city!');
-							} else if (confirm('Are you sure you want to travel to ' + cities[city] + '?')) {
-								window.location = '/BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId=' + ((city == 'nul') ? 0 : city);
-							}
+							unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId=' + ((city == 'nul') ? 0 : city));
 						});
 
 						if (city == 5 || city == 6 || city == 7) {
