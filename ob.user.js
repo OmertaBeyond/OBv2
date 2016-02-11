@@ -1614,10 +1614,10 @@ if (document.getElementById('game_container') !== null) {
 				unsafeWindow.omerta.GUI.container.loadPage('/jail_settings.php');
 			}
 			var bos;
-			if (!IsNewVersion()) {
+			if (!IsNewVersion() || !unsafeWindow.omerta.modules.UserInformation.data.hasOwnProperty('action_stats')) {
 				bos = parseInt(getV('bustouts', 0), 10);
 			} else {
-				bos = unsafeWindow.omerta.modules.UserInformation.data.actions_stats[0].value;
+				bos = Math.max(parseInt(getV('bustouts', 0), 10), unsafeWindow.omerta.modules.UserInformation.data.actions_stats[0].value);
 			}
 			var jailHL_sel = sets['jailHL_sel'] || 'highest';
 			var jailHL_other = parseInt(sets['jailHL_other'] || 9, 10);
