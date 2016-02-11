@@ -838,25 +838,6 @@ function checkUserAlive(user, callback) {
 	});
 }
 
-function highlightChatMessage(messageContainer, isBufferedMessage) {
-	var sender = $(messageContainer).find('.chat-sender-participant, .chat-sender-offline');
-	var messageText = $(messageContainer).find('.chat-message-text');
-	var nickRegex = new RegExp('\\b' + getV('nick', null) + '\\b', 'i');
-	if (sender.text() == getV('nick', null)) {
-		$(messageContainer).css('background-color', 'rgba(55, 162, 255, 0.42)');
-	} else if (nickRegex.test($(messageText).text())) {
-		$(messageContainer).css('background-color', 'rgba(125, 3, 2, 0.77)');
-		if (!isBufferedMessage) {
-			if (prefs['notify_highlight']) {
-				SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
-			}
-			if (prefs['notify_highlight_sound']) {
-				playBeep();
-			}
-		}
-	}
-}
-
 function isElementInViewport(el) {
 	var rect = el.getBoundingClientRect();
 	return (
@@ -1161,7 +1142,7 @@ function nickReader() {
 /*
  * Chat listener
  */
-if (document.getElementById('omerta_chat_room') !== null && typeof MutationObserver != 'undefined') {
+if (document.getElementById('omerta_chat') !== null && typeof MutationObserver != 'undefined') {
 	var firstMessageTs;
 	var chatObserver = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
@@ -1173,13 +1154,22 @@ if (document.getElementById('omerta_chat_room') !== null && typeof MutationObser
 						firstMessageTs = $.now();
 					}
 					var isBufferedMessage = firstMessageTs >= $.now() - 500;
-					highlightChatMessage(node, isBufferedMessage);
+					var sender = $(node).find('.msg-author');
+					var messageText = $(node).find('.msg-content');
+					if (!isBufferedMessage && $(node).hasClass('msg-hilight')) {
+						if (prefs['notify_highlight']) {
+							SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
+						}
+						if (prefs['notify_highlight_sound']) {
+							playBeep();
+						}
+					}
 				}
 			}
 		});
 	});
 
-	chatObserver.observe(document.getElementById('omerta_chat_room'), {
+	chatObserver.observe(document.getElementById('omerta_chat'), {
 		attributes: false,
 		childList: true,
 		subtree: true,
