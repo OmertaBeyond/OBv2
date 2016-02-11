@@ -5187,7 +5187,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 	}
 
 	if (IsNewVersion()) {
-		$('.top-nav .news').after(
+		$('.top-nav').append(
 			$('<li>').addClass('pull-left').css({
 				width: '40%',
 				padding: '0',
