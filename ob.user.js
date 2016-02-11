@@ -2065,7 +2065,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 		// ---------------- Mail ----------------
 		// Inbox
-		if ((on_page('action=inbox') || on_page('action=delMsg')) && nn == 'center') {
+		if ((on_page('action=inbox') || on_page('action=delMsg') || (on_page('module=Mail') && !on_page('action='))) && nn == 'center') {
 			// save unread msg and msg ids
 			var msg = $('td[style="cursor:pointer;cursor:hand"]').length;
 			var unreadmsg = $('tr.color2').length;
