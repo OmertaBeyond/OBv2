@@ -3740,7 +3740,7 @@ if (document.getElementById('game_container') !== null) {
 							var b = -1;
 							// assemble info for AF
 							inputs = $('input');
-							var bn_xp = 'form > table > tbody > tr:eq(0) > td';
+							var bn_xp = 'form > table > tbody > tr:eq(0) > td, .smuggling-header';
 							var bn_text = $(bn_xp).html().split('|');
 
 							cash = parseInt(bn_text[0].replace(/[^0-9.]/g, ''), 10);
@@ -3813,12 +3813,12 @@ if (document.getElementById('game_container') !== null) {
 								 * we'll handle that case too.
 								 */
 								if (!lbooze) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
+									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0), .smuggling-table-info:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
 										b = -1;
 									}
 								}
 								if (!lnarcs) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1)').text().match(/NOW|NU|narcotics is(\s+)$|kopen over(\s+)$/m) && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
+									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1), .smuggling-table-info:eq(1)').text().match(/NOW|NU|narcotics is(\s+)$|kopen over(\s+)$/m) && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
 										n = -1;
 									}
 								}
@@ -4131,12 +4131,13 @@ if (document.getElementById('game_container') !== null) {
 
 			// get input fields
 			var inputs = $('input');
-			var bn_xp = 'form > table > tbody > tr:eq(0) > td';
+			var bn_xp = 'form > table > tbody > tr:eq(0) > td, .smuggling-header';
 			var bn_text = $(bn_xp).html().split('<br>');
+			var indexStart = IsNewVersion() ? 0 : 3;
 
-			var cash = parseInt(bn_text[3].replace(/[^0-9.]/g, ''), 10);
-			var booze = parseInt(bn_text[4].match(/\d+/), 10); // max amount user can carry
-			var narcs = parseInt(bn_text[5].match(/\d+/), 10);
+			var cash = parseInt(bn_text[indexStart].replace(/[^0-9.]/g, ''), 10);
+			var booze = parseInt(bn_text[indexStart + 1].match(/\d+/), 10); // max amount user can carry
+			var narcs = parseInt(bn_text[indexStart + 2].match(/\d+/), 10);
 			var lexD = new Date();
 			var lexDay = lexD.getDay();
 			var lexHour = lexD.getHours();
