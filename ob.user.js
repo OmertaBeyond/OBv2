@@ -677,7 +677,12 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_gta'] || prefs['notify_gta_sound']) && !gtaTimer) {
-			var gtaTime = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
+			var gtaTime;
+			if (IsNewVersion()) {
+				gtaTime = parseInt($('[data-cooldown="car"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
+			} else {
+				gtaTime = parseInt($('[data-cooldown="car"]').attr('data-timeleft'), 10);
+			}
 			if (gtaTime > 0) {
 				gtaTimer = true;
 				setTimeout(function() {
@@ -695,7 +700,13 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
-			var crimeTime = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
+
+			var crimeTime;
+			if (IsNewVersion()) {
+				crimeTime = parseInt($('[data-cooldown="crime"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
+			} else {
+				crimeTime = parseInt($('[data-cooldown="crime"]').attr('data-timeleft'), 10);
+			}
 			if (crimeTime > 0) {
 				crimeTimer = true;
 				setTimeout(function() {
