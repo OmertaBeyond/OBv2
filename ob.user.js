@@ -1207,6 +1207,10 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 
+		if (IsNewVersion() && ($('input[type=submit]').length == 1 || on_page('jail.php'))) {
+			$('input[type=submit]').focus();
+		}
+
 		/*
 		 * add end time tooltip to every countdown
 		 * causes issues with Greasemonkey 2+, disabling till issue is fixed
@@ -3422,7 +3426,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 
 				// focus
-				$('input#ver').focus();
+				$('input#ver, input[type=submit]').focus();
 			};
 
 			var highlightRow = function (event) {
@@ -4146,7 +4150,7 @@ if (document.getElementById('game_container') !== null) {
 										inpt[(i + 1)].value = 0;
 									}
 								}
-								$('input#ver').focus();
+								$('input#ver, input[type=submit]').focus();
 							})
 							/*jshint +W083 */
 							// END of Disable "Don't make functions within a loop." error
@@ -4253,7 +4257,7 @@ if (document.getElementById('game_container') !== null) {
 										inpt[(i + 1)].value = 0;
 									}
 								}
-								$('input#ver').focus();
+								$('input#ver, input[type=submit]').focus();
 							})
 							/*jshint +W083 */
 							// END of Disable "Don't make functions within a loop." error
@@ -4265,8 +4269,8 @@ if (document.getElementById('game_container') !== null) {
 			var inp = $('input[name="typebooze"], input[name="typedrugs"]');
 			inp.each(function () {
 				$(this).click(function () {
-					if ($('input#ver').length) {
-						$('input#ver').focus();
+					if ($('input#ver, input[type=submit]').length) {
+						$('input#ver, input[type=submit]').focus();
 					}
 				});
 			});
@@ -4301,7 +4305,7 @@ if (document.getElementById('game_container') !== null) {
 				}).text('Current Booze/Narcotics Prices')
 			);
 			if (!lboth) {
-				$('input#ver').focus(); // focus captcha field
+				$('input#ver, input[type=submit]').focus(); // focus captcha field
 			}
 		}
 
