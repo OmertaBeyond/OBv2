@@ -4931,6 +4931,10 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 		}
+		// ---------------- Statistics @ v5 ----------------
+		if (IsNewVersion() && (on_page('module=Statistics') || on_page('allusers.php'))) {
+			$('a[data-href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
+		}
 		// ---------------- END OF MAIN GAME CONTAINER ----------------
 
 		// DM PREFS
