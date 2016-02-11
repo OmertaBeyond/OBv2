@@ -3784,11 +3784,15 @@ if (document.getElementById('game_container') !== null) {
 									})
 								);
 							} else {
-								$('#city').after(
-									$('<div>').attr({
-										id: 'AF'
-									})
-								);
+								var AFNode = $('<div>').attr({
+									id: 'AF'
+								});
+								if (IsNewVersion()) {
+									$('.smuggling-header').prepend(AFNode);
+								} else {
+									$('#city').after(AFNode);
+								}
+
 							}
 
 							$('#AF').append(
