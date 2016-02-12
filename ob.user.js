@@ -3466,7 +3466,12 @@ if (document.getElementById('game_container') !== null) {
 
 					// extra city checker
 					if (on_page('smuggling.php') && nn == 'center') {
-						var smugCity = $('h3').text();
+						var smugCity;
+						if (IsNewVersion()) {
+							smugCity = unsafeWindow.omerta.character.game.city();
+						} else {
+							var smugCity = $('h3').text();
+						}
 						for (i = 0; i < 8; i++) {
 							if (smugCity.search(cities[i]) != -1) {
 								city = i + 4;
