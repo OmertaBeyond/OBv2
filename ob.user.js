@@ -1220,7 +1220,7 @@ if (document.getElementById('game_container') !== null) {
 		// autofocus on long pages with button at the bottom causes annoying scroll
 		var isAutofocusBlacklist = on_page('module=Mail') || on_page('forums');
 		if (IsNewVersion() && !isAutofocusBlacklist && ($('input[type=submit]').length == 1 || on_page('jail.php'))) {
-			$('input[type=submit]').focus();
+			$('input[type=submit]:first').focus();
 		}
 
 		/*
