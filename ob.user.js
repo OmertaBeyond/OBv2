@@ -724,7 +724,12 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_travel'] || prefs['notify_travel_sound']) && !travelTimer) {
-			var travelTime = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
+			var travelTime;
+			if (IsNewVersion()) {
+				travelTime = parseInt($('[data-cooldown="travel"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
+			} else {
+				travelTime = parseInt($('[data-cooldown="travel"]').attr('data-timeleft'), 10);
+			}
 			if (travelTime > 0) {
 				travelTimer = true;
 				setTimeout(function() {
@@ -742,7 +747,12 @@ function CheckServiceVariable() {
 		}
 
 		if ((prefs['notify_bullets'] || prefs['notify_bullets_sound']) && !bulletTimer) {
-			var bulletsTime = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
+			var bulletsTime;
+			if (IsNewVersion()) {
+				bulletsTime = parseInt($('[data-cooldown="bullets"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
+			} else {
+				bulletsTime = parseInt($('[data-cooldown="bullets"]').attr('data-timeleft'), 10);
+			}
 			if (bulletsTime > 0) {
 				bulletTimer = true;
 				setTimeout(function() {
