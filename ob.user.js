@@ -1630,7 +1630,7 @@ if (document.getElementById('game_container') !== null) {
 				unsafeWindow.omerta.GUI.container.loadPage('/jail_settings.php');
 			}
 			var bos;
-			if (!IsNewVersion() || !unsafeWindow.omerta.modules.UserInformation.data.hasOwnProperty('action_stats')) {
+			if (!IsNewVersion() || !unsafeWindow.omerta.modules.UserInformation.data.hasOwnProperty('actions_stats')) {
 				bos = parseInt(getV('bustouts', 0), 10);
 			} else {
 				bos = Math.max(parseInt(getV('bustouts', 0), 10), unsafeWindow.omerta.modules.UserInformation.data.actions_stats[0].value);
