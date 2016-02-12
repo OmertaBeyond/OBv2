@@ -1217,10 +1217,22 @@ if (document.getElementById('game_container') !== null) {
 			});
 		}
 
-		// autofocus on long pages with button at the bottom causes annoying scroll
-		var isAutofocusBlacklist = on_page('module=Mail') || on_page('forums');
-		if (IsNewVersion() && !isAutofocusBlacklist && ($('input[type=submit]').length == 1 || on_page('jail.php'))) {
-			$('input[type=submit]:first').focus();
+		if (IsNewVersion()) {
+			// autofocus on long pages with button at the bottom causes annoying scroll
+			var isAutofocusBlacklist = on_page('module=Mail') || on_page('forums');
+			if (!isAutofocusBlacklist && $('input[type=submit]').length == 1) {
+				$('input[type=submit]').focus();
+			}
+
+			if (on_page('jail.php')) {
+				if ($('#game_container form').length == 2) {
+					// self-bust page - focus on bustout button
+					$('input[type=submit]:eq(1)').focus();
+				} else {
+					// regular jail page, focus on top bustout button
+					$('input[type=submit]:first').focus();
+				}
+			}
 		}
 
 		/*
