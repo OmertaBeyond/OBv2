@@ -1219,7 +1219,7 @@ if (document.getElementById('game_container') !== null) {
 
 		if (IsNewVersion()) {
 			// autofocus on long pages with button at the bottom causes annoying scroll
-			var isAutofocusBlacklist = on_page('module=Mail') || on_page('forums');
+			var isAutofocusBlacklist = on_page('module=Mail') || on_page('forums');
 			if (!isAutofocusBlacklist && $('input[type=submit]').length == 1) {
 				$('input[type=submit]').focus();
 			}
@@ -3721,7 +3721,7 @@ if (document.getElementById('game_container') !== null) {
 							if (sel === 0) { // Calc for Best Run
 								n = key[(bestBN[bestRun][0] - 1)]; // this trick works, even I'm amazed
 								b = key[(bestBN[bestRun][1] - 1)];
-								if ((carry_n > 0 || carry_b > 0) && Math.max.apply(Math, allProfits) === 0) {
+								if ((carry_n > 0 || carry_b > 0) && Math.max.apply(Math, allProfits) === 0) {
 									// HACK: in this scenario we're in a high where no other
 									// cities would generate any profit. Just pretend we're using
 									// RP mode so all units get sold.
@@ -4873,7 +4873,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			});
 		}
-		// ---------------- Statistics @ v5 ----------------
+		// ---------------- Statistics @ v5 ----------------
 		if (IsNewVersion() && (on_page('module=Statistics') || on_page('allusers.php'))) {
 			$('a[data-href*="/allusers.php"]').attr('href', '/allusers.php?start=0&order=lastrank&sort=DESC&dead=HIDE');
 		}
