@@ -1495,7 +1495,6 @@ if (document.getElementById('game_container') !== null) {
 			willName = willTR.text().replace(/,/g, '').trim();
 
 
-
 			var appendDead = function() {
 				willTR.append('<span class="red"> | Dead!</span>');
 			};
