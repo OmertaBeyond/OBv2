@@ -5,20 +5,10 @@ module.exports = function (grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		jscs: {
+		eslint: {
 			src: 'ob.user.js',
 			options: {
-				config: '.jscsrc'
-			}
-		},
-		jshint: {
-			src: [
-				'Gruntfile.js',
-				'ob.user.js'
-			],
-			options: {
-				jshintrc: '.jshintrc',
-				reporter: require('jshint-summary')
+				config: '.eslintrc',
 			}
 		},
 		csslint: {
@@ -35,7 +25,6 @@ module.exports = function (grunt) {
 		lintspaces: {
 			src: [
 				'Gruntfile.js',
-				'.jshintrc',
 				'.travis.yml',
 				'package.json',
 				'scripts/beyond.css',
@@ -53,8 +42,7 @@ module.exports = function (grunt) {
 	require('time-grunt')(grunt);
 
 	grunt.registerTask('default', [
-		'jscs',
-		'jshint',
+		'eslint',
 		'csslint',
 		'lintspaces'
 	]);
