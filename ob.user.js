@@ -566,7 +566,7 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	if (autoCloseSecs > 0) {
 		setTimeout(function() {
 			notification.close();
-			delete(notificationsArray[tag]);
+			delete notificationsArray[tag];
 		}, autoCloseSecs * 1000);
 	}
 
@@ -772,11 +772,11 @@ function CheckServiceVariable() {
 }
 
 function getOmertaTime() {
-	if (typeof(unsafeWindow.omerta.server.clock) !== 'undefined') {
+	if (typeof unsafeWindow.omerta.server.clock !== 'undefined') {
 		return unsafeWindow.omerta.server.clock.getTime();
 	}
 
-	if (typeof(unsafeWindow.omerta.Clock) !== 'undefined') {
+	if (typeof unsafeWindow.omerta.Clock !== 'undefined') {
 		return unsafeWindow.omerta.Clock.getTime();
 	}
 
@@ -2827,7 +2827,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('/bullets2.php') && nn == 'center') {
 			if (notificationsArray['Bullets'] !== undefined) {
 				notificationsArray['Bullets'].close();
-				delete(notificationsArray['Bullets']);
+				delete notificationsArray['Bullets'];
 			}
 
 			var BTd = new Date();
@@ -4336,7 +4336,7 @@ if (document.getElementById('game_container') !== null) {
 		if (on_page('module=travel')) {
 			if (notificationsArray['Travel'] !== undefined) {
 				notificationsArray['Travel'].close();
-				delete(notificationsArray['Travel']);
+				delete notificationsArray['Travel'];
 			}
 		}
 
@@ -4345,7 +4345,7 @@ if (document.getElementById('game_container') !== null) {
 			if (on_page('module=Crimes') && nn == 'br') {
 				if (notificationsArray['Crime'] !== undefined) {
 					notificationsArray['Crime'].close();
-					delete(notificationsArray['Crime']);
+					delete notificationsArray['Crime'];
 				}
 				// Always select last option
 				setTimeout(function () {
@@ -4369,7 +4369,7 @@ if (document.getElementById('game_container') !== null) {
 			if (on_page('module=Crimes') && nid == 'module_Crimes') {
 				if (notificationsArray['Crime'] !== undefined) {
 					notificationsArray['Crime'].close();
-					delete(notificationsArray['Crime']);
+					delete notificationsArray['Crime'];
 				}
 				// Grab money stolen
 				var moneyStolenText = $('#game_container').text().trim();
@@ -4391,7 +4391,7 @@ if (document.getElementById('game_container') !== null) {
 				// Close notifications
 				if (notificationsArray['Car'] !== undefined) {
 					notificationsArray['Car'].close();
-					delete(notificationsArray['Car']);
+					delete notificationsArray['Car'];
 				}
 			}
 			// Lackeys are on, show lackey page enhancements
@@ -4428,7 +4428,7 @@ if (document.getElementById('game_container') !== null) {
 				// Close notifications
 				if (notificationsArray['Car'] !== undefined) {
 					notificationsArray['Car'].close();
-					delete(notificationsArray['Car']);
+					delete notificationsArray['Car'];
 				}
 				// Grab value of stolen car (does not include cars stolen by lackeys)
 				var carValText = $('#game_container').text().trim();
