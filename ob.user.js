@@ -919,7 +919,7 @@ function parseGrab(html, url) {
 		// Create table
 		$('#' + ident).attr('name', 'done').empty().append(
 			$('<table>').attr({
-				'id': 'NRtable'
+				id: 'NRtable'
 			}),
 			$('<img>').attr('src', nickReaderIcon).addClass('NRicon')
 		);
@@ -1016,8 +1016,8 @@ function nickReader() {
 		if ($('#NRstatus').length === 0) {
 			$('#game_header_marquee').append(
 				$('<div>').attr('id', 'NRstatus').css({
-					'position': 'relative',
-					'display': 'none'
+					position: 'relative',
+					display: 'none'
 				}).append(
 					$('<center>').append(
 						$('<img>').attr('src', nickReaderIcon),
@@ -1262,20 +1262,20 @@ if (document.getElementById('game_container') !== null) {
 			// add color to HQ space
 			var hqperc = ((members / hq) * 100);
 			$('table.thinline:eq(0) tr:eq(' + (tr - 5) + ') td:last').css({
-				'background': 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + hqperc + '%, rgba(46, 188, 0, 0) ' + hqperc + '%)'
+				background: 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + hqperc + '%, rgba(46, 188, 0, 0) ' + hqperc + '%)'
 			});
 
 			// add color to donating %
 			var doperc = $('table.thinline:eq(0) tr:eq(' + (tr - 4) + ') td:last').text().split(' (')[0].trim();
 			$('table.thinline:eq(0) tr:eq(' + (tr - 4) + ') td:last').css({
-				'background': 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + doperc + ', rgba(46, 188, 0, 0) ' + doperc + ')'
+				background: 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + doperc + ', rgba(46, 188, 0, 0) ' + doperc + ')'
 			});
 
 			// add color to rank progress
 			if (famname == ownfam.toLowerCase()) {
 				var rankperc = $('table.thinline:eq(0) tr:last td:last').text().split(' (')[1].replace(')', '').trim();
 				$('table.thinline:eq(0) tr:last td:last').css({
-					'background': 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + rankperc + ', rgba(46, 188, 0, 0) ' + rankperc + ')'
+					background: 'linear-gradient(to right, rgba(46, 188, 0, 1) ' + rankperc + ', rgba(46, 188, 0, 0) ' + rankperc + ')'
 				});
 			}
 
@@ -1384,8 +1384,8 @@ if (document.getElementById('game_container') !== null) {
 						if (v === 'com') {
 							$('<div>').addClass('dlContainer').append(
 								$('<a>').attr({
-									'href': OB_NEWS_WEBSITE + '/deathslog/latest/' + famid,
-									'target': '_blank'
+									href: OB_NEWS_WEBSITE + '/deathslog/latest/' + famid,
+									target: '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
 										src: GM_getResourceURL('log'),
@@ -1439,8 +1439,8 @@ if (document.getElementById('game_container') !== null) {
 						if (v === 'com') {
 							$('<div>').addClass('dlContainer').append(
 								$('<a>').attr({
-									'href': OB_NEWS_WEBSITE + '/famlog/latest/' + famid,
-									'target': '_blank'
+									href: OB_NEWS_WEBSITE + '/famlog/latest/' + famid,
+									target: '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
 										src: GM_getResourceURL('log'),
@@ -1875,10 +1875,10 @@ if (document.getElementById('game_container') !== null) {
 
 			$('td.tableheader:first').html(
 				$('<span>').addClass('orange').css({
-					'cursor': 'pointer'
+					cursor: 'pointer'
 				}).attr({
-					'id': 'votelink',
-					'title': ''
+					id: 'votelink',
+					title: ''
 				}).text($('td.tableheader:first').text())
 			).click(function () {
 					voteNow(false);
@@ -2186,7 +2186,7 @@ if (document.getElementById('game_container') !== null) {
 			setTimeout(function () {
 				$('table.thinline > tbody > tr > td.tableheader:eq(1)').append(
 					$('<span>').css({
-						'float': 'right',
+						float: 'right',
 						'padding-top': '2px'
 					}).append(
 						$('<a>').attr({
@@ -2315,87 +2315,87 @@ if (document.getElementById('game_container') !== null) {
 							$('<td>').addClass('tableheader').attr('colspan', '4').text('Calculators')
 						), $('<tr>').append(
 							$('<td>').attr({
-								'align': 'left',
-								'width': '20%'
+								align: 'left',
+								width: '20%'
 							}).text('You send:'),
 							$('<td>').attr({
-								'align': 'left',
-								'width': '25%'
+								align: 'left',
+								width: '25%'
 							}).append(
 								$('<input>').attr({
-									'name': 'amount',
-									'type': 'text',
-									'value': '',
-									'maxlength': '11',
-									'size': '13'
+									name: 'amount',
+									type: 'text',
+									value: '',
+									maxlength: '11',
+									size: '13'
 								}).keyup(function () {
 									var amt = $(this).val().replace(/\D+/g, '');
 									$('#get').text('$' + commafy(Math.round(amt * 0.9)));
 								})
 							),
 							$('<td>').attr({
-								'align': 'left',
-								'width': '23%'
+								align: 'left',
+								width: '23%'
 							}).text('User gets:'),
 							$('<td>').attr({
-								'align': 'left',
-								'id': 'get'
+								align: 'left',
+								id: 'get'
 							}).text('$0')
 						), $('<tr>').append(
 							$('<td>').attr({
-								'align': 'left',
-								'width': '20%'
+								align: 'left',
+								width: '20%'
 							}).text('You want:'),
 							$('<td>').attr({
-								'align': 'left',
-								'width': '25%'
+								align: 'left',
+								width: '25%'
 							}).append(
 								$('<input>').attr({
-									'name': 'amount',
-									'type': 'text',
-									'value': '',
-									'maxlength': '11',
-									'size': '13'
+									name: 'amount',
+									type: 'text',
+									value: '',
+									maxlength: '11',
+									size: '13'
 								}).keyup(function () {
 									var amt = $(this).val().replace(/\D+/g, '');
 									$('#give').text('$' + commafy(Math.round(amt / 0.9)));
 								})
 							),
 							$('<td>').attr({
-								'align': 'left',
-								'width': '23%'
+								align: 'left',
+								width: '23%'
 							}).text('User sends:'),
 							$('<td>').attr({
-								'align': 'left',
-								'id': 'give'
+								align: 'left',
+								id: 'give'
 							}).text('$0')
 						), $('<tr>').append(
 							$('<td>').attr({
-								'align': 'left',
-								'width': '20%'
+								align: 'left',
+								width: '20%'
 							}).text('Deposit:'),
 							$('<td>').attr({
-								'align': 'left',
-								'width': '25%'
+								align: 'left',
+								width: '25%'
 							}).append(
 								$('<input>').attr({
-									'name': 'amount',
-									'type': 'text',
-									'value': '',
-									'maxlength': '11',
-									'size': '13'
+									name: 'amount',
+									type: 'text',
+									value: '',
+									maxlength: '11',
+									size: '13'
 								}).keyup(function () {
 									var amt = $(this).val().replace(/\D+/g, '');
 									$('#int').text('$' + commafy(Math.round(amt * (amt >= 1000000 ? (amt >= 3000000 ? (amt >= 6000000 ? (amt >= 10000000 ? (amt >= 15000000 ? (amt >= 21000000 ? (amt >= 27000000 ? (amt >= 35000000 ? 1.01 : 1.015) : 1.02) : 1.025) : 1.03) : 1.035) : 1.04) : 1.045) : 1.05))));
 								})
 							),
 							$('<td>').attr({
-								'align': 'left',
-								'width': '23%'
+								align: 'left',
+								width: '23%'
 							}).text('Receive:'),
 							$('<td>').attr({
-								'align': 'left',
-								'id': 'int'
+								align: 'left',
+								id: 'int'
 							}).text('$0')
 						)
 					)
@@ -2511,61 +2511,61 @@ if (document.getElementById('game_container') !== null) {
 					$('<td>').addClass('tableheader').attr('colspan', '4').text('Calculators')
 				), $('<tr>').append(
 					$('<td>').attr({
-						'align': 'right',
-						'width': '25%'
+						align: 'right',
+						width: '25%'
 					}).text('You send:'),
 					$('<td>').attr({
-						'align': 'center',
-						'width': '25%'
+						align: 'center',
+						width: '25%'
 					}).append(
 						$('<input>').attr({
-							'name': 'amount',
-							'type': 'text',
-							'value': '',
-							'maxlength': '11',
-							'size': '15'
+							name: 'amount',
+							type: 'text',
+							value: '',
+							maxlength: '11',
+							size: '15'
 						}).keyup(function () {
 							var amt = $(this).val().replace(/\D+/g, '');
 							$('#get').text('$' + commafy(Math.round(amt * 0.85)));
 						})
 					),
 					$('<td>').attr({
-						'align': 'right',
-						'width': '25%'
+						align: 'right',
+						width: '25%'
 					}).text('User gets:'),
 					$('<td>').attr({
-						'align': 'center',
-						'width': '25%',
-						'id': 'get'
+						align: 'center',
+						width: '25%',
+						id: 'get'
 					}).text('$0')
 				), $('<tr>').append(
 					$('<td>').attr({
-						'align': 'right',
-						'width': '25%'
+						align: 'right',
+						width: '25%'
 					}).text('You want:'),
 					$('<td>').attr({
-						'align': 'center',
-						'width': '25%'
+						align: 'center',
+						width: '25%'
 					}).append(
 						$('<input>').attr({
-							'name': 'amount',
-							'type': 'text',
-							'value': '',
-							'maxlength': '11',
-							'size': '15'
+							name: 'amount',
+							type: 'text',
+							value: '',
+							maxlength: '11',
+							size: '15'
 						}).keyup(function () {
 							var amt = $(this).val().replace(/\D+/g, '');
 							$('#give').text('$' + commafy(Math.round(amt / 0.85)));
 						})
 					),
 					$('<td>').attr({
-						'align': 'right',
-						'width': '25%'
+						align: 'right',
+						width: '25%'
 					}).text('User sends:'),
 					$('<td>').attr({
-						'align': 'center',
-						'width': '25%',
-						'id': 'give'
+						align: 'center',
+						width: '25%',
+						id: 'give'
 					}).text('$0')
 				)
 			));
@@ -2987,9 +2987,9 @@ if (document.getElementById('game_container') !== null) {
 			$('td.tableheader').parent().after(
 				$('<tr>').append(
 					$('<td>').addClass('profilerow').attr({
-						'id': 'actions',
-						'colspan': '2',
-						'align': 'center'
+						id: 'actions',
+						colspan: '2',
+						align: 'center'
 					}).css('display', 'none').html('<a href="BeO/webroot/index.php?module=Heist&action=&driver=' + unick + '">Heist</a> | <a href="' + document.location.protocol + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Spots&driver=' + unick + '">Raid</a> | <a href="/BeO/webroot/index.php?module=Detectives&search=' + unick + '">Hire Detectives</a>')
 				)
 			);
@@ -3532,7 +3532,7 @@ if (document.getElementById('game_container') !== null) {
 
 						var td = $('<td>').attr('colspan', '5').css({
 							'border-bottom': '1px solid #000',
-							'heigth': '19px'
+							height: '19px'
 						});
 
 						// --Calc profits
@@ -3631,7 +3631,7 @@ if (document.getElementById('game_container') !== null) {
 											}).css({
 												'font-weight': 'inherit',
 												'text-align': 'center',
-												'cursor': 'pointer'
+												cursor: 'pointer'
 											}).text('Go!').click(fillBRCForCity)
 										)
 									);
@@ -3647,7 +3647,7 @@ if (document.getElementById('game_container') !== null) {
 											}).css({
 												'font-weight': 'inherit',
 												'text-align': 'center',
-												'cursor': 'pointer'
+												cursor: 'pointer'
 											}).text('Go!')
 										)
 									);
@@ -3826,7 +3826,7 @@ if (document.getElementById('game_container') !== null) {
 							$('#AF').append(
 								$('<center>').text('Auto-Fill').css('font-weight', 'bold'),
 								$('<hr>').css({
-									'color': 'gray'
+									color: 'gray'
 								}),
 								$('<span>').append(
 									$('<input>').attr({
@@ -4049,9 +4049,9 @@ if (document.getElementById('game_container') !== null) {
 
 							var item = $('#game_container center:eq(' + i + ') > table > tbody > tr:eq(' + (k + 1) + ') > td:eq(' + (j + 1) + ')');
 							item.css({
-								'borderTop': '1px solid #000',
+								'border-top': '1px solid #000',
 								'text-align': 'center',
-								'width': '12%'
+								width: '12%'
 							});
 							if (j % 2 === 0) { // add colors to rows
 								item.css('backgroundColor', '#B0B0B0');
@@ -4514,8 +4514,8 @@ if (document.getElementById('game_container') !== null) {
 			}
 			// scrolldown link
 			$('<div>').css({
-				'float': 'right',
-				'cursor': 'pointer'
+				float: 'right',
+				cursor: 'pointer'
 			}).append(
 				$('<span>').text('Scroll down').click(function () {
 					$(IsNewVersion() ? '#game_container_wrapper' : 'html').animate({
@@ -4531,14 +4531,14 @@ if (document.getElementById('game_container') !== null) {
 					$('<div>').attr({
 						id: 'footer'
 					}).css({
-						'position': IsNewVersion() ? 'absolute' : 'fixed',
-						'bottom': IsNewVersion() ? '5px' : '0px',
-						'left': IsNewVersion() ? '5px' : 'inherit',
-						'background': IsNewVersion() ? '#50545A' : '#F0F0F0',
-						'color': IsNewVersion() ? '#EEE' : '#000',
-						'width': IsNewVersion() ? '98.15%' : '70%',
+						position: IsNewVersion() ? 'absolute' : 'fixed',
+						bottom: IsNewVersion() ? '5px' : '0px',
+						left: IsNewVersion() ? '5px' : 'inherit',
+						background: IsNewVersion() ? '#50545A' : '#F0F0F0',
+						color: IsNewVersion() ? '#EEE' : '#000',
+						width: IsNewVersion() ? '98.15%' : '70%',
 						'text-align': 'center',
-						'border': '1px solid black',
+						border: '1px solid black',
 						'border-bottom-right-radius': IsNewVersion() ? '4px' : '0px',
 						'border-bottom-left-radius': IsNewVersion() ? '4px' : '0px'
 					}).html($('tr:has(input[name="shipcity"]) td').html())
@@ -4884,7 +4884,10 @@ if (document.getElementById('game_container') !== null) {
 			// prefs circle
 			var prefs_div = $('<div>').addClass('sm-circle-bg ob-prefs-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
-					$('<img>').attr({'src': GM_getResourceURL('favicon'), 'title': 'Omerta Beyond Preferences'}).addClass('ob-prefs-img')
+					$('<img>').attr({
+						src: GM_getResourceURL('favicon'),
+						title: 'Omerta Beyond Preferences'
+					}).addClass('ob-prefs-img')
 				).hover(
 					function() {
 						$(this).css('background', '#000FF0');
@@ -4903,7 +4906,10 @@ if (document.getElementById('game_container') !== null) {
 				// live famstats circle (needs new icon!)
 				var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
 					$('<span>').addClass('sm-circle sm-health').append(
-						$('<img>').attr({'src': GM_getResourceURL('favicon'), 'title': 'Omerta Beyond Live Famstats'}).addClass('ob-prefs-img')
+						$('<img>').attr({
+							src: GM_getResourceURL('favicon'),
+							title: 'Omerta Beyond Live Famstats'
+						}).addClass('ob-prefs-img')
 					).hover(
 						function() {
 							$(this).css('background', '#1EB418');
@@ -5191,7 +5197,7 @@ $('#game_menu').one('DOMNodeInserted', function () {
 
 			// add beyond menu
 			var a = $('<a>').addClass('link').attr({
-				'href': '#',
+				href: '#',
 				'data-box': 'true'
 			}).append(
 				$('<span>').addClass('title').css('background', 'url("' + GM_getResourceURL('favicon') + '") no-repeat scroll left center transparent').text('Beyond'),
@@ -5804,10 +5810,10 @@ $('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
 if (v === 'dm') {
 	$('#omerta_header #logo').css({
 		'background-image': 'url(' + GM_getResourceURL('logo') + ')',
-		'top': '2px',
-		'left': '0px',
-		'width': '549px',
-		'height': '104px'
+		top: '2px',
+		left: '0px',
+		width: '549px',
+		height: '104px'
 	});
 }
 // Logo on homepage
