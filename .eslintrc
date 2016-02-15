@@ -44,7 +44,7 @@
         "no-spaced-func": 2,
         "no-trailing-spaces": 2,
         "no-unused-expressions": 2,
-        //"no-unused-vars": 2,
+        "no-unused-vars": 2,
         //"no-use-before-define": 2,
         "no-void": 2,
         "quote-props": [2, "as-needed"],

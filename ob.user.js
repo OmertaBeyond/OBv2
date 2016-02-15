@@ -110,7 +110,6 @@
  * Define constants for our website
  */
 
-var OB_WEBSITE = 'https://www.omertabeyond.net';
 var OB_API_WEBSITE = 'https://gm.omertabeyond.net';
 var OB_NEWS_WEBSITE = 'https://news.omertabeyond.net';
 var OB_RIX_WEBSITE = 'https://rix.omertabeyond.net';
@@ -226,10 +225,6 @@ function array_sum(array) {
 	});
 }
 
-function iMax(array) {
-	return array.indexOf(Math.max.apply({}, array));
-}
-
 function iMin(array) {
 	return array.indexOf(Math.min.apply({}, array));
 }
@@ -293,7 +288,7 @@ function delMsg(what, name) {
 		name = name.replace(/\s/g, '').replace(/(\[\d+\])/g, '');
 		if (what == 'id') {
 			if (name == thismsgid) {
-				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
+				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function () {
 					$('font[color="red"]').text('Message deleted.');
 				});
 				msgTr.hide();
@@ -301,7 +296,7 @@ function delMsg(what, name) {
 			}
 		} else if (what == 'name') {
 			if (name == msgTitle) {
-				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function (data) {
+				$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + thismsgid + '&iParty=2', function () {
 					$('font[color="red"]').text('Message deleted.');
 				});
 				msgTr.hide();
@@ -362,7 +357,7 @@ function grabHTML(url, func) {
 	r.onreadystatechange = function () {
 		if (r.readyState == 4) {
 			if (r.status == 200) {
-				func(r.responseText, url);
+				func(r.responseText);
 			}
 		}
 	};
@@ -386,7 +381,7 @@ function bnUpdate(current) {
 		city = unsafeWindow.omerta.character.game.city();
 		var possessions = unsafeWindow.omerta.modules.UserInformation.data.possessions;
 		if (possessions) {
-			$.each(possessions, function(i, v) {
+			$.each(possessions, function(i) {
 				if (possessions[i].type == 'plane') {
 					ride = possessions[i].name_owned;
 				}
@@ -791,28 +786,6 @@ var versionHasLogger = v == 'com' || v == 'nl' || v == 'dm' || v == 'pt';
 var boozenames = ['NO BOOZE', 'Wine', 'Beer', 'Rum', 'Cognac', 'Whiskey', 'Amaretto', 'Port'];
 var narcnames = ['NO NARCS', 'Morphine', 'Marijuana', 'Glue', 'Heroin', 'Opium', 'Cocaine', 'Tabacco'];
 
-function addEndTimeTooltip(node) {
-	// add a tooltip on every cooldown timer showing when it'll end (in OT)
-	// let's make sure we don't break OB in case tipsy gets dropped
-	if (unsafeWindow.$.fn.tipsy) {
-		// .addBack is needed in case the element containing data-timeleft is the one being added to DOM tree
-		// (which is the case on bullet waiting page, safehouse message, and probably others)
-		$(node).find('[data-timeleft]').addBack('[data-timeleft]').each(function() {
-			var cooldownEnd = new Date(getOmertaTime() + parseInt(this.getAttribute('data-timeleft'), 10) * 1000);
-			// formating dates in js is fun. #not
-			var tooltipTitle = ('0' + cooldownEnd.getUTCHours()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCMinutes()).slice(-2) + ':' + ('0' + cooldownEnd.getUTCSeconds()).slice(-2);
-			if (cooldownEnd.getUTCDate() != unsafeWindow.omerta.server.clock.getUTCDate()) {
-				tooltipTitle += ' ' + ('0' + cooldownEnd.getUTCDate()).slice(-2) + '/' + ('0' + (cooldownEnd.getUTCMonth() + 1)).slice(-2);
-			}
-			tooltipTitle += ' OT';
-			this.setAttribute('title', tooltipTitle);
-			unsafeWindow.$(this).tipsy({
-				gravity: 's'
-			});
-		});
-	}
-}
-
 function calcRaidResult(profit, protection) {
 	return profit * (110 - protection) / 1000;
 }
@@ -850,16 +823,6 @@ function checkUserAlive(user, callback) {
 	$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + user, function (data) {
 		callback(!data['DiedAt']);
 	});
-}
-
-function isElementInViewport(el) {
-	var rect = el.getBoundingClientRect();
-	return (
-		rect.top >= 0 &&
-		rect.left >= 0 &&
-		rect.bottom <= $(window).height() &&
-		rect.right <= $(window).width()
-	);
 }
 
 // ---------------- NickReader ----------------
@@ -2143,7 +2106,7 @@ if (document.getElementById('game_container') !== null) {
 							src: GM_getResourceURL('delete'),
 							title: 'Delete'
 						}).click(function () {
-								$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=1', function (data) {
+								$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=1', function () {
 									$('font[color="red"]').text('Message deleted.');
 								});
 
@@ -3456,11 +3419,11 @@ if (document.getElementById('game_container') !== null) {
 				$('input#ver, input[type=submit]').focus();
 			};
 
-			var highlightRow = function (event) {
+			var highlightRow = function () {
 				$(this).css('backgroundColor', '#888');
 			};
 
-			var removeHighlight = function (event) {
+			var removeHighlight = function () {
 				$(this).css('backgroundColor', 'transparent');
 			};
 
@@ -3995,7 +3958,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 					appBRC(BN);
 				} else {
-					var parsePrices = function (resp, url) {
+					var parsePrices = function (resp) {
 						var parser = new DOMParser();
 						var dom = parser.parseFromString(resp, 'application/xml');
 
@@ -4016,10 +3979,8 @@ if (document.getElementById('game_container') !== null) {
 
 			if (on_page('prices.php') && nn == 'center') {
 				var i, j, k;
-				var noBRC = false; // assume working BRC table
 				var BN;
 				if (typeof BN == 'undefined') { // see if prices are grabbed already
-					noBRC = true; // no BRC mean no need to try and HL 'em
 					for (BN = [], i = 0; i <= 1; i++) { // B/N
 						for (BN[i] = [], j = 0; j <= 6; j++) { // type
 							for (BN[i][j] = [], k = 0; k <= 7; k++) { // city
@@ -4031,12 +3992,12 @@ if (document.getElementById('game_container') !== null) {
 					}
 				}
 
-				var highlightPriceRow = function (event) {
+				var highlightPriceRow = function () {
 					$(this).css('backgroundColor', '#888');
 					$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', '#888');
 				};
 
-				var removeHighlightPriceRow = function (event) {
+				var removeHighlightPriceRow = function () {
 					$(this).css('backgroundColor', 'transparent');
 					$('#' + (i ? 0 : 1) + 'row' + k).css('backgroundColor', 'transparent');
 				};
@@ -4631,7 +4592,7 @@ if (document.getElementById('game_container') !== null) {
 								// In case he hasn't, its safe to remove that detective
 
 								if (wordInString(detectiveText, failedMessage)) {
-									$.post('BeO/webroot/?module=Detectives&action=fire', { id: ajaxID }).done(function(data) {
+									$.post('BeO/webroot/?module=Detectives&action=fire', { id: ajaxID }).done(function() {
 										$('#ob_fire_all').val('Detectives fired!');
 										$(elem).closest('tr').hide();
 									});
@@ -4947,7 +4908,7 @@ if (document.getElementById('game_container') !== null) {
  * Pages without only text nodes
  */
 
-$('#game_container').on('DOMNodeInserted', function(event) {
+$('#game_container').on('DOMNodeInserted', function() {
 	if (on_page('jail.php')) {
 		// Return when self bo
 		if ($('#game_container:contains("You busted yourself out of jail")').length) {
@@ -5069,7 +5030,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 					time = time.split(':');
 					time = (time[1] < 30) ? time[0] + ':00 OT' : time[0] + ':30 OT';
 
-					function hovermenu(city, x, y) {
+					function hovermenu(city, x) {
 						var hoverStyle = IsNewVersion() ? {
 							display: 'block',
 							position: 'fixed',
@@ -5088,8 +5049,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 						$('#hiddenbox').css(hoverStyle).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city));
 					}
 
-					function flytolink(city, priceStr, priceToFly, cityId) {
-						var mycity = getPow('bninfo', 2, -1);
+					function flytolink(city, priceStr) {
 						var link = $('<a>').attr({
 							id: cities[city],
 							href: '#'
@@ -5116,7 +5076,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 								$(this).css('textDecoration', 'underline');
 							});
 						}
-						link.mouseout(function (event) {
+						link.mouseout(function () {
 							$('#hiddenbox').css('display', 'none');
 							$(this).css('textDecoration', 'none');
 						});
@@ -5130,9 +5090,9 @@ $('#game_container').one('DOMNodeInserted', function () {
 					);
 
 					i = 0;
-					p.forEach(function ($n) {
+					p.forEach(function () {
 						span.css('color', '#FFF');
-						span.append(flytolink(i, cities[i] + ':' + q[i], 500, i), $('<span>').text(' | '));
+						span.append(flytolink(i, cities[i] + ':' + q[i]), $('<span>').text(' | '));
 						i++;
 					});
 
