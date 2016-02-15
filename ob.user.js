@@ -37,12 +37,6 @@
 // @author                   Sebbe <sebbe@omertabeyond.com>
 // @author                   Brainscrewer <brainscrewer@omertabeyond.com>
 // @author                   semitom <tom.gankema@gmail.com>
-// @oujs:author              vBm
-// @oujs:collaborator        Gwildor
-// @oujs:collaborator        MurderInc
-// @oujs:collaborator        Sebbe
-// @oujs:collaborator        Brainscrewer
-// @oujs:collaborator        Ivdbroek85
 // @license                  GNU General Public License v3
 // @contributionURL          https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=sbanks%40omertabeyond%2ecom&lc=GB&item_name=Omerta%20Beyond&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 // @contributionAmount       €3.00
@@ -101,6 +95,14 @@
 // @grant                    GM_xmlhttpRequest
 // @grant                    unsafeWindow
 // ==/UserScript==
+// ==OpenUserJS==
+// @author                   vBm
+// @collaborator             Gwildor
+// @collaborator             MurderInc
+// @collaborator             Sebbe
+// @collaborator             Brainscrewer
+// @collaborator             Ivdbroek85
+// ==/OpenUserJS==
 
 /*
  * Define constants for our website
