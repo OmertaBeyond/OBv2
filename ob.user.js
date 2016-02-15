@@ -4792,7 +4792,12 @@ if (document.getElementById('game_container') !== null) {
 			$('div[id$="BoughtBG"]').css('display', 'none');
 			// set timer for BG if it counts down
 			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
-				var bgTime = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
+				var bgTime;
+				if (IsNewVersion()) {
+					bgTime = parseInt($('[data-timecb="bodyguard"]').attr('data-time-end'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
+				} else {
+					bgTime = parseInt($('[data-timecb="bodyguard"]').attr('data-timeleft'), 10);
+				}
 				if (bgTime > 0) {
 					bgTimer = true;
 					setTimeout(function() {
