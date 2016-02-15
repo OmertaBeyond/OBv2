@@ -232,9 +232,8 @@ function iMin(array) {
 function on_page(str) {
 	if (window.location.hash.indexOf(str) != -1) {
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 function time() {
@@ -809,9 +808,8 @@ function datestringParse(dateString) {
 function IsNewVersion() {
 	if (v == 'dm' || v == 'pt' || v == 'dev') {
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 /**
@@ -3000,9 +2998,8 @@ if (document.getElementById('game_container') !== null) {
 			var setArr = function (num) {
 				if (arr[num].substr(-1) == '.') {
 					return (arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>.');
-				} else {
-					return (arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>');
 				}
+				return (arr[num] = '<a href="/user.php?nick=' + arr[num].match(/\w+/g)[0] + '"><b>' + arr[num].match(/\w+/g)[0] + '</b></a>');
 			};
 
 			var WitnessMsg = new RegExp(linkify[7]); // Witness statement
@@ -4796,13 +4793,12 @@ if (document.getElementById('game_container') !== null) {
 				if (isSpots && $(this).find('td:first').hasClass('tableheader')) {
 					$(this).find('td.tableheader:eq(4)').after($('<td class="tableheader"><b class="raid_profit_tooltip" title="Best Possible Raid Result per Player">Result</b></td>'));
 					return;
-				} else {
-					var firstRowText = $(this).find('td:first').text();
-					if (firstRowText == 'City:' || firstRowText == 'Stad:') {
-						// add table header
-						$(this).append($('<td><b class="raid_profit_tooltip" title="Best Possible Raid Result per Player">Raid Result:</b></td>'));
-						return;
-					}
+				}
+				var firstRowText = $(this).find('td:first').text();
+				if (firstRowText == 'City:' || firstRowText == 'Stad:') {
+					// add table header
+					$(this).append($('<td><b class="raid_profit_tooltip" title="Best Possible Raid Result per Player">Raid Result:</b></td>'));
+					return;
 				}
 				if (isSpots && $(this).find('td[colspan="3"]').length > 0) {
 					// make Bankrupt/OOB columns wider
