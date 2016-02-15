@@ -94,6 +94,8 @@
 // @grant                    GM_addStyle
 // @grant                    GM_xmlhttpRequest
 // @grant                    unsafeWindow
+// @connect                  gm.omertabeyond.net
+// @connect                  self
 // ==/UserScript==
 // ==OpenUserJS==
 // @author                   vBm
