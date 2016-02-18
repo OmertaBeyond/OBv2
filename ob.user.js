@@ -140,8 +140,8 @@ function whatV(hostname) {
 		case 'www.barafranca.nl':
 		case 'barafranca.nl':
 			return 'nl';
-		case 'www.barafranca.gen.tr':
-		case 'barafranca.gen.tr':
+		case 'www.omerta.com.tr':
+		case 'omerta.com.tr':
 			return 'tr';
 		case 'omerta.pt':
 		case 'www.omerta.pt':
@@ -806,7 +806,7 @@ function datestringParse(dateString) {
 }
 
 function IsNewVersion() {
-	if (v == 'dm' || v == 'pt' || v == 'dev') {
+	if (v == 'dm' || v == 'pt' || v == 'tr' || v == 'dev') {
 		return true;
 	}
 	return false;
