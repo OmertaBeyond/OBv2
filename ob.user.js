@@ -1211,8 +1211,8 @@ if (document.getElementById('game_container') !== null) {
 			nickReader();
 			// add HR, Deaths and Worth
 			var famid = wlh.split('=')[1];
-			var famIdFromImg = $('img[src*="family_image.php"]').attr('src').match(/\d+/g)[0];
-			var famname = $('td.profilerow').text().split(' ')[0].trim().toLowerCase();
+			var famIdFromImg = $('img[src*="family_image.php"]:last').attr('src').match(/\d+/g)[0];
+			var famname = $('td.profilerow').text().trim().split(' ')[0].trim().toLowerCase();
 			var url = (famid === famIdFromImg) ? 'id=' + famid : 'ing=' + famname;
 			var ownfam = getV('family', '');
 
