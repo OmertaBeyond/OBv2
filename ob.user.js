@@ -2216,18 +2216,17 @@ if (document.getElementById('game_container') !== null) {
 			// Add arrow hotkeys
 			$(window).keydown(function (event) {
 				var key = event.which;
-				var proto = document.location.protocol;
 				if (key == 39) { // right, reply
-					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=sendMsg&iReply=' + id;
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=sendMsg&iReply=' + id);
 				}
 				if (key == 38 && id != ids[0]) { // up, select previous
-					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + next;
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + next);
 				}
 				if (key == 40 && id != ids[ids.length - 1]) { // down, select next
-					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + prev;
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=showMsg&iMsgId=' + prev);
 				}
 				if (key == 37) { // left, delete
-					window.location.href = proto + '//' + document.location.hostname + '/game.php#' + proto + '//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=2';
+					unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=2');
 				}
 			});
 		}
