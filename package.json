@@ -27,7 +27,7 @@
     },
     "readmeFilename": "Readme.md",
     "devDependencies": {
-        "grunt": "^0.4.5",
+        "grunt": "^1.0.0",
         "grunt-contrib-csslint": "^1.0.0",
         "grunt-eslint": "^18.0.0",
         "grunt-lintspaces": "^0.7.2",
