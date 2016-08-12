@@ -31,7 +31,7 @@
         "grunt-contrib-csslint": "^1.0.0",
         "grunt-eslint": "^19.0.0",
         "grunt-lintspaces": "^0.8.0",
-        "load-grunt-tasks": "^3.5.0",
+        "load-grunt-tasks": "^3.5.1",
         "time-grunt": "^1.4.0"
     }
 }
