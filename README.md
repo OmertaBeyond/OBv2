@@ -7,6 +7,7 @@
 [![Codacy Badge](https://img.shields.io/codacy/3b9bd8fcf7254a0f86bcc5db152a39a5.svg)](https://www.codacy.com/public/OmertaBeyond/OBv2)
 [![devDependency Status](https://img.shields.io/david/dev/OmertaBeyond/OBv2.svg)](https://david-dm.org/OmertaBeyond/OBv2#info=devDependencies)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](http://opensource.org/licenses/GPL-3.0)
+[![Known Vulnerabilities](https://snyk.io/test/github/OmertaBeyond/OBv2/badge.svg)](https://snyk.io/test/github/OmertaBeyond/OBv2)
 
 # About
 
