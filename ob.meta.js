@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.0.68
-// @date                     14-03-2016
-// @description              Omerta Beyond 2.0 (We're back to reclaim the throne ;))
+// @version                  2.1
+// @date                     16-12-2016
+// @description              Omerta Beyond 2.1 (We're back to reclaim the throne ;))
 // @homepageURL              https://www.omertabeyond.net/
 // @namespace                v4.omertabeyond.com
 // @updateURL                https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/ob.meta.js
@@ -19,12 +19,6 @@
 // @author                   Sebbe <sebbe@omertabeyond.com>
 // @author                   Brainscrewer <brainscrewer@omertabeyond.com>
 // @author                   semitom <tom.gankema@gmail.com>
-// @oujs:author              vBm
-// @oujs:collaborator        Gwildor
-// @oujs:collaborator        MurderInc
-// @oujs:collaborator        Sebbe
-// @oujs:collaborator        Brainscrewer
-// @oujs:collaborator        Ivdbroek85
 // @license                  GNU General Public License v3
 // @contributionURL          https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=sbanks%40omertabeyond%2ecom&lc=GB&item_name=Omerta%20Beyond&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 // @contributionAmount       €3.00
@@ -74,7 +68,7 @@
 // @include                  https://*.omerta.pt/*
 // @include                  http://omerta.pt/*
 // @include                  https://omerta.pt/*
-// @include                  https://dev.omerta.land*
+// @include                  https://*.omerta.land*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
 // @grant                    GM_getResourceText
@@ -82,4 +76,14 @@
 // @grant                    GM_addStyle
 // @grant                    GM_xmlhttpRequest
 // @grant                    unsafeWindow
+// @connect                  gm.omertabeyond.net
+// @connect                  self
 // ==/UserScript==
+// ==OpenUserJS==
+// @author                   vBm
+// @collaborator             Gwildor
+// @collaborator             MurderInc
+// @collaborator             Sebbe
+// @collaborator             Brainscrewer
+// @collaborator             Ivdbroek85
+// ==/OpenUserJS==
