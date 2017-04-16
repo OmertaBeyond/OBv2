@@ -4543,6 +4543,11 @@ if (document.getElementById('game_container') !== null) {
 							var carVal = parseInt($(this).find('td:eq(3)').html().replace(',', '').replace('$', ''), 10); // get value
 							var check = $(this).find('input[value="' + carid + '"]');
 							var comment = $(this).find('td:eq(6)').text().trim();
+							
+							if($('#selval2').val()){
+								var maxPrice = $('#selval2').val();
+							}
+							
 							if (check.prop('checked') === true) {
 								check.click();
 							}
