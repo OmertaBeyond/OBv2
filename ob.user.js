@@ -111,6 +111,7 @@
  */
 
 var OB_API_WEBSITE = 'https://gm.omertabeyond.net';
+var OB_API_NEW_WEBSITE = 'https://api.omertabeyond.net';
 var OB_NEWS_WEBSITE = 'https://news.omertabeyond.net';
 var OB_RIX_WEBSITE = 'https://rix.omertabeyond.net';
 var OB_CDN_URL = 'https://d1oi19aitxwcck.cloudfront.net';
@@ -818,8 +819,8 @@ function IsNewVersion() {
  * @return {Boolean}
  */
 function checkUserAlive(user, callback) {
-	$.getJSON(OB_API_WEBSITE + '/?p=stats&w=deaths&v=' + v + '&ing=' + user, function (data) {
-		callback(!data['DiedAt']);
+	$.getJSON(OB_API_NEW_WEBSITE + '/domains/' + v + '/versions/latest/users/' + user, function (data) {
+		callback(data['alive']);
 	});
 }
 
