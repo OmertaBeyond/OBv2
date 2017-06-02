@@ -12,6 +12,8 @@
 
 # About
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/OmertaBeyond/OBv2.svg)](https://greenkeeper.io/)
+
 Omerta Beyond is, simply, an userscript for the MMORPG [Omerta](http://www.barafranca.com).
 
 This is complete rewrite of our old script [OmertaBeyond v1](https://github.com/OmertaBeyond/OmertaBeyond)
