@@ -529,12 +529,26 @@ function CheckBmsg() {
 	}, 0);
 }
 
-var crimeTimer = false;
-var gtaTimer = false;
-var travelTimer = false;
-var bulletTimer = false;
-var bgTimer = false;
+var scheduledNotifications = [];
 var notificationsArray = [];
+
+function ScheduleNotification(topic, firesAt, title, text, tag, callbackUrl, beyondIcon) {
+	if ((prefs['notify_' + topic] || prefs['notify_' + topic + '_sound']) && !scheduledNotifications.hasOwnProperty(topic)) {
+		var timeout = parseInt(firesAt, 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
+		if (timeout > 0) {
+			scheduledNotifications[topic] = true;
+			setTimeout(function() {
+				delete scheduledNotifications[topic];
+				if (prefs['notify_' + topic]) {
+					SendNotification(title, text, tag, callbackUrl, beyondIcon);
+				}
+				if (prefs['notify_' + topic + '_sound']) {
+					playBeep();
+				}
+			}, timeout * 1000);
+		}
+	}
+}
 
 function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 	var notification = new Notification(title, {
@@ -667,82 +681,45 @@ function CheckServiceVariable() {
 			}
 		}
 
-		if ((prefs['notify_gta'] || prefs['notify_gta_sound']) && !gtaTimer) {
-			var gtaTime;
-			gtaTime = parseInt($('[data-cooldown="car"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
-			if (gtaTime > 0) {
-				gtaTimer = true;
-				setTimeout(function() {
-					gtaTimer = false;
-					var gtaText = (v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car');
-					var gtaTitle = (v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')');
-					if (prefs['notify_gta']) {
-						SendNotification(gtaTitle, gtaText, 'Car', './BeO/webroot/index.php?module=Cars', GM_getResourceURL('red-star'));
-					}
-					if (prefs['notify_gta_sound']) {
-						playBeep();
-					}
-				}, gtaTime * 1000);
-			}
-		}
+		ScheduleNotification(
+			'gta',
+			$('[data-cooldown="car"] input').attr('data-knob-timeend'),
+			(v == 'nl' ? 'Steel een auto (' + v + ')' : 'Nick a car (' + v + ')'),
+			(v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car'),
+			'Car',
+			'/?module=Cars',
+			GM_getResourceURL('red-star')
+		);
 
-		if ((prefs['notify_crime'] || prefs['notify_crime_sound']) && !crimeTimer) {
+		ScheduleNotification(
+			'crime',
+			$('[data-cooldown="crime"] input').attr('data-knob-timeend'),
+			(v == 'nl' ? 'Misdaad (' + v + ')' : 'Crime (' + v + ')'),
+			(v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime'),
+			'Crime',
+			'/?module=Crimes',
+			GM_getResourceURL('red-star')
+		);
 
-			var crimeTime;
-			crimeTime = parseInt($('[data-cooldown="crime"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
-			if (crimeTime > 0) {
-				crimeTimer = true;
-				setTimeout(function() {
-					crimeTimer = false;
-					var crimeText = (v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime');
-					var crimeTitle = (v == 'nl' ? 'Misdaad (' + v + ')' : 'Crime (' + v + ')');
-					if (prefs['notify_crime']) {
-						SendNotification(crimeTitle, crimeText, 'Crime', './BeO/webroot/index.php?module=Crimes', GM_getResourceURL('red-star'));
-					}
-					if (prefs['notify_crime_sound']) {
-						playBeep();
-					}
-				}, crimeTime * 1000);
-			}
-		}
+		ScheduleNotification(
+			'travel',
+			$('[data-cooldown="travel"] input').attr('data-knob-timeend'),
+			(v == 'nl' ? 'Reizen (' + v + ')' : 'Travel (' + v + ')'),
+			(v == 'nl' ? 'Je kunt reizen' : 'You can travel'),
+			'Travel',
+			'/?module=Travel',
+			GM_getResourceURL('red-star')
+		);
 
-		if ((prefs['notify_travel'] || prefs['notify_travel_sound']) && !travelTimer) {
-			var travelTime;
-			travelTime = parseInt($('[data-cooldown="travel"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
-			if (travelTime > 0) {
-				travelTimer = true;
-				setTimeout(function() {
-					travelTimer = false;
-					var travelText = (v == 'nl' ? 'Je kunt reizen' : 'You can travel');
-					var travelTitle = (v == 'nl' ? 'Reizen (' + v + ')' : 'Travel (' + v + ')');
-					if (prefs['notify_travel']) {
-						SendNotification(travelTitle, travelText, 'Travel', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
-					}
-					if (prefs['notify_travel_sound']) {
-						playBeep();
-					}
-				}, travelTime * 1000);
-			}
-		}
-
-		if ((prefs['notify_bullets'] || prefs['notify_bullets_sound']) && !bulletTimer) {
-			var bulletsTime;
-			bulletsTime = parseInt($('[data-cooldown="bullets"] input').attr('data-knob-timeend'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
-			if (bulletsTime > 0) {
-				bulletTimer = true;
-				setTimeout(function() {
-					bulletTimer = false;
-					var bulletsText = (v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets');
-					var bulletsTitle = (v == 'nl' ? 'Kogels (' + v + ')' : 'Bullets (' + v + ')');
-					if (prefs['notify_bullets']) {
-						SendNotification(bulletsTitle, bulletsText, 'Bullets', './bullets2.php', GM_getResourceURL('red-star'));
-					}
-					if (prefs['notify_bullets_sound']) {
-						playBeep();
-					}
-				}, bulletsTime * 1000);
-			}
-		}
+		ScheduleNotification(
+			'bullets',
+			$('[data-cooldown="bullets"] input').attr('data-knob-timeend'),
+			(v == 'nl' ? 'Kogels (' + v + ')' : 'Bullets (' + v + ')'),
+			(v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets'),
+			'Bullets',
+			'/bullets2.php',
+			GM_getResourceURL('red-star')
+		);
 	}, 30000);
 }
 
@@ -1497,6 +1474,76 @@ if (document.getElementById('game_container') !== null) {
 			// Visual improvement
 
 			$('.thinline:eq(4)>tbody>tr:eq(2)>td:first').html('<a href="/bank.php"><b>In bank account</b></a>');
+
+			ScheduleNotification(
+				'heist',
+				$('.thinline:eq(1)>tbody>tr:eq(3) [data-time-end]').attr('data-time-end'),
+				'Heist (' + v + ')',
+				(v == 'nl' ? 'Je kunt weer heisten' : 'You can do a heist again'),
+				'heist',
+				'/?module=Heist',
+				GM_getResourceURL('red-star')
+			);
+
+			ScheduleNotification(
+				'oc',
+				$('.thinline:eq(1)>tbody>tr:eq(4) [data-time-end]').attr('data-time-end'),
+				'Organised Crime (' + v + ')',
+				(v == 'nl' ? 'Je kunt weer een georganiseerde misdaad doen' : 'You can do an organised crime again'),
+				'oc',
+				'/?module=OC',
+				GM_getResourceURL('red-star')
+			);
+
+			ScheduleNotification(
+				'moc',
+				$('.thinline:eq(1)>tbody>tr:eq(5) [data-time-end]').attr('data-time-end'),
+				'Mega Organised Crime (' + v + ')',
+				(v == 'nl' ? 'Je kunt weer een mega georganiseerde misdaad doen' : 'You can do a mega organised crime again'),
+				'moc',
+				'/?module=MegaOC',
+				GM_getResourceURL('red-star')
+			);
+
+			ScheduleNotification(
+				'kill',
+				$('.thinline:eq(1)>tbody>tr:eq(8) [data-time-end]').attr('data-time-end'),
+				'Next Kill (' + v + ')',
+				(v == 'nl' ? 'Je kunt weer een moordpoging doen' : 'You can make a kill attempt again'),
+				'kill',
+				'/?module=Detectives',
+				GM_getResourceURL('red-star')
+			);
+
+			ScheduleNotification(
+				'race',
+				$('a[href="/races.php"] [data-time-end]').attr('data-time-end'),
+				'Car Race (' + v + ')',
+				(v == 'nl' ? 'Je kunt weer racen' : 'You can race again'),
+				'race',
+				'/races.php',
+				GM_getResourceURL('red-star')
+			);
+
+			ScheduleNotification(
+				'blood',
+				$('.thinline:eq(1)>tbody>tr:eq(10) [data-time-end]').attr('data-time-end'),
+				'Blood Buy (' + v + ')',
+				(v == 'nl' ? 'Je kunt weer bloed kopen' : 'You can buy blood again'),
+				'blood',
+				'/?module=Bloodbank',
+				GM_getResourceURL('red-star')
+			);
+
+			ScheduleNotification(
+				'raid',
+				$('.thinline:eq(1)>tbody>tr:eq(11) [data-time-end]').attr('data-time-end'),
+				'Spot Raid (' + v + ')',
+				(v == 'nl' ? 'Je kunt weer een spot overvallen' : 'You can raid a spot again'),
+				'raid',
+				'/?module=Spots',
+				GM_getResourceURL('red-star')
+			);
 		}
 		// ---------------- NEW My account ----------------
 		if (on_page('module=UserInformation')) {
@@ -4576,24 +4623,15 @@ if (document.getElementById('game_container') !== null) {
 			// Hide bio
 			$('div[id$="BoughtBG"]').css('display', 'none');
 			// set timer for BG if it counts down
-			if ((prefs['notify_bg'] || prefs['notify_bg_sound']) && !bgTimer) {
-				var bgTime;
-				bgTime = parseInt($('[data-timecb="bodyguard"]').attr('data-time-end'), 10) - unsafeWindow.omerta.Clock.getTime() / 1000;
-				if (bgTime > 0) {
-					bgTimer = true;
-					setTimeout(function() {
-						bgTimer = false;
-						var bgText = (v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again');
-						var bgTitle = 'Train Bodyguard (' + v + ')';
-						if (prefs['notify_bg']) {
-							SendNotification(bgTitle, bgText, 'bodyguard', './BeO/webroot/index.php?module=Bodyguards', GM_getResourceURL('red-star'));
-						}
-						if (prefs['notify_bg_sound']) {
-							playBeep();
-						}
-					}, bgTime * 1000);
-				}
-			}
+			ScheduleNotification(
+				'bg',
+				$('[data-timecb="bodyguard"]').attr('data-time-end'),
+				'Train Bodyguard (' + v + ')',
+				(v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again'),
+				'bodyguard',
+				'/?module=Bodyguards',
+				GM_getResourceURL('red-star')
+			);
 		}
 		// ---------------- Raid Result @ Statistics and Spots ----------------
 		if (on_page('global_stats') || on_page('module=Spots')) {
@@ -5084,9 +5122,16 @@ function GetPrefPage() {
 		{ name: 'notify_bn', label: 'B/N prices changes'},
 		{ name: 'notify_crime', label: 'Crime' },
 		{ name: 'notify_gta', label: 'Nick a car' },
+		{ name: 'notify_heist', label: 'Heist' },
+		{ name: 'notify_oc', label: 'OC' },
+		{ name: 'notify_moc', label: 'Mega OC' },
+		{ name: 'notify_raid', label: 'Spot raid' },
+		{ name: 'notify_race', label: 'Car race' },
 		{ name: 'notify_travel', label: 'Travel' },
 		{ name: 'notify_bullets', label: 'Buy bullets' },
 		{ name: 'notify_health', label: 'When losing health' },
+		{ name: 'notify_kill', label: 'When you can kill' },
+		{ name: 'notify_blood', label: 'When you can buy blood' },
 		{ name: 'notify_messages', label: 'Receive new message' },
 		{ name: 'notify_alerts', label: 'New alerts' },
 		{ name: 'notify_bg', label: 'Train BG' },
