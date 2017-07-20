@@ -807,10 +807,7 @@ function datestringParse(dateString) {
 }
 
 function IsNewVersion() {
-	if (v == 'nl' || v == 'dm' || v == 'pt' || v == 'tr' || v == 'dev') {
-		return true;
-	}
-	return false;
+	return true;
 }
 
 /**
