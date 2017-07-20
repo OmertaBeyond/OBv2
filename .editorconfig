@@ -7,7 +7,7 @@ root = true
 trim_trailing_whitespace = true
 
 [*.{js,css}]
-end_of_line = crlf
+end_of_line = lf
 insert_final_newline = true
 indent_style = tab
 charset = utf-8
