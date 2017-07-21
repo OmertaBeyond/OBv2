@@ -44,7 +44,7 @@
 // @priority                 1
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
-// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.17/howler.min.js
+// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.4/howler.min.js
 // @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
 // @resource    logo         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
@@ -417,21 +417,34 @@ function bnUpdate() {
 	setPow('bninfo', 3, plane); // save
 }
 
-var beeping = false;
-var beep = new Howl({
-	urls: [ OB_CDN_URL + '/sounds/beep.wav' ], // doesn't work with GM_getResourceURL
-	onend: function() {
-		beeping = false;
-	}
-});
+var soundPlaying = false;
+var soundQueue = [];
 
-function playBeep() {
-	if (beeping) {
-		// don't play beep more than once at the same time
-		return;
+function playNextSound() {
+	if (soundQueue.length > 0) {
+		soundPlaying = true;
+		var sound = new Howl({
+			src: [ soundQueue.shift() ],
+			onend: function() {
+				window.setTimeout(playNextSound, 250);
+			}
+		});
+		sound.play();
+	} else {
+		soundPlaying = false;
 	}
-	beeping = true;
-	beep.play();
+}
+
+function playSound(topic) {
+	if (prefs['use_tts']) {
+		src = OB_CDN_URL + '/sounds/tts/' + topic + '.mp3';
+	} else {
+		src = OB_CDN_URL + '/sounds/beep.wav';
+	}
+	soundQueue.push(src);
+	if (!soundPlaying) {
+		playNextSound();
+	}
 }
 
 function CheckBmsg() {
@@ -474,7 +487,7 @@ function CheckBmsg() {
 					}
 
 					if (prefs['bmsgNews_sound']) {
-						playBeep();
+						playSound('news');
 					}
 					setV('lastbmsg', response['news'][0]['ts']);
 				} else if ((prefs['bmsgDeaths'] || prefs['bmsgDeaths_sound']) && (deaths >= 1)) {
@@ -516,7 +529,7 @@ function CheckBmsg() {
 					}
 
 					if (prefs['bmsgDeaths_sound']) {
-						playBeep();
+						playSound('death');
 					}
 
 					setV('lastbmsg', response['deaths'][0]['ts']);
@@ -543,7 +556,7 @@ function ScheduleNotification(topic, firesAt, title, text, tag, callbackUrl, bey
 					SendNotification(title, text, tag, callbackUrl, beyondIcon);
 				}
 				if (prefs['notify_' + topic + '_sound']) {
-					playBeep();
+					playSound(topic);
 				}
 			}, timeout * 1000);
 		}
@@ -592,7 +605,7 @@ function CheckServiceVariable() {
 					SendNotification(healthTitle, healthText, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
 				}
 				if (prefs['notify_health_sound']) {
-					playBeep();
+					playSound('health');
 				}
 			}
 
@@ -632,7 +645,7 @@ function CheckServiceVariable() {
 					SendNotification(msgTitle, msgText, 'Mail', callbackUrl, GM_getResourceURL('red-star'));
 				}
 				if (prefs['notify_messages_sound']) {
-					playBeep();
+					playSound('messages');
 				}
 			}
 		}
@@ -676,7 +689,7 @@ function CheckServiceVariable() {
 					SendNotification(alertTitle, alertText, 'alert', callbackUrl, GM_getResourceURL('red-star'));
 				}
 				if (prefs['notify_alerts_sound']) {
-					playBeep();
+					playSound('alerts');
 				}
 			}
 		}
@@ -1009,7 +1022,7 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 							SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
 						}
 						if (prefs['notify_highlight_sound']) {
-							playBeep();
+							playSound('highlight');
 						}
 					}
 				}
@@ -4873,7 +4886,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 						}
 
 						if (prefs['notify_bn_sound']) {
-							playBeep();
+							playSound('bn');
 						}
 					}
 
@@ -5199,6 +5212,15 @@ function GetPrefPage() {
 					}).blur(function() {
 						setA('sets', 'autoCloseNotificationsSecs', $('#autoCloseNotificationsSecs').val());
 					}),
+					$('<br>'),
+					$('<input>').attr({
+						id: 'use_tts',
+						type: 'checkbox',
+						checked: prefs['use_tts'] ? true : false
+					}).click(function () {
+						setA('prefs', 'use_tts', $(this).prop('checked'));
+					}),
+					$('<label>').attr('for', 'use_tts').text('Enable Text-to-Speech'),
 					$('<br>'),
 					$('<div>').addClass('notify').append(
 						notificationMarkup
