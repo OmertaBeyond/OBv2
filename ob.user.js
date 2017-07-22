@@ -1403,20 +1403,18 @@ if (document.getElementById('game_container') !== null) {
 			// Grab busts for Jail page
 			var bos;
 			// Save Will
-			var willName;
-			var willTR;
 			var timestamp = getV('willTimestamp');
-			var checkTimestamp = $.now() - (1000 * 30 * 60); //
-			var defaultWillName = (v == 'nl' ? 'Niemand' : 'Nobody');
-			willTR = $('.thinline:eq(0)>tbody>tr:eq(11)>td:last');
+			var checkTimestamp = $.now() - (1000 * 30 * 60);
+			var willTR = $('.thinline:eq(0)>tbody>tr>td a[href^="/user.php?nick="]:eq(1)');
+			var willName = unsafeWindow.omerta.character.info.testament();
 			willName = willTR.text().replace(/,/g, '').trim();
 
 			var appendDead = function() {
 				willTR.append('<span class="red"> | Dead!</span>');
 			};
-			// Let's skip doing this if the will has not been set.
 
-			if (getV('willTimestamp', 0) <= checkTimestamp && willName != defaultWillName) {
+			// Let's skip doing this if the will has not been set.
+			if (getV('willTimestamp', 0) <= checkTimestamp && willName != '') {
 				checkUserAlive(willName, function(isAlive) {
 					setV('willTimestamp', $.now());
 					if (!isAlive) {
@@ -1428,7 +1426,7 @@ if (document.getElementById('game_container') !== null) {
 				var deadWillName = getV('deadWillName');
 
 				// If the person in the will has been changed it shouldn't be shown anymore
-				if (deadWillName == willName) {
+				if (willName != '' && deadWillName == willName) {
 					appendDead();
 				}
 			}
@@ -1451,18 +1449,25 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			// Tell how old the account is
-			var startElem = $('table.thinline:eq(0)>tbody>tr:eq(6)>td:last');
-			var startDate = datestringParse(startElem.text());
-			var diff = Math.abs(Date.now() - startDate.getTime());
-			var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
-			var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
-			var previousText = startElem.text();
-			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)').click(function() {
-				var currentText = $(this).text();
-				$(this).text(previousText);
-				previousText = currentText;
+			var startElem;
+			$('table.thinline:eq(0)>tbody>tr>td:nth-child(2)').each(function() {
+				if (/^(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2}):(\d{2})$/.test($(this).text())) {
+					startElem = $(this);
+				}
 			});
+			if (startElem !== null) {
+				var startDate = datestringParse(startElem.text());
+				var diff = Math.abs(Date.now() - startDate.getTime());
+				var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+				var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
+				var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
+				var previousText = startElem.text();
+				startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)').click(function() {
+					var currentText = $(this).text();
+					$(this).text(previousText);
+					previousText = currentText;
+				});
+			}
 
 			// car
 			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(3)>td:last').text().replace(',', ''), 10);
