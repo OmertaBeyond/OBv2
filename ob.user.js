@@ -4287,6 +4287,9 @@ if (document.getElementById('game_container') !== null) {
 				++totalSuccess;
 				setV('crimeSuccess', totalSuccess);
 			}
+			// focus and highlight last crime option
+			$('#crime-choices .popup-place-wrapper:last').addClass('active');
+			$('#crime-choices button:last').focus();
 		}
 
 		// ---------------- Cars Page ----------------
@@ -4306,6 +4309,16 @@ if (document.getElementById('game_container') !== null) {
 				++totalSuccess;
 				setV('carSuccess', totalSuccess);
 			}
+			var maxValue = 0;
+			var maxIndex = 3;
+			$('#nick-car-choices .head h4').each(function (i) {
+				if (parseInt($(this).text().replace('%', ''), 10) > maxValue) {
+					maxValue = parseInt($(this).text().replace('%', ''), 10);
+					maxIndex = i;
+				}
+			});
+			$('#nick-car-choices .popup-place-wrapper:eq(' + maxIndex + ')').addClass('active');
+			$('#nick-car-choices button:eq(' + maxIndex + ')').focus();
 		}
 		// Lackeys are on, show lackey page enhancements
 		if (on_page('module=Cars') && nclass == 'otable widetable') {
