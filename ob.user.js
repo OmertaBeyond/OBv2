@@ -1085,6 +1085,10 @@ if (document.getElementById('game_container') !== null) {
 				return false;
 			}
 
+			if ($(event.target).attr('id') == 'recaptcha-popup') {
+				return false;
+			}
+
 			$(event.target).attr('data-beyond-fired', 'true');
 			gameContainerChanged(event.target);
 		}, true);
@@ -2615,7 +2619,8 @@ if (document.getElementById('game_container') !== null) {
 			if ($('#SlTracker').length === 0) {
 				$('#game_container').append(
 					$('<div>').addClass('tracker').attr({
-						id: 'SlTracker'
+						id: 'SlTracker',
+						'data-beyond-fired': true
 					}).css({
 						top: SlTtop,
 						left: SlTleft
@@ -2736,7 +2741,8 @@ if (document.getElementById('game_container') !== null) {
 			if ($('#STracker').length === 0) {
 				$('#game_container').append(
 					$('<div>').addClass('tracker').attr({
-						id: 'STracker'
+						id: 'STracker',
+						'data-beyond-fired': true
 					}).css({
 						top: STtop,
 						left: STleft
@@ -2822,7 +2828,8 @@ if (document.getElementById('game_container') !== null) {
 			if ($('#BTracker').length === 0) {
 				$('#game_container').append(
 					$('<div>').addClass('tracker').attr({
-						id: 'BTracker'
+						id: 'BTracker',
+						'data-beyond-fired': true
 					}).css({
 						top: BTtop,
 						left: BTleft
