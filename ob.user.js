@@ -1127,25 +1127,6 @@ if (document.getElementById('game_container') !== null) {
 			return;
 		}
 
-		// limit captcha to size and disabled to 3 letters is typed
-		var codeInput = $('input#ver, input#lbfVer, input#bfVer, input[name="imgcode"]');
-		var codeSubmit = codeInput.closest('form').find('input[type="submit"]');
-
-		if (on_page('jail.php')) {
-			codeSubmit.prop('disabled', false);
-		} else {
-			if (codeInput.length > 0) {
-				codeSubmit.prop('disabled', true);
-			}
-			codeInput.attr('maxlength', 3).keydown(function() {
-				if ($(this).val().length >= 2) {
-					codeSubmit.prop('disabled', false);
-				} else {
-					codeSubmit.prop('disabled', true);
-				}
-			});
-		}
-
 		// autofocus on long pages with button at the bottom causes annoying scroll
 		var isAutofocusBlacklist = on_page('module=Mail') || on_page('forums');
 		if (!isAutofocusBlacklist && $('input[type=submit]').length == 1) {
@@ -1755,7 +1736,6 @@ if (document.getElementById('game_container') !== null) {
 				$('#HLrow').html($(this).html());
 				$('#HLrow').css('background-color', $(this).attr('bgcolor'));
 				$(this).find('input[name="bust"]').attr('checked', true);
-				$('input[name="ver"]').focus();
 			});
 			if (bustlist.length > 0) {
 				var bustthis;
@@ -3412,7 +3392,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 
 				// focus
-				$('input#ver, input[type=submit]').focus();
+				$('input[type=submit]').focus();
 			};
 
 			var highlightRow = function () {
@@ -4130,7 +4110,7 @@ if (document.getElementById('game_container') !== null) {
 										inpt[(i + 1)].value = 0;
 									}
 								}
-								$('input#ver, input[type=submit]').focus();
+								$('input[type=submit]').focus();
 							})
 						);
 					}
@@ -4233,7 +4213,7 @@ if (document.getElementById('game_container') !== null) {
 										inpt[(i + 1)].value = 0;
 									}
 								}
-								$('input#ver, input[type=submit]').focus();
+								$('input[type=submit]').focus();
 							})
 						);
 					}
@@ -4243,8 +4223,8 @@ if (document.getElementById('game_container') !== null) {
 			var inp = $('input[name="typebooze"], input[name="typedrugs"]');
 			inp.each(function () {
 				$(this).click(function () {
-					if ($('input#ver, input[type=submit]').length) {
-						$('input#ver, input[type=submit]').focus();
+					if ($('input[type=submit]').length) {
+						$('input[type=submit]').focus();
 					}
 				});
 			});
@@ -4279,7 +4259,7 @@ if (document.getElementById('game_container') !== null) {
 				}).text('Current Booze/Narcotics Prices')
 			);
 			if (!lboth) {
-				$('input#ver, input[type=submit]').focus(); // focus captcha field
+				$('input[type=submit]').focus(); // focus captcha field
 			}
 		}
 
