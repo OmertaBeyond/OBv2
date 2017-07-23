@@ -3878,9 +3878,8 @@ if (document.getElementById('game_container') !== null) {
 
 						var mode = getV('brcAF', 0);
 
-						var xp = 'form > table > tbody > tr:eq(0) > td';
 						if ($('#do_n').length === 0) {
-							$(xp).append(
+							$('.smuggling-header').append(
 								$('<br />'),
 								$('<span>').attr({
 									id: 'do_n',
