@@ -2769,7 +2769,7 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		// ---------------- Bullet Tracker ----------------
-		if (on_page('/bullets2.php') && nn == 'center') {
+		if (on_page('/bullets2.php')) {
 			if (notificationsArray['Bullets'] !== undefined) {
 				notificationsArray['Bullets'].close();
 				delete notificationsArray['Bullets'];
@@ -2784,7 +2784,7 @@ if (document.getElementById('game_container') !== null) {
 			var btbullets = parseInt(getV('btbullets', 0), 10);
 			var bttoday = parseInt(getV('bttoday', 0), 10);
 			var btmoney = parseInt(getV('btmoney', 0), 10);
-			if ($('#game_container:contains("Success, you bought")').length) {
+			if (nn == 'br' && $('#game_container:contains("Success, you bought")').length) {
 				var rex = new RegExp('Success you bought (\\d+) bullets for \\$ (\\d+)');
 				var str = $('#game_container').text().split('Bulletfactory')[0].replace(/,/g, '');
 				var r = str.match(rex);
@@ -2795,6 +2795,7 @@ if (document.getElementById('game_container') !== null) {
 				setV('bttoday', bttoday);
 				setV('btmoney', btmoney);
 				setV('btdate', BTd.getDate());
+				$('#BTracker').remove();
 			}
 			var btdolpbul;
 			if (btbullets === 0) {
