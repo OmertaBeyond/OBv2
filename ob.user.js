@@ -733,7 +733,7 @@ function CheckServiceVariable() {
 			'/bullets2.php',
 			GM_getResourceURL('red-star')
 		);
-	}, 30000);
+	}, 5000);
 }
 
 function getOmertaTime() {
