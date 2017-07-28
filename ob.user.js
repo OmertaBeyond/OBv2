@@ -156,7 +156,6 @@ var v = whatV();
 var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 
-
 if (localStorage.getItem('ob_uid') === null) {
 	localStorage.setItem('ob_uid', Math.random().toString(36).substr(2, 9));
 }
@@ -1048,6 +1047,10 @@ function wordInString(s, word) {
 	return new RegExp('\\b' + word + '\\b', 'i').test(s);
 }
 
+function proxyImage(node) {
+	$(node).attr('src', $(node).attr('src').replace('i.imgur.com', 'gm.omertabeyond.net/imgur'));
+}
+
 /*
  * Main game listener
  */
@@ -1099,6 +1102,10 @@ if (document.getElementById('game_container') !== null) {
 		var nid = node.getAttribute('id');
 		var nclass = node.className;
 		var wlh = window.location.hash;
+
+		$(node).find('img').each(function() {
+			proxyImage(this);
+		});
 
 		// unbind events
 		if (!on_page('garage.php') && !on_page('module=Cars')) {
