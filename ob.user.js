@@ -1038,7 +1038,7 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 						} else if (prefs['stripChat_familyAll']) {
 							var rex = new RegExp('(?:Capo|Sottocapo|Consiglieri|Boss)\\s(\\w+)(?:Capo|Sottocapo|Consiglieri|Boss)');
 						} else {
-							var rex = new RegExp('(?:Member)\\s(\\w+)(?:Member)');						
+							var rex = new RegExp('(?:Member)\\s(\\w+)(?:Member)');
 						}
 						var sender = $(node).find('.msg-author');
 						if ($(node).find('.label-background')) {
