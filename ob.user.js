@@ -1034,9 +1034,9 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 					if (prefs['stripChat_familyAll'] || prefs['stripChat_familyMembers']) {
 						// TODO: extend with hide all family functions except for own family
 						if (prefs['stripChat_familyAll'] && prefs['stripChat_familyMembers']) {
-							var rex = new RegExp('(?:Member|Capo|Sottocapo|Consiglieri|Boss)\\s(\\w+)(?:Member|Capo|Sottocapo|Consiglieri|Boss)');
+							var rex = new RegExp('(?:Member|Capo|Sottocapo|Consiglieri|Don)\\s(\\w+)(?:Member|Capo|Sottocapo|Consiglieri|Don)');
 						} else if (prefs['stripChat_familyAll']) {
-							var rex = new RegExp('(?:Capo|Sottocapo|Consiglieri|Boss)\\s(\\w+)(?:Capo|Sottocapo|Consiglieri|Boss)');
+							var rex = new RegExp('(?:Capo|Sottocapo|Consiglieri|Don)\\s(\\w+)(?:Capo|Sottocapo|Consiglieri|Don)');
 						} else {
 							var rex = new RegExp('(?:Member)\\s(\\w+)(?:Member)');
 						}
