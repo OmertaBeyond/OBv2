@@ -1015,10 +1015,10 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 					}
 					var isBufferedMessage = firstMessageTs >= $.now() - 500;
 
-					if (!isBufferedMessage){
+					if (!isBufferedMessage) {
 							var sender = $(node).find('.msg-author');
 						if ($(node).hasClass('msg-hilight')) {
-							//moved these, they only need to be set when relevant.
+							// moved these, they only need to be set when relevant.
 							var sender = $(node).find('.msg-author');
 							var messageText = $(node).find('.msg-content');
 							if (prefs['notify_highlight']) {
@@ -1030,21 +1030,21 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 							}
 						}
 					}
-					
+
 					if (prefs['stripChat_familyAll'] || prefs['stripChat_familyMembers']) {
-						//TODO: extend with hide all family functions except for own family
+						// TODO: extend with hide all family functions except for own family
 						if (prefs['stripChat_familyAll'] && prefs['stripChat_familyMembers']) {
 							var rex = new RegExp('(?:Member|Capo|Sottocapo|Consiglieri|Boss)\\s(\\w+)(?:Member|Capo|Sottocapo|Consiglieri|Boss)');
 						} else if (prefs['stripChat_familyAll']) {
 							var rex = new RegExp('(?:Capo|Sottocapo|Consiglieri|Boss)\\s(\\w+)(?:Capo|Sottocapo|Consiglieri|Boss)');
 						} else {
-							var rex = new RegExp('(?:Member)\\s(\\w+)(?:Member)');							
-						}						
+							var rex = new RegExp('(?:Member)\\s(\\w+)(?:Member)');						
+						}
 						var sender = $(node).find('.msg-author');
 						if ($(node).find('.label-background')) {
-							//sender.text() returns the sender twice?
+							// sender.text() returns the sender twice?
 							var r = sender.text().match(rex);
-							if (r && r.length > 0){
+							if (r && r.length > 0) {
 								($(node).find('.msg-author')).text(r[1]);
 							}
 						}
@@ -1053,13 +1053,12 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 					if (prefs['stripChat_color']) {
 						if ($(node).find('.label-background')) {
 							$(node).find('.label-background').removeClass('label-background').css({
-								'background': 'inherit',
-								'color': '#FFF',
+								background: 'inherit',
+								color: '#FFF',
 								'font-weight': 'bold !important'
-							})
+							});
 						}
 					}
-					
 				}
 			}
 		});
@@ -5543,7 +5542,6 @@ function GetPrefPage() {
 					)
 				)
 			),
-			
 			$('<tr>').append(
 				$('<td>').attr({ height: '1', bgcolor: 'black' })
 			),
