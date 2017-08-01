@@ -43,7 +43,7 @@
 // @encoding                 UTF-8
 // @priority                 1
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-// @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js
+// @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js
 // @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.4/howler.min.js
 // @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
 // @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
@@ -156,8 +156,25 @@ var v = whatV();
 var ranks = ['Empty-suit', 'Delivery Boy', 'Delivery Girl', 'Picciotto', 'Shoplifter', 'Pickpocket', 'Thief', 'Associate', 'Mobster', 'Soldier', 'Swindler', 'Assassin', 'Local Chief', 'Chief', 'Bruglione', 'Capodecina', 'Godfather', 'First Lady'];
 var cities = ['Detroit', 'Chicago', 'Palermo', 'New York', 'Las Vegas', 'Philadelphia', 'Baltimore', 'Corleone'];
 
+function randomString(length) {
+	var charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var result = '';
+	if (window.crypto && window.crypto.getRandomValues) {
+		values = new Uint32Array(length);
+		window.crypto.getRandomValues(values);
+		for (var i = 0; i < length; i++) {
+			result += charset[values[i] % charset.length];
+		}
+		return result;
+	}
+	for (var i = 0; i < length; i++) {
+		result += charset[Math.floor(Math.random() * charset.length)];
+	}
+	return result;
+}
+
 if (localStorage.getItem('ob_uid') === null) {
-	localStorage.setItem('ob_uid', Math.random().toString(36).substr(2, 9));
+	localStorage.setItem('ob_uid', randomString(9));
 }
 
 window.addEventListener('error', function(e) {
@@ -1049,6 +1066,70 @@ function wordInString(s, word) {
 
 function proxyImage(node) {
 	$(node).attr('src', $(node).attr('src').replace('i.imgur.com', 'gm.omertabeyond.net/imgur'));
+}
+
+function displayUpdate(release) {
+	$('body').append(
+		$('<div>').attr(
+			'id',
+			'ob_update_dialog'
+		).attr(
+			'title',
+			'Omerta Beyond: Update Available'
+		).append(
+			$('<h3>').text('Version ' + release.version + ' of Omerta Beyond has been released.'),
+			$('<h3>').text('Release Notes:'),
+			$('<p>').html(release.release_notes)
+		)
+	);
+
+	$('#ob_update_dialog').dialog({
+		resizable: false,
+		height: 'auto',
+		width: 480,
+		modal: true,
+		buttons: {
+			'Download Update': function() {
+				window.open(release.url, '_blank');
+				$(this).dialog('close');
+			},
+			'Skip this version': function() {
+				setA('prefs', 'skip_version', release.version);
+				$(this).dialog('close');
+			}
+		}
+	});
+}
+
+function sendBeacon() {
+	$.post(OB_API_NEW_WEBSITE + '/addon_beacon', {
+		addon_beacon: {
+			uid: localStorage.getItem('ob_uid'),
+			addon_version: OB_VERSION,
+			domain: v
+		}
+	}, function(data) {
+		if (data.update_available) {
+			if (data.release.version == prefs['skip_version']) {
+				// user has chosen to skip this version
+				return;
+			}
+			if (prefs['last_update_prompt'] >= new Date().getTime() - 86400000) {
+				// update dialog has already been shown in the past 24 hours
+				return;
+			}
+			setA('prefs', 'last_update_prompt', new Date().getTime());
+			displayUpdate(data.release);
+		}
+	});
+}
+
+/*
+ * for maximum forwards-compatibility, trigger the beacon code on either the
+ * main container being present, or the "omerta" variable being set
+ */
+if (document.getElementById('game_container') !== null || typeof unsafeWindow.omerta !== 'undefined') {
+	sendBeacon();
 }
 
 /*
