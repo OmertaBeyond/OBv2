@@ -1124,12 +1124,47 @@ function sendBeacon() {
 	});
 }
 
+function showReleaseNotes() {
+	if (prefs['last_version'] == OB_VERSION) {
+		return;
+	}
+	$.get(OB_API_NEW_WEBSITE + '/addon_release/' + OB_VERSION, function(release) {
+		$('body').append(
+			$('<div>').attr(
+				'id',
+				'ob_updated_dialog'
+			).attr(
+				'title',
+				'Omerta Beyond: Update Installed'
+			).append(
+				$('<h3>').text('OmertaBeyond was updated to Version ' + release.version + '.'),
+				$('<h3>').text('Release Notes:'),
+				$('<p>').html(release.release_notes)
+			)
+		);
+
+		$('#ob_updated_dialog').dialog({
+			resizable: false,
+			height: 'auto',
+			width: 480,
+			modal: true,
+			buttons: {
+				Close: function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+		setA('prefs', 'last_version', OB_VERSION);
+	});
+}
+
 /*
  * for maximum forwards-compatibility, trigger the beacon code on either the
  * main container being present, or the "omerta" variable being set
  */
 if (document.getElementById('game_container') !== null || typeof unsafeWindow.omerta !== 'undefined') {
 	sendBeacon();
+	showReleaseNotes();
 }
 
 /*
