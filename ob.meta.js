@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name                     Omerta Beyond
 // @id                       Omerta Beyond
-// @version                  2.1.1
-// @date                     20-07-2017
-// @description              Omerta Beyond 2.1 (We're back to reclaim the throne ;))
+// @version                  2.2.0
+// @date                     05-08-2017
+// @description              Omerta Beyond 2.2 (We're back to reclaim the throne ;))
 // @homepageURL              https://www.omertabeyond.net/
 // @namespace                v4.omertabeyond.com
 // @updateURL                https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/ob.meta.js
