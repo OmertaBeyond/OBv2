@@ -251,3 +251,13 @@ span label {
 .notify label {
 	padding-left: 2px;
 }
+
+#ob_update_dialog ul, #ob_updated_dialog ul {
+	list-style: circle;
+}
+
+#ob_update_dialog a, #ob_updated_dialog a, #ob_update_dialog a:visited, #ob_updated_dialog a:visited {
+	color: #222222;
+	text-decoration: underline;
+	font-size: 1em;
+}
