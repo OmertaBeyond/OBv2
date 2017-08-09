@@ -4813,7 +4813,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 				var profit;
 				if (isSpots) {
-					profit = parseInt($(this).find('td[style="color:green;"]').text().replace(/,|\$/g, ''), 10);
+					profit = parseInt($(this).find('td.text-green').text().replace(/,|\$/g, ''), 10);
 				} else {
 					if ($(this).find('.profit').length > 0) {
 						profit = parseInt($(this).find('.profit').text().replace(/,|\$/g, ''), 10);
