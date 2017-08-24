@@ -3757,7 +3757,7 @@ if (document.getElementById('game_container') !== null) {
 							var b = -1;
 							// assemble info for AF
 							inputs = $('input');
-							var bn_xp = 'form > table > tbody > tr:eq(0) > td, .smuggling-header';
+							var bn_xp = '.smuggling-header';
 							var bn_text = $(bn_xp).html().split('|');
 
 							cash = parseInt(bn_text[0].replace(/[^0-9.]/g, ''), 10);
@@ -3830,12 +3830,12 @@ if (document.getElementById('game_container') !== null) {
 								 * we'll handle that case too.
 								 */
 								if (!lbooze) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(0), .smuggling-table-info:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
+									if (!$('.smuggling-table-info:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
 										b = -1;
 									}
 								}
 								if (!lnarcs) {
-									if (!$('form > table > tbody > tr:eq(1) > td[align="center"]:eq(1), .smuggling-table-info:eq(1)').text().match(/NOW|NU|narcotics is(\s+)$|kopen over(\s+)$/m) && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
+									if (!$('.smuggling-table-info:eq(' + (lbooze ? 0 : 1) + ')').text().match(/NOW|NU|narcotics is(\s+)$|kopen over(\s+)$/m) && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
 										n = -1;
 									}
 								}
@@ -4145,7 +4145,7 @@ if (document.getElementById('game_container') !== null) {
 
 			// get input fields
 			var inputs = $('input');
-			var bn_xp = 'form > table > tbody > tr:eq(0) > td, .smuggling-header';
+			var bn_xp = '.smuggling-header';
 			var bn_text = $(bn_xp).html().split('<br>');
 
 			var cash = parseInt(bn_text[0].replace(/[^0-9.]/g, ''), 10);
