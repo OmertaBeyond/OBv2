@@ -228,6 +228,21 @@ function setA(name, pref, value) {
 	}
 }
 
+function clearUserData() {
+	var permanent = {
+		ob_uid: localStorage.getItem('ob_uid'),
+		ob_skip_version: localStorage.getItem('ob_skip_version'),
+		ob_last_update_prompt: localStorage.getItem('ob_last_update_prompt'),
+		ob_last_version: localStorage.getItem('ob_last_version')
+	};
+	localStorage.clear();
+	for (var key in permanent) {
+		if (permanent.hasOwnProperty(key)) {
+			localStorage.setItem(key, permanent[key]);
+		}
+	}
+}
+
 /*
  * Helper functions
  */
@@ -1094,7 +1109,7 @@ function displayUpdate(release) {
 				$(this).dialog('close');
 			},
 			'Skip this version': function() {
-				setA('prefs', 'skip_version', release.version);
+				localStorage.setItem('ob_skip_version', release.version);
 				$(this).dialog('close');
 			}
 		}
@@ -1110,22 +1125,22 @@ function sendBeacon() {
 		}
 	}, function(data) {
 		if (data.update_available) {
-			if (data.release.version == prefs['skip_version']) {
+			if (data.release.version == localStorage.getItem('ob_skip_version')) {
 				// user has chosen to skip this version
 				return;
 			}
-			if (prefs['last_update_prompt'] >= new Date().getTime() - 86400000) {
+			if (localStorage.getItem('ob_last_update_prompt') >= new Date().getTime() - 86400000) {
 				// update dialog has already been shown in the past 24 hours
 				return;
 			}
-			setA('prefs', 'last_update_prompt', new Date().getTime());
+			localStorage.setItem('ob_last_update_prompt', new Date().getTime());
 			displayUpdate(data.release);
 		}
 	});
 }
 
 function showReleaseNotes() {
-	if (prefs['last_version'] == OB_VERSION) {
+	if (localStorage.getItem('ob_last_version') == OB_VERSION) {
 		return;
 	}
 	$.get(OB_API_NEW_WEBSITE + '/addon_release/' + OB_VERSION, function(release) {
@@ -1154,7 +1169,7 @@ function showReleaseNotes() {
 				}
 			}
 		});
-		setA('prefs', 'last_version', OB_VERSION);
+		localStorage.setItem('ob_last_version', OB_VERSION);
 	});
 }
 
@@ -5587,7 +5602,7 @@ function GetPrefPage() {
 					$('<br>'),
 					$('<button>').text('Clear').click(function () {
 						if (confirm('Are you sure you want to clear ALL OB data?')) {
-							localStorage.clear();
+							clearUserData();
 							alert('Please reload Omerta for the changes to take effect.');
 						}
 					})
@@ -5677,7 +5692,7 @@ if (getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours()) {
 // Reset on death
 if (window.location.search.indexOf('action=omertician') != -1 || (window.location.search.indexOf('module=Account') != -1 && $('#table_accounts button[onclick*="module=Account&action=open"]').length === 0)) {
 	if (confirm('Do you want to reset all OB data?')) {
-		localStorage.clear();
+		clearUserData();
 	}
 }
 
