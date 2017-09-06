@@ -470,7 +470,7 @@ function playSound(topic) {
 	if (prefs['use_tts']) {
 		src = OB_CDN_URL + '/sounds/tts/' + topic + '.mp3';
 	} else {
-		src = OB_CDN_URL + '/sounds/beep.wav';
+		src = OB_CDN_URL + '/sounds/beep.mp3';
 	}
 	soundQueue.push(src);
 	if (!soundPlaying) {
