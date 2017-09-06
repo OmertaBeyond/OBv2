@@ -2247,7 +2247,10 @@ if (document.getElementById('game_container') !== null) {
 			var unread = getV('unread', '').split(',');
 			for (var x = 0; x < unread.length; ++x) {
 				if (unread[x] !== '' && unread[x] == id) { // msg is unread
-					var msgTyp = $('tr.tableitem').text().split('Type:')[1].split('Sent:')[0];
+					var msgTyp = $('tr.tableitem').text().split(/Type:|Soort:/);
+					if (msgTyp.length > 0) {
+						var msgTyp = msgTyp[1].split(/Sent:|Verzonden:/)[0];
+					}
 					var arr = $('table.thinline > tbody > tr:eq(7) > td').html().split(' ');
 					var bulletmsg = new RegExp('Obay bid succesful');
 					if (bulletmsg.test(msgTyp)) { // grab obay bullets from message
