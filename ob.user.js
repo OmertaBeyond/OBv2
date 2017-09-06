@@ -623,8 +623,14 @@ function SendNotification(title, text, tag, callbackUrl, beyondIcon) {
 }
 
 function CheckServiceVariable() {
-	setInterval(function() {
+
+	var intervalId = setInterval(function() {
 		var serviceData = unsafeWindow.omerta.services.account.data;
+
+		if (serviceData.logout) {
+			clearInterval(intervalId);
+			return;
+		}
 
 		if (prefs['notify_health'] || prefs['notify_health_sound']) {
 			var newHealth = parseFloat(serviceData.progressbars.health);
