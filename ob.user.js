@@ -76,7 +76,6 @@
 // @include                  https://*.omerta.land*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
-// @grant                    GM_xmlhttpRequest
 // @grant                    unsafeWindow
 // @connect                  gm.omertabeyond.net
 // @connect                  self
@@ -465,94 +464,89 @@ function playSound(topic) {
 function CheckBmsg() {
 	setTimeout(function () {
 		var lastbmsg = getV('lastbmsg', 0);
-		GM_xmlhttpRequest({
-			method: 'GET',
-			url: OB_API_WEBSITE + '/?p=bmsg&v=' + v + '&last=' + lastbmsg,
-			onload: function (xhr) {
-				var response = JSON.parse(xhr.responseText);
-				var deaths = response['deaths'].length;
-				var news = response['news'].length;
-				if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
-					var bmsgNewsTxt = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
-					var bmsgNewsTitle = response['news'][0]['title'];
-					bmsgNewsTxt += response['news'][0]['preview'];
+		$.get(OB_API_WEBSITE + '/?p=bmsg&v=' + v + '&last=' + lastbmsg, function (response) {
+			var deaths = response['deaths'].length;
+			var news = response['news'].length;
+			if (news == 1 && (prefs['bmsgNews'] || prefs['bmsgNews_sound'])) {
+				var bmsgNewsTxt = 'A new article is posted ' + OB_NEWS_WEBSITE + '\n\n';
+				var bmsgNewsTitle = response['news'][0]['title'];
+				bmsgNewsTxt += response['news'][0]['preview'];
 
-					if (prefs['bmsgNews']) {
-						var notification = new Notification(bmsgNewsTitle, {
-							dir: 'auto',
-							lang: '',
-							body: bmsgNewsTxt,
-							tag: 'news',
-							icon: OB_CDN_URL + '/OBv2/master/images/red-star.png'
-						});
-						notification.onclose = function () {
-							setTimeout(CheckBmsg(), 60000);
-						};
-						notification.onclick = function () {
-							window.open(OB_NEWS_WEBSITE + '/' + response['news'][0]['id']);
+				if (prefs['bmsgNews']) {
+					var notification = new Notification(bmsgNewsTitle, {
+						dir: 'auto',
+						lang: '',
+						body: bmsgNewsTxt,
+						tag: 'news',
+						icon: OB_CDN_URL + '/OBv2/master/images/red-star.png'
+					});
+					notification.onclose = function () {
+						setTimeout(CheckBmsg(), 60000);
+					};
+					notification.onclick = function () {
+						window.open(OB_NEWS_WEBSITE + '/' + response['news'][0]['id']);
+						notification.close();
+					};
+
+					var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
+					if (autoCloseSecs > 0) {
+						setTimeout(function() {
 							notification.close();
-						};
-
-						var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
-						if (autoCloseSecs > 0) {
-							setTimeout(function() {
-								notification.close();
-							}, autoCloseSecs * 1000);
-						}
+						}, autoCloseSecs * 1000);
 					}
-
-					if (prefs['bmsgNews_sound']) {
-						playSound('news');
-					}
-					setV('lastbmsg', response['news'][0]['ts']);
-				} else if ((prefs['bmsgDeaths'] || prefs['bmsgDeaths_sound']) && (deaths >= 1)) {
-					var bmsgDeathsTxt = response['deaths'].length + ' people died:\n\n';
-					var bmsgDeathsTitle = 'Deaths! (' + v + ')';
-					var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
-					for (var i = 0; i < am; i++) {
-						var bmsgD = new Date(response['deaths'][i]['ts'] * 1000);
-						var bmsgTime = (bmsgD.getHours() < 10 ? '0' : '') + bmsgD.getHours() + ':' + (bmsgD.getMinutes() < 10 ? '0' : '') + bmsgD.getMinutes() + ':' + (bmsgD.getSeconds() < 10 ? '0' : '') + bmsgD.getSeconds();
-						var bmsgExtra = (response['deaths'][i]['akill'] == 1) ? '(A)' : (response['deaths'][i]['bf'] == 1) ? '(BF)' : '';
-						var bmsgFam = (response['deaths'][i]['fam'] === '') ? '(none)' : '(' + response['deaths'][i]['fam'] + ')';
-						bmsgDeathsTxt += bmsgExtra + ' ' + bmsgTime + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + bmsgFam + '\n';
-					}
-
-					if (prefs['bmsgDeaths']) {
-						var notification = new Notification(bmsgDeathsTitle, {
-							dir: 'auto',
-							lang: '',
-							body: bmsgDeathsTxt,
-							tag: 'deaths',
-							icon: OB_CDN_URL + '/OBv2/master/images/rip.png'
-						});
-						notification.onclose = function () {
-							setTimeout(CheckBmsg(), 60000);
-						};
-						notification.onclick = function () {
-							unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
-							window.focus();
-							notification.close();
-						};
-
-						var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
-						if (autoCloseSecs > 0) {
-							setTimeout(function() {
-								notification.close();
-							}, autoCloseSecs * 1000);
-						}
-
-					}
-
-					if (prefs['bmsgDeaths_sound']) {
-						playSound('death');
-					}
-
-					setV('lastbmsg', response['deaths'][0]['ts']);
 				}
-				setTimeout(function () {
-					CheckBmsg();
-				}, 60000);
+
+				if (prefs['bmsgNews_sound']) {
+					playSound('news');
+				}
+				setV('lastbmsg', response['news'][0]['ts']);
+			} else if ((prefs['bmsgDeaths'] || prefs['bmsgDeaths_sound']) && (deaths >= 1)) {
+				var bmsgDeathsTxt = response['deaths'].length + ' people died:\n\n';
+				var bmsgDeathsTitle = 'Deaths! (' + v + ')';
+				var am = (response['deaths'].length < 10 ? response['deaths'].length : 10);
+				for (var i = 0; i < am; i++) {
+					var bmsgD = new Date(response['deaths'][i]['ts'] * 1000);
+					var bmsgTime = (bmsgD.getHours() < 10 ? '0' : '') + bmsgD.getHours() + ':' + (bmsgD.getMinutes() < 10 ? '0' : '') + bmsgD.getMinutes() + ':' + (bmsgD.getSeconds() < 10 ? '0' : '') + bmsgD.getSeconds();
+					var bmsgExtra = (response['deaths'][i]['akill'] == 1) ? '(A)' : (response['deaths'][i]['bf'] == 1) ? '(BF)' : '';
+					var bmsgFam = (response['deaths'][i]['fam'] === '') ? '(none)' : '(' + response['deaths'][i]['fam'] + ')';
+					bmsgDeathsTxt += bmsgExtra + ' ' + bmsgTime + ' ' + response['deaths'][i]['name'] + ' ' + response['deaths'][i]['rank_text'] + ' ' + bmsgFam + '\n';
+				}
+
+				if (prefs['bmsgDeaths']) {
+					var notification = new Notification(bmsgDeathsTitle, {
+						dir: 'auto',
+						lang: '',
+						body: bmsgDeathsTxt,
+						tag: 'deaths',
+						icon: OB_CDN_URL + '/OBv2/master/images/rip.png'
+					});
+					notification.onclose = function () {
+						setTimeout(CheckBmsg(), 60000);
+					};
+					notification.onclick = function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Statistics&action=global_stats');
+						window.focus();
+						notification.close();
+					};
+
+					var autoCloseSecs = parseInt(sets['autoCloseNotificationsSecs'] || 0, 10);
+					if (autoCloseSecs > 0) {
+						setTimeout(function() {
+							notification.close();
+						}, autoCloseSecs * 1000);
+					}
+
+				}
+
+				if (prefs['bmsgDeaths_sound']) {
+					playSound('death');
+				}
+
+				setV('lastbmsg', response['deaths'][0]['ts']);
 			}
+			setTimeout(function () {
+				CheckBmsg();
+			}, 60000);
 		});
 	}, 0);
 }
@@ -4951,167 +4945,161 @@ $('#game_container').one('DOMNodeInserted', function () {
 
 	function buildMarquee() {
 		setTimeout(function () {
-			GM_xmlhttpRequest({
-				method: 'GET',
-				url: '/BeO/webroot/index.php?module=API&action=smuggling_prices',
-				onload: function (resp) {
-					var parser = new DOMParser();
-					var dom = parser.parseFromString(resp.responseText, 'application/xml');
+			$.get('/BeO/webroot/index.php?module=API&action=smuggling_prices', function (dom) {
 
-					function getPrice(drug, city) {
-						return dom.getElementsByTagName(drug)[city].textContent;
-					}
-
-					function refreshMarquee(h, m) {
-						h = (m >= 31 ? h + 1 : h);
-						m = (m >= 31 ? 1 : 31);
-						var marQd = new Date();
-						marQd.setHours(h);
-						marQd.setMinutes(m);
-						marQd.setSeconds(0);
-						marQd.setMilliseconds(0);
-						return (marQd.getTime() - getOmertaTime());
-					}
-
-					var p = [];
-					var q = [];
-					var pricesChanged = false;
-
-					for (var i = 0; i <= 7; i++) {
-						p[i] = getPrice('cocaine', i);
-						q[i] = p[i];
-						if ((prevPrices === undefined || prevPrices[i] === undefined) || prevPrices[i] != p[i]) {
-							pricesChanged = true;
-						}
-					}
-
-					if (pricesChanged) {
-						prevPrices = JSON.parse(JSON.stringify(q));
-					} else {
-						setTimeout(buildMarquee, 30000);
-						return;
-					}
-
-					var max = p.sort(function (a, b) {
-						return b - a;
-					})[0];
-					var min = p[(p.length - 1)];
-
-					var highCity = '';
-					var highCityPrice = 0;
-					var lowCity = '';
-					var lowCityPrice = 0;
-					i = 0;
-					q.forEach(function ($n) {
-						if ($n == min) {
-							q[i] = '<span style="color:#00ff00;">' + $n + '</span>';
-							lowCity = cities[i];
-							lowCityPrice = $n;
-						}
-						if ($n == max) {
-							q[i] = '<span style="color:' + '#ff5353' + ';">' + $n + '</span>';
-							highCity = cities[i];
-							highCityPrice = $n;
-						}
-						i++;
-					});
-
-					if (!firstTimePrice && (prefs['notify_bn'] || prefs['notify_bn_sound'])) {
-						if (prefs['notify_bn']) {
-							SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', OB_CDN_URL + '/OBv2/master/images/red-star.png');
-						}
-
-						if (prefs['notify_bn_sound']) {
-							playSound('bn');
-						}
-					}
-
-					firstTimePrice = false;
-
-					var time = dom.getElementsByTagName('humantime')[0].textContent;
-					time = time.split(' ')[0];
-					time = time.split(':');
-					time = (time[1] < 30) ? time[0] + ':00 OT' : time[0] + ':30 OT';
-
-					function hovermenu(city) {
-						var hoverStyle = {
-							display: 'block',
-							position: 'fixed',
-							left: $('#marquee').offset().left,
-							top: '42px',
-							zIndex: '102',
-							opacity: 0.8,
-							backgroundColor: 'black',
-							color: '#EEE',
-							border: 'none',
-							padding: '5px 15px 5px 15px'
-						};
-						$('#hiddenbox').css(hoverStyle).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city));
-					}
-
-					function flytolink(city, priceStr) {
-						var link = $('<a>').attr({
-							id: cities[city],
-							href: '#'
-						}).css({
-							color: '#FFF',
-							fontSize: '10px'
-						}).click(function () {
-							unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId=' + ((city == 'nul') ? 0 : city));
-						});
-
-						if (city == 5 || city == 6 || city == 7) {
-							link.mouseover(function () {
-								hovermenu(city);
-								$(this).css('textDecoration', 'underline');
-							});
-						} else if (city === 0 || city == 1 || city == 2) {
-							link.mouseover(function () {
-								hovermenu(city);
-								$(this).css('textDecoration', 'underline');
-							});
-						} else {
-							link.mouseover(function () {
-								hovermenu(city);
-								$(this).css('textDecoration', 'underline');
-							});
-						}
-						link.mouseout(function () {
-							$('#hiddenbox').css('display', 'none');
-							$(this).css('textDecoration', 'none');
-						});
-						link.html(priceStr);
-
-						return link;
-					}
-
-					var span = $('<span>').append(
-						$('<span>').text(time + ': ').css('font-size', '10px')
-					);
-
-					i = 0;
-					p.forEach(function () {
-						span.css('color', '#FFF');
-						span.append(flytolink(i, cities[i] + ':' + q[i]), $('<span>').text(' | '));
-						i++;
-					});
-
-					span.append(
-						$('<a>').attr({
-							href: 'prices.php'
-						}).text('All Prices').css({
-							color: '#FFF',
-							fontSize: '10px'
-						}).hover(function () {
-							$(this).css('textDecoration', 'underline');
-						}, function () {
-							$(this).css('textDecoration', 'none');
-						})
-					);
-
-					$('#marquee').html(span);
-					setTimeout(buildMarquee, refreshMarquee(new Date().getHours(), new Date().getMinutes()));
+				function getPrice(drug, city) {
+					return dom.getElementsByTagName(drug)[city].textContent;
 				}
+
+				function refreshMarquee(h, m) {
+					h = (m >= 31 ? h + 1 : h);
+					m = (m >= 31 ? 1 : 31);
+					var marQd = new Date();
+					marQd.setHours(h);
+					marQd.setMinutes(m);
+					marQd.setSeconds(0);
+					marQd.setMilliseconds(0);
+					return (marQd.getTime() - getOmertaTime());
+				}
+
+				var p = [];
+				var q = [];
+				var pricesChanged = false;
+
+				for (var i = 0; i <= 7; i++) {
+					p[i] = getPrice('cocaine', i);
+					q[i] = p[i];
+					if ((prevPrices === undefined || prevPrices[i] === undefined) || prevPrices[i] != p[i]) {
+						pricesChanged = true;
+					}
+				}
+
+				if (pricesChanged) {
+					prevPrices = JSON.parse(JSON.stringify(q));
+				} else {
+					setTimeout(buildMarquee, 30000);
+					return;
+				}
+
+				var max = p.sort(function (a, b) {
+					return b - a;
+				})[0];
+				var min = p[(p.length - 1)];
+
+				var highCity = '';
+				var highCityPrice = 0;
+				var lowCity = '';
+				var lowCityPrice = 0;
+				i = 0;
+				q.forEach(function ($n) {
+					if ($n == min) {
+						q[i] = '<span style="color:#00ff00;">' + $n + '</span>';
+						lowCity = cities[i];
+						lowCityPrice = $n;
+					}
+					if ($n == max) {
+						q[i] = '<span style="color:' + '#ff5353' + ';">' + $n + '</span>';
+						highCity = cities[i];
+						highCityPrice = $n;
+					}
+					i++;
+				});
+
+				if (!firstTimePrice && (prefs['notify_bn'] || prefs['notify_bn_sound'])) {
+					if (prefs['notify_bn']) {
+						SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', OB_CDN_URL + '/OBv2/master/images/red-star.png');
+					}
+
+					if (prefs['notify_bn_sound']) {
+						playSound('bn');
+					}
+				}
+
+				firstTimePrice = false;
+
+				var time = dom.getElementsByTagName('humantime')[0].textContent;
+				time = time.split(' ')[0];
+				time = time.split(':');
+				time = (time[1] < 30) ? time[0] + ':00 OT' : time[0] + ':30 OT';
+
+				function hovermenu(city) {
+					var hoverStyle = {
+						display: 'block',
+						position: 'fixed',
+						left: $('#marquee').offset().left,
+						top: '42px',
+						zIndex: '102',
+						opacity: 0.8,
+						backgroundColor: 'black',
+						color: '#EEE',
+						border: 'none',
+						padding: '5px 15px 5px 15px'
+					};
+					$('#hiddenbox').css(hoverStyle).html('Morphine: ' + getPrice('morphine', city) + ' | ' + 'Heroin: ' + getPrice('heroin', city) + ' | ' + 'Opium: ' + getPrice('opium', city) + ' | ' + 'Whiskey: ' + getPrice('whiskey', city) + ' | ' + 'Amaretto: ' + getPrice('amaretto', city) + ' | ' + 'Rum: ' + getPrice('rum', city));
+				}
+
+				function flytolink(city, priceStr) {
+					var link = $('<a>').attr({
+						id: cities[city],
+						href: '#'
+					}).css({
+						color: '#FFF',
+						fontSize: '10px'
+					}).click(function () {
+						unsafeWindow.omerta.GUI.container.loadPage('./BeO/webroot/index.php?module=Travel&action=FetchInfo&CityId=' + ((city == 'nul') ? 0 : city));
+					});
+
+					if (city == 5 || city == 6 || city == 7) {
+						link.mouseover(function () {
+							hovermenu(city);
+							$(this).css('textDecoration', 'underline');
+						});
+					} else if (city === 0 || city == 1 || city == 2) {
+						link.mouseover(function () {
+							hovermenu(city);
+							$(this).css('textDecoration', 'underline');
+						});
+					} else {
+						link.mouseover(function () {
+							hovermenu(city);
+							$(this).css('textDecoration', 'underline');
+						});
+					}
+					link.mouseout(function () {
+						$('#hiddenbox').css('display', 'none');
+						$(this).css('textDecoration', 'none');
+					});
+					link.html(priceStr);
+
+					return link;
+				}
+
+				var span = $('<span>').append(
+					$('<span>').text(time + ': ').css('font-size', '10px')
+				);
+
+				i = 0;
+				p.forEach(function () {
+					span.css('color', '#FFF');
+					span.append(flytolink(i, cities[i] + ':' + q[i]), $('<span>').text(' | '));
+					i++;
+				});
+
+				span.append(
+					$('<a>').attr({
+						href: 'prices.php'
+					}).text('All Prices').css({
+						color: '#FFF',
+						fontSize: '10px'
+					}).hover(function () {
+						$(this).css('textDecoration', 'underline');
+					}, function () {
+						$(this).css('textDecoration', 'none');
+					})
+				);
+
+				$('#marquee').html(span);
+				setTimeout(buildMarquee, refreshMarquee(new Date().getHours(), new Date().getMinutes()));
 			});
 		});
 	}
