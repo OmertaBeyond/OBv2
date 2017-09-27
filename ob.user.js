@@ -106,6 +106,11 @@ var OB_VERSION = '2.2.1';
  * Define crucial functions and variables
  */
 
+// Greasemonkey 4+ compatibility
+if (typeof unsafeWindow == 'undefined' && typeof window.wrappedJSObject != 'undefined') {
+	unsafeWindow = window.wrappedJSObject;
+}
+
 function whatV(hostname) {
 	hostname = hostname || window.location.hostname;
 	if (/(.*).omerta.land$/.test(hostname)) {
@@ -363,22 +368,6 @@ function setPow(name, i, value) {
 		return;
 	}
 	setV(name, info); // store string
-}
-
-function grabHTML(url, func) {
-	var r = 0;
-	if (window.XMLHttpRequest) {
-		r = new XMLHttpRequest();
-	}
-	r.onreadystatechange = function () {
-		if (r.readyState == 4) {
-			if (r.status == 200) {
-				func(r.responseText);
-			}
-		}
-	};
-	r.open('GET', url, true);
-	r.send(null);
 }
 
 function bnUpdate() {
@@ -943,7 +932,9 @@ function checkNRdiv(url, nickId) {
 
 		// check if there isn't a process running already, otherwise grab the HTML
 		if ($('#proc').text() === '0') {
-			grabHTML(url, parseGrab); // (url to grab, function to execute after)
+			$.get(url, function(data) {
+				parseGrab(data, url);
+			});
 			$('#proc').text(1);
 		} else {
 			$('#' + nickId).text('Wait for the previous..');
@@ -3361,7 +3352,7 @@ if (document.getElementById('game_container') !== null) {
 							$('#ob_fire_all').val('Firing lackeys ...').prop('disabled', true);
 							var jailWarn = false;
 							var fireLackey = function (lackeyIndex) {
-								$.post('BeO/webroot/?module=Lackeys&action=fire', { lackey: lackeyIndex }).done(function(data) {
+								$.post('//' + document.location.hostname + 'BeO/webroot/?module=Lackeys&action=fire', { lackey: lackeyIndex }).done(function(data) {
 									if (data.indexOf('jail') !== -1) {
 										jailWarn = true;
 									}
@@ -4052,10 +4043,7 @@ if (document.getElementById('game_container') !== null) {
 					}
 					appBRC(BN);
 				} else {
-					var parsePrices = function (resp) {
-						var parser = new DOMParser();
-						var dom = parser.parseFromString(resp, 'application/xml');
-
+					var parsePrices = function (dom) {
 						for (var BN = [], i = 0; i <= 1; i++) { // B/N
 							for (BN[i] = [], j = 0; j <= 6; j++) { // type
 								for (BN[i][j] = [], k = 0; k <= 7; k++) {
@@ -4067,7 +4055,7 @@ if (document.getElementById('game_container') !== null) {
 						}
 						appBRC(BN); // send prices to BRC function
 					};
-					grabHTML('//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
+					$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', parsePrices);
 				}
 			}
 
@@ -4610,7 +4598,7 @@ if (document.getElementById('game_container') !== null) {
 								// In case he hasn't, its safe to remove that detective
 
 								if (wordInString(detectiveText, failedMessage)) {
-									$.post('BeO/webroot/?module=Detectives&action=fire', { id: ajaxID }).done(function() {
+									$.post('//' + document.location.hostname + '/BeO/webroot/?module=Detectives&action=fire', { id: ajaxID }).done(function() {
 										$('#ob_fire_all').val('Detectives fired!');
 										$(elem).closest('tr').hide();
 									});
@@ -4947,8 +4935,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 
 	function buildMarquee() {
 		setTimeout(function () {
-			$.get('/BeO/webroot/index.php?module=API&action=smuggling_prices', function (dom) {
-
+			$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=smuggling_prices', function (dom) {
 				function getPrice(drug, city) {
 					return dom.getElementsByTagName(drug)[city].textContent;
 				}
@@ -5640,7 +5627,7 @@ if (getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours()) {
 	// Update shizzle
 	bnUpdate();
 	var nick = unsafeWindow.omerta.character.info.name();
-	$.get('/user.php?nick=' + nick, function (data) {
+	$.get('//' + document.location.hostname + '/user.php?nick=' + nick, function (data) {
 		var a = data.split('<script');
 		$('#game_wrapper').append(
 			$('<div>').css('display', 'none').attr('id', 'xhr').html(a[0])
