@@ -58,6 +58,8 @@
 // @include                  https://*.omerta.land*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
+// @grant                    GM_xmlhttpRequest
+// @grant                    GM.xmlHttpRequest
 // @grant                    unsafeWindow
 // @connect                  gm.omertabeyond.net
 // @connect                  self
