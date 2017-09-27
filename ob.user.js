@@ -45,19 +45,6 @@
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js
 // @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.4/howler.min.js
-// @resource    css          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/scripts/beyond.css
-// @resource    favicon      https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png
-// @resource    logo         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo.png
-// @resource    logo-old     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/logo-old.png
-// @resource    prev         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/prev.png
-// @resource    next         https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/next.png
-// @resource    reply        https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/reply.png
-// @resource    delete       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/delete.png
-// @resource    log          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/changelog.png
-// @resource    rip          https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/rip.png
-// @resource    red-star     https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/red-star.png
-// @resource    NRicon       https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/magnifier.png
-// @resource    loadingicon  https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/loading.png
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
@@ -89,9 +76,6 @@
 // @include                  https://*.omerta.land*
 // @exclude                  http://*/game-register.php*
 // @exclude                  https://*/game-register.php*
-// @grant                    GM_getResourceText
-// @grant                    GM_getResourceURL
-// @grant                    GM_addStyle
 // @grant                    GM_xmlhttpRequest
 // @grant                    unsafeWindow
 // @connect                  gm.omertabeyond.net
@@ -499,7 +483,7 @@ function CheckBmsg() {
 							lang: '',
 							body: bmsgNewsTxt,
 							tag: 'news',
-							icon: GM_getResourceURL('red-star')
+							icon: OB_CDN_URL + '/OBv2/master/images/red-star.png'
 						});
 						notification.onclose = function () {
 							setTimeout(CheckBmsg(), 60000);
@@ -539,7 +523,7 @@ function CheckBmsg() {
 							lang: '',
 							body: bmsgDeathsTxt,
 							tag: 'deaths',
-							icon: GM_getResourceURL('rip')
+							icon: OB_CDN_URL + '/OBv2/master/images/rip.png'
 						});
 						notification.onclose = function () {
 							setTimeout(CheckBmsg(), 60000);
@@ -639,7 +623,7 @@ function CheckServiceVariable() {
 				var healthText = 'You lost ' + (oldHealth - newHealth) + ' health!';
 				var healthTitle = 'Health (' + v + ')';
 				if (prefs['notify_health']) {
-					SendNotification(healthTitle, healthText, 'health', './BeO/webroot/index.php?module=Bloodbank', GM_getResourceURL('red-star'));
+					SendNotification(healthTitle, healthText, 'health', './BeO/webroot/index.php?module=Bloodbank', OB_CDN_URL + '/OBv2/master/images/red-star.png');
 				}
 				if (prefs['notify_health_sound']) {
 					playSound('health');
@@ -679,7 +663,7 @@ function CheckServiceVariable() {
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_messages']) {
-					SendNotification(msgTitle, msgText, 'Mail', callbackUrl, GM_getResourceURL('red-star'));
+					SendNotification(msgTitle, msgText, 'Mail', callbackUrl, OB_CDN_URL + '/OBv2/master/images/red-star.png');
 				}
 				if (prefs['notify_messages_sound']) {
 					playSound('messages');
@@ -723,7 +707,7 @@ function CheckServiceVariable() {
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_alerts']) {
-					SendNotification(alertTitle, alertText, 'alert', callbackUrl, GM_getResourceURL('red-star'));
+					SendNotification(alertTitle, alertText, 'alert', callbackUrl, OB_CDN_URL + '/OBv2/master/images/red-star.png');
 				}
 				if (prefs['notify_alerts_sound']) {
 					playSound('alerts');
@@ -738,7 +722,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car'),
 			'Car',
 			'/?module=Cars',
-			GM_getResourceURL('red-star')
+			OB_CDN_URL + '/OBv2/master/images/red-star.png'
 		);
 
 		ScheduleNotification(
@@ -748,7 +732,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime'),
 			'Crime',
 			'/?module=Crimes',
-			GM_getResourceURL('red-star')
+			OB_CDN_URL + '/OBv2/master/images/red-star.png'
 		);
 
 		ScheduleNotification(
@@ -758,7 +742,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt reizen' : 'You can travel'),
 			'Travel',
 			'/?module=Travel',
-			GM_getResourceURL('red-star')
+			OB_CDN_URL + '/OBv2/master/images/red-star.png'
 		);
 
 		ScheduleNotification(
@@ -768,7 +752,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets'),
 			'Bullets',
 			'/bullets2.php',
-			GM_getResourceURL('red-star')
+			OB_CDN_URL + '/OBv2/master/images/red-star.png'
 		);
 	}, 5000);
 }
@@ -821,8 +805,8 @@ function checkUserAlive(user, callback) {
 }
 
 // ---------------- NickReader ----------------
-var nickReaderIcon = GM_getResourceURL('NRicon');
-var loadingIcon = GM_getResourceURL('loadingicon');
+var nickReaderIcon = OB_CDN_URL + '/OBv2/master/images/magnifier.png';
+var loadingIcon = OB_CDN_URL + '/OBv2/master/images/loading.png';
 function parseGrab(html, url) {
 	var body = html.slice(html.indexOf('</head>') + 7);
 	// make sure all requests are handled separately
@@ -1056,7 +1040,7 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 					var messageText = $(node).find('.msg-content');
 					if (!isBufferedMessage && $(node).hasClass('msg-hilight')) {
 						if (prefs['notify_highlight']) {
-							SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, GM_getResourceURL('red-star'));
+							SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, OB_CDN_URL + '/OBv2/master/images/red-star.png');
 						}
 						if (prefs['notify_highlight_sound']) {
 							playSound('highlight');
@@ -1440,7 +1424,7 @@ if (document.getElementById('game_container') !== null) {
 									target: '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
-										src: GM_getResourceURL('log'),
+										src: OB_CDN_URL + '/OBv2/master/images/changelog.png',
 										title: 'View full deathslog'
 									})
 								)
@@ -1495,7 +1479,7 @@ if (document.getElementById('game_container') !== null) {
 									target: '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
-										src: GM_getResourceURL('log'),
+										src: OB_CDN_URL + '/OBv2/master/images/changelog.png',
 										title: 'View full changelog'
 									})
 								)
@@ -1629,7 +1613,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer heisten' : 'You can do a heist again'),
 				'heist',
 				'/?module=Heist',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 
 			ScheduleNotification(
@@ -1639,7 +1623,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een georganiseerde misdaad doen' : 'You can do an organised crime again'),
 				'oc',
 				'/?module=OC',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 
 			ScheduleNotification(
@@ -1649,7 +1633,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een mega georganiseerde misdaad doen' : 'You can do a mega organised crime again'),
 				'moc',
 				'/?module=MegaOC',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 
 			ScheduleNotification(
@@ -1659,7 +1643,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een moordpoging doen' : 'You can make a kill attempt again'),
 				'kill',
 				'/?module=Detectives',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 
 			ScheduleNotification(
@@ -1669,7 +1653,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer racen' : 'You can race again'),
 				'race',
 				'/races.php',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 
 			ScheduleNotification(
@@ -1679,7 +1663,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer bloed kopen' : 'You can buy blood again'),
 				'blood',
 				'/?module=Bloodbank',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 
 			ScheduleNotification(
@@ -1689,7 +1673,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een spot overvallen' : 'You can raid a spot again'),
 				'raid',
 				'/?module=Spots',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 		}
 		// ---------------- NEW My account ----------------
@@ -2125,7 +2109,7 @@ if (document.getElementById('game_container') !== null) {
 					if ($(this).attr('class') == 'color2') {
 						$(this).children('td:eq(0)').append(
 							$('<img />').addClass('inboxImg unread').attr({
-								src: GM_getResourceURL('delete'),
+								src: OB_CDN_URL + '/OBv2/master/images/delete.png',
 								title: 'Delete'
 							}).click(function () {
 								delMsg('id', id);
@@ -2134,7 +2118,7 @@ if (document.getElementById('game_container') !== null) {
 					} else {
 						$(this).children('td:eq(0)').append(
 							$('<img />').addClass('inboxImg').attr({
-								src: GM_getResourceURL('delete'),
+								src: OB_CDN_URL + '/OBv2/master/images/delete.png',
 								title: 'Delete'
 							}).click(function () {
 								delMsg('id', id);
@@ -2145,7 +2129,7 @@ if (document.getElementById('game_container') !== null) {
 						$(this).children('td:eq(0)').append(
 							$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=sendMsg&iReply=' + id).html(
 								$('<img />').addClass('inboxImg').attr({
-									src: GM_getResourceURL('reply'),
+									src: OB_CDN_URL + '/OBv2/master/images/reply.png',
 									title: 'Reply'
 								})
 							)
@@ -2224,7 +2208,7 @@ if (document.getElementById('game_container') !== null) {
 					var id = $(this).attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).parent().prepend(
 						$('<img />').addClass('inboxImg').attr({
-							src: GM_getResourceURL('delete'),
+							src: OB_CDN_URL + '/OBv2/master/images/delete.png',
 							title: 'Delete'
 						}).click(function () {
 								$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=1', function () {
@@ -2286,7 +2270,7 @@ if (document.getElementById('game_container') !== null) {
 						}).append(
 							$('<img>').addClass('inboxImg').attr({
 								title: 'Previous',
-								src: GM_getResourceURL('prev')
+								src: OB_CDN_URL + '/OBv2/master/images/prev.png'
 							})
 						)
 					).append(
@@ -2296,7 +2280,7 @@ if (document.getElementById('game_container') !== null) {
 						}).append(
 							$('<img>').addClass('inboxImg').attr({
 								title: 'Next',
-								src: GM_getResourceURL('next')
+								src: OB_CDN_URL + '/OBv2/master/images/next.png'
 							})
 						)
 					)
@@ -2318,7 +2302,7 @@ if (document.getElementById('game_container') !== null) {
 				setTimeout(function () {
 					$('table.thinline > tbody > tr:eq(9) > td > a').html(
 						$('<img />').addClass('inboxImg').attr({
-							src: GM_getResourceURL('delete'),
+							src: OB_CDN_URL + '/OBv2/master/images/delete.png',
 							title: 'Delete ([)'
 						})
 					).attr('accesskey', '[');
@@ -2327,13 +2311,13 @@ if (document.getElementById('game_container') !== null) {
 				setTimeout(function () {
 					$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
 						$('<img />').addClass('inboxImg').attr({
-							src: GM_getResourceURL('delete'),
+							src: OB_CDN_URL + '/OBv2/master/images/delete.png',
 							title: 'Delete ([)'
 						})
 					).attr('accesskey', '[');
 					$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
 						$('<img />').addClass('inboxImg').attr({
-							src: GM_getResourceURL('reply'),
+							src: OB_CDN_URL + '/OBv2/master/images/reply.png',
 							title: 'Reply (])'
 						})
 					).attr('accesskey', ']');
@@ -4795,7 +4779,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again'),
 				'bodyguard',
 				'/?module=Bodyguards',
-				GM_getResourceURL('red-star')
+				OB_CDN_URL + '/OBv2/master/images/red-star.png'
 			);
 		}
 		// ---------------- Raid Result @ Statistics and Spots ----------------
@@ -4875,7 +4859,7 @@ if (document.getElementById('game_container') !== null) {
 		var prefs_div = $('<div>').addClass('sm-circle-bg ob-prefs-bg').append(
 			$('<span>').addClass('sm-circle sm-health').append(
 				$('<img>').attr({
-					src: GM_getResourceURL('favicon'),
+					src: OB_CDN_URL + '/OBv2/master/images/favicon.png',
 					title: 'Omerta Beyond Preferences'
 				}).addClass('ob-prefs-img')
 			).hover(
@@ -4897,7 +4881,7 @@ if (document.getElementById('game_container') !== null) {
 			var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
 					$('<img>').attr({
-						src: GM_getResourceURL('favicon'),
+						src: OB_CDN_URL + '/OBv2/master/images/favicon.png',
 						title: 'Omerta Beyond Live Famstats'
 					}).addClass('ob-prefs-img')
 				).hover(
@@ -5034,7 +5018,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 
 					if (!firstTimePrice && (prefs['notify_bn'] || prefs['notify_bn_sound'])) {
 						if (prefs['notify_bn']) {
-							SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', GM_getResourceURL('red-star'));
+							SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', OB_CDN_URL + '/OBv2/master/images/red-star.png');
 						}
 
 						if (prefs['notify_bn_sound']) {
@@ -5230,7 +5214,7 @@ function GetPrefPage() {
 			nobust_div.append(
 				$('<span>').attr({id: nobust[i]}).text(nobust[i]),
 				$('<img />').addClass('inboxImg').attr({
-					src: GM_getResourceURL('delete'),
+					src: OB_CDN_URL + '/OBv2/master/images/delete.png',
 					title: 'Delete'
 				}).click(deleteNoBustEntry),
 				$('<br>')
@@ -5248,7 +5232,7 @@ function GetPrefPage() {
 			if (newVal.length > 0) {
 				$('<span>').attr({id: newVal}).text(newVal).insertBefore($('#new_nobust'));
 				$('<img />').addClass('inboxImg').attr({
-					src: GM_getResourceURL('delete'),
+					src: OB_CDN_URL + '/OBv2/master/images/delete.png',
 					title: 'Delete'
 				}).click(deleteNoBustEntry).insertBefore($('#new_nobust'));
 				$('<br>').insertBefore($('#new_nobust'));
@@ -5709,17 +5693,17 @@ if (window.location.search.indexOf('action=omertician') != -1 || (window.locatio
 $('input[name="email"]').focus();
 
 // Replace Omerta's favicon
-$('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', 'https://raw.githubusercontent.com/OmertaBeyond/OBv2/master/images/favicon.png');
+$('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', OB_CDN_URL + '/OBv2/master/images/favicon.png');
 
 /*
  * Logos replacing
  */
 
 // Main logo in the game
-$('#game_header_left').children('img').attr('src', GM_getResourceURL('logo'));
+$('#game_header_left').children('img').attr('src', OB_CDN_URL + '/OBv2/master/images/logo.png');
 if (v === 'dm') {
 	$('#omerta_header #logo').css({
-		'background-image': 'url(' + GM_getResourceURL('logo') + ')',
+		'background-image': 'url(' + OB_CDN_URL + '/OBv2/master/images/logo.png' + ')',
 		top: '2px',
 		left: '0px',
 		width: '549px',
@@ -5727,9 +5711,11 @@ if (v === 'dm') {
 	});
 }
 // Logo on homepage
-$('img[src*="omerta-game-logo.gif"]').attr('src', GM_getResourceURL('logo-old'));
-$('img[src*="pic_bg-logo.png"]').attr('src', GM_getResourceURL('logo-old'));
+$('img[src*="omerta-game-logo.gif"]').attr('src', OB_CDN_URL + '/OBv2/master/images/logo-old.png');
+$('img[src*="pic_bg-logo.png"]').attr('src', OB_CDN_URL + '/OBv2/master/images/logo-old.png');
 // Logo on /servers.php
-$('img[src*="logo0.gif"]').attr('src', GM_getResourceURL('logo-old'));
+$('img[src*="logo0.gif"]').attr('src', OB_CDN_URL + '/OBv2/master/images/logo-old.png');
 
-GM_addStyle(GM_getResourceText('css'));
+$.get(OB_CDN_URL + '/OBv2/master/scripts/beyond.css', function(data) {
+	$('head').append('<style type="text/css">' + data + '</style>');
+});
