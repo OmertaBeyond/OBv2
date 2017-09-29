@@ -233,6 +233,10 @@ function clearUserData() {
 	}
 }
 
+function assetUrl(path) {
+	return OB_API_WEBSITE + '/gh/OBv2/v' + OB_VERSION + path;
+}
+
 /*
  * Helper functions
  */
@@ -469,7 +473,7 @@ function CheckBmsg() {
 						lang: '',
 						body: bmsgNewsTxt,
 						tag: 'news',
-						icon: OB_CDN_URL + '/OBv2/master/images/red-star.png'
+						icon: assetUrl('/images/red-star.png')
 					});
 					notification.onclose = function () {
 						setTimeout(CheckBmsg(), 60000);
@@ -509,7 +513,7 @@ function CheckBmsg() {
 						lang: '',
 						body: bmsgDeathsTxt,
 						tag: 'deaths',
-						icon: OB_CDN_URL + '/OBv2/master/images/rip.png'
+						icon: assetUrl('/images/rip.png')
 					});
 					notification.onclose = function () {
 						setTimeout(CheckBmsg(), 60000);
@@ -608,7 +612,7 @@ function CheckServiceVariable() {
 				var healthText = 'You lost ' + (oldHealth - newHealth) + ' health!';
 				var healthTitle = 'Health (' + v + ')';
 				if (prefs['notify_health']) {
-					SendNotification(healthTitle, healthText, 'health', './BeO/webroot/index.php?module=Bloodbank', OB_CDN_URL + '/OBv2/master/images/red-star.png');
+					SendNotification(healthTitle, healthText, 'health', './BeO/webroot/index.php?module=Bloodbank', assetUrl('/images/red-star.png'));
 				}
 				if (prefs['notify_health_sound']) {
 					playSound('health');
@@ -648,7 +652,7 @@ function CheckServiceVariable() {
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_messages']) {
-					SendNotification(msgTitle, msgText, 'Mail', callbackUrl, OB_CDN_URL + '/OBv2/master/images/red-star.png');
+					SendNotification(msgTitle, msgText, 'Mail', callbackUrl, assetUrl('/images/red-star.png'));
 				}
 				if (prefs['notify_messages_sound']) {
 					playSound('messages');
@@ -692,7 +696,7 @@ function CheckServiceVariable() {
 					callbackUrl = './BeO/webroot/index.php?module=Mail&action=inbox';
 				}
 				if (prefs['notify_alerts']) {
-					SendNotification(alertTitle, alertText, 'alert', callbackUrl, OB_CDN_URL + '/OBv2/master/images/red-star.png');
+					SendNotification(alertTitle, alertText, 'alert', callbackUrl, assetUrl('/images/red-star.png'));
 				}
 				if (prefs['notify_alerts_sound']) {
 					playSound('alerts');
@@ -707,7 +711,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt weer een auto stelen' : 'You can nick a car'),
 			'Car',
 			'/?module=Cars',
-			OB_CDN_URL + '/OBv2/master/images/red-star.png'
+			assetUrl('/images/red-star.png')
 		);
 
 		ScheduleNotification(
@@ -717,7 +721,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt weer een misdaad doen' : 'You can do a crime'),
 			'Crime',
 			'/?module=Crimes',
-			OB_CDN_URL + '/OBv2/master/images/red-star.png'
+			assetUrl('/images/red-star.png')
 		);
 
 		ScheduleNotification(
@@ -727,7 +731,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt reizen' : 'You can travel'),
 			'Travel',
 			'/?module=Travel',
-			OB_CDN_URL + '/OBv2/master/images/red-star.png'
+			assetUrl('/images/red-star.png')
 		);
 
 		ScheduleNotification(
@@ -737,7 +741,7 @@ function CheckServiceVariable() {
 			(v == 'nl' ? 'Je kunt kogels kopen' : 'You can buy bullets'),
 			'Bullets',
 			'/bullets2.php',
-			OB_CDN_URL + '/OBv2/master/images/red-star.png'
+			assetUrl('/images/red-star.png')
 		);
 	}, 5000);
 }
@@ -790,8 +794,8 @@ function checkUserAlive(user, callback) {
 }
 
 // ---------------- NickReader ----------------
-var nickReaderIcon = OB_CDN_URL + '/OBv2/master/images/magnifier.png';
-var loadingIcon = OB_CDN_URL + '/OBv2/master/images/loading.png';
+var nickReaderIcon = assetUrl('/images/magnifier.png');
+var loadingIcon = assetUrl('/images/loading.png');
 function parseGrab(html, url) {
 	var body = html.slice(html.indexOf('</head>') + 7);
 	// make sure all requests are handled separately
@@ -1027,7 +1031,7 @@ if (document.getElementById('omerta_chat') !== null && typeof MutationObserver !
 					var messageText = $(node).find('.msg-content');
 					if (!isBufferedMessage && $(node).hasClass('msg-hilight')) {
 						if (prefs['notify_highlight']) {
-							SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, OB_CDN_URL + '/OBv2/master/images/red-star.png');
+							SendNotification('Your name was mentioned in the chat', sender.text() + messageText.text(), 'Chat', null, assetUrl('/images/red-star.png'));
 						}
 						if (prefs['notify_highlight_sound']) {
 							playSound('highlight');
@@ -1411,7 +1415,7 @@ if (document.getElementById('game_container') !== null) {
 									target: '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
-										src: OB_CDN_URL + '/OBv2/master/images/changelog.png',
+										src: assetUrl('/images/changelog.png'),
 										title: 'View full deathslog'
 									})
 								)
@@ -1466,7 +1470,7 @@ if (document.getElementById('game_container') !== null) {
 									target: '_blank'
 								}).append(
 									$('<img>').addClass('brcImg').attr({
-										src: OB_CDN_URL + '/OBv2/master/images/changelog.png',
+										src: assetUrl('/images/changelog.png'),
 										title: 'View full changelog'
 									})
 								)
@@ -1600,7 +1604,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer heisten' : 'You can do a heist again'),
 				'heist',
 				'/?module=Heist',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 
 			ScheduleNotification(
@@ -1610,7 +1614,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een georganiseerde misdaad doen' : 'You can do an organised crime again'),
 				'oc',
 				'/?module=OC',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 
 			ScheduleNotification(
@@ -1620,7 +1624,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een mega georganiseerde misdaad doen' : 'You can do a mega organised crime again'),
 				'moc',
 				'/?module=MegaOC',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 
 			ScheduleNotification(
@@ -1630,7 +1634,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een moordpoging doen' : 'You can make a kill attempt again'),
 				'kill',
 				'/?module=Detectives',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 
 			ScheduleNotification(
@@ -1640,7 +1644,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer racen' : 'You can race again'),
 				'race',
 				'/races.php',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 
 			ScheduleNotification(
@@ -1650,7 +1654,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer bloed kopen' : 'You can buy blood again'),
 				'blood',
 				'/?module=Bloodbank',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 
 			ScheduleNotification(
@@ -1660,7 +1664,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt weer een spot overvallen' : 'You can raid a spot again'),
 				'raid',
 				'/?module=Spots',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 		}
 		// ---------------- NEW My account ----------------
@@ -2096,7 +2100,7 @@ if (document.getElementById('game_container') !== null) {
 					if ($(this).attr('class') == 'color2') {
 						$(this).children('td:eq(0)').append(
 							$('<img />').addClass('inboxImg unread').attr({
-								src: OB_CDN_URL + '/OBv2/master/images/delete.png',
+								src: assetUrl('/images/delete.png'),
 								title: 'Delete'
 							}).click(function () {
 								delMsg('id', id);
@@ -2105,7 +2109,7 @@ if (document.getElementById('game_container') !== null) {
 					} else {
 						$(this).children('td:eq(0)').append(
 							$('<img />').addClass('inboxImg').attr({
-								src: OB_CDN_URL + '/OBv2/master/images/delete.png',
+								src: assetUrl('/images/delete.png'),
 								title: 'Delete'
 							}).click(function () {
 								delMsg('id', id);
@@ -2116,7 +2120,7 @@ if (document.getElementById('game_container') !== null) {
 						$(this).children('td:eq(0)').append(
 							$('<a>').attr('href', 'BeO/webroot/index.php?module=Mail&action=sendMsg&iReply=' + id).html(
 								$('<img />').addClass('inboxImg').attr({
-									src: OB_CDN_URL + '/OBv2/master/images/reply.png',
+									src: assetUrl('/images/reply.png'),
 									title: 'Reply'
 								})
 							)
@@ -2195,7 +2199,7 @@ if (document.getElementById('game_container') !== null) {
 					var id = $(this).attr('href').split('?')[1].match(/\d+/g)[0];
 					$(this).parent().prepend(
 						$('<img />').addClass('inboxImg').attr({
-							src: OB_CDN_URL + '/OBv2/master/images/delete.png',
+							src: assetUrl('/images/delete.png'),
 							title: 'Delete'
 						}).click(function () {
 								$.get('//' + document.location.hostname + '/BeO/webroot/index.php?module=Mail&action=delMsg&iId=' + id + '&iParty=1', function () {
@@ -2257,7 +2261,7 @@ if (document.getElementById('game_container') !== null) {
 						}).append(
 							$('<img>').addClass('inboxImg').attr({
 								title: 'Previous',
-								src: OB_CDN_URL + '/OBv2/master/images/prev.png'
+								src: assetUrl('/images/prev.png')
 							})
 						)
 					).append(
@@ -2267,7 +2271,7 @@ if (document.getElementById('game_container') !== null) {
 						}).append(
 							$('<img>').addClass('inboxImg').attr({
 								title: 'Next',
-								src: OB_CDN_URL + '/OBv2/master/images/next.png'
+								src: assetUrl('/images/next.png')
 							})
 						)
 					)
@@ -2289,7 +2293,7 @@ if (document.getElementById('game_container') !== null) {
 				setTimeout(function () {
 					$('table.thinline > tbody > tr:eq(9) > td > a').html(
 						$('<img />').addClass('inboxImg').attr({
-							src: OB_CDN_URL + '/OBv2/master/images/delete.png',
+							src: assetUrl('/images/delete.png'),
 							title: 'Delete ([)'
 						})
 					).attr('accesskey', '[');
@@ -2298,13 +2302,13 @@ if (document.getElementById('game_container') !== null) {
 				setTimeout(function () {
 					$('table.thinline > tbody > tr:eq(9) > td > a:first').html(
 						$('<img />').addClass('inboxImg').attr({
-							src: OB_CDN_URL + '/OBv2/master/images/delete.png',
+							src: assetUrl('/images/delete.png'),
 							title: 'Delete ([)'
 						})
 					).attr('accesskey', '[');
 					$('table.thinline > tbody > tr:eq(9) > td > a:last').html(
 						$('<img />').addClass('inboxImg').attr({
-							src: OB_CDN_URL + '/OBv2/master/images/reply.png',
+							src: assetUrl('/images/reply.png'),
 							title: 'Reply (])'
 						})
 					).attr('accesskey', ']');
@@ -4763,7 +4767,7 @@ if (document.getElementById('game_container') !== null) {
 				(v == 'nl' ? 'Je kunt je bodyguard weer trainen' : 'You can train your bodyguard again'),
 				'bodyguard',
 				'/?module=Bodyguards',
-				OB_CDN_URL + '/OBv2/master/images/red-star.png'
+				assetUrl('/images/red-star.png')
 			);
 		}
 		// ---------------- Raid Result @ Statistics and Spots ----------------
@@ -4843,7 +4847,7 @@ if (document.getElementById('game_container') !== null) {
 		var prefs_div = $('<div>').addClass('sm-circle-bg ob-prefs-bg').append(
 			$('<span>').addClass('sm-circle sm-health').append(
 				$('<img>').attr({
-					src: OB_CDN_URL + '/OBv2/master/images/favicon.png',
+					src: assetUrl('/images/favicon.png'),
 					title: 'Omerta Beyond Preferences'
 				}).addClass('ob-prefs-img')
 			).hover(
@@ -4865,7 +4869,7 @@ if (document.getElementById('game_container') !== null) {
 			var lf_div = $('<div>').addClass('sm-circle-bg ob-lf-bg').append(
 				$('<span>').addClass('sm-circle sm-health').append(
 					$('<img>').attr({
-						src: OB_CDN_URL + '/OBv2/master/images/favicon.png',
+						src: assetUrl('/images/favicon.png'),
 						title: 'Omerta Beyond Live Famstats'
 					}).addClass('ob-prefs-img')
 				).hover(
@@ -4996,7 +5000,7 @@ $('#game_container').one('DOMNodeInserted', function () {
 
 				if (!firstTimePrice && (prefs['notify_bn'] || prefs['notify_bn_sound'])) {
 					if (prefs['notify_bn']) {
-						SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', OB_CDN_URL + '/OBv2/master/images/red-star.png');
+						SendNotification('B/N prices changed', 'High city: ' + highCity + ' (' + highCityPrice + ')\nLow city: ' + lowCity + ' (' + lowCityPrice + ')', 'Booze', './BeO/webroot/index.php?module=Travel', assetUrl('/images/red-star.png'));
 					}
 
 					if (prefs['notify_bn_sound']) {
@@ -5191,7 +5195,7 @@ function GetPrefPage() {
 			nobust_div.append(
 				$('<span>').attr({id: nobust[i]}).text(nobust[i]),
 				$('<img />').addClass('inboxImg').attr({
-					src: OB_CDN_URL + '/OBv2/master/images/delete.png',
+					src: assetUrl('/images/delete.png'),
 					title: 'Delete'
 				}).click(deleteNoBustEntry),
 				$('<br>')
@@ -5209,7 +5213,7 @@ function GetPrefPage() {
 			if (newVal.length > 0) {
 				$('<span>').attr({id: newVal}).text(newVal).insertBefore($('#new_nobust'));
 				$('<img />').addClass('inboxImg').attr({
-					src: OB_CDN_URL + '/OBv2/master/images/delete.png',
+					src: assetUrl('/images/delete.png'),
 					title: 'Delete'
 				}).click(deleteNoBustEntry).insertBefore($('#new_nobust'));
 				$('<br>').insertBefore($('#new_nobust'));
@@ -5670,17 +5674,17 @@ if (window.location.search.indexOf('action=omertician') != -1 || (window.locatio
 $('input[name="email"]').focus();
 
 // Replace Omerta's favicon
-$('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', OB_CDN_URL + '/OBv2/master/images/favicon.png');
+$('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href', assetUrl('/images/favicon.png'));
 
 /*
  * Logos replacing
  */
 
 // Main logo in the game
-$('#game_header_left').children('img').attr('src', OB_CDN_URL + '/OBv2/master/images/logo.png');
+$('#game_header_left').children('img').attr('src', assetUrl('/images/logo.png'));
 if (v === 'dm') {
 	$('#omerta_header #logo').css({
-		'background-image': 'url(' + OB_CDN_URL + '/OBv2/master/images/logo.png' + ')',
+		'background-image': 'url(' + assetUrl('/images/logo.png') + ')',
 		top: '2px',
 		left: '0px',
 		width: '549px',
@@ -5688,11 +5692,11 @@ if (v === 'dm') {
 	});
 }
 // Logo on homepage
-$('img[src*="omerta-game-logo.gif"]').attr('src', OB_CDN_URL + '/OBv2/master/images/logo-old.png');
-$('img[src*="pic_bg-logo.png"]').attr('src', OB_CDN_URL + '/OBv2/master/images/logo-old.png');
+$('img[src*="omerta-game-logo.gif"]').attr('src', assetUrl('/images/logo-old.png'));
+$('img[src*="pic_bg-logo.png"]').attr('src', assetUrl('/images/logo-old.png'));
 // Logo on /servers.php
-$('img[src*="logo0.gif"]').attr('src', OB_CDN_URL + '/OBv2/master/images/logo-old.png');
+$('img[src*="logo0.gif"]').attr('src', assetUrl('/images/logo-old.png'));
 
-$.get(OB_CDN_URL + '/OBv2/master/scripts/beyond.css', function(data) {
+$.get(assetUrl('/scripts/beyond.css'), function(data) {
 	$('head').append('<style type="text/css">' + data + '</style>');
 });
