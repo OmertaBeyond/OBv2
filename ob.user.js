@@ -170,7 +170,7 @@ if (localStorage.getItem('ob_uid') === null) {
 window.addEventListener('error', function(e) {
 	$.post(OB_API_WEBSITE + '/?p=jserror', {
 		message: e.message,
-		stack: e.error.stack,
+		stack: (e.error !== null ? e.error.stack : null),
 		filename: e.filename,
 		line: e.lineno,
 		game_version: v,
