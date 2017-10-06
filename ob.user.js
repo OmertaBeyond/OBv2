@@ -5627,7 +5627,7 @@ function GetPrefPage() {
  */
 
 var infoD = new Date(); // check once every hour for new info
-if (getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours()) {
+if (typeof unsafeWindow.omerta !== 'undefined' && (getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours())) {
 	// Update shizzle
 	bnUpdate();
 	var nick = unsafeWindow.omerta.character.info.name();
@@ -5664,7 +5664,7 @@ if (getV('bninfo', -1) == -1 || getV('brcDate', -1) != infoD.getHours()) {
 }
 
 // Reset on death
-if (window.location.search.indexOf('action=omertician') != -1 || (window.location.search.indexOf('module=Account') != -1 && $('#table_accounts button[onclick*="module=Account&action=open"]').length === 0)) {
+if (window.location.search.indexOf('action=omertician') != -1 || (window.location.search.indexOf('module=Account') != -1 && $('#table_accounts button[onclick*="module=Account&action=open"]').length === 0 && $('#loginbox').length === 0 && $('input:first').attr('disabled') !== 'disabled')) {
 	if (confirm('Do you want to reset all OB data?')) {
 		clearUserData();
 	}
