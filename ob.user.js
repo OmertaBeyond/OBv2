@@ -4624,17 +4624,13 @@ if (document.getElementById('game_container') !== null) {
 			// If a user inserts '60k', automatically change it to '60.000'.
 			// This should work for every value in front of the 'k'
 
-			$('input[name="bullets"]').blur(function () {
-				var textValue = $(this).val();
-
-				// if the last character of the string is 'k'
-				if (textValue.match(/k$/)) {
-					// remove the last character
-					var bulletValue = textValue.slice(0, textValue.length - 1);
-					var newBulletValue = bulletValue * 1000;
-
-					$('input[name="bullets"]').val(newBulletValue);
+			$('input[name="bullets"]').keydown(function (event) {
+				var symcode = event.which;
+				if (symcode == 75) {
+					$(this).val($(this).val() + '000');
 				}
+				$(this).val($(this).val().replace(/k/g, ''));
+				return (symcode == 75) ? false : true;
 			});
 
 		}
