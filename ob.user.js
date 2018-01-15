@@ -44,7 +44,7 @@
 // @priority                 1
 // @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js
-// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.4/howler.min.js
+// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.7/howler.min.js
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
