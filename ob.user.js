@@ -1135,7 +1135,8 @@ function showReleaseNotes() {
 			).append(
 				$('<h3>').text('OmertaBeyond was updated to Version ' + release.version + '.'),
 				$('<h3>').text('Release Notes:'),
-				$('<p>').html(release.release_notes)
+				$('<p>').html(release.release_notes),
+				$('<p>').html('By using OmertaBeyond you agree to our <a target="_blank" href="https://news.omertabeyond.net/terms">Terms of Service</a> and <a target="_blank" href="https://news.omertabeyond.net/privacy">Privacy Policy</a>.')
 			)
 		);
 
@@ -5598,6 +5599,20 @@ function GetPrefPage() {
 					$('<span>').html('To help us track down the issue, please include the following code:'),
 					$('<br>'),
 					$('<strong>').text(localStorage.getItem('ob_uid'))
+				)
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').addClass('tableitem').attr('align', 'center').css('text-align', 'center').text('Legal')
+			),
+			$('<tr>').append(
+				$('<td>').attr({ height: '1', bgcolor: 'black' })
+			),
+			$('<tr>').append(
+				$('<td>').attr('align', 'center').css('text-align', 'center').html(
+					'By using OmertaBeyond you agree to our <a target="_blank" href="https://news.omertabeyond.net/terms">Terms of Service</a> and <a target="_blank" href="https://news.omertabeyond.net/privacy">Privacy Policy</a>.'
 				)
 			)
 		)
