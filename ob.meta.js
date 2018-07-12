@@ -19,7 +19,7 @@
 // @author                   Sebbe <sebbe@omertabeyond.com>
 // @author                   Brainscrewer <brainscrewer@omertabeyond.com>
 // @author                   semitom <tom.gankema@gmail.com>
-// @license                  GPL-3.0
+// @license                  GPL-3.0-or-later
 // @contributionURL          https://www.patreon.com/bePatron?u=7718354
 // @contributionAmount       $1.00
 // @encoding                 UTF-8
