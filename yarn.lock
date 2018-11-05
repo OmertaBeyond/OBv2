@@ -1517,9 +1517,9 @@ through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
-time-grunt@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/time-grunt/-/time-grunt-1.4.0.tgz#062213e660c907e86f440556c01ea6597b712420"
+time-grunt@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/time-grunt/-/time-grunt-2.0.0.tgz#db41853f92b879b2f5ec33731af885b451800ec9"
   dependencies:
     chalk "^1.0.0"
     date-time "^1.1.0"
