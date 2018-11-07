@@ -113,33 +113,21 @@ if (typeof unsafeWindow == 'undefined' && typeof window.wrappedJSObject != 'unde
 
 function whatV(hostname) {
 	hostname = hostname || window.location.hostname;
-	if (/(.*).omerta.land$/.test(hostname)) {
+	if (hostname.endsWith('omerta.land')) {
 		return 'dev';
+	} else if (hostname.endsWith('barafranca.com')) {
+		return 'com';
+	} else if (hostname.endsWith('omerta.dm')) {
+		return 'dm';
+	} else if (hostname.endsWith('barafranca.nl')) {
+		return 'nl';
+	} else if (hostname.endsWith('omerta.com.tr')) {
+		return 'tr';
+	} else if (hostname.endsWith('omerta.pt')) {
+		return 'pt';
 	}
 
-	switch (hostname) {
-		case 'www.omerta3.com':
-		case 'omerta3.com':
-		case 'www.barafranca.com':
-		case 'barafranca.com':
-		case 'www.barafranca.us':
-		case 'barafranca.us':
-			return 'com';
-		case 'omerta.dm':
-		case 'www.omerta.dm':
-			return 'dm';
-		case 'www.barafranca.nl':
-		case 'barafranca.nl':
-			return 'nl';
-		case 'www.omerta.com.tr':
-		case 'omerta.com.tr':
-			return 'tr';
-		case 'omerta.pt':
-		case 'www.omerta.pt':
-			return 'pt';
-		default:
-			return undefined;
-	}
+	return undefined;
 }
 
 var v = whatV();
