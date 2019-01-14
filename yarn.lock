@@ -663,9 +663,9 @@ grunt-legacy-util@~1.1.1:
     underscore.string "~3.3.4"
     which "~1.3.0"
 
-grunt-lintspaces@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/grunt-lintspaces/-/grunt-lintspaces-0.8.3.tgz#591682a76b6cfb8fb2f8fd85d1c4c9de14c69b99"
+grunt-lintspaces@^0.8.4:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/grunt-lintspaces/-/grunt-lintspaces-0.8.4.tgz#2bd9ad0958d662a18e914daf7187cee37c6edfeb"
   dependencies:
     junitwriter "^0.3.1"
     lintspaces "^0.6.2"
