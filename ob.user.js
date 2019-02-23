@@ -1049,7 +1049,7 @@ function wordInString(s, word) {
 }
 
 function proxyImage(node) {
-	$(node).attr('src', $(node).attr('src').replace(/https?:\/\/i\.imgur\.com/, 'https://gm.omertabeyond.net/imgur'));
+	$(node).attr('onerror', "this.onerror=null;this.src = this.src.replace(/https?:\\/\\/i\\.imgur\\.com/, 'https://gm.omertabeyond.net/imgur');");
 }
 
 function displayUpdate(release) {
