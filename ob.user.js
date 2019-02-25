@@ -1049,7 +1049,7 @@ function wordInString(s, word) {
 }
 
 function proxyImage(node) {
-	$(node).attr('onerror', "this.onerror=null;this.src = this.src.replace(/https?:\\/\\/i\\.imgur\\.com/, 'https://gm.omertabeyond.net/imgur');");
+	$(node).attr('onerror', 'this.onerror = null; this.src = this.src.replace(/https?:\\/\\/i\\.imgur\\.com/, \'https://gm.omertabeyond.net/imgur\');');
 }
 
 function displayUpdate(release) {
@@ -4650,8 +4650,8 @@ if (document.getElementById('game_container') !== null) {
 								if (i < 50) {
 									html += '<br /><a href="user.php?nick=' + results + '" id="' + i + '" class="sel">' + results + '</a>';
 								}
+								i++;
 							}
-							i++;
 						}
 						var total = i === 0 ? 0 : ++i;
 						if (input.length < 3) {
