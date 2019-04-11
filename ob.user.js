@@ -1242,12 +1242,14 @@ if (document.getElementById('game_container') !== null) {
 		}
 
 		if (on_page('jail.php')) {
-			if ($('#game_container form').length == 2) {
-				// self-bust page - focus on bustout button
-				$('input[type=submit]:eq(1)').focus();
-			} else {
-				// regular jail page, focus on top bustout button
-				$('input[type=submit]:first').focus();
+			if ($("#ver").length == 0) {
+				if ($('#game_container form').length == 2) {
+					// self-bust page - focus on bustout button
+					$('input[type=submit]:eq(1)').focus();
+				} else {
+					// regular jail page, focus on top bustout button
+					$('input[type=submit]:first').focus();
+				}
 			}
 		}
 
