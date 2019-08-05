@@ -795,9 +795,9 @@ lintspaces@^0.6.4:
     editorconfig "^0.15.0"
     rc "^1.2.8"
 
-load-grunt-tasks@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/load-grunt-tasks/-/load-grunt-tasks-5.0.0.tgz#6db9ea287865c841b66d6cb4312e903264e731ed"
+load-grunt-tasks@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/load-grunt-tasks/-/load-grunt-tasks-5.1.0.tgz#14894c27a7e34ebbef9937c39cc35c573cd04c1c"
   dependencies:
     arrify "^2.0.1"
     multimatch "^4.0.0"
