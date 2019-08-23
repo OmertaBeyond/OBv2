@@ -33,5 +33,8 @@
         "grunt-lintspaces": "^0.8.6",
         "load-grunt-tasks": "^5.1.0",
         "time-grunt": "^2.0.0"
+    },
+    "engines": {
+        "node": ">=10.0.0"
     }
 }
