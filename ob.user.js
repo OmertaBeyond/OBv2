@@ -1565,7 +1565,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			// car
-			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(3)>td:last').text().replace(',', ''), 10);
+			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(4)>td:last').text().replace(',', ''), 10);
 			var successCars = parseInt(getV('carSuccess', 0), 10);
 			if (successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
@@ -1575,7 +1575,7 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			// crime stats
-			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(2)>td:last').text().replace(',', ''), 10);
+			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(3)>td:last').text().replace(',', ''), 10);
 			var successCrimes = parseInt(getV('crimeSuccess', 0), 10);
 			if (successCrimes >= 1) {
 				var successRate = (successCrimes / crimeAttempts) * 100;
