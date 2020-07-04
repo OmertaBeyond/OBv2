@@ -3740,7 +3740,8 @@ if (document.getElementById('game_container') !== null) {
 								n = key[n];
 								b = key[b];
 							}
-							if (sel == 2) { // RP Run
+							if (sel == 2 || sel == 4) { // RP/Exp Run
+								var isRpRun = sel == 2;
 								for (i = 0; i <= 6; i++) {
 									var nItem = parseInt(BN[0][i][(city - 4 + 2)], 10);
 									var lowNarc = ((i === 0) ? nItem : ((lowNarc < nItem) ? lowNarc : nItem));
@@ -3764,12 +3765,16 @@ if (document.getElementById('game_container') !== null) {
 								 * we'll handle that case too.
 								 */
 								if (!lbooze) {
-									if (!$('.smuggling-table-info:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m) && $('input[name="typebooze"]:eq(1)').prop('checked') === true) {
+									var buySelected = $('input[name="typebooze"]:eq(1)').prop('checked');
+									var rpEarnable = $('.smuggling-table-info:eq(0)').text().match(/NOW|NU|booze is(\s+)$|kopen over(\s+)$/m);
+									if (isRpRun && !rpEarnable && buySelected) {
 										b = -1;
 									}
 								}
 								if (!lnarcs) {
-									if (!$('.smuggling-table-info:eq(' + (lbooze ? 0 : 1) + ')').text().match(/NOW|NU|narcotics is(\s+)$|kopen over(\s+)$/m) && $('input[name="typedrugs"]:eq(1)').prop('checked') === true) {
+									var buySelected = $('input[name="typedrugs"]:eq(1)').prop('checked');
+									var rpEarnable = $('.smuggling-table-info:eq(' + (lbooze ? 0 : 1) + ')').text().match(/NOW|NU|narcotics is(\s+)$|kopen over(\s+)$/m);
+									if (isRpRun && !rpEarnable && buySelected) {
 										n = -1;
 									}
 								}
@@ -3834,9 +3839,9 @@ if (document.getElementById('game_container') !== null) {
 									$('<label>').attr({
 										id: 'a1',
 										for: 'brc0',
-										acceskey: '8',
-										title: 'Fill in the most profitable b/n (Hotkey: 8 )'
-									}).text('Best: (8)')
+										accesskey: 'Q',
+										title: 'Fill in the most profitable b/n (Hotkey: Q)'
+									}).text('Best: (Q)')
 								),
 								$('<span>').append(
 									$('<br />'),
@@ -3853,9 +3858,9 @@ if (document.getElementById('game_container') !== null) {
 									$('<label>').attr({
 										id: 'a2',
 										for: 'brc1',
-										acceskey: '9',
-										title: 'Fill in the most expensive b/n (Hotkey: 9 )'
-									}).text('CD: (9)')
+										accesskey: 'D',
+										title: 'Fill in the most expensive b/n (Hotkey: D)'
+									}).text('CD: (D)')
 								),
 								$('<span>').append(
 									$('<br />'),
@@ -3872,9 +3877,28 @@ if (document.getElementById('game_container') !== null) {
 									$('<label>').attr({
 										id: 'a3',
 										for: 'brc2',
-										acceskey: '0',
-										title: 'Fill in the cheapest b/n (Hotkey: 0 )'
-									}).text('RP: (0)')
+										accesskey: 'R',
+										title: 'Fill in the cheapest b/n if rank points can be gained (Hotkey: R)'
+									}).text('RP: (R)')
+								),
+								$('<span>').append(
+									$('<br />'),
+									$('<input>').attr({
+										id: 'brc4',
+										type: 'radio',
+										name: 'brc'
+									}).click(function () {
+										AF(4);
+										try {
+											setV('brcAF', 4);
+										} catch (e) {}
+									}),
+									$('<label>').attr({
+										id: 'a5',
+										for: 'brc4',
+										accesskey: 'E',
+										title: 'Fill in the cheapest b/n to get experience (Hotkey: E)'
+									}).text('Exp: (E)')
 								),
 								$('<span>').append(
 									$('<br />'),
@@ -3891,8 +3915,8 @@ if (document.getElementById('game_container') !== null) {
 									$('<label>').attr({
 										id: 'a4',
 										for: 'brc3',
-										acceskey: '-',
-										title: 'Don\'t fill anything (Hotkey: - )'
+										accesskey: '-',
+										title: 'Don\'t fill anything (Hotkey: -)'
 									}).text('None: (-)')
 								)
 							);
@@ -3922,19 +3946,19 @@ if (document.getElementById('game_container') !== null) {
 								$('<span>').attr({
 									id: 'do_n',
 									title: 'AutoFill just narcs according to selected BRC mode (Hotkey: [ )',
-									acceskey: '['
+									accesskey: '['
 								}).css('cursor', 'pointer').text('Narcs'),
 								$('<span>').text(' | '),
 								$('<span>').attr({
 									id: 'do_b',
 									title: 'AutoFill just booze according to selected BRC mode (Hotkey: ] )',
-									acceskey: ']'
+									accesskey: ']'
 								}).css('cursor', 'pointer').text('Booze'),
 								$('<span>').text(' | '),
 								$('<span>').attr({
 									id: 'do_sell',
 									title: 'Sell all you have (Hotkey: = )',
-									acceskey: '='
+									accesskey: '='
 								}).css('cursor', 'pointer').text('Sell All'),
 								$('<br />')
 							);
@@ -4113,7 +4137,7 @@ if (document.getElementById('game_container') !== null) {
 							$('<span>').attr({
 								id: 'bh' + i,
 								index: i,
-								acceskey: (i + 1),
+								accesskey: (i + 1),
 								title: 'Fill in this booze (Hotkey: ' + (i + 1) + ')'
 							}).css('cursor', 'pointer').text((i + 1) + ' ' + bname).click(function () {
 								var i = parseInt($(this).attr('index'), 10);
