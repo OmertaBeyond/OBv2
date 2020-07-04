@@ -1086,6 +1086,11 @@ function displayUpdate(release) {
 }
 
 function sendBeacon() {
+	// only send beacons once every hour
+	var checkTimestamp = $.now() - (1000 * 60 * 60);
+	if (getV('beaconTimestamp', 0) > checkTimestamp) {
+		return;
+	}
 	$.post(OB_API_NEW_WEBSITE + '/addon_beacon', {
 		addon_beacon: {
 			uid: localStorage.getItem('ob_uid'),
@@ -1093,6 +1098,7 @@ function sendBeacon() {
 			domain: v
 		}
 	}, function(data) {
+		setV('beaconTimestamp', $.now());
 		if (data.update_available) {
 			if (data.release.version == localStorage.getItem('ob_skip_version')) {
 				// user has chosen to skip this version
