@@ -1553,23 +1553,25 @@ if (document.getElementById('game_container') !== null) {
 			}
 
 			// car
-			var carAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(4)>td:last').text().replace(',', ''), 10);
+			var carSelector = $('table.thinline:eq(5)>tbody>tr>td:contains("Car nicking attempts"), table.thinline:eq(5)>tbody>tr>td:contains("Autojatpogingen")').parent().find('td:last');
+			var carAttempts = parseInt(carSelector.text().replace(',', ''), 10);
 			var successCars = parseInt(getV('carSuccess', 0), 10);
-			if (successCars >= 1) {
+			if (carSelector.length === 1 && successCars >= 1) {
 				var successRate = (successCars / carAttempts) * 100;
 				var earned = getV('carMoney', 0);
 				var newText = '<tr><td><b>Car nicking success</b></td><td>' + successCars + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
-				$('table.thinline:eq(5)>tbody>tr:eq(3)').after(newText);
+				carSelector.parent().after(newText);
 			}
 
 			// crime stats
-			var crimeAttempts = parseInt($('table.thinline:eq(5)>tbody>tr:eq(3)>td:last').text().replace(',', ''), 10);
+			var crimeSelector = $('table.thinline:eq(5)>tbody>tr>td:contains("Crime attempts"), table.thinline:eq(5)>tbody>tr>td:contains("Misdaadpogingen")').parent().find('td:last');
+			var crimeAttempts = parseInt(crimeSelector.text().replace(',', ''), 10);
 			var successCrimes = parseInt(getV('crimeSuccess', 0), 10);
-			if (successCrimes >= 1) {
+			if (crimeSelector.length === 1 && successCrimes >= 1) {
 				var successRate = (successCrimes / crimeAttempts) * 100;
 				var earned = getV('crimeMoney', 0);
 				var newText = '<tr><td><b>Crime success</b></td><td>' + successCrimes + ' (' + successRate.toFixed(2) + '%, $' + commafy(earned) + ')</td></tr>';
-				$('table.thinline:eq(5)>tbody>tr:eq(2)').after(newText);
+				crimeSelector.parent().after(newText);
 			}
 
 			// Visual improvement
