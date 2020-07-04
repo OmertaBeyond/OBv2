@@ -776,8 +776,8 @@ function datestringParse(dateString) {
  * @return {Boolean}
  */
 function checkUserAlive(user, callback) {
-	$.getJSON(OB_API_NEW_WEBSITE + '/domains/' + v + '/versions/latest/users/' + user, function (data) {
-		callback(data['alive']);
+	$.getJSON('//' + document.location.hostname + '/BeO/webroot/index.php?module=API&action=user&name=' + encodeURIComponent(user), function (response) {
+		callback(response.data.status !== '3');
 	});
 }
 
@@ -1497,33 +1497,21 @@ if (document.getElementById('game_container') !== null) {
 			bnUpdate();
 			// Grab busts for Jail page
 			var bos;
-			// Save Will
+
+			// Check if testament is alive
 			var timestamp = getV('willTimestamp');
-			var checkTimestamp = $.now() - (1000 * 30 * 60);
+			var checkTimestamp = $.now() - (1000 * 60);
 			var willTR = $('.thinline:eq(0)>tbody>tr>td a[href^="/user.php?nick="]:eq(1)');
-			var willName = unsafeWindow.omerta.character.info.testament();
-			willName = willTR.text().replace(/,/g, '').trim();
+			var willName = willTR.text().replace(/,/g, '').trim();
 
-			var appendDead = function() {
-				willTR.append('<span class="red"> | Dead!</span>');
-			};
-
-			// Let's skip doing this if the will has not been set.
+			// Let's skip doing this if the testament has not been set.
 			if (getV('willTimestamp', 0) <= checkTimestamp && willName != '') {
 				checkUserAlive(willName, function(isAlive) {
 					setV('willTimestamp', $.now());
 					if (!isAlive) {
-						setV('deadWillName', willName);
-						appendDead();
+						willTR.append('<span class="red"> | Dead!</span>');
 					}
 				});
-			} else {
-				var deadWillName = getV('deadWillName');
-
-				// If the person in the will has been changed it shouldn't be shown anymore
-				if (willName != '' && deadWillName == willName) {
-					appendDead();
-				}
 			}
 
 			bos = $('.thinline:eq(5)>tbody>tr:eq(1)>td:last').text().replace(/,/g, '');
@@ -1657,49 +1645,6 @@ if (document.getElementById('game_container') !== null) {
 				'/?module=Spots',
 				assetUrl('/images/red-star.png')
 			);
-		}
-		// ---------------- NEW My account ----------------
-		if (on_page('module=UserInformation')) {
-			// Check for dead player in testament
-			var willTs = getV('willTimestamp', 0);
-			var checkWillTs = $.now() - (1000 * 10 * 60);
-			var willName = unsafeWindow.omerta.character.info.testament();
-			var willTr = $('div.gangster-info-body li:eq(2) a span');
-
-			if (willName !== '') {
-				if (willTs <= checkWillTs) {
-					checkUserAlive(willName, function(isAlive) {
-						setV('willTimestamp', $.now());
-						if (!isAlive) {
-							setV('deadWillName', willName);
-							willTr.append($('<span>').addClass('red').text(' | Dead!'));
-						}
-					});
-				} else {
-					var deadWillName = getV('deadWillName');
-					if (deadWillName == willName) {
-						willTr.append($('<span>').addClass('red').text(' | Dead!'));
-					}
-				}
-			}
-
-			// Tell how old the account is
-			var startElem = $('div.gangster-info-body li:eq(5) a span');
-			var startDate = unsafeWindow.omerta.character.info.startdate();
-			var diff = Math.abs(Date.now() - startDate.getTime());
-			var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-			var startDay = startDate.getDate() >= 10 ? startDate.getDate() : '0' + startDate.getDate();
-			var startMonth = startDate.getMonth() + 1 >= 10 ? (startDate.getMonth() + 1) : '0' + (startDate.getMonth() + 1);
-			var previousText = startElem.html();
-			startElem.html(startDay + '-' + startMonth + '-' + startDate.getFullYear() + ' (' + (diffDays - 1) + ' days old)').click(function() {
-				var currentText = $(this).html();
-				$(this).html(previousText);
-				previousText = currentText;
-			});
-			// Update info
-			setTimeout(function () {
-				bnUpdate();
-			}, 2000);
 		}
 		// -------------------- Jail --------------------
 		if (on_page('/jail.php') && nn == 'form' && prefs['jailHL']) {
