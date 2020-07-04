@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2018 OmertaBeyond Dev Team
+ * Copyright (c) 2007-2020 OmertaBeyond Dev Team
  *
  * OmertaBeyond is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,9 +42,9 @@
 // @contributionAmount       $1.00
 // @encoding                 UTF-8
 // @priority                 1
-// @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-// @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js
-// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.7/howler.min.js
+// @require                  https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js
+// @require                  https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
+// @require                  https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js
 // @include                  http://*.barafranca.com/*
 // @include                  https://*.barafranca.com/*
 // @include                  http://barafranca.com/*
