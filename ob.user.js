@@ -2989,15 +2989,6 @@ if (document.getElementById('game_container') !== null) {
 					}
 				});
 			}
-			if (status === 'Alive' || status === 'Levend') {
-				$.getJSON(OB_API_WEBSITE + '/?p=stats&w=laston&v=' + v + '&ing=' + unick, function (data) {
-					if (data['LastOn'] === 0) { // 1970, thus not seen by logger
-						$('span#status').text(status + ' | This user has not been seen online by our logger yet');
-					} else {
-						$('span#status').html(status + ' | Last on: ' + data['Date'] + ' OT (' + data['Agod'] + 'd ' + data['Agoh'] + 'h ' + data['Agom'] + 'm ago)');
-					}
-				});
-			}
 
 			// Wealth
 			var tr, x, y, z;
