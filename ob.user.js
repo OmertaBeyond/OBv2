@@ -5627,15 +5627,6 @@ $('<link rel="shortcut icon" type="image/x-icon"/>').appendTo('head').attr('href
 
 // Main logo in the game
 $('#game_header_left').children('img').attr('src', assetUrl('/images/logo.png'));
-if (v === 'dm') {
-	$('#omerta_header #logo').css({
-		'background-image': 'url(' + assetUrl('/images/logo.png') + ')',
-		top: '2px',
-		left: '0px',
-		width: '549px',
-		height: '104px'
-	});
-}
 // Logo on homepage
 $('img[src*="omerta-game-logo.gif"]').attr('src', assetUrl('/images/logo-old.png'));
 $('img[src*="pic_bg-logo.png"]').attr('src', assetUrl('/images/logo-old.png'));
