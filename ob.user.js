@@ -2764,7 +2764,7 @@ if (document.getElementById('game_container') !== null) {
 				}
 			} else {
 				if ($('input[name="codescratch"]').length) { // focus on unclaimed prices
-					$('input[type="submit"]:eq(1)').focus();
+					$('input[name="Check"]').focus();
 				} else { // focus on scratch
 					$('input[name="scratch"]').focus();
 				}
