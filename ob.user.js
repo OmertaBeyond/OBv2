@@ -1525,7 +1525,8 @@ if (document.getElementById('game_container') !== null) {
 
 			// Interest reminder
 			if (!$('#interestRow').length) {
-				var	inbank = $('.thinline:eq(4)>tbody>tr:eq(2)>td:last>a').html().replace(/\D/g, '');
+				var bankElement = $('.thinline>tbody>tr>td>a[href="/bank.php"]:last');
+				var inbank = bankElement.html().replace(/\D/g, '');
 				if (inbank > 0 && interest > 0) {
 					var timestamp = Math.round(parseInt(new Date().getTime(), 10) / 1000);
 					var left = (banktleft - timestamp);
@@ -1533,7 +1534,7 @@ if (document.getElementById('game_container') !== null) {
 						$('<td>').html('<b>Interest</b>'),
 						$('<td>').html('<a href="/bank.php">$ ' + commafy(interest) + '</a> (<span data-timeleft="' + left + '">Now!</span>)')
 					);
-					$('.thinline:eq(4)').append(bankTr);
+					bankElement.parents('.thinline').append(bankTr);
 				}
 			}
 
