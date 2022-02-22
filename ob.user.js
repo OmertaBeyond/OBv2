@@ -155,18 +155,6 @@ if (localStorage.getItem('ob_uid') === null) {
 	localStorage.setItem('ob_uid', randomString(9));
 }
 
-window.addEventListener('error', function(e) {
-	$.post(OB_API_WEBSITE + '/?p=jserror', {
-		message: e.message,
-		stack: (e.error !== null ? e.error.stack : null),
-		filename: e.filename,
-		line: e.lineno,
-		game_version: v,
-		ob_version: OB_VERSION,
-		ob_uid: localStorage.getItem('ob_uid')
-	});
-});
-
 /*
  * Settings helpers
  */
