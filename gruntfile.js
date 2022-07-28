@@ -1,14 +1,11 @@
-/* jshint node: true */
-
 module.exports = function (grunt) {
-	'use strict';
-
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		eslint: {
 			src: 'ob.user.js',
 			options: {
-				config: '.eslintrc',
+				overrideConfigFile: '.eslintrc.json',
+				format: require('eslint-stylish-config')
 			}
 		},
 		csslint: {
@@ -24,8 +21,7 @@ module.exports = function (grunt) {
 		},
 		lintspaces: {
 			src: [
-				'Gruntfile.js',
-				'.travis.yml',
+				'gruntfile.js',
 				'package.json',
 				'scripts/beyond.css',
 				'ob.user.js'
@@ -39,7 +35,7 @@ module.exports = function (grunt) {
 
 	// Load any grunt plugins found in package.json.
 	require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
-	require('time-grunt')(grunt);
+	require('@lodder/time-grunt')(grunt);
 
 	grunt.registerTask('default', [
 		'eslint',
