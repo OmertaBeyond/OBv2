@@ -29,7 +29,7 @@
     "devDependencies": {
         "@lodder/time-grunt": "^4.0.0",
         "eslint-stylish-config": "^0.0.2",
-        "grunt": "^1.5.3",
+        "grunt": "^1.6.0",
         "grunt-contrib-csslint": "^2.0.0",
         "grunt-eslint": "^24.0.0",
         "grunt-lintspaces": "^0.10.0",
